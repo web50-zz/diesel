@@ -1,0 +1,38 @@
+body {
+        font: normal 12px verdana,arial,tahoma;
+}
+html, body {
+        margin:0;
+        padding:0;
+        border:0 none;
+        overflow:hidden;
+        height:100%;
+        width:100%;
+}
+#login{
+        position:absolute;
+        left:45%;
+        top:40%;
+        padding:2px;
+        height:auto;
+}
+#loading{
+        position:absolute;
+        left:45%;
+        top:40%;
+        padding:2px;
+        z-index:20001;
+        height:auto;
+}
+#loading img {
+        margin-bottom:5px;
+}
+#loading .loading-indicator{
+        background:white;
+        color:#555;
+        font:bold 13px tahoma,arial,helvetica;
+        padding:10px;
+        margin:0;
+        text-align:center;
+        height:auto;
+}

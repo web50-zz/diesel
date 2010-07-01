@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Fluger CMS: File manager</title>
+	{__set(#extjs = '3.1.1')__}	
+	<link rel="stylesheet" type="text/css" href="/css/cfcms.css">
+	<link rel="stylesheet" type="text/css" href="/js/extjs-{__#extjs__}/css/ext-all.css">
+	<!--link rel="stylesheet" type="text/css" href="/js/extjs-{__#extjs__}/css/xtheme-gray.css"-->
+	
+	<link rel="stylesheet" type="text/css" href="/ico/icons.css">
+	<link rel="stylesheet" type="text/css" href="/ico/silk/icons.css">
+</head>
+<body id="body" scroll="no">
+	<div id="loading">
+		<div class="loading-indicator"><img src="/images/large-loading.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle"/>Загрузка...</div>
+	</div>
+	<script type="text/javascript" src="/js/extjs-{__#extjs__}/ext-base.js"></script>
+	<script type="text/javascript" src="/js/extjs-{__#extjs__}/ext-all.js"></script>
+	<script type="text/javascript">Ext.namespace('ui');</script>
+
+	<script type="text/javascript" id="extlocale" src="/js/extjs-{__#extjs__}/locale/ext-lang-{__(if(!empty(/user/lang))__}{__/user/lang__}{__else__}{__LANG__}{__if)__}.js"></script>
+	<script type="text/javascript" id="applocale"></script>
+
+	<script type="text/javascript" src="/js/libs/ext-application.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/js/libs/css/file-upload.css">
+	<script type="text/javascript" src="/js/libs/ext-file-upload-field.js"></script>
+
+	<script type="text/javascript" src="/js/lib_utils.js"></script>
+	<script type="text/javascript" src="/js/vtypes.js"></script>
+
+	<script type="text/javascript">
+		var CKEditorFuncNum = {__php::intval(request::get('CKEditorFuncNum', 1))__};
+	</script>
+
+	<script type="text/javascript" src="js.js"></script>
+
+	<script type="text/javascript">
+		Ext.fly('applocale').set({src: 'ui/administrate/app_lang.js?locale={__(if(!empty(/user/lang))__}{__/user/lang__}{__else__}{__LANG__}{__if)__}'});
+	</script>
+	
+	<script	type="text/javascript">
+                var app = new App();
+		Ext.onReady(function(){
+			Ext.get('loading').hide();
+			Ext.QuickTips.init();
+			vp = new Ext.Viewport({
+				layout: 'fit',
+				items: new ui.file_manager({fck: true})
+			});
+			vp.render();
+		});
+	</script>
+</body>
+</html>

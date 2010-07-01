@@ -1,0 +1,31 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{__/LC/GUI/adm_login_form__}</title>
+	<link rel="stylesheet" type="text/css" href="/css/cfcms.css">
+</head>
+<body>
+<div id="login">
+	<form method="POST">
+	<table>
+		<tr>
+			<td align="right">{__/LC/GUI/login__}:</td>
+			<td><input type="text" name="user" /></td>
+		</tr>
+		<tr>
+			<td align="right">{__/LC/GUI/password__}:</td>
+			<td><input type="password" name="secret" /></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><input type="submit" value="{__/LC/GUI/enter__}" /></td>
+		</tr>
+		{__(if($errors)__}
+		<tr>
+			<td colspan="2" align="center"><font color="red">{__errors__}</font></td>
+		</tr>
+		{__if)__}
+	</table>
+	</form>
+</div>
+</body>
+</html>

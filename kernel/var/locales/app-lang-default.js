@@ -1,0 +1,3 @@
+var ApplyLocale = function(){
+}
+ApplyLocale();

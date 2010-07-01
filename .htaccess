@@ -1,0 +1,20 @@
+AddDefaultCharset utf-8
+DirectoryIndex	index.php
+
+Options +Indexes +FollowSymlinks -MultiViews
+RewriteEngine	on
+RewriteBase	/
+RewriteRule	^xxx/$  			adm_gui.php?ui=administrate&cll=main		[L,QSA]
+RewriteRule	^xxx/(.*)/$			adm_$1.php					[L,QSA]
+RewriteRule	^xxx/ui/([^/]+)/(.*)\.[a-z]+$	adm_gui.php?ui=$1&cll=$2			[L,QSA]
+RewriteRule	^xxx/di/([^/]+)/(.*)\.[a-z]+$	adm_data.php?di=$1&cll=$2			[L,QSA]
+
+RewriteRule	^files/$  			file.php?di=fm_files&cll=get			[L,QSA]
+
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond	%{REQUEST_FILENAME} !-d
+RewriteRule	^(.*[^/])$	/$1/		[L,R=301]
+
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond	%{REQUEST_FILENAME} !-d
+RewriteRule	^(.*)		index.php
