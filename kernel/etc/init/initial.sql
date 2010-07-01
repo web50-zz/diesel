@@ -175,3 +175,48 @@ CREATE TABLE `group_user` (
 	UNIQUE `group_user` (`group_id`, `user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `guide_producer`;
+CREATE TABLE `guide_producer` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL COMMENT "The producer`s name",
+	`description` TEXT NOT NULL COMMENT "The producer`s description",
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `guide_collection`;
+CREATE TABLE `guide_collection` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL COMMENT "The collection`s name",
+	`description` TEXT NOT NULL COMMENT "The collection`s description",
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `guide_group`;
+CREATE TABLE `guide_group` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL COMMENT "The group`s name",
+	`description` TEXT NOT NULL COMMENT "The group`s description",
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `guide_style`;
+CREATE TABLE `guide_style` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL COMMENT "The style`s name",
+	`description` TEXT NOT NULL COMMENT "The style`s description",
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `guide_type`;
+CREATE TABLE `guide_type` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL COMMENT "The type`s name",
+	`description` TEXT NOT NULL COMMENT "The type`s description",
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------

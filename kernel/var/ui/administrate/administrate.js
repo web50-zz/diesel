@@ -40,6 +40,13 @@ ui.administrate = function(config){
 			{region: 'north', xtype: 'toolbar', height: 27, items: [
 				{text: this.menuStructure, iconCls: 'chart_organisation', appName: 'structure', appFace: 'main', handler: appLauncher},
 				{text: this.menuFileManager, iconCls: 'application_view_tile', appName: 'file_manager', appFace: 'main', handler: appLauncher},
+				{text: this.menuGuide, iconCls: 'book', menu:[
+					{text: "Производители", iconCls: 'book_open', appName: 'guide', appFace: 'producer', handler: appLauncher},
+					{text: "Коллекции", iconCls: 'book_open', appName: 'guide', appFace: 'collection', handler: appLauncher},
+					{text: "Группы", iconCls: 'book_open', appName: 'guide', appFace: 'group', handler: appLauncher},
+					{text: "Стили", iconCls: 'book_open', appName: 'guide', appFace: 'style', handler: appLauncher},
+					{text: "Типы", iconCls: 'book_open', appName: 'guide', appFace: 'type', handler: appLauncher},
+				]},
 				{text: this.menuSecurity, iconCls: 'package', menu:[
 					{text: this.menuUsers, iconCls: 'user', appName: 'user', appFace: 'main', handler: appLauncher},
 					{text: this.menuGroups, iconCls: 'group', appName: 'group', appFace: 'main', handler: appLauncher},
@@ -58,6 +65,7 @@ Ext.extend(ui.administrate, Ext.Viewport, {
 	menuStructure: 'Structure',
 	menuFileManager: 'File manager',
 	menuUsers: 'Users',
+	menuGuide: 'Reference Books',
 	menuGroups: 'Groups',
 	menuSecurity: 'Security',
 	menuHelpPages: 'Help pages',
