@@ -37,6 +37,9 @@ include_once(CONF_PATH . 'db' . CONF_FEXT);
 // NOTE: Include file storages configurations
 include_once(CONF_PATH . 'fs' . CONF_FEXT);
 
+// NOTE: Include current theme  configuration
+include_once(CONF_PATH . 'theme' . CONF_FEXT);
+
 // NOTE: Include default localization file
 include_once(LOCALES_PATH . 'default.php');
 
