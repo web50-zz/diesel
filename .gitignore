@@ -1,2 +1,4 @@
 tmp/*
 kernel/var/filestorage/*
+kernel/var/logs/*
+*.swp
