@@ -10,9 +10,10 @@ class ui_structure extends user_interface
 {
 	public $title = 'Structure control';
 	
-	public function __construct ()
+	public function __construct()
 	{
-		parent::__construct(__CLASS__);
+		parent::__construct((func_num_args() > 0) ? func_get_arg(0) : __CLASS__);
+		$this->files_path = dirname(__FILE__).'/'; 
 	}
 
         public function process_page($page)
@@ -24,9 +25,9 @@ class ui_structure extends user_interface
 				$ui = user_interface::get_instance($page['module']);
 				$content = $ui->call('content', array_merge(request::get(), array('_spid' => $page['id'])));
 			}
-			catch(Exception $e)
+			catch(exception $e)
 			{
-				dbg::write('Error: '.$e->getMessage());
+				dbg::write('error: '.$e->getmessage());
 			}
 		}
 
@@ -35,20 +36,18 @@ class ui_structure extends user_interface
                         'content' => $content
                         );
                 
-                $template = (!empty($page['template'])) ? $page['template'] : PUB_TEMPLATE;
-		$tmpl = new tmpl($this->pwd() . 'templates/' . $template);
-                $html = $tmpl->parse($data);
+                $template = (!empty($page['template'])) ? $page['template'] : pub_template;
+		$html = $this->parse_tmpl($template,$data);
 		response::send($html, 'html');
         }
 	
 	/**
-	*	Main menu
+	*	main menu
 	*/
 	protected function pub_top_menu()
 	{
 		$st = data_interface::get_instance('structure');
-		$tmpl = new tmpl($this->pwd() . 'main_menu.html');
-		return $tmpl->parse($st->get_main_menu());
+		return $this->parse_tmpl('main_menu.html',$st->get_main_menu());
 	}
 	
 	/**
@@ -57,8 +56,7 @@ class ui_structure extends user_interface
 	protected function pub_sub_menu()
 	{
 		$st = data_interface::get_instance('structure');
-		$tmpl = new tmpl($this->pwd() . 'sub_menu.html');
-		return $tmpl->parse($st->get_sub_menu());
+		return $this->parse_tmpl('sub_menu.html',$st->get_sub_menu());
 	}
 	
 	/**
@@ -67,8 +65,7 @@ class ui_structure extends user_interface
 	protected function pub_trunc_menu()
 	{
 		$st = data_interface::get_instance('structure');
-		$tmpl = new tmpl($this->pwd() . 'trunc_menu.html');
-		return $tmpl->parse($st->get_trunc_menu());
+		return $this->parse_tmpl('trunc_menu.html',$st->get_trunc_menu());
 	}
 	
 	/**
