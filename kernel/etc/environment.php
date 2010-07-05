@@ -38,6 +38,9 @@ define ('LIB_FEXT', '.lib.php');
 // NOTE: Path to store log and error files
 define ('LOG_PATH', KERNEL_PATH . 'var/logs/');
 
+// NOTE: Path to store log and error files
+define ('THEMES_PATH', '/themes/');
+
 // NOTE: Path to connector files
 define ('CONNECTOR_PATH', KERNEL_PATH . 'var/connectors/');
 define ('CONNECTOR_FEXT', '.connector.php');

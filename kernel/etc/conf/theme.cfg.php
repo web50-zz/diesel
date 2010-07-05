@@ -8,6 +8,10 @@
 * @package	CFsCMS2(PE)
 * @since	05-07-2010
 */
+
+// NOTE: Theme title 
+$theme = 'market';
+
 // NOTE: Путь к текущей теме
-define ('CURRENT_THEME_PATH', BASE_PATH . 'theme/market');
+define ('CURRENT_THEME_PATH', THEMES_PATH.$theme);
 ?>
