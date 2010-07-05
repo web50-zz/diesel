@@ -1,0 +1,25 @@
+<div style="padding-right:0px;padding-left:10px;padding-top:20px;" align="justify">
+{__(if(!empty(/childs))__}
+{__set(#level = /root/level + 1)__}
+{__apply(/childs[left > /root/left AND right < /root/right AND level == #level])__}
+{__if)__}
+</div>
+
+{__(template(/childs)__}
+{__set(#level = $level + 1)__}
+{__(if($id == /page/id)__}
+	<span style="text-decoration: underline">{__title__}</span>
+{__else__}
+	<a href="{__uri__}" title="{__php::htmlspecialchars($title)__}">{__title__}</a>
+{__if)__}
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+{__(if(($left < /page/left AND $right > /page/right) OR ($id == /page/id))__}
+		<tr> 
+			<td>
+				<blockquote />
+				{__apply(/childs[left > $left AND right < $right AND level == #level])__}
+			</td>
+		</tr>
+{__if)__}
+	</table>
+{__template)__}
