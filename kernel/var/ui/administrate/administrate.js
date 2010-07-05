@@ -40,6 +40,7 @@ ui.administrate = function(config){
 			{region: 'north', xtype: 'toolbar', height: 27, items: [
 				{text: this.menuStructure, iconCls: 'chart_organisation', appName: 'structure', appFace: 'main', handler: appLauncher},
 				{text: this.menuFileManager, iconCls: 'application_view_tile', appName: 'file_manager', appFace: 'main', handler: appLauncher},
+				{text: this.menuCatalogue, iconCls: 'layout', appName: 'catalogue', appFace: 'main', handler: appLauncher},
 				{text: this.menuGuide, iconCls: 'book', menu:[
 					{text: "Производители", iconCls: 'book_open', appName: 'guide', appFace: 'producer', handler: appLauncher},
 					{text: "Коллекции", iconCls: 'book_open', appName: 'guide', appFace: 'collection', handler: appLauncher},
@@ -66,6 +67,7 @@ Ext.extend(ui.administrate, Ext.Viewport, {
 	menuFileManager: 'File manager',
 	menuUsers: 'Users',
 	menuGuide: 'Reference Books',
+	menuCatalogue: 'Catalogue',
 	menuGroups: 'Groups',
 	menuSecurity: 'Security',
 	menuHelpPages: 'Help pages',
