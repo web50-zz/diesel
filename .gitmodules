@@ -1,0 +1,6 @@
+[submodule "./instances/rockmarket"]
+	path = ./instances/rockmarket
+	url = ssh://www.u9.ru/server/web/documents/repos/rockmarket_instance/
+[submodule "./themes/rockmarket"]
+	path = ./themes/rockmarket
+	url = ssh://www.u9.ru/server/web/documents/repos/rockmarket_theme/
