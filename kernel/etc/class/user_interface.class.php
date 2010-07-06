@@ -157,10 +157,22 @@ class user_interface extends base_interface
 	*/
 	protected function sys_dependencies()
 	{
-		response::send(array(
-			'success' => true,
-			'dependencies' => (array)$this->deps[$this->get_args('face')]
-		), 'json');
+		$face = $this->get_args('face');
+		$faces = $this->get_entry_poins('/^' . UI_CALL_PREFIX . '\w+/');
+		if (in_array(UI_CALL_PREFIX . $face, $faces))
+		{
+			response::send(array(
+				'success' => true,
+				'dependencies' => (array)$this->deps[$face]
+			), 'json');
+		}
+		else
+		{
+			response::send(array(
+				'success' => false,
+				'errors' => 'Данный вызов не описан'
+			), 'json');
+		}
 	}
 }
 ?>
