@@ -1,0 +1,7 @@
+{__(apply($.)__}
+	{__(if(@position < @last)__}
+		<nowrap> / <a href="{__uri__}" title="{__php::htmlspecialchars($title)__}"><b>{__php::strtoupper($title)__}</b></a></nowrap>
+	{__else__}
+		<nowrap> / <b>{__php::strtoupper($title)__}</b></nowrap>
+	{__if)__}
+{__apply)__}
