@@ -33,7 +33,7 @@ class user_interface extends base_interface
 	*/
 	protected function __construct($strDerivedClassName)
 	{
-		parent::__construct($strDerivedClassName);
+		parent::__construct((func_num_args() > 0) ? func_get_arg(0) : __CLASS__);
 	}
 	
 	/**
@@ -43,12 +43,15 @@ class user_interface extends base_interface
 	private static function set_instance($name)
 	{
 		try
-		{
+		{	
 			$class = UI_CLASS_PREFIX . $name;
 			class_exists($class);
 			$object = new $class();
 			$object->interfaceName = $name;
-			$object->files_path = UI_PATH . $name . '/';
+			if(!$object->files_path)//9* if have no overloads of files_path we set default UI_PATH
+			{
+				$object->files_path = UI_PATH . $name . '/';
+			}
 			self::$registry[$name] = $object;
 		}
 		catch(Exception $e)
@@ -74,6 +77,7 @@ class user_interface extends base_interface
 	}
 	
 	/**
+	r
 	*	Call method of User Interface
 	* @access	public
 	* @param	string	$name	Call method`s name
@@ -117,6 +121,34 @@ class user_interface extends base_interface
 	public function pwd()
 	{
 		return $this->files_path;
+	}
+
+	/**
+	*	Get tmpl reference with THEME INSTANCE OR default options
+	* @access	public
+	* @param	string	$tmpl_name	array() $data to parse out 
+	* @return	object	tmpl2
+	*/
+
+	public function parse_tmpl($template_file_name,$data)
+	{
+		$tmpl_path = BASE_PATH.CURRENT_THEME_PATH.'tmpl/'.$this->interfaceName.'/'.$template_file_name; 
+		$tmpl_path2 = $this->pwd().'/templates/'.$template_file_name;	
+		if(file_exists($tmpl_path))
+		{
+			 $template = $tmpl_path;
+		}
+		else if(file_exists($tmpl_path2))
+		{
+			$template = $tmpl_path2;
+		}
+		if($template)
+		{
+			$tmpl = new tmpl($template);
+			$html = $tmpl->parse($data);
+			return $html;
+		}	
+		return;
 	}
 
 	/**
