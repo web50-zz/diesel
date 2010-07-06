@@ -255,7 +255,7 @@ class di_structure extends data_interface
 	*	Получить XML-пакет данных для ExtJS-формы
 	* @access protected
 	*/
-	protected function sys_item()
+	protected function sys_get()
 	{
 		//$this->extjs_form_xml();
 		$this->extjs_form_json();

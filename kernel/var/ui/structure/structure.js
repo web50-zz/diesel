@@ -1,19 +1,17 @@
 ui.structure.main = function(config){
-	{__include(tree.js)__}
-	{__include(view.js)__}
 	var self = this;
-	var tree = new Tree({
+	var tree = new ui.structure.site_tree({
 		region: 'west',
 		width: 300,
 		split: true
 	});
-	var view = new View({region: 'center'});
+	var view = new ui.structure.page_view({region: 'center'});
 	tree.on({
 		changenode: function(pid, node){
-			view.Page(pid, node);
+			view.newPage(pid, node);
 		},
 		changemodule: function(pid, node){
-			view.rePage(pid, node);
+			view.newPage(pid, node, true);
 		},
 		removenode: function(pid, node){
 			view.delPage(pid);

@@ -9,6 +9,16 @@
 class ui_structure extends user_interface
 {
 	public $title = 'Structure control';
+
+	protected $deps = array(
+		'main' => array(
+			'structure.site_tree',
+			'structure.page_view'
+		),
+		'site_tree' => array(
+			'structure.node_form'
+		)
+	);
 	
 	public function __construct ()
 	{
@@ -77,6 +87,33 @@ class ui_structure extends user_interface
 	protected function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'structure.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*	ExtJS UI Site Tree
+	*/
+	protected function sys_site_tree()
+	{
+		$tmpl = new tmpl($this->pwd() . 'site_tree.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*	ExtJS UI Site Tree
+	*/
+	protected function sys_node_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'node_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*	ExtJS UI Site Tree
+	*/
+	protected function sys_page_view()
+	{
+		$tmpl = new tmpl($this->pwd() . 'page_view.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 	
