@@ -41,6 +41,30 @@ ui.structure.node_form = function(config){
 	var Cancel = function(){
 		this.fireEvent('cancelled');
 	}.createDelegate(this);
+	var moduleCfg = function(){
+		var appName = this.getForm().findField('module').getValue()
+		var appFace = 'configure_form';
+		if (Ext.isEmpty(appName)) return;
+                var appClass = 'ui.'+appName+'.'+appFace;
+		var app = new App();
+		app.on('apploaded', function(){
+			var f = eval('new '+appClass+'()');
+			var w = new Ext.Window({title: 'Настройка страницы', modal: true, layout: 'fit', width: 480, height: 320, items: f});
+			f.on({
+				saved: function(data){
+					this.getForm().findField('params').setValue(Ext.encode(data));
+					w.destroy();
+				},
+				cancelled: function(){w.destroy()},
+				scope: this
+			});
+			w.show(null, function(){
+				f.Load(this.getForm().findField('params').getValue());
+			}, this);
+		}, this);
+		app.Load(appName, appFace);
+		
+	}.createDelegate(this);
 	ui.structure.node_form.superclass.constructor.call(this,{
 		frame: true, 
 		labelWidth: 170,
@@ -81,7 +105,8 @@ ui.structure.node_form = function(config){
 				editable: false,
 				value: 'text'
 			}),
-			{fieldLabel: 'Параметры', name: 'params', readOnly: true},
+			new Ext.form.TriggerField({fieldLabel: 'Параметры', name: 'params', value: 'test', triggerClass: 'x-form-edit-trigger', onTriggerClick: moduleCfg}),
+			//{fieldLabel: 'Параметры', name: 'params', readOnly: true},
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({
 					url: 'ui/structure/templates.do',
