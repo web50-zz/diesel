@@ -8,7 +8,7 @@
 * @package	CFsCMS2(PE)
 * @since	05-07-2010
 */
-$instance = 'market';
+$instance = 'rockmarket';
 // NOTE: Путь к хранилищу файлов
 define ('CURRENT_INSTANCE_PATH', INSTANCES_PATH . $instance.'/');
 define ('INSTANCE_UI_PATH', INSTANCES_PATH . $instance.'/var/ui/');
