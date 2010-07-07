@@ -34,6 +34,11 @@ class di_catalogue_item extends data_interface
 		'title' => array('type' => 'string'),
 		'description' => array('type' => 'text'),
 		'cost' => array('type' => 'float'),
+		'type_id' => array('type' => 'integer'),
+		'producer_id' => array('type' => 'integer'),
+		'collection_id' => array('type' => 'integer'),
+		'group_id' => array('type' => 'integer'),
+		'style_id' => array('type' => 'integer'),
 	);
 	
 	public function __construct()

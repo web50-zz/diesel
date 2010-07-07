@@ -106,7 +106,7 @@ ui.structure.node_form = function(config){
 				editable: false,
 				value: 'text'
 			}),
-			new Ext.form.TriggerField({fieldLabel: 'Параметры', name: 'params', value: 'test', triggerClass: 'x-form-edit-trigger', onTriggerClick: moduleCfg}),
+			new Ext.form.TriggerField({fieldLabel: 'Параметры', name: 'params', triggerClass: 'x-form-edit-trigger', onTriggerClick: moduleCfg}),
 			//{fieldLabel: 'Параметры', name: 'params', readOnly: true},
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({

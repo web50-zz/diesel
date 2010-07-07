@@ -39,6 +39,15 @@ class di_guide_group extends data_interface
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
 	}
+
+	/**
+	*	Список записей для ComboBox
+	*/
+	protected function sys_combolist()
+	{
+		$this->_flush();
+		$this->extjs_grid_json(array('id', 'name'));
+	}
 	
 	/**
 	*	Список записей

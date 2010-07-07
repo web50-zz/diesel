@@ -1,13 +1,13 @@
 ui.catalogue.item_form = function(config){
 	Ext.apply(this, config);
-	this.Load = function(id, pid){
+	this.Load = function(id){
 		var f = this.getForm();
 		f.load({
 			url: 'di/catalogue_item/get.json',
 			params: {_sid: id},
 			waitMsg: this.loadText
 		});
-		f.setValues([{id: '_sid', value: id}, {id: 'pid', value: pid}]);
+		f.setValues([{id: '_sid', value: id}]);
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -43,23 +43,41 @@ ui.catalogue.item_form = function(config){
 	}.createDelegate(this);
 	ui.catalogue.item_form.superclass.constructor.call(this, {
 		frame: true, 
-		defaults: {xtype: 'textfield'},
+		defaults: {xtype: 'textfield', width: '100', anchor: '100%'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
-			{name: 'pid', xtype: 'hidden'},
+			{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
+			{fieldLabel: this.labelCost, name: 'cost', width: 100},
 			new Ext.form.ComboBox({
 				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
-				fieldLabel: this.labelExist, hiddenName: 'exist', width: 50, 
-				valueField: 'value',
-				displayField: 'title',
-				mode: 'local',
-				triggerAction: 'all',
-				selectOnFocus: true,
-				editable: false,
-				value: 0
+				fieldLabel: this.labelExist, width: 50, hiddenName: 'exist', value: 0,
+				valueField: 'value', displayField: 'title', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
 			}),
-			{fieldLabel: this.labelName, name: 'title', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelCost, name: 'cost', width: 100}
+			new Ext.form.ComboBox({
+				store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+				fieldLabel: this.labelType, emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText, hiddenName: 'type_id',
+				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+			}),
+			new Ext.form.ComboBox({
+				store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+				fieldLabel: this.labelProducer, emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText, hiddenName: 'producer_id',
+				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+			}),
+			new Ext.form.ComboBox({
+				store: new Ext.data.JsonStore({url: 'di/guide_collection/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+				fieldLabel: this.labelCollection, emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText, hiddenName: 'collection_id',
+				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+			}),
+			new Ext.form.ComboBox({
+				store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+				fieldLabel: this.labelGroup, emptyText: this.blankGroupText, valueNotFoundText: this.blankGroupText, hiddenName: 'group_id',
+				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+			}),
+			new Ext.form.ComboBox({
+				store: new Ext.data.JsonStore({url: 'di/guide_style/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+				fieldLabel: this.labelStyle, emptyText: this.blankStyleText, valueNotFoundText: this.blankStyleText, hiddenName: 'style_id',
+				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+			})
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -79,15 +97,29 @@ ui.catalogue.item_form = function(config){
 	})
 }
 Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
-	labelExist: 'В наличии',
+	loadText: 'Загрузка данных формы',
+
 	labelName: 'Наименование',
 	labelCost: 'Стоимость',
-	loadText: 'Загрузка данных формы',
+	labelExist: 'В наличии',
+	labelType: 'Тип товара',
+	labelProducer: 'Производитель',
+	labelCollection: 'Коллекция',
+	labelGroup: 'Группа',
+	labelStyle: 'Стиль',
+
 	saveText: 'Сохранение...',
 	blankText: 'Необходимо заполнить',
 	maxLengthText: 'Не больше 256 символов',
+	blankTypeText: 'Выберите тип...',
+	blankProducerText: 'Выберите производителя...',
+	blankCollectionText: 'Выберите коллекцию...',
+	blankGroupText: 'Выберите группу...',
+	blankStyleText: 'Выберите стиль...',
+
 	bttSave: 'Сохранить',
 	bttCancel: 'Отмена',
+
 	errSaveText: 'Ошибка во время сохранения',
 	errInputText: 'Корректно заполните все необходимые поля',
 	errConnectionText: "Ошибка связи с сервером"

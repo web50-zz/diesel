@@ -1,5 +1,6 @@
 ui.catalogue.main = function(config){
-	this.pid = 0;
+	var formW = 400;
+	var formH = 400;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
@@ -26,7 +27,6 @@ ui.catalogue.main = function(config){
 	});
 	// The data store
 	var store = new Ext.data.Store({
-		baseParams: {_spid: this.pid},
 		proxy: proxy,
 		reader: reader,
 		writer: writer
@@ -46,7 +46,7 @@ ui.catalogue.main = function(config){
 	];
 	var Add = function(){
 		var f = new ui.catalogue.item_form();
-		var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', width: 400, height: 150, items: f});
+		var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', width: formW, height: formH, items: f});
 		f.on({
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
@@ -56,7 +56,7 @@ ui.catalogue.main = function(config){
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
 		var f = new ui.catalogue.item_form();
-		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', width: 400, height: 150, items: f});
+		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', width: formW, height: formH, items: f});
 		f.on({
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
