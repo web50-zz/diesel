@@ -7,7 +7,8 @@ ui.structure.node_form = function(config){
 			params: {_sid: id, pid: pid},
 			waitMsg: this.loadText
 		});
-		f.setValues([{id: '_sid', value: id}]);
+		if (id > 0) f.setValues([{id: '_sid', value: id}]);
+		if (pid > 0) f.setValues([{id: 'pid', value: pid}]);
 	}
 	var Save = function(){
 		var f = this.getForm();

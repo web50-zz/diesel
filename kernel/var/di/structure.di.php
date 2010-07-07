@@ -132,6 +132,13 @@ class di_structure extends data_interface
 					);
 			}
 		}
+		else
+		{
+			$data = array(
+				'success' => false,
+				'errors' =>  'Отсутсвуют указатели на родителя или на запись.'
+				);
+		}
 		
 		response::send($data, 'json');
 	}

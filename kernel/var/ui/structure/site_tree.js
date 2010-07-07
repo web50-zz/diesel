@@ -46,7 +46,7 @@ ui.structure.site_tree = function(config){
 			saved: afterSave,
 			cancelled: function(){w.destroy()}
 		});
-		w.show(null, function(){f.Load(0, id)});
+		w.show(null, function(){f.Load(0, pid)});
 	}.createDelegate(this);
 	var Edit = function(id){
 		var f = new ui.structure.node_form();
