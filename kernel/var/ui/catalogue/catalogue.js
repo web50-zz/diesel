@@ -1,4 +1,5 @@
 ui.catalogue.main = function(config){
+	this.pid = 0;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
@@ -25,6 +26,7 @@ ui.catalogue.main = function(config){
 	});
 	// The data store
 	var store = new Ext.data.Store({
+		baseParams: {_spid: this.pid},
 		proxy: proxy,
 		reader: reader,
 		writer: writer
@@ -49,7 +51,7 @@ ui.catalogue.main = function(config){
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
 		});
-		w.show();
+		w.show(null, function(){f.Load(0, this.pid)}, this);
 	}.createDelegate(this);
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
@@ -59,7 +61,7 @@ ui.catalogue.main = function(config){
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
 		});
-		w.show(null, function(){f.Load(id)});
+		w.show(null, function(){f.Load(id, this.pid)}, this);
 	}.createDelegate(this);
 	var Delete = function(){
 		var record = this.getSelectionModel().getSelections();

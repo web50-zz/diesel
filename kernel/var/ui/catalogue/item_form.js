@@ -1,13 +1,13 @@
 ui.catalogue.item_form = function(config){
 	Ext.apply(this, config);
-	this.Load = function(id){
+	this.Load = function(id, pid){
 		var f = this.getForm();
 		f.load({
 			url: 'di/catalogue_item/get.json',
 			params: {_sid: id},
 			waitMsg: this.loadText
 		});
-		f.setValues([{id: '_sid', value: id}]);
+		f.setValues([{id: '_sid', value: id}, {id: 'pid', value: pid}]);
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -46,6 +46,7 @@ ui.catalogue.item_form = function(config){
 		defaults: {xtype: 'textfield'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
+			{name: 'pid', xtype: 'hidden'},
 			new Ext.form.ComboBox({
 				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
 				fieldLabel: this.labelExist, hiddenName: 'exist', width: 50, 

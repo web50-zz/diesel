@@ -47,8 +47,9 @@ class di_catalogue_item extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->_flush();
-		$this->extjs_grid_json();
+		$this->_flush(true);
+		$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
+		$this->extjs_grid_json(array('id', 'exist', 'title', 'cost'));
 	}
 	
 	/**
@@ -69,7 +70,13 @@ class di_catalogue_item extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
-		$this->extjs_set_json();
+		$data = $this->extjs_set_json(false);
+		if ($this->args['_sid'] == 0)
+		{
+			$sc = data_interface::get_instance('structure_content');
+			$sc->save_link($this->args['pid'], $data['data']['id'], $this->name);
+		}
+		response::send($data, 'json');
 	}
 	
 	/**
@@ -79,7 +86,16 @@ class di_catalogue_item extends data_interface
 	protected function sys_unset()
 	{
 		$this->_flush();
-		$this->extjs_unset_json();
+		$data = $this->extjs_unset_json(false);
+		$ids = $this->get_lastChangedId();
+		
+		if (($ids > 0 || count($ids) > 0) && $this->args['_spid'] > 0)
+		{
+			$sc = data_interface::get_instance('structure_content');
+			$sc->remove_link($this->args['_spid'], $ids, $this->name);
+		}
+
+		response::send($data, 'json');
 	}
 }
 ?>
