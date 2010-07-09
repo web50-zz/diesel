@@ -43,22 +43,22 @@ ui.user.editForm = function(config){
 	}.createDelegate(this);
 	ui.user.editForm.superclass.constructor.call(this, {
 		frame: true, 
-		defaults: {xtype: 'textfield'},
+		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
-			{fieldLabel: this.labelName, name: 'name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelLogin, name: 'login', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelEMail, name: 'email', width: 100, anchor: '100%', vtype: 'email', emailText: 'e-mail введён не верно', allowBlank: false, blankText: 'Необходимо заполнить', maxLength: 64, maxLengthText: 'Не больше 64 символов'},
+			{fieldLabel: this.labelName, name: 'name', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: this.maxLengthText},
+			{fieldLabel: this.labelLogin, name: 'login', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: this.maxLengthText},
+			{fieldLabel: this.labelEMail, name: 'email', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: 'Не больше 64 символов', vtype: 'email', emailText: 'e-mail введён не верно'},
 			new Ext.form.ComboBox({
-				hiddenName: 'lang', width: 100, anchor: '100%', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false,
+				hiddenName: 'lang', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false,
 				store: this.strLang,
 				fieldLabel: this.labelLang,
 				valueField: 'value',
 				displayField: 'title',
 				value: 'ru_RU'
 			}),
-			{fieldLabel: this.labelPassw, name: 'secret', inputType: 'password', width: 100, anchor: '100%', vtype: 'password', initialPasswordField: 'secret2'},
-			{fieldLabel: this.lebelRePassw, name: 'secret2', inputType: 'password', width: 100, anchor: '100%', vtype: 'password', id: 'secret2'}
+			{fieldLabel: this.labelPassw, name: 'secret', inputType: 'password', vtype: 'password', initialPasswordField: 'secret2'},
+			{fieldLabel: this.lebelRePassw, name: 'secret2', inputType: 'password', vtype: 'password', id: 'secret2'}
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -77,7 +77,7 @@ ui.user.editForm = function(config){
 		scope: this
 	})
 }
-Ext.extend(ui.user.editForm , Ext.form.FormPanel, {
+Ext.extend(ui.user.editForm, Ext.form.FormPanel, {
 	labelName: 'Имя',
 	labelLogin: 'Login',
 	labelEMail: 'e-mail',

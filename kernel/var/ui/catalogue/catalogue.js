@@ -1,4 +1,6 @@
 ui.catalogue.main = function(config){
+	var formW = 400;
+	var formH = 400;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
@@ -44,22 +46,22 @@ ui.catalogue.main = function(config){
 	];
 	var Add = function(){
 		var f = new ui.catalogue.item_form();
-		var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', width: 400, height: 150, items: f});
+		var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', width: formW, height: formH, items: f});
 		f.on({
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
 		});
-		w.show();
+		w.show(null, function(){f.Load(0, this.pid)}, this);
 	}.createDelegate(this);
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
 		var f = new ui.catalogue.item_form();
-		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', width: 400, height: 150, items: f});
+		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', width: formW, height: formH, items: f});
 		f.on({
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
 		});
-		w.show(null, function(){f.Load(id)});
+		w.show(null, function(){f.Load(id, this.pid)}, this);
 	}.createDelegate(this);
 	var Delete = function(){
 		var record = this.getSelectionModel().getSelections();

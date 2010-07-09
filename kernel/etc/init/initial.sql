@@ -223,11 +223,16 @@ CREATE TABLE `guide_type` (
 
 DROP TABLE IF EXISTS `catalogue_item`;
 CREATE TABLE `catalogue_item` (
-	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`exist` TINYINT(1) UNSIGNED NOT NULL,
-	`title` VARCHAR(255) NOT NULL DEFAULT '',
-	`description` TEXT NOT NULL DEFAULT '',
-	`cost` DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT '0.00',
-	PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `exist` tinyint(1) unsigned NOT NULL,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `cost` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
+  `type_id` smallint(5) unsigned NOT NULL,
+  `producer_id` smallint(5) unsigned NOT NULL,
+  `collection_id` smallint(5) unsigned NOT NULL,
+  `group_id` smallint(5) unsigned NOT NULL,
+  `style_id` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
 -- --------------------------------------------------------

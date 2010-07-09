@@ -3,6 +3,8 @@ var ApplyLocale = function(){
 		Ext.override(ui.administrate, {
 			menuStructure: 'Структура',
 			menuFileManager: 'Файл-менеджер',
+			menuGuide: 'Справочники',
+			menuCatalogue: 'Каталог',
 			menuUsers: 'Пользователи',
 			menuGroups: 'Группы пользователей',
 			menuSecurity: "Безопасность",
