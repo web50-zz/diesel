@@ -53,18 +53,22 @@ class di_structure extends data_interface
 	
 	public function get_page_by_uri($uri)
 	{
-		$sql = 'SELECT * FROM `' . $this->name . '` WHERE `uri` = :uri';
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
-		$result = $this->connector->exec($sql, array('uri' => $uri), true, true);
+		$x = preg_split('/\//', $uri);
+		array_pop($x);
+		$y = array();
+		for ($i = 1; $i <= count($x); $i++)
+			$y[] = '"' . join('/', array_slice($x, 0, $i)) . '/"';
+		$result = $this->_get("SELECT * FROM `{$this->name}` WHERE `uri` IN (" . join(', ', $y) . ") ORDER BY `left` DESC LIMIT 1");
+
 		if (empty($result))
 		{
 			$sql = 'SELECT * FROM `' . $this->name . '` WHERE `id` = :id';
-			$this->connector->fetchMethod = PDO::FETCH_ASSOC;
 			$result = $this->connector->exec($sql, array('id' => 1), true, true);
 		}
 		return $result[0];
 	}
-	
+
 	public function get_main_menu()
 	{
 		$this->where = '`sp1`.`hidden` = 0';

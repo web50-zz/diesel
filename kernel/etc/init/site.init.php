@@ -9,9 +9,10 @@
 try
 {
 	$uri = (empty($_SERVER['REDIRECT_URL'])) ? '/' : $_SERVER['REDIRECT_URL'];
-	define(PAGE_URI, $uri);
         $diStrc = data_interface::get_instance(SITE_DI);
         $page = $diStrc->get_page_by_uri($uri);
+	define(PAGE_URI, $page['uri']);
+	define(SRCH_URI, str_replace($page['uri'], "", $uri));
 	define(PAGE_ID, $page['id']);
 	
 	if (!empty($page['redirect']))
