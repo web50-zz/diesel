@@ -5,6 +5,9 @@ ui.structure.page_view = function(config){
 		if (Ext.isEmpty(node.attributes.ui)) return;
                 var appClass = 'ui.'+node.attributes.ui+'.'+appFace;
 		var pageId = 'page_'+pid;
+		var config = {id: pageId, pid: pid, title: node.text};
+		if (node.attributes.params)
+			config.xxx = Ext.decode(node.attributes.params);
 		var app = new App();
 		app.on('apploaded', function(){
 			var page = this.getComponent(pageId);
@@ -12,13 +15,15 @@ ui.structure.page_view = function(config){
 				if (recreate){
 					var active = (this.getLayout().activeItem == page);
 					this.delPage(pid);
-					this.insert(0, eval('new '+appClass+'({id: pageId, pid: pid, title: node.text})'));
+					page = eval('new '+appClass+'(config)');
+					this.insert(0, page);
 					if (active) this.getLayout().setActiveItem(pageId)
 				}else{
 					this.getLayout().setActiveItem(pageId)
 				}
 			}else{
-				this.insert(0, eval('new '+appClass+'({id: pageId, pid: pid, title: node.text})'));
+				page = eval('new '+appClass+'(config)');
+				this.insert(0, page);
 				this.getLayout().setActiveItem(pageId)
 			}
 		}, this);

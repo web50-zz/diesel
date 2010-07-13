@@ -284,7 +284,7 @@ class di_structure extends data_interface
 	protected function sys_slice()
 	{
                 $pid = intval($this->args['node']);
-                $fields = array('id', 'title' => 'text', 'module' => 'ui');
+                $fields = array('id', 'title' => 'text', 'module' => 'ui', 'params');
 		$this->mode = 'NESTED_SETS_SLICE';
                 if ($pid > 0)
                 {
