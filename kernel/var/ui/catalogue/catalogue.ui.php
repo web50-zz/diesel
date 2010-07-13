@@ -24,7 +24,7 @@ class ui_catalogue extends user_interface
 	{
 		$di = data_interface::get_instance('catalogue_item');
 		$di->set_args($this->get_args());
-		dbg::show(SRCH_URI);
+//9* 13072010		dbg::show(SRCH_URI);
 		return '<pre>' . print_r($di->get_items(), true) . '</pre>';
 	}
 	
