@@ -25,27 +25,27 @@ ui.catalogue.configure_form = function(config){
 		items: [
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				fieldLabel: this.labelType, emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText, hiddenName: 'type_id',
+				fieldLabel: this.labelType, emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText, hiddenName: '_stype_id',
 				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
 			}),
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				fieldLabel: this.labelProducer, emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText, hiddenName: 'producer_id',
+				fieldLabel: this.labelProducer, emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText, hiddenName: '_sproducer_id',
 				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
 			}),
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({url: 'di/guide_collection/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				fieldLabel: this.labelCollection, emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText, hiddenName: 'collection_id',
+				fieldLabel: this.labelCollection, emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText, hiddenName: '_scollection_id',
 				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
 			}),
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				fieldLabel: this.labelGroup, emptyText: this.blankGroupText, valueNotFoundText: this.blankGroupText, hiddenName: 'group_id',
+				fieldLabel: this.labelGroup, emptyText: this.blankGroupText, valueNotFoundText: this.blankGroupText, hiddenName: '_sgroup_id',
 				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
 			}),
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({url: 'di/guide_style/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				fieldLabel: this.labelStyle, emptyText: this.blankStyleText, valueNotFoundText: this.blankStyleText, hiddenName: 'style_id',
+				fieldLabel: this.labelStyle, emptyText: this.blankStyleText, valueNotFoundText: this.blankStyleText, hiddenName: '_sstyle_id',
 				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
 			})
 		],

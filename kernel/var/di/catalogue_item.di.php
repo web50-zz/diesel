@@ -75,13 +75,7 @@ class di_catalogue_item extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
-		$data = $this->extjs_set_json(false);
-		if ($this->args['_sid'] == 0)
-		{
-			$sc = data_interface::get_instance('structure_content');
-			$sc->save_link($this->args['pid'], $data['data']['id'], $this->name);
-		}
-		response::send($data, 'json');
+		$this->extjs_set_json();
 	}
 	
 	/**
@@ -91,16 +85,7 @@ class di_catalogue_item extends data_interface
 	protected function sys_unset()
 	{
 		$this->_flush();
-		$data = $this->extjs_unset_json(false);
-		$ids = $this->get_lastChangedId();
-		
-		if (($ids > 0 || count($ids) > 0) && $this->args['_spid'] > 0)
-		{
-			$sc = data_interface::get_instance('structure_content');
-			$sc->remove_link($this->args['_spid'], $ids, $this->name);
-		}
-
-		response::send($data, 'json');
+		$this->extjs_unset_json();
 	}
 }
 ?>

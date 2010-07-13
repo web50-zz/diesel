@@ -31,6 +31,7 @@ ui.catalogue.main = function(config){
 		reader: reader,
 		writer: writer
 	});
+	if (config.xxx) store.baseParams = config.xxx;
 	var existFormat = function(value){
 		return (value == 1) ? 'Да' : 'Нет';
 	}
