@@ -1,7 +1,7 @@
 {__(apply($.)__}
 	{__(if(@position < @last)__}
-		<nowrap> / <a href="{__uri__}" title="{__php::htmlspecialchars($title)__}"><b>{__php::strtoupper($title)__}</b></a></nowrap>
+		 / <a href="{__uri__}" title="{__php::htmlspecialchars($title)__}">{__php::strtoupper($title)__}</a>
 	{__else__}
-		<nowrap> / <b>{__php::strtoupper($title)__}</b></nowrap>
+		 / {__php::strtoupper($title)__}
 	{__if)__}
 {__apply)__}

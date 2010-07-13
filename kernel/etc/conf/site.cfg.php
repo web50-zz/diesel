@@ -10,7 +10,7 @@
 */
 
 // NOTE: Theme title 
-$current_site_ui = 'market_structure';
+$current_site_ui = 'structure';
 $current_site_di = 'structure';
 
 // NOTE: Путь к текущей теме

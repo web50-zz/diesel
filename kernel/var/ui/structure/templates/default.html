@@ -1,28 +1,37 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="application/html; charset=utf-8" />
-        <title>{__title__}</title>
+	<link href="/css/default.css" rel="stylesheet" type="text/css" />
+	<title>{__title__}</title>
 </head>
 
 <body>
-{__CURRENT_THEME_PATH__}<br>
-{__INSTANCES_PATH__}<br>
-{__CURRENT_INSTANCE_PATH__}<br>
-{__INSTANCE_UI_PATH__}<br>
-{__SITE_UI__}<br>
-
-
-<div class="top_menu">
+<div class="bdy" id="bdy">
+	<div class="bdy_wrap" class="bdy_wrap">
+<div class="dsc">#default kernel template set</div>
+		<div class="top_menu" id="top_menu">
 		{__ui_structure::top_menu()__}
+		</div>
+		<div class="left_area" id="left_area">
+			<div class="sub_menu">
+			{__ui_structure::sub_menu()__}
+			</div>
+		</div>
+		<div class="center_area" id="center_area">
+			<div class="trunc_menu" id="trunc_menu">
+			{__ui_structure::trunc_menu()__}
+			</div>
+			<div class="content">
+			{__content__}
+			</div>
+		</div>
+		<div class="bottom_area" id="bottom_area">
+			<div>WEB50 LLC 2010. all rights reserved.</div>
+		</div>
 	</div>
-	<div class="sub_menu">
-		{__ui_structure::sub_menu()__}
-	</div>
-	<div class="trunc_menu">
-		{__ui_structure::trunc_menu()__}
-	</div>
-	<div class="content">
-		{__content__}
-	</div>
+</div>
+
 </body>
 </html>
