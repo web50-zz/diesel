@@ -33,7 +33,7 @@ class ui_structure extends user_interface
 			try
 			{
 				$ui = user_interface::get_instance($page['module']);
-				$content = $ui->call('content', array_merge(request::get(), array('_spid' => $page['id'])));
+				$content = $ui->call('content', json_decode($page['params'], true));
 			}
 			catch(exception $e)
 			{

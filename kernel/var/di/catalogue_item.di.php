@@ -46,6 +46,15 @@ class di_catalogue_item extends data_interface
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
 	}
+
+	/**
+	*	Get items for page
+	*/
+	public function get_items()
+	{
+		$this->_flush();
+		return $this->_get();
+	}
 	
 	/**
 	*	Список записей

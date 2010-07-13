@@ -19,6 +19,13 @@ class ui_catalogue extends user_interface
 	{
 		parent::__construct(__CLASS__);
 	}
+
+	protected function pub_content()
+	{
+		$di = data_interface::get_instance('catalogue_item');
+		$di->set_args($this->get_args());
+		return '<pre>' . print_r($di->get_items(), true) . '</pre>';
+	}
 	
 	/**
 	*       Main interface
