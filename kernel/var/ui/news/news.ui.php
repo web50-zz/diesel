@@ -25,7 +25,7 @@ class ui_news extends user_interface
 		$tmpl = new tmpl($this->pwd() . 'content.html');
                 $di = data_interface::get_instance('news');
 		$di->set_args($this->args);
-                return $tmpl->parse($di->get());
+                return $tmpl->parse($di->_get());
         }
 	
 	/**
