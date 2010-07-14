@@ -3,8 +3,7 @@
 *	Интерфейс данных "Справочник: Стили"
 *
 * @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
-* @version	1.0
-* @access	public
+* @package	SBIN Diesel
 */
 class di_guide_style extends data_interface
 {

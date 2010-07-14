@@ -2,8 +2,8 @@
 /**
 *	Интерфейс данных "Новости"
 *
-* @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
-* @package	CFsCMS2(PE)
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class di_news extends data_interface
 {

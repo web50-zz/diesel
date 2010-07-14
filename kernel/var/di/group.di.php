@@ -2,8 +2,8 @@
 /**
 *	Data Interface "Interfaces"
 *
-* @author	Anthon S. Litvinenko <crazyfluger@gmail.com>
-* @package	FlugerCMS
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class di_group extends data_interface
 {

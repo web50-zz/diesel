@@ -2,8 +2,8 @@
 /**
 *	Data interface "administrators"
 *
-* @author	Anthon S. Litvinenko <crazyfluger@gmail.com>
-* @package	CFsCMS2(PE)
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class di_user extends data_interface
 {

@@ -2,8 +2,8 @@
 /**
 *	Data Interface "Users link to groups"
 *
-* @author	Anthon S. Litvinenko <crazyfluger@gmail.com>
-* @package	FlugerCMS
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class di_group_user extends data_interface
 {

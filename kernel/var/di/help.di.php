@@ -2,8 +2,8 @@
 /**
 *	Интерфейс данных "Контакты компании"
 *
-* @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
-* @package	CFsCMS2(PE)
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class di_help extends data_interface
 {
