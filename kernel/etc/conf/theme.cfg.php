@@ -10,7 +10,7 @@
 */
 
 // NOTE: Theme title 
-$theme = 'default';
+$theme = 'rockmarket';
 
 // NOTE: Путь к текущей теме
 define ('CURRENT_THEME_PATH', THEMES_PATH.$theme.'/');

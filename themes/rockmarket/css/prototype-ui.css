@@ -1,0 +1,79 @@
+/* Horizontal Carousel */
+#horizontal_carousel {
+  width: 682px;
+  height: 215px;
+  padding:10px;
+  background:#f6f6f6;
+  border:solid 1px #e9e9e9;
+  margin-bottom: 20px;
+}
+
+#horizontal_carousel .container {
+  width: 680px;
+  overflow: hidden;
+  overflow-x: hidden;
+}
+
+#horizontal_carousel ul {
+  margin: 0;
+  padding:0;
+  width: 100000px;
+  position: relative;
+  top: 0;
+  left: -10px;
+  height: 200px;
+}
+
+#horizontal_carousel ul li {
+  width: 136px;
+  height: 200px;
+  text-align: center;
+  list-style:none;
+  float:left;
+}
+
+#horizontal_carousel ul li, #horizontal_carousel ul li div, #horizontal_carousel ul li div a {
+  font-size: 10px;
+}
+
+#horizontal_carousel .buttons{
+	display:block;
+ 	clear:both;
+}
+
+#horizontal_carousel .previous_button, #horizontal_carousel .next_button {
+/* 	border: 1px solid green; */
+ 	padding: 5px 0 5px 0;
+	width: 23px;
+	height: 17px;
+	z-index: 100;
+	cursor: pointer;
+	position: absolute; bottom: 0px;
+}
+
+#horizontal_carousel .previous_button {
+  left: 0;
+  background: url(/js/carousel/img/but_prev.png) no-repeat;
+}
+
+#horizontal_carousel .previous_button_over {
+  background: url(/js/carousel/img/but_prev_hover.png) no-repeat;}
+
+#horizontal_carousel .previous_button_disabled {
+  background: url(/js/carousel/img/but_prev_dis.png) no-repeat;
+  cursor: default;
+}
+
+#horizontal_carousel .next_button {
+  right: 0;
+  background: url(/js/carousel/img/but_next.png) no-repeat;
+}
+
+#horizontal_carousel .next_button_over {
+  background: url(/js/carousel/img/but_next_hover.png) no-repeat;
+}
+
+#horizontal_carousel .next_button_disabled {
+  background: url(i/js/carousel/mg/but_next_dis.png) no-repeat;
+  cursor: default;
+}
