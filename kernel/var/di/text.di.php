@@ -2,8 +2,8 @@
 /**
 *	Интерфейс данных "Текстовые страницы"
 *
-* @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
-* @package	CFsCMS2(PE)
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class di_text extends data_interface
 {
@@ -33,7 +33,8 @@ class di_text extends data_interface
 		'content' => array('type' => 'text'),
 	);
 	
-	public function __construct () {
+	public function __construct ()
+	{
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
 	}
