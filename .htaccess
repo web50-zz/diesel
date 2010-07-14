@@ -13,8 +13,4 @@ RewriteRule	^files/$  			file.php?di=fm_files&cll=get			[L,QSA]
 
 RewriteCond	%{REQUEST_FILENAME} !-f
 RewriteCond	%{REQUEST_FILENAME} !-d
-RewriteRule	^(.*[^/])$	/$1/		[L,R=301]
-
-RewriteCond	%{REQUEST_FILENAME} !-f
-RewriteCond	%{REQUEST_FILENAME} !-d
 RewriteRule	^(.*)		index.php
