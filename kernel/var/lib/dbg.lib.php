@@ -23,10 +23,13 @@ class dbg
 	public static function write($value, $file = NULL)
 	{
 		$log_file = ($file) ? $file : LOG_PATH . 'debug.log';
-		$fh = fopen($log_file, 'a');
-		fwrite($fh, date('Y-m-d H:i:s ============>' . "\n"));
-		fwrite($fh, var_export($value, true) . "\n");
-		fclose($fh);
+		$dbgs = array_shift(debug_backtrace());
+		$msg =  date('====================[ Y-m-d H:i:s ]==========' . "\n");
+		$msg.= 'file:..... '.$dbgs['file']. "\n";
+		$msg.= 'line:..... '.$dbgs['line'] . "\n\n";
+		$msg.=  var_export($value, true) . "\n";
+		$msg.=  '====================[ END OF DEBUG BLOCK ]===========' . "\n\n\n";
+		error_log($msg,3,$log_file);
 	}
 	
 	/**
@@ -38,11 +41,16 @@ class dbg
 	*/
 	public static function show($value, $message = NULL, $color = '#99ccff')
 	{
+		$dbgs = array_shift(debug_backtrace());
 		echo '<div style="background-color: ' . $color . '">';
 		echo '<fieldset>';
 		if ($message) echo '<legend>' . $message . '</legend>';
 		echo '<pre>';
+		echo date('===========================[ Y-m-d H:i:s ]==========')."\n";
+		echo 'file:..... '.$dbgs['file']."\n";
+		echo 'line:..... ' .$dbgs['line']."\n\n";
 		print_r($value);
+		echo  "\n\n". '===========================[ END OF DEBUG BLOCK ]==========='."\n\n\n";
 		echo '</pre>';
 		echo '</fieldset>';
 		echo '</div>';
