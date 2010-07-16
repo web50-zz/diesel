@@ -59,7 +59,10 @@
 		<div id="help"></div>
 		<div id="menu_top">
 			<ul>
-	 <li class="active"><span class="left"></span><span>Новинки</span><span class="right"></span>   </li><li><a href="#">Новости</a>   </li><li><a href="http://rockmarket.ppd.spb.ru/products/">Каталог</a> <ul>
+{__ui_market_menu::top_menu()__}
+<!--	 <li class="active"><span class="left"></span><span>Новинки</span><span class="right"></span>   </li><li><a href="#">Новости</a>   </li><li><a href="http://rockmarket.ppd.spb.ru/products/">Каталог</a> -->
+</ul>
+	 <ul id="menu_top_submenu">
 <span class="left"></span>
 			<li><a href="#">CD</a></li>
 		<li><span class="devider"></span></li>
@@ -73,8 +76,13 @@
 			<a href="#" style="color: rgb(151, 43, 43);">Скачать каталог</a>
 	</li>
 <span class="right"></span>
-</ul>  </li><li><a href="#">Гостевая</a>   </li><li><a href="#">Конкурс</a>   </li><li><a href="#">Информация</a>   </li><li><a href="#">Партнеры</a>   </li><li><a href="#">Контакты</a> </li></ul>		</div>
-		<div id="search">
+</ul>  	
+
+</div>
+ 
+
+
+<div id="search">
 			<form action="/products/search/" method="GET" id="search_block_form">
 	<div>
 		Поиск:

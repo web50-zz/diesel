@@ -132,6 +132,8 @@ class user_interface extends base_interface
 
 	public function parse_tmpl($template_file_name,$data)
 	{
+		
+
 		$tmpl_path = BASE_PATH.CURRENT_THEME_PATH.'tmpl/'.$this->interfaceName.'/'.$template_file_name; 
 		$tmpl_path2 = $this->pwd().'/templates/'.$template_file_name;	
 		if(file_exists($tmpl_path))
