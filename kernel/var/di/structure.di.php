@@ -87,7 +87,6 @@ class di_structure extends data_interface
 //		if (empty($data['root'])) $data['root'] = $data['page'];
 
 		$data = $ns->get_childs(6, NULL); //берем подэлементы пункта каталог
-		dbg::show($data);
 		return $data;
 	}
 	

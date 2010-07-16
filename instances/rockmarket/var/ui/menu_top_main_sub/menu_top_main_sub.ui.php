@@ -18,8 +18,6 @@ public $title = 'Market menu';
 		$menu['list'] = $st->get_sub_menu();
 		$template = 'main_sub_menu.html';
 		$html = $this->parse_tmpl($template,$menu);
-
-		dbg::show($menu);
 //		response::send($html, 'html');
 		return $html;
 	}
