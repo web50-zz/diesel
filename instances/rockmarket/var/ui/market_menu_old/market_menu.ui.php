@@ -23,6 +23,19 @@ public $title = 'Market menu';
 		return $html;
 	}
 
+	public function  pub_top_sub_menu(){
+
+		$st = data_interface::get_instance('structure');
+		$menu['list'] = $st->get_sub_menu();
+		$template = 'main_sub_menu.html';
+		$html = $this->parse_tmpl($template,$menu);
+
+		dbg::show($menu);
+//		response::send($html, 'html');
+		return $html;
+	}
+
+
 	public function __construct()
 	{
 		parent::__construct((func_num_args() > 0) ? func_get_arg(0) : __CLASS__);
