@@ -27,8 +27,8 @@ class dbg
 		$msg =  date('====================[ Y-m-d H:i:s ]==========' . "\n");
 		$msg.= 'file:..... '.$dbgs['file']. "\n";
 		$msg.= 'line:..... '.$dbgs['line'] . "\n\n";
-		$msg.=  var_export($value, true) . "\n";
-		$msg.=  '====================[ END OF DEBUG BLOCK ]===========' . "\n\n\n";
+		$msg.=  var_export($value, true) . "\n\n";
+//		$msg.=  '====================[ END OF DEBUG BLOCK ]===========' . "\n\n\n";
 		error_log($msg,3,$log_file);
 	}
 	
@@ -50,7 +50,7 @@ class dbg
 		echo 'file:..... '.$dbgs['file']."\n";
 		echo 'line:..... ' .$dbgs['line']."\n\n";
 		print_r($value);
-		echo  "\n\n". '===========================[ END OF DEBUG BLOCK ]==========='."\n\n\n";
+		//		echo  "\n\n". '===========================[ END OF DEBUG BLOCK ]==========='."\n\n\n";
 		echo '</pre>';
 		echo '</fieldset>';
 		echo '</div>';
