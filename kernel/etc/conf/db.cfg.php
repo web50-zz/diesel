@@ -15,8 +15,8 @@ class db_config
 			'type' => 'mysql',
 			'host' => 'localhost',
 			'charset' => CHARSET,
-			'user' => 'root',
-			'pass' => 'notforasshole\'239',
+			'user' => 'market_web50',
+			'pass' => 'market_web50',
 			'dbs' => array(
 				'db1' => 'market_web50'
 				)
