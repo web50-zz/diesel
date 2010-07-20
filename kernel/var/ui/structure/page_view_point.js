@@ -62,6 +62,7 @@ ui.structure.page_view_point = function(config){
 			f.on({
 				saved: function(isNew, form, resp){
 					this.initVP(resp, true);
+					w.destroy();
 				},
 				cancelled: function(){w.destroy()},
 				scope: this

@@ -53,7 +53,7 @@ ui.structure.page_view_point_form = function(config){
 			var w = new Ext.Window({title: 'Настройка страницы', modal: true, layout: 'fit', width: 480, height: 320, items: f});
 			f.on({
 				saved: function(data){
-					this.getForm().findField('params').setValue(Ext.encode(data));
+					this.getForm().findField('ui_configure').setValue(Ext.encode(data));
 					w.destroy();
 				},
 				cancelled: function(){w.destroy()},
