@@ -500,7 +500,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'admin','*4ACFE3202A5FF5CF467898FC58AAB1D615029441','Administrator','admin@local.host','ru_RU','efa01360f0265470cc98d3a2f383840f','2010-07-16 21:14:24','93.100.77.50'),(2,'devel','*8F23662C357D1E7A6214097613335C88FE8BC390','Developer','devel@mail.ru','ru_RU','5fe305c99caec6863fc6bdf1ed07e73f','2010-06-29 19:06:57','92.101.202.137'),(4,'user_1','*3698E332F65FD723BCE0B7C869554991B0DA418B','The User #1','user_1@mail.ru','ru_RU','','0000-00-00 00:00:00','');
+INSERT INTO `sys_user` VALUES (1,'admin','*4ACFE3202A5FF5CF467898FC58AAB1D615029441','Administrator','admin@local.host','ru_RU','314c13bbb84ebdd113226ca4e13cf25c','2010-07-20 16:21:19','93.100.77.50'),(2,'devel','*8F23662C357D1E7A6214097613335C88FE8BC390','Developer','devel@mail.ru','ru_RU','5fe305c99caec6863fc6bdf1ed07e73f','2010-06-29 19:06:57','92.101.202.137'),(4,'user_1','*3698E332F65FD723BCE0B7C869554991B0DA418B','The User #1','user_1@mail.ru','ru_RU','','0000-00-00 00:00:00','');
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -527,6 +527,34 @@ LOCK TABLES `text` WRITE;
 /*!40000 ALTER TABLE `text` DISABLE KEYS */;
 /*!40000 ALTER TABLE `text` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `ui_view_point`
+--
+
+DROP TABLE IF EXISTS `ui_view_point`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ui_view_point` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `page_id` smallint(5) unsigned NOT NULL,
+  `view_point` tinyint(3) unsigned NOT NULL,
+  `ui_name` varchar(255) NOT NULL,
+  `ui_configure` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `page_id` (`page_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `ui_view_point`
+--
+
+LOCK TABLES `ui_view_point` WRITE;
+/*!40000 ALTER TABLE `ui_view_point` DISABLE KEYS */;
+INSERT INTO `ui_view_point` VALUES (1,7,1,'catalogue','{\"_stype_id\":\"1\"}'),(2,8,1,'text',''),(3,8,2,'news',''),(5,8,3,'catalogue','');
+/*!40000 ALTER TABLE `ui_view_point` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -537,4 +565,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-07-17  9:01:46
+-- Dump completed on 2010-07-20 13:16:37
