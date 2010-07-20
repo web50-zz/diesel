@@ -13,10 +13,16 @@ class ui_structure extends user_interface
 	protected $deps = array(
 		'main' => array(
 			'structure.site_tree',
-			'structure.page_view'
+			'structure.page_view',
 		),
 		'site_tree' => array(
-			'structure.node_form'
+			'structure.node_form',
+		),
+		'page_view' => array(
+			'structure.page_view_point',
+		),
+		'page_view_point' => array(
+			'structure.page_view_point_form',
 		)
 	);
 	
@@ -111,6 +117,24 @@ class ui_structure extends user_interface
 	protected function sys_page_view()
 	{
 		$tmpl = new tmpl($this->pwd() . 'page_view.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*	ExtJS UI Site Tree
+	*/
+	protected function sys_page_view_point()
+	{
+		$tmpl = new tmpl($this->pwd() . 'page_view_point.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*	ExtJS UI Site Tree
+	*/
+	protected function sys_page_view_point_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'page_view_point_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 	
