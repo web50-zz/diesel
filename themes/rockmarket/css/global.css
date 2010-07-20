@@ -96,24 +96,25 @@ fieldset { border: none; margin: 0; padding: 0; }
 #menu_top li.active span.left { display: block; width: 6px; height: 40px; background: url('/themes/rockmarket/images/top_menu_left.gif') no-repeat; padding: 0; }
 #menu_top li.active span.right { display: block; width: 6px; height: 40px; background: url('/themes/rockmarket/images/top_menu_right.gif') no-repeat; padding: 0; }
 #menu_top li ul { /*display: none;*/left: 10px; position: absolute; background: url('/themes/rockmarket/images/top_podmenu_bg.gif') repeat-x; width: 500px; top: 45px; }
+#menu_top_submenu { /*display: none;*/left: 10px; position: absolute; background: url('/themes/rockmarket/images/top_podmenu_bg.gif') repeat-x; /*width: 500px;*/ top: 45px; }
 /*#menu_top li:hover ul { display: block; }*/
-#menu_top li ul span.left,
-#menu_top li.active ul span.left,
-#menu_top li ul span.right,
-#menu_top li.active ul span.right,
-#menu_top li.active ul span.devider,
-#menu_top li ul span.devider { display: block; float: left; width: 8px; height: 30px; background: url('/themes/rockmarket/images/top_podmenu_devider.gif') no-repeat; padding: 0; line-height: 20px; }
-#menu_top li ul span.right,
-#menu_top li.active ul span.right { /*float: right;*/ position: absolute; right: 0; top: 0; background: url('/themes/rockmarket/images/top_podmenu_right.gif') right no-repeat; }
-#menu_top li ul span.left,
-#menu_top li.active ul span.left { background: url('/themes/rockmarket/images/top_podmenu_left.gif') right no-repeat; }
-#menu_top li ul li { margin-right: 0; }
-#menu_top li ul li.active,
-#menu_top li.active ul li.active { background: none; margin-top: 0; padding: 0; }
-#menu_top li ul li a, #menu_top li.active ul li a { color: #000; font-size: 10px; line-height: 25px; font-weight: bold; text-transform: uppercase; }
-#menu_top li ul li.active a,
-#menu_top li.active ul li.active a,
-#menu_top li.active ul li.active span { color: #7c0d0d; font-size: 12px; line-height: 25px; font-weight: normal; text-transform: uppercase; background: none; }
+#menu_top_submenu  span.left,
+#menu_top_submenu  span.left,
+#menu_top_submenu  span.right,
+#menu_top_submenu span.right,
+#menu_top_submenu  span.devider,
+#menu_top_submenu  span.devider { display: block; float: left; width: 8px; height: 30px; background: url('/themes/rockmarket/images/top_podmenu_devider.gif') no-repeat; padding: 0; line-height: 20px; }
+#menu_top_submenu  span.right,
+#menu_top_submenu span.right { /*float: right;*/ position: absolute; right: 0; top: 0; background: url('/themes/rockmarket/images/top_podmenu_right.gif') right no-repeat; }
+#menu_top_submenu span.left,
+#menu_top_submenu span.left { background: url('/themes/rockmarket/images/top_podmenu_left.gif') right no-repeat; }
+#menu_top_submenu li { margin-right: 0; }
+#menu_top_submenu li.active,
+#menu_top_submenu li.active { background: none; margin-top: 0; padding: 0; }
+#menu_top_submenu li a, #menu_top li.active ul li a { color: #000; font-size: 10px; line-height: 25px; font-weight: bold; text-transform: uppercase; }
+#menu_top_submenu li.active a,
+#menu_top_submenu  li.active a,
+#menu_top_submenu li.active span { color: #7c0d0d; font-size: 12px; line-height: 25px; font-weight: normal; text-transform: uppercase; background: none; }
 
 #navigator { padding: 10px 15px 10px 0; color: #333; font-size: 11px; }
 #navigator a { color: #333; font-size: 11px; }

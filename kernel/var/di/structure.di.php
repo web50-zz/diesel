@@ -81,10 +81,12 @@ class di_structure extends data_interface
 	{
 		$this->where = '`sp1`.`hidden` = 0';
 		$ns = new nested_sets($this);
-		$data['root'] = $ns->get_parent(PAGE_ID, 2);
-		$data['page'] = $ns->get_node(PAGE_ID);
-		if (empty($data['root'])) $data['root'] = $data['page'];
-		$data['childs'] = $ns->get_childs($data['root']['id'], NULL);
+
+//$data['root'] = $ns->get_parent(6,3);
+//		$data['page'] = $ns->get_node(6);
+//		if (empty($data['root'])) $data['root'] = $data['page'];
+
+		$data = $ns->get_childs(6, NULL); //берем подэлементы пункта каталог
 		return $data;
 	}
 	

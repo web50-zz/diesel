@@ -147,8 +147,13 @@ class user_interface extends base_interface
 			$tmpl = new tmpl($template);
 			$html = $tmpl->parse($data);
 			return $html;
-		}	
-		return;
+		}
+		else
+		{
+			$dbgs = array_shift(debug_backtrace());
+			dbg::write("TEMPLATE WAS NOT FOUND at user_interface::parse_tmpl() \nCall from:.....  ". $dbgs['file']."\nline:..........  ".$dbgs['line']. "\ntemplate: $template_file_name\npath1: $tmpl_path \npath2: $tmpl_path2");
+		}
+		return false;
 	}
 
 	/**

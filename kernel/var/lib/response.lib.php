@@ -44,6 +44,10 @@ class response
 	*/
 	public static function send($content, $type, $no_cache = true)
 	{
+		if(headers_sent())
+		{
+			die($content);//9* 16072010 USABLE WITH dbg:show(). If headers already sent do nothing with them. 
+		}
 		switch(strtolower($type))
 		{
 			case 'html':
@@ -69,13 +73,15 @@ class response
 				header('Content-Type: text/x-json; charset=UTF-8');
 				$content = response::to_json($data);
 			break;
+			case 'noheaders':
+				$no_cache = false;
+			break;
 			case 'text':
 			case 'txt':
 			default:
 				header('Content-Type: text/plain; charset=' . CHARSET);
 			break;
 		}
-		
                 if ($no_cache)
                 {
                         header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );  // disable IE caching

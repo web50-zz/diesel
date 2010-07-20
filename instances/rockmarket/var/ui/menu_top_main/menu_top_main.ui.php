@@ -6,10 +6,22 @@
 * @access	public
 * @package	FlugerCMS
 */
-class ui_market_menu extends ui_structure 
+class ui_menu_top_main extends ui_structure 
 {
 
 public $title = 'Market menu';
+
+	public function  pub_top_menu(){
+
+		$st = data_interface::get_instance('structure');
+		$menu['list'] = $st->get_main_menu();
+		$template = 'main_menu.html';
+		$html = $this->parse_tmpl($template,$menu);
+
+//		response::send($html, 'html');
+		return $html;
+	}
+
 
 
 	public function __construct()
