@@ -3,22 +3,24 @@ var App = function(config){
 	var loadMask = new Ext.LoadMask(Ext.getBody());
 	Ext.apply(this, config);
 	App.superclass.constructor.call(this, {});
-	var loadDependencies = function(dependencies){
-		Ext.each(dependencies, function(appName){
-			var app = new App();
-			appArr = appName.split('.');
-			app.on('apploaded', function(){
-				var loaded = true;
-				Ext.each(dependencies, function(){
-					if (!classExists("ui."+appArr[0]+"."+appArr[1]))
-						loaded = false;
-				});
-				if (loaded == true)
-					self.fireEvent('deploaded');
-			});
-			app.Load(appArr[0], appArr[1]);
-		});
-	}
+	var loadDependencies = function(deps){
+		for (var i in deps){
+			if (typeof deps[i] == "string"){
+				var app = new App();
+				app.on('apploaded', function(){
+					var loaded = true;
+					for (var j in deps)
+						if (typeof deps[j] == "string" && !classExists("ui."+deps[j]))
+							loaded = false;
+					if (loaded == true)
+						this.fireEvent('deploaded');
+				}, this);
+				var x = deps[i];
+				var y = x.split('.');
+				app.Load(y[0], y[1]);
+			}
+		}
+	}.createDelegate(this);
 	var checkForDependencies = function(appName, appFace){
 		Ext.Ajax.request({
 			url: 'ui/'+appName+'/dependencies.get',
