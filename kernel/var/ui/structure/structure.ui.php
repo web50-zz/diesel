@@ -34,26 +34,43 @@ class ui_structure extends user_interface
 
         public function process_page($page)
         {
-		if ($page['module'])
+		#if ($page['module'])
+		#{
+		#	try
+		#	{
+		#		$ui = user_interface::get_instance($page['module']);
+		#		$content = $ui->call('content', json_decode($page['params'], true));
+		#	}
+		#	catch(exception $e)
+		#	{
+		#		dbg::write('error: '.$e->getmessage());
+		#	}
+		#}
+
+                $data = array(
+                        'args' => request::get(),
+                        );
+
+		$divp = data_interface::get_instance('ui_view_point');
+		$divp->set_args(array('_spid' => $page['id']));
+		$divp->_flush();
+		$vps = $divp->_get();
+
+		foreach ($vps as $vp)
 		{
 			try
 			{
-				$ui = user_interface::get_instance($page['module']);
-				$content = $ui->call('content', json_decode($page['params'], true));
+				$ui = user_interface::get_instance($vp->ui_name);
+				$data["view_point_{$vp->view_point}"][] = $ui->call('content', json_decode($page->ui_configure, true));
 			}
 			catch(exception $e)
 			{
 				dbg::write('error: '.$e->getmessage());
 			}
 		}
-
-                $data = array(
-                        'args' => request::get(),
-                        'content' => $content
-                        );
                 
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
-		$html = $this->parse_tmpl($template,$data);
+		$html = $this->parse_tmpl($template, $data);
 		response::send($html, 'html');
         }
 	
