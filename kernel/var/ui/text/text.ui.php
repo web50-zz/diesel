@@ -2,15 +2,18 @@
 /**
 *	ПИ "Текст"
 *
-* @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
-* @version	1.0
-* @access	public
-* @package	CFsCMS2(PE)
-* @since	2008-12-13
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class ui_text extends user_interface
 {
 	public $title = 'Текст';
+
+	protected $deps = array(
+		'main' => array(
+			'text.item_form',
+		)
+	);
 	
 	public function __construct ()
 	{
@@ -24,7 +27,7 @@ class ui_text extends user_interface
         {
 		$tmpl = new tmpl($this->pwd() . 'content.html');
                 $di = data_interface::get_instance('text');
-		$di->set_args($this->args);
+		$di->set_args($this->get_args());
                 return $tmpl->parse($di->get());
         }
 	
@@ -34,6 +37,24 @@ class ui_text extends user_interface
 	public function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'text.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       ExtJS - Форма редактирования
+	*/
+	public function sys_item_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'item_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Page configure form
+	*/
+	protected function sys_configure_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'configure_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }

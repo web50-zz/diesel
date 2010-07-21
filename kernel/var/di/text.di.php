@@ -45,10 +45,24 @@ class di_text extends data_interface
 	*/
 	public function get()
 	{
-		$this->_flush(true);
+		#$this->_flush(true);
+		#$this->connector->fetchMethod = PDO::FETCH_ASSOC;
+		#$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
+		#return $this->_get();
+		$this->_flush();
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
-		$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
 		return $this->_get();
+	}
+
+	/**
+	*	Список доступных текстовых контентов
+	*/
+	protected function sys_available()
+	{
+		$this->_flush();
+		$data = $this->_get();
+		array_unshift($data, array('id' => '', 'title' => 'Новый текст'));
+		return response::send($data, 'json');
 	}
 	
 	/**
@@ -90,14 +104,7 @@ class di_text extends data_interface
 	protected function sys_set()
 	{
 		$this->_flush();
-		$this->insert_on_empty = true;
-		$data = $this->extjs_set_json(false);
-		if ($this->args['_sid'] == 0)
-		{
-			$sc = data_interface::get_instance('structure_content');
-			$sc->save_link($this->args['pid'], $data['data']['id'], $this->name);
-		}
-		response::send($data, 'json');
+		$this->extjs_set_json();
 	}
 	
 	/**
@@ -107,8 +114,6 @@ class di_text extends data_interface
 	protected function sys_unset()
 	{
 		$this->_flush();
-		$sc = data_interface::get_instance('structure_content');
-		$sc->remove_by_page($this->args['_sid']);
 		$this->extjs_unset_json();
 	}
 }

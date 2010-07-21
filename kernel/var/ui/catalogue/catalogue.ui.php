@@ -2,8 +2,8 @@
 /**
 *	ПИ "Каталог"
 *
-* @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
-* @access	public
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class ui_catalogue extends user_interface
 {
@@ -47,7 +47,7 @@ class ui_catalogue extends user_interface
 	}
 	
 	/**
-	*       Edit form
+	*       Page configure form
 	*/
 	protected function sys_configure_form()
 	{
