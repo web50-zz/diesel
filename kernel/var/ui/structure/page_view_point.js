@@ -21,6 +21,7 @@ ui.structure.page_view_point = function(config){
 					page = eval('new '+appClass+'(config, vp)');
 					this.insert(0, page).on('close', this.delViewPoint, this);
 					if (active) this.setActiveTab(pageId)
+					this.fireEvent('view-point-inited');
 				}
 			}else{
 				page = eval('new '+appClass+'(config, vp)');
@@ -29,13 +30,19 @@ ui.structure.page_view_point = function(config){
 					scope: this
 				});
 				this.setActiveTab(pageId)
+				this.fireEvent('view-point-inited');
 			}
 		}, this);
 		app.Load(appName, appFace);
 	}
 	this.initConfiguration = function(cfg){
-		for (var i in cfg){
-			var vp = cfg[i];
+		var x = function(){
+			this.un('view-point-inited', x, this);
+			this.initConfiguration(cfg);
+		};
+		var vp = cfg.shift();
+		if (vp){
+			this.on('view-point-inited', x, this);
 			this.initVP(vp);
 		}
 	}
@@ -95,6 +102,7 @@ ui.structure.page_view_point = function(config){
 	ui.structure.page_view_point.superclass.constructor.call(this,{
 	});
 	this.addEvents({
+		'view-point-inited': true,
 		'view-point-added': true,
 		'view-point-deleted': true
 	});
