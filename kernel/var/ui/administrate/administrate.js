@@ -58,7 +58,7 @@ ui.administrate = function(config){
 				{text: this.menuLogout, iconCls: 'logout', handler: LogOut, scope: this}
 			]},
 			mainWS,
-			{region: 'south', baseCls: 'x-panel-header', html: '<div style="text-align: right">Fluger CMS</div>'}
+			{region: 'south', baseCls: 'x-panel-header', html: '<div style="text-align: right">SBIN Diesel 8==></div>'}
 		]
 	});
 };
