@@ -104,6 +104,7 @@ class di_text extends data_interface
 	protected function sys_set()
 	{
 		$this->_flush();
+		$this->insert_on_empty = true;
 		$this->extjs_set_json();
 	}
 	
