@@ -1,6 +1,6 @@
 <?php
 /**
-*	ПИ "Управление пользователями"
+*	ПИ "Статьи"
 *
 * @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
 * @version	1.0
@@ -10,7 +10,7 @@
 */
 class ui_article extends user_interface
 {
-	public $title = 'Управление пользователями';
+	public $title = 'Статьи';
 	
 	public function __construct ()
 	{

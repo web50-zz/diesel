@@ -8,7 +8,7 @@
 */
 class ui_structure extends user_interface
 {
-	public $title = 'Structure control';
+	public $title = 'Структура';
 
 	protected $deps = array(
 		'main' => array(

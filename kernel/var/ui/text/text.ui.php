@@ -1,6 +1,6 @@
 <?php
 /**
-*	ПИ "Управление пользователями"
+*	ПИ "Текст"
 *
 * @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
 * @version	1.0
@@ -10,7 +10,7 @@
 */
 class ui_text extends user_interface
 {
-	public $title = 'Управление пользователями';
+	public $title = 'Текст';
 	
 	public function __construct ()
 	{

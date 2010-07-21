@@ -73,23 +73,12 @@ ui.structure.page_view_point_form = function(config){
 		items: [
 			{name: '_sid', xtype: 'hidden'},
 			{name: 'pid', xtype: 'hidden'},
-			{fieldLabel: 'View Point', name: 'view_point'},
+			{fieldLabel: this.labelViewPoint, name: 'view_point'},
+			{fieldLabel: this.labelTitle, name: 'title'},
 			new Ext.form.ComboBox({
-				store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
-					['text', 'Текст'],
-					['news', 'Новости'],
-					['article', 'Статьи'],
-					['catalogue', 'Каталог']
-				]}),
-				fieldLabel: this.labelModule,
-				hiddenName: 'ui_name',
-				valueField: 'value',
-				displayField: 'title',
-				mode: 'local',
-				triggerAction: 'all',
-				selectOnFocus: true,
-				editable: false,
-				value: 'text'
+				store: new Ext.data.JsonStore({url: 'di/interface/get_public.json', fields: ['name', 'human_name'], autoLoad: true}),
+				fieldLabel: this.labelModule, hiddenName: 'ui_name',
+				valueField: 'name', displayField: 'human_name', triggerAction: 'all', selectOnFocus: true, editable: false
 			}),
 			new Ext.form.TriggerField({fieldLabel: this.labelParams, name: 'ui_configure', triggerClass: 'x-form-edit-trigger', onTriggerClick: moduleCfg})
 		],
@@ -112,6 +101,7 @@ ui.structure.page_view_point_form = function(config){
 }
 Ext.extend(ui.structure.page_view_point_form, Ext.form.FormPanel, {
 	labelViewPoint: 'Место вывода',
+	labelTitle: 'Наименование',
 	labelModule: 'Модуль',
 	labelParams: 'Параметры',
 

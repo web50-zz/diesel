@@ -9,7 +9,7 @@ ui.structure.page_view_point = function(config){
 		if (Ext.isEmpty(appName)) return;
                 var appClass = 'ui.'+appName+'.'+appFace;
 		var pageId = 'page-'+this.pid+'-'+vp.id;
-		var config = {id: pageId, vpid: vp.id, pid: this.pid, title: 'View Point - '+vp.view_point, closable: true};
+		var config = {id: pageId, vpid: vp.id, pid: this.pid, title: '['+vp.view_point+'] '+vp.title, closable: true};
 		if (vp.ui_configure) config.xxx = Ext.decode(vp.ui_configure);
 		var app = new App();
 		app.on('apploaded', function(){

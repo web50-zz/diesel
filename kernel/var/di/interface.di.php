@@ -44,6 +44,15 @@ class di_interface extends data_interface
 	}
 
 	/**
+	*	Get UI that have public entry_points
+	*/
+	protected function sys_get_public()
+	{
+		$this->_flush();
+		response::send($this->_get("SELECT DISTINCT `name`, `human_name` FROM `{$this->name}` WHERE `entry_point` LIKE 'pub_%'"), 'json');
+	}
+
+	/**
 	*	System interfaces syncronization
 	* @access protected
 	*/

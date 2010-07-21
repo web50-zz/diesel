@@ -31,6 +31,7 @@ class di_ui_view_point extends data_interface
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
 		'page_id' => array('type' => 'integer', 'alias' => 'pid'),
 		'view_point' => array('type' => 'integer'),
+		'title' => array('type' => 'string'),
 		'ui_name' => array('type' => 'string'),
 		'ui_configure' => array('type' => 'string'),
 	);
