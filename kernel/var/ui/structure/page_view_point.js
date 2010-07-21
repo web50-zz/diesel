@@ -9,8 +9,8 @@ ui.structure.page_view_point = function(config){
 		if (Ext.isEmpty(appName)) return;
                 var appClass = 'ui.'+appName+'.'+appFace;
 		var pageId = 'page-'+this.pid+'-'+vp.id;
-		var config = {id: pageId, vpid: vp.id, pid: this.pid, title: '['+vp.view_point+'] '+vp.title, closable: true};
-		if (vp.ui_configure) config.xxx = Ext.decode(vp.ui_configure);
+		var config = {id: pageId, vpid: vp.id, title: '['+vp.view_point+'] '+vp.title, closable: true};
+		vp.ui_configure = (vp.ui_configure) ? Ext.decode(vp.ui_configure) : {};
 		var app = new App();
 		app.on('apploaded', function(){
 			var page = this.getComponent(pageId);
@@ -18,24 +18,31 @@ ui.structure.page_view_point = function(config){
 				if (recreate){
 					var active = (this.getActiveTab() == page);
 					this.remove(pageId);
-					page = eval('new '+appClass+'(config)');
+					page = eval('new '+appClass+'(config, vp)');
 					this.insert(0, page).on('close', this.delViewPoint, this);
 					if (active) this.setActiveTab(pageId)
+					this.fireEvent('view-point-inited');
 				}
 			}else{
-				page = eval('new '+appClass+'(config)');
+				page = eval('new '+appClass+'(config, vp)');
 				this.add(page).on({
 					beforeclose: this.delViewPoint,
 					scope: this
 				});
 				this.setActiveTab(pageId)
+				this.fireEvent('view-point-inited');
 			}
 		}, this);
 		app.Load(appName, appFace);
 	}
 	this.initConfiguration = function(cfg){
-		for (var i in cfg){
-			var vp = cfg[i];
+		var x = function(){
+			this.un('view-point-inited', x, this);
+			this.initConfiguration(cfg);
+		};
+		var vp = cfg.shift();
+		if (vp){
+			this.on('view-point-inited', x, this);
 			this.initVP(vp);
 		}
 	}
@@ -67,7 +74,7 @@ ui.structure.page_view_point = function(config){
 				cancelled: function(){w.destroy()},
 				scope: this
 			});
-			w.show(null, function(){f.Load(vp.vpid, vp.pid)}, this);
+			w.show(null, function(){f.Load(vp.vpid, this.pid)}, this);
 		}else{
 			showError("View Point NOT selected");
 		}
@@ -95,6 +102,7 @@ ui.structure.page_view_point = function(config){
 	ui.structure.page_view_point.superclass.constructor.call(this,{
 	});
 	this.addEvents({
+		'view-point-inited': true,
 		'view-point-added': true,
 		'view-point-deleted': true
 	});

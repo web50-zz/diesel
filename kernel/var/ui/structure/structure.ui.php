@@ -61,7 +61,7 @@ class ui_structure extends user_interface
 			try
 			{
 				$ui = user_interface::get_instance($vp->ui_name);
-				$data["view_point_{$vp->view_point}"][] = $ui->call('content', json_decode($page->ui_configure, true));
+				$data["view_point_{$vp->view_point}"][] = $ui->call('content', json_decode($vp->ui_configure, true));
 			}
 			catch(exception $e)
 			{
