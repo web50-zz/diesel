@@ -70,7 +70,7 @@ class ui_structure extends user_interface
 		}
                 
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
-		$html = $this->parse_tmpl($template, $data);
+		$html = $this->parse_tmpl('main/'.$template, $data);
 		response::send($html, 'html');
         }
 	
@@ -156,17 +156,51 @@ class ui_structure extends user_interface
 	}
 	
 	/**
-	*	List of available templates
+	*	List of available templates to assign as 'main template' for page
 	*/
 	protected function sys_templates()
 	{
-		$tdir = $this->pwd() . 'templates';
+		$data = $this->get_tdir_files_list();
+		if(count($data) == 0)
+		{
+			dbg::write("WARNING!! NO TEMPLATES available to assign as main at sys_templates()");
+			if(defined('CURRENT_THEME_PATH'))
+			{
+				
+				dbg::write("Trying to get template list from default kernel locations");
+				$data = $this->get_tdir_files_list('default');
+				if(count($data) == 0)
+				{
+					dbg::write("WARNING!! NO TEMPLATES  available AT ALL(default locations also) to assign as main at sys_templates()");
+				}
+				else
+				{
+					dbg::write("Success");
+				}
+			}
+		}
+		response::send($data, 'json');
+	}
+	
+	/**
+	*  reads global template filenames from possible locations 
+	* ( 'default' - force kernel ui path. 'no parms' - current theme path or default kernel if available
+	*/
+	public function get_tdir_files_list($mode = '')
+	{
+		$tdir = $this->get_template_path($mode) . 'main';
 		$dh = dir($tdir);
 		$data = array();
 		while(false !== ($tmpl = $dh->read()))
 			if (!is_dir($tmpl))
-				$data[] = array('template' => $tmpl);
-		response::send($data, 'json');
+			{
+				if(preg_match("/^.+\.html$/",$tmpl))
+				{
+					$data[] = array('template' => $tmpl);
+				}
+			}
+		return $data;
 	}
+
 }
 ?>
