@@ -13,7 +13,7 @@ line-height:18px;
 margin:auto;
 padding:10px 10px;
 position:relative;
-width:900px;
+width:1000px;
 min-height:900px;
 background:#FFF;
 }
@@ -83,10 +83,20 @@ position:relative;
 margin-top:15px;
 margin-bottom:15px;
 float:left;
-width:74%;
+width:532px;
 height:700px;
 border:1px dotted #CCC;
 }
+
+.right_area{
+position:relative;
+padding:5px 10px 5px 0px;
+margin-top:10px;
+margin-left:10px;
+float:left;
+}
+
+
 
 .bottom_area{
 height:100px;
