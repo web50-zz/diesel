@@ -33,6 +33,27 @@ ui.structure.page_view_point = function(config){
 				this.fireEvent('view-point-inited');
 			}
 		}, this);
+		app.on('deperror', function(){
+			var page = this.getComponent(pageId);
+			if (page){
+				if (recreate){
+					var active = (this.getActiveTab() == page);
+					this.remove(pageId);
+					page = new Ext.Panel(config);
+					this.insert(0, page).on('beforeclose', this.delViewPoint, this);
+					if (active) this.setActiveTab(pageId)
+					this.fireEvent('view-point-inited');
+				}
+			}else{
+				page = new Ext.Panel(config);
+				this.add(page).on({
+					beforeclose: this.delViewPoint,
+					scope: this
+				});
+				this.setActiveTab(pageId)
+				this.fireEvent('view-point-inited');
+			}
+		}, this);
 		app.Load(appName, appFace);
 	}
 	this.initConfiguration = function(cfg){
