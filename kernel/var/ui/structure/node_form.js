@@ -74,18 +74,11 @@ ui.structure.node_form = function(config){
 			{name: '_sid', xtype: 'hidden'},
 			{name: 'pid', xtype: 'hidden'},
 			{fieldLabel: this.labelTitle, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: 'Не больше 64 символов'},
-			new Ext.form.ComboBox({
+			{fieldLabel: 'Видимый', hiddenName: 'hidden', value: 0, xtype: 'combo', width: 50, anchor: null,
 				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Да'], [1, 'Нет']] }),
-				fieldLabel: 'Видимый',
-				hiddenName: 'hidden',
-				valueField: 'value',
-				displayField: 'title',
-				mode: 'local',
-				triggerAction: 'all',
-				selectOnFocus: true,
-				editable: false,
-				value: 0
-			}),
+				valueField: 'value', displayField: 'title',
+				mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+			},
 			{fieldLabel: 'Имя', name: 'name'},
 			{fieldLabel: 'URI', name: 'uri', disabled: true},
 			{fieldLabel: 'Перенаправить', name: 'redirect'},

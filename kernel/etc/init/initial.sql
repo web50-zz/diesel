@@ -243,6 +243,7 @@ CREATE TABLE `ui_view_point` (
 	`page_id` SMALLINT(5) UNSIGNED NOT NULL,
 	`view_point` TINYINT(3) UNSIGNED NOT NULL,
 	`ui_name` VARCHAR(255) NOT NULL,
+	`ui_call` VARCHAR(255) NOT NULL,
 	`ui_configure` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `page_id` (`page_id`)
