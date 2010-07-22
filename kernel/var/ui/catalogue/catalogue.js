@@ -1,4 +1,4 @@
-ui.catalogue.main = function(config, params){
+ui.catalogue.main = function(config, vp){
 	var formW = 400;
 	var formH = 400;
 	Ext.apply(this, config);
@@ -31,7 +31,7 @@ ui.catalogue.main = function(config, params){
 		reader: reader,
 		writer: writer
 	});
-	if (params.baseParams) store.baseParams = params.baseParams;
+	if (vp && vp.ui_configure) store.baseParams = vp.ui_configure;
 	var existFormat = function(value){
 		return (value == 1) ? 'Да' : 'Нет';
 	}
