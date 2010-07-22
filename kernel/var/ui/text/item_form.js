@@ -43,11 +43,11 @@ ui.text.item_form = function(config){
 	}.createDelegate(this);
 	ui.text.item_form.superclass.constructor.call(this, {
 		frame: true, 
-		defaults: {xtype: 'textfield', width: 150, anchor: '100%'},
+		defaults: {hideLabel: true, xtype: 'textfield', width: 150, anchor: '100%'},
 		items: [
 			{name: '_sid', inputType: 'hidden'},
-			{hideLabel: true, name: 'title', allowBlank: false},
-			{hideLabel: true, name: 'content', xtype: 'ckeditor', CKConfig: {
+			{name: 'title', allowBlank: false},
+			{name: 'content', xtype: 'ckeditor', CKConfig: {
 				height: 300,
 				filebrowserImageBrowseUrl: 'ui/file_manager/browser.html'
 			}}
