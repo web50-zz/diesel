@@ -23,7 +23,7 @@ ui.text.main = function(config, vp){
 	}
 	this.linkPage = function(id){
 		Ext.Ajax.request({
-			url: 'di/ui_view_point/set.json',
+			url: 'di/ui_view_point/apply.json',
 			params: {_sid: vp.id, ui_configure: '{"_sid": "'+id+'"}'},
 			disableCaching: true,
 			callback: function(options, success, response){

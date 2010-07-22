@@ -33,12 +33,30 @@ class di_ui_view_point extends data_interface
 		'view_point' => array('type' => 'integer'),
 		'title' => array('type' => 'string'),
 		'ui_name' => array('type' => 'string'),
+		'ui_call' => array('type' => 'string'),
 		'ui_configure' => array('type' => 'string'),
 	);
 	
 	public function __construct () {
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
+	}
+
+	protected function sys_apply()
+	{
+		$this->_flush();
+		$recs = $this->_get();
+		foreach ($recs as $rec)
+		{
+			$ui_configure= array_merge((array)json_decode($rec->ui_configure, true), (array)json_decode($this->get_args('ui_configure'), true));
+			$this->push_args(array(
+				'_sid' => $rec->id,
+				'ui_configure' => json_encode($ui_configure)
+			));
+			$this->_set();
+			$this->pop_args();
+		}
+		response::send(array('success' => true), 'json');
 	}
 	
 	/**
