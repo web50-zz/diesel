@@ -75,33 +75,6 @@ class ui_structure extends user_interface
         }
 	
 	/**
-	*	main menu
-	*/
-	protected function pub_top_menu()
-	{
-		$st = data_interface::get_instance('structure');
-		return $this->parse_tmpl('main_menu.html',$st->get_main_menu());
-	}
-	
-	/**
-	*	Sub menu
-	*/
-	protected function pub_sub_menu()
-	{
-		$st = data_interface::get_instance('structure');
-		return $this->parse_tmpl('sub_menu.html',$st->get_sub_menu());
-	}
-	
-	/**
-	*	Menu "Thermometer"
-	*/
-	protected function pub_trunc_menu()
-	{
-		$st = data_interface::get_instance('structure');
-		return $this->parse_tmpl('trunc_menu.html',$st->get_trunc_menu());
-	}
-	
-	/**
 	*       ExtJS UI for adm part
 	*/
 	protected function sys_main()
