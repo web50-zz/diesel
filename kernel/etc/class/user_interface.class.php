@@ -48,7 +48,7 @@ class user_interface extends base_interface
 			class_exists($class);
 			$object = new $class();
 			$object->interfaceName = $name;
-			if(!$object->files_path)//9* if have no overloads of files_path we set default UI_PATH
+			if(!$object->files_path)//9* if have no overloads of files_path we set default UI_PATH. IF UI in INSTANCE path this property is required
 			{
 				$object->files_path = UI_PATH . $name . '/';
 			}
@@ -124,10 +124,10 @@ class user_interface extends base_interface
 	}
 
 	/**
-	*	Get tmpl reference with THEME INSTANCE OR default options
+	*	Parse tmpl according with THEME INSTANCE OR default options
 	* @access	public
 	* @param	string	$tmpl_name	array() $data to parse out 
-	* @return	object	tmpl2
+	* @return	parsed template 	tmpl2
 	*/
 
 	public function parse_tmpl($template_file_name,$data)
@@ -154,6 +154,32 @@ class user_interface extends base_interface
 			dbg::write("TEMPLATE WAS NOT FOUND at user_interface::parse_tmpl() \nCall from:.....  ". $dbgs['file']."\nline:..........  ".$dbgs['line']. "\ntemplate: $template_file_name\npath1: $tmpl_path \npath2: $tmpl_path2");
 		}
 		return false;
+	}
+
+	/**
+	*	Get tmpl directory path with THEME INSTANCE OR default options
+	* @access	public
+	* @param	 
+	* @return	directory path
+	*/
+
+	public function get_template_path($mode = '')
+	{
+		if($mode != 'default')
+		{
+			$tmpl_path = BASE_PATH.CURRENT_THEME_PATH.'tmpl/'.$this->interfaceName; 
+			if(is_dir($tmpl_path))
+			{
+				return $tmpl_path.'/';
+			}
+		}
+		$tmpl_path2 = $this->pwd().'/templates';	
+		if(is_dir($tmpl_path2))
+		{
+			return $tmpl_path2.'/';
+		}
+		$dbgs = array_shift(debug_backtrace());
+		dbg::write("TEMPLATE PATH WAS NOT FOUND at user_interface::iget_template_path() \nCall from:.....  ". $dbgs['file']."\nline:..........  ".$dbgs['line']. "\npath1: $tmpl_path \npath2: $tmpl_path2");
 	}
 
 	/**
