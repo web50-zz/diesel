@@ -38,8 +38,9 @@ var App = function(config){
 						loadDependencies(d.dependencies);
 					}else
 						this.Load(appName, appFace, true);
-				}else
-					showError(d.errors);
+				}else{
+					this.fireEvent('deperror', d.errors);
+				}
 			},
 			failure: function(response, options){
 				switch (options.failureType){
@@ -48,6 +49,7 @@ var App = function(config){
 					break;
 					case Ext.response.Action.SERVER_INVALID:
 						showError(options.result.errors);
+					break;
 				}
 			},
 			scope: this
@@ -95,7 +97,9 @@ var App = function(config){
 	}
 	this.addEvents({
 		apploaded: true,
-		deploaded: true
+		apperror: true,
+		deploaded: true,
+		deperror: true
 	});
 	this.on({
 		apploaded: function(appName, appFace){
