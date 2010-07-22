@@ -43,10 +43,20 @@ ui.text.item_form = function(config){
 	}.createDelegate(this);
 	ui.text.item_form.superclass.constructor.call(this, {
 		frame: true, 
+		labelWidth:150, 
 		defaults: {xtype: 'textfield', width: 150, anchor: '100%'},
 		items: [
 			{name: '_sid', inputType: 'hidden'},
 			{hideLabel: true, name: 'title', allowBlank: false},
+			{fieldLabel: 'Скрывать заголовок', hiddenName: 'hide_title', value: 0,xtype:'combo',width:50,anchor:null,
+				valueField: 'value',
+				displayField: 'hide_title',
+				mode: 'local',
+				triggerAction: 'all',
+				selectOnFocus: true,
+				editable: false,
+				store: new Ext.data.SimpleStore({ fields: ['value', 'hide_title'], data: [[0, 'Нет'], [1, 'Да']] })
+			},
 			{hideLabel: true, name: 'content', xtype: 'ckeditor', CKConfig: {
 				height: 300,
 				filebrowserImageBrowseUrl: 'ui/file_manager/browser.html'

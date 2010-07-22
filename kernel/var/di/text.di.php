@@ -30,6 +30,7 @@ class di_text extends data_interface
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
 		'title' => array('type' => 'string'),
+		'hide_title' => array('type' => 'integer'),
 		'content' => array('type' => 'text'),
 	);
 	
@@ -83,7 +84,7 @@ class di_text extends data_interface
 		$this->_flush(true);
 		$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
 		$this->extjs_form_json(array(
-			'id', 'title', 'content'
+			'id', 'title', 'content','hide_title'
 		));
 	}
 	
