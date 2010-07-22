@@ -53,6 +53,21 @@ class di_interface extends data_interface
 	}
 
 	/**
+	*	Get UI entry point
+	*/
+	protected function sys_pub_entry_points()
+	{
+		$this->_flush();
+		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
+		$data = array(
+			'name' => $this->get_args('name'),
+		);
+		response::send($this->connector->exec(
+			"SELECT SUBSTRING(`entry_point`, 5) AS `name`, IF(`human_entry_point` <> '', `human_entry_point`, SUBSTRING(`entry_point`, 5)) AS `human_name` FROM `{$this->name}` WHERE `name` = :name AND `entry_point` LIKE 'pub_%'",
+			$data, true, true), 'json');
+	}
+
+	/**
 	*	System interfaces syncronization
 	* @access protected
 	*/

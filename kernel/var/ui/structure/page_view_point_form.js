@@ -5,7 +5,12 @@ ui.structure.page_view_point_form = function(config){
 		f.load({
 			url: 'di/ui_view_point/get.json',
 			params: {_sid: id, pid: pid},
-			waitMsg: this.loadText
+			waitMsg: this.loadText,
+			success: function(response, result, type){
+				var fld = f.findField('ui_call');
+				fld.store.baseParams = {name: f.findField('ui_name').getValue()};
+				fld.store.load();
+			}
 		});
 		if (id > 0) f.setValues([{id: '_sid', value: id}]);
 		if (pid > 0) f.setValues([{id: 'pid', value: pid}]);
@@ -66,6 +71,11 @@ ui.structure.page_view_point_form = function(config){
 		app.Load(appName, appFace);
 		
 	}.createDelegate(this);
+	var diEP = new Ext.form.ComboBox({
+		store: new Ext.data.JsonStore({url: 'di/interface/pub_entry_points.json', fields: ['name', 'human_name']}),
+		fieldLabel: this.labelCalls, hiddenName: 'ui_call',
+		valueField: 'name', displayField: 'human_name', triggerAction: 'all', selectOnFocus: true, editable: false
+	});
 	ui.structure.page_view_point_form.superclass.constructor.call(this,{
 		frame: true, 
 		labelWidth: 170,
@@ -78,8 +88,15 @@ ui.structure.page_view_point_form = function(config){
 			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({url: 'di/interface/get_public.json', fields: ['name', 'human_name'], autoLoad: true}),
 				fieldLabel: this.labelModule, hiddenName: 'ui_name',
-				valueField: 'name', displayField: 'human_name', triggerAction: 'all', selectOnFocus: true, editable: false
+				valueField: 'name', displayField: 'human_name', triggerAction: 'all', selectOnFocus: true, editable: false,
+				listeners: {
+					select: function(comdo, record, index){
+						diEP.store.baseParams = {name: record.get('name')};
+						diEP.doQuery('');
+					}
+				}
 			}),
+			diEP,
 			new Ext.form.TriggerField({fieldLabel: this.labelParams, name: 'ui_configure', triggerClass: 'x-form-edit-trigger', onTriggerClick: moduleCfg})
 		],
 		buttonAlign: 'right',
@@ -103,6 +120,7 @@ Ext.extend(ui.structure.page_view_point_form, Ext.form.FormPanel, {
 	labelViewPoint: 'Место вывода',
 	labelTitle: 'Наименование',
 	labelModule: 'Модуль',
+	labelCalls: 'Вызов',
 	labelParams: 'Параметры',
 
 	loadText: 'Загрузка данных',

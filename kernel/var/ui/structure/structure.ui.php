@@ -61,7 +61,8 @@ class ui_structure extends user_interface
 			try
 			{
 				$ui = user_interface::get_instance($vp->ui_name);
-				$data["view_point_{$vp->view_point}"][] = $ui->call('content', json_decode($vp->ui_configure, true));
+				$call = !empty($vp->ui_call) ? $vp->ui_call : 'content';
+				$data["view_point_{$vp->view_point}"][] = $ui->call($call, json_decode($vp->ui_configure, true));
 			}
 			catch(exception $e)
 			{
@@ -73,6 +74,33 @@ class ui_structure extends user_interface
 		$html = $this->parse_tmpl('main/'.$template, $data);
 		response::send($html, 'html');
         }
+	
+	/**
+	*	main menu
+	*/
+	protected function pub_top_menu()
+	{
+		$st = data_interface::get_instance('structure');
+		return $this->parse_tmpl('main_menu.html',$st->get_main_menu());
+	}
+	
+	/**
+	*	Sub menu
+	*/
+	protected function pub_sub_menu()
+	{
+		$st = data_interface::get_instance('structure');
+		return $this->parse_tmpl('sub_menu.html',$st->get_sub_menu());
+	}
+	
+	/**
+	*	Menu "Thermometer"
+	*/
+	protected function pub_trunc_menu()
+	{
+		$st = data_interface::get_instance('structure');
+		return $this->parse_tmpl('trunc_menu.html',$st->get_trunc_menu());
+	}
 	
 	/**
 	*       ExtJS UI for adm part

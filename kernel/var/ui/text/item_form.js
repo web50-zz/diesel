@@ -44,7 +44,7 @@ ui.text.item_form = function(config){
 	ui.text.item_form.superclass.constructor.call(this, {
 		frame: true, 
 		labelWidth:150, 
-		defaults: {xtype: 'textfield', width: 150, anchor: '100%'},
+		defaults: {hideLabel: false, xtype: 'textfield', width: 150, anchor: '100%'},
 		items: [
 			{name: '_sid', inputType: 'hidden'},
 			{hideLabel: true, name: 'title', allowBlank: false},
