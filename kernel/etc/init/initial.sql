@@ -238,6 +238,24 @@ CREATE TABLE `catalogue_item` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `catalogue_file`;
+CREATE TABLE `catalogue_file` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `catalogue_item_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `changed_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `real_name` varchar(64) NOT NULL DEFAULT '',
+  `comment` text NOT NULL,
+  `item_type` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `type` varchar(32) NOT NULL DEFAULT '',
+  `size` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `catalogue_item_id` (`catalogue_item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `ui_view_point`;
 CREATE TABLE `ui_view_point` (
 	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,

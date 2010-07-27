@@ -1,5 +1,6 @@
 ui.catalogue.item_form = function(config){
 	Ext.apply(this, config);
+	var files = new ui.catalogue.files({});
 	this.Load = function(id){
 		var f = this.getForm();
 		f.load({
@@ -8,6 +9,7 @@ ui.catalogue.item_form = function(config){
 			waitMsg: this.loadText
 		});
 		f.setValues([{id: '_sid', value: id}]);
+		files.setItemId(id);
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -45,8 +47,9 @@ ui.catalogue.item_form = function(config){
 		border: false,
 		items: [
 			{name: '_sid', xtype: 'hidden'},
-			{xtype: 'tabpanel', activeItem: 0, border: false, anchor: '100% 100%', defferedRender: false, defaults: {hideMode: 'offsets'}, items: [
-			{title: this.tabMain, frame: true, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
+			{xtype: 'tabpanel', activeItem: 0, border: false, anchor: '100% 100%', defferedRender: false,
+			defaults: {hideMode: 'offsets', frame: true, layout: 'form'}, items: [
+			{id: 'item-main', title: this.tabMain, defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
 				{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
 				{fieldLabel: this.labelPrepay, name: 'prepayment', width: 100, xtype: 'numberfield', decimalPrecision: 2},
 				{fieldLabel: this.labelPayfwd, name: 'payment_forward', width: 100, xtype: 'numberfield', decimalPrecision: 2},
@@ -75,9 +78,10 @@ ui.catalogue.item_form = function(config){
 					valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
 				}
 			]},
-			{title: this.tabDescr, frame: true, layout: 'form', defaults: {width: '200', anchor: '100% 100%'}, items: [
+			{id: 'item-descr', title: this.tabDescr, defaults: {width: '200', anchor: '100% 100%'}, items: [
 				{hideLabel: true, name: 'description', xtype: 'htmleditor'}
-			]}
+			]},
+			{id: 'item-files', title: this.tabFiles, layout: 'fit', items: [files]}
 		]}
 		],
 		buttonAlign: 'right',
@@ -93,6 +97,7 @@ ui.catalogue.item_form = function(config){
 	this.on({
 		saved: function(data){
 			this.getForm().setValues([{id: '_sid', value: data.id}]);
+			files.setItemId(data.id);
 		},
 		scope: this
 	})
@@ -102,6 +107,7 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 
 	tabMain: 'Общая информация',
 	tabDescr: 'Описание',
+	tabFiles: 'Файлы',
 
 	labelName: 'Наименование',
 	labelExist: 'В продаже',
