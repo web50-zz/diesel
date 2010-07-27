@@ -52,6 +52,7 @@ define ('CONNECTOR_CLASS_PREFIX', 'connector_');
 
 // NOTE: Path to user interaface files
 define ('UI_PATH', KERNEL_PATH . 'var/ui/');
+define ('RELATIVE_UI_PATH','kernel/var/ui/');
 define ('UI_FEXT', '.ui.php');
 define ('UI_CLASS_PREFIX', 'ui_');
 

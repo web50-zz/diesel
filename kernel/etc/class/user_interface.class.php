@@ -132,19 +132,9 @@ class user_interface extends base_interface
 
 	public function parse_tmpl($template_file_name,$data)
 	{
-		$tmpl_path = BASE_PATH.CURRENT_THEME_PATH.'tmpl/'.$this->interfaceName.'/'.$template_file_name; 
-		$tmpl_path2 = $this->pwd().'/templates/'.$template_file_name;	
-		if(file_exists($tmpl_path))
+		if($tmpl_path = $this->get_resource_path($template_file_name,'absolute'))
 		{
-			 $template = $tmpl_path;
-		}
-		else if(file_exists($tmpl_path2))
-		{
-			$template = $tmpl_path2;
-		}
-		if($template)
-		{
-			$tmpl = new tmpl($template);
+			$tmpl = new tmpl($tmpl_path);
 			$html = $tmpl->parse($data);
 			return $html;
 		}
@@ -163,7 +153,7 @@ class user_interface extends base_interface
 	* @return	directory path
 	*/
 
-	public function get_template_path($mode = '')
+	public function get_resource_dir_path($mode = '')
 	{
 		if($mode != 'default')
 		{
@@ -173,14 +163,44 @@ class user_interface extends base_interface
 				return $tmpl_path.'/';
 			}
 		}
-		$tmpl_path2 = $this->pwd().'/templates';	
+		$tmpl_path2 = $this->pwd().'templates';	
 		if(is_dir($tmpl_path2))
 		{
 			return $tmpl_path2.'/';
 		}
-		$dbgs = array_shift(debug_backtrace());
-		dbg::write("TEMPLATE PATH WAS NOT FOUND at user_interface::iget_template_path() \nCall from:.....  ". $dbgs['file']."\nline:..........  ".$dbgs['line']. "\npath1: $tmpl_path \npath2: $tmpl_path2");
+	//	$dbgs = array_shift(debug_backtrace());
+	//	dbg::write(" RESOURCE PATH WAS NOT FOUND at user_interface::iget_resource_dir_path() \nCall from:.....  ". $dbgs['file']."\nline:..........  ".$dbgs['line']. "\npath1: $tmpl_path \npath2: $tmpl_path2");
+		return false;
 	}
+	
+	public function get_resource_path($res_name,$mode = 'relative')
+	{
+		$res_path = $this->get_resource_dir_path().$res_name;
+		$res_path2 = $this->get_resource_dir_path('default').$res_name;
+		if(file_exists($res_path))
+		{
+			if($mode == 'relative')
+			{
+				return str_replace(BASE_PATH,"",$res_path);
+			}
+			return $res_path;
+		}
+		else if(file_exists($res_path2))
+		{
+			if($mode == 'relative')
+			{
+				return str_replace(BASE_PATH,"",$res_path2);
+			}
+			return $res_path2;
+		}
+		else
+		{
+	//		$dbgs = array_shift(debug_backtrace());
+	//		dbg::write("RESOURCE FILE WAS NOT FOUND at user_interface::get_resource_path() $res_name");
+		}
+		return false;
+	}
+
 
 	/**
 	*	External entry point

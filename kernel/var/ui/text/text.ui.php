@@ -18,6 +18,7 @@ class ui_text extends user_interface
 	public function __construct ()
 	{
 		parent::__construct(__CLASS__);
+		$this->files_path = dirname(__FILE__).'/'; 
 	}
         
         /**
@@ -25,10 +26,9 @@ class ui_text extends user_interface
         */
         public function pub_content()
         {
-		$tmpl = new tmpl($this->pwd() . 'content.html');
                 $di = data_interface::get_instance('text');
 		$di->set_args($this->get_args());
-                return $tmpl->parse($di->get());
+                return $this->parse_tmpl('content.html',$di->get());
         }
 	
 	/**

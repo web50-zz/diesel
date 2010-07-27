@@ -55,7 +55,7 @@ class ui_structure extends user_interface
 		$divp->set_args(array('_spid' => $page['id']));
 		$divp->_flush();
 		$vps = $divp->_get();
-
+		$css_resources = array();
 		foreach ($vps as $vp)
 		{
 			try
@@ -63,13 +63,27 @@ class ui_structure extends user_interface
 				$ui = user_interface::get_instance($vp->ui_name);
 				$call = !empty($vp->ui_call) ? $vp->ui_call : 'content';
 				$data["view_point_{$vp->view_point}"][] = $ui->call($call, json_decode($vp->ui_configure, true));
+				// 9*  css output
+				if(!$css_resource[$vp->ui_name])
+				{
+					if($path = $ui->get_resource_path($vp->ui_name.'.css'))
+					{
+						$data['css_resources'][] = $path;
+					}
+					$css_resource[$vp->ui_name] = true;
+				}
 			}
 			catch(exception $e)
 			{
 				dbg::write('error: '.$e->getmessage());
 			}
 		}
-                
+		// 9* adding this ui css resource to css output
+		if($path = $this->get_resource_path($this->interfaceName.'.css'))
+		{
+			$data['css_resources'][] = $path;
+		}
+        
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
 		$html = $this->parse_tmpl('main/'.$template, $data);
 		response::send($html, 'html');
@@ -162,7 +176,7 @@ class ui_structure extends user_interface
 	*/
 	public function get_tdir_files_list($mode = '')
 	{
-		$tdir = $this->get_template_path($mode) . 'main';
+		$tdir = $this->get_resource_dir_path($mode) . 'main';
 		$dh = dir($tdir);
 		$data = array();
 		while(false !== ($tmpl = $dh->read()))
@@ -175,6 +189,5 @@ class ui_structure extends user_interface
 			}
 		return $data;
 	}
-
 }
 ?>

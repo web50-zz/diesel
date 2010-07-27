@@ -13,4 +13,5 @@ $instance = 'rockmarket';
 define ('CURRENT_INSTANCE_PATH', INSTANCES_PATH . $instance.'/');
 define ('INSTANCE_UI_PATH', INSTANCES_PATH . $instance.'/var/ui/');
 define ('INSTANCE_DI_PATH', INSTANCES_PATH . $instance.'/var/di/');
+define ('RELATIVE_INSTANCE_UI_PATH','instances/'. $instance.'/var/ui/');
 ?>
