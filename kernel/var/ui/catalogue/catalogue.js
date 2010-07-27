@@ -49,7 +49,7 @@ ui.catalogue.main = function(config, vp){
 	];
 	var Add = function(){
 		var f = new ui.catalogue.item_form();
-		var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', width: formW, height: formH, items: f});
+		var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', maximizable: true, width: formW, height: formH, items: f});
 		f.on({
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
@@ -59,7 +59,7 @@ ui.catalogue.main = function(config, vp){
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
 		var f = new ui.catalogue.item_form();
-		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', width: formW, height: formH, items: f});
+		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', maximizable: true, width: formW, height: formH, items: f});
 		f.on({
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}

@@ -42,40 +42,43 @@ ui.catalogue.item_form = function(config){
 		this.fireEvent('cancelled');
 	}.createDelegate(this);
 	ui.catalogue.item_form.superclass.constructor.call(this, {
-		frame: true, 
-		defaults: {xtype: 'textfield', width: '100', anchor: '100%'},
+		border: false,
 		items: [
 			{name: '_sid', xtype: 'hidden'},
-			{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelPrepay, name: 'prepayment', width: 100, xtype: 'numberfield', decimalPrecision: 2},
-			{fieldLabel: this.labelPayfwd, name: 'payment_forward', width: 100, xtype: 'numberfield', decimalPrecision: 2},
-			{fieldLabel: this.labelExist, hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0,
-				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
-				valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
-			},
-			{fieldLabel: this.labelType, hiddenName: 'type_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
-				store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
-			},
-			{fieldLabel: this.labelProducer, hiddenName: 'producer_id', xtype: 'combo', emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText,
-				store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
-			},
-			new Ext.form.ComboBox({
-				store: new Ext.data.JsonStore({url: 'di/guide_collection/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				fieldLabel: this.labelCollection, emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText, hiddenName: 'collection_id',
-				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
-			}),
-			new Ext.form.ComboBox({
-				store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				fieldLabel: this.labelGroup, emptyText: this.blankGroupText, valueNotFoundText: this.blankGroupText, hiddenName: 'group_id',
-				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
-			}),
-			new Ext.form.ComboBox({
-				store: new Ext.data.JsonStore({url: 'di/guide_style/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				fieldLabel: this.labelStyle, emptyText: this.blankStyleText, valueNotFoundText: this.blankStyleText, hiddenName: 'style_id',
-				valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
-			})
+			{xtype: 'tabpanel', activeItem: 0, border: false, anchor: '100% 100%', defferedRender: false, defaults: {hideMode: 'offsets'}, items: [
+			{title: this.tabMain, frame: true, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
+				{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
+				{fieldLabel: this.labelPrepay, name: 'prepayment', width: 100, xtype: 'numberfield', decimalPrecision: 2},
+				{fieldLabel: this.labelPayfwd, name: 'payment_forward', width: 100, xtype: 'numberfield', decimalPrecision: 2},
+				{fieldLabel: this.labelExist, hiddenName: 'on_offer', xtype: 'combo', width: 50, anchor: null, value: 0,
+					store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
+					valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+				},
+				{fieldLabel: this.labelType, hiddenName: 'type_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
+					store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+					valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
+				},
+				{fieldLabel: this.labelProducer, hiddenName: 'producer_id', xtype: 'combo', emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText,
+					store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+					valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+				},
+				{fieldLabel: this.labelCollection, hiddenName: 'collection_id', xtype: 'combo', emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText,
+					store: new Ext.data.JsonStore({url: 'di/guide_collection/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+					valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+				},
+				{fieldLabel: this.labelGroup, hiddenName: 'group_id', xtype: 'combo',  emptyText: this.blankGroupText, valueNotFoundText: this.blankGroupText,
+					store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+					valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+				},
+				{fieldLabel: this.labelStyle, hiddenName: 'style_id', xtype: 'combo', emptyText: this.blankStyleText, valueNotFoundText: this.blankStyleText,
+					store: new Ext.data.JsonStore({url: 'di/guide_style/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+					valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
+				}
+			]},
+			{title: this.tabDescr, frame: true, layout: 'form', defaults: {width: '200', anchor: '100% 100%'}, items: [
+				{hideLabel: true, name: 'description', xtype: 'htmleditor'}
+			]}
+		]}
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -96,6 +99,9 @@ ui.catalogue.item_form = function(config){
 }
 Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 	loadText: 'Загрузка данных формы',
+
+	tabMain: 'Общая информация',
+	tabDescr: 'Описание',
 
 	labelName: 'Наименование',
 	labelExist: 'В продаже',
