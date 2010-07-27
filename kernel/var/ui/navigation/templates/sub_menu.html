@@ -1,9 +1,12 @@
+<div class="sub_menu">
 {__(if(!empty(/childs))__}
 {__set(#level = /root/level + 1)__}
 {__apply(/childs[left > /root/left AND right < /root/right AND level == #level])__}
 {__else__}
 &nbsp;
 {__if)__}
+
+</div>
 
 {__(template(/childs)__}
 {__set(#level = $level + 1)__}

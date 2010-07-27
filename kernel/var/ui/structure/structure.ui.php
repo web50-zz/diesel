@@ -78,7 +78,7 @@ class ui_structure extends user_interface
 				dbg::write('error: '.$e->getmessage());
 			}
 		}
-		// 9* adding this ui css resource to css output
+		// 9* adding structure css resource to css output
 		if($path = $this->get_resource_path($this->interfaceName.'.css'))
 		{
 			$data['css_resources'][] = $path;
