@@ -9,10 +9,12 @@
 
 <body>
 <div class="bdy" id="bdy">
-	<div class="bdy_wrap" class="bdy_wrap">
+<div class="bdy_wrap" class="bdy_wrap">
 <div class="dsc">#default kernel template set</div>
 		<div class="top_menu" id="top_menu">
-		{__ui_navigation::top_menu()__}
+		{__(apply(/view_point_1)__}
+			{__echo($.)__}
+		{__apply)__}
 		</div>
 		<div class="left_area" id="left_area">
 			<div class="sub_menu">
