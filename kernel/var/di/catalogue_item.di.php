@@ -29,10 +29,11 @@ class di_catalogue_item extends data_interface
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'exist' => array('type' => 'integer'),
+		'on_offer' => array('type' => 'integer'),
 		'title' => array('type' => 'string'),
 		'description' => array('type' => 'text'),
-		'cost' => array('type' => 'float'),
+		'prepayment' => array('type' => 'float'),
+		'payment_forward' => array('type' => 'float'),
 		'type_id' => array('type' => 'integer'),
 		'producer_id' => array('type' => 'integer'),
 		'collection_id' => array('type' => 'integer'),
@@ -61,8 +62,8 @@ class di_catalogue_item extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush(true);
-		$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
-		$this->extjs_grid_json(array('id', 'exist', 'title', 'cost'));
+		$sc = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'type'));
+		$this->extjs_grid_json(array('id', 'on_offer', 'title', 'prepayment', 'payment_forward', array('di' => $sc, 'name' => 'name')));
 	}
 	
 	/**
