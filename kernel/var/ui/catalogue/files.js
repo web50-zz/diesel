@@ -86,21 +86,55 @@ ui.catalogue.files = function(config, vp){
 		w.show(null, function(){f.Load(id, this.getItemId())}, this);
 	}.createDelegate(this);
 	var Delete = function(){
-		var record = this.getSelectionModel().getSelections();
-		if (!record) return false;
-
+		var id = this.getSelectionModel().getSelected().get('id');
 		Ext.Msg.confirm(this.cnfrmTitle, this.cnfrmMsg, function(btn){
 			if (btn == "yes"){
-				this.store.remove(record);
+				Ext.Ajax.request({
+					url: 'di/catalogue_file/unset.do',
+					params: {_sid: id},
+					disableCaching: true,
+					callback: function(options, success, response){
+						var d = Ext.util.JSON.decode(response.responseText);
+						if (success && d.success)
+							this.fireEvent('deleted');
+						else
+							showError(this.errLoadText);
+					},
+					scope: this
+				});
 			}
 		}, this);
 	}.createDelegate(this);
+	var Resize = function(){
+		var id = this.getSelectionModel().getSelected().get('id');
+		var f = new ui.catalogue.resize_form({});
+		var w = new Ext.Window({title: this.resizeTitle, modal: true, layout: 'fit', width: 300, height: 100, items: f});
+		f.on({
+			saved: function(){
+				this.fireEvent('changes');
+				store.reload();
+				w.destroy();
+			},
+			cancelled: function(){w.destroy()},
+			scope: this
+		});
+		w.show(null, function(){f.Load(id)}, this);
+	}.createDelegate(this);
 	var onCmenu = function(grid, rowIndex, e){
 		this.getSelectionModel().selectRow(rowIndex);
-		var cmenu = new Ext.menu.Menu({items: [
-			{iconCls: 'pencil', text: this.bttEdit, handler: Edit},
-			{iconCls: 'delete', text: this.bttDelete, handler: Delete}
-		]});
+		if (this.getSelectionModel().getSelected().get('item_type') == 0)
+		{
+			var cmenu = new Ext.menu.Menu({items: [
+				{iconCls: 'arrow_inout', text: this.bttResize, handler: Resize},
+				{iconCls: 'pencil', text: this.bttEdit, handler: Edit},
+				{iconCls: 'delete', text: this.bttDelete, handler: Delete}
+			]});
+		}else{
+			var cmenu = new Ext.menu.Menu({items: [
+				{iconCls: 'pencil', text: this.bttEdit, handler: Edit},
+				{iconCls: 'delete', text: this.bttDelete, handler: Delete}
+			]});
+		}
 		e.stopEvent();  
 		cmenu.showAt(e.getXY());
 	}.createDelegate(this);
@@ -122,11 +156,13 @@ ui.catalogue.files = function(config, vp){
 		bbar: new Ext.PagingToolbar({pageSize: this.limit, store: store, displayInfo: true})
 	});
 	this.addEvents({
-		changes: true
+		changes: true,
+		deleted: true
 	});
 	this.on({
 		rowcontextmenu: onCmenu,
 		render: function(){store.load({params:{start:0, limit: this.limit}})},
+		deleted: function(){store.reload()},
 		scope: this
 	})
 };
@@ -141,8 +177,10 @@ Ext.extend(ui.catalogue.files, Ext.grid.GridPanel, {
 
 	addTitle: "Добавление файла",
 	editTitle: "Изменение файла",
+	resizeTitle: "Создание preview",
 
 	bttAdd: "Добавить",
+	bttResize: "Создать preview",
 	bttEdit: "Изменить",
 	bttDelete: "Удалить",
 

@@ -58,11 +58,42 @@ class di_catalogue_file extends data_interface
 	{
 		return BASE_PATH . $this->path_to_storage;
 	}
+	
+	/**
+	*	Получить размеры указанного изображения
+	*/
+	protected function sys_get_size()
+	{
+		$this->_flush();
+		$this->_get();
+		$file_name = $this->get_path_to_storage() . $this->get_results(0, 'real_name');
+		$data = array();
+		list($data['width'], $data['height']) = getimagesize($file_name);
+		response::send(array(
+			'success' => true,
+			'data' => $data
+		), 'json');
+	}
 
 	/**
 	*	Получить список записей для выбора предпросмотра товара
 	*/
 	protected function sys_preview_combo()
+	{
+		$this->_flush();
+		$this->set_args(array('_sitem_type' => '0'), true);
+		$this->what = array('real_name', 'name');
+		$this->_get();
+		response::send(array(
+			'success' => true,
+			'records' => array_merge(array(0 => array('real_name' => '', 'name' => 'Нет изображения')), (array)$this->get_results())
+		), 'json');
+	}
+
+	/**
+	*	Получить список записей для выбора изображения товара
+	*/
+	protected function sys_picture_combo()
 	{
 		$this->_flush();
 		$this->set_args(array('_sitem_type' => '0'), true);
@@ -118,6 +149,43 @@ class di_catalogue_file extends data_interface
 		}
 		
 		response::send(response::to_json($result), 'html');
+	}
+
+	/**
+	*	Создать preview для изображения
+	*/
+	protected function sys_resize()
+	{
+		$this->_flush();
+		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
+		$this->_get();
+		$image = $this->get_results(0);
+		if (!empty($image))
+		{
+			$new_image = $image;
+			unset($new_image['id']);
+			$new_image['title'] = "{$new_image['title']} - preview";
+			$new_image['name'] = "preview-{$new_image['name']}";
+			$thumb = new thumbnail($this->get_path_to_storage() . $image['real_name'], $this->get_path_to_storage());
+
+			if (($new_image['real_name'] = $thumb->create($this->get_args('width'), $this->get_args('height'))) !== FALSE)
+			{
+				$new_image['size'] = filesize($this->get_path_to_storage() . $new_image['real_name']);
+				$this->set_args($new_image);
+				$this->_flush();
+				$result = $this->extjs_set_json(false);
+			}
+			else
+			{
+				$result = array('success' => false, 'errors' => 'Не удалось получить данные изображения');
+			}
+		}
+		else
+		{
+			$result = array('success' => false, 'errors' => 'Не удалось получить данные изображения');
+		}
+		
+		response::send($result, 'json');
 	}
 	
 	/**

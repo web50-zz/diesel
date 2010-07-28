@@ -14,9 +14,17 @@ ui.catalogue.item_form = function(config){
 			tpl.overwrite(pnlPrvw.body, record.data);
 		}
 	});
+	var picture = new Ext.form.ComboBox({fieldLabel: this.labelPicture, hiddenName: 'picture',
+		store: new Ext.data.JsonStore({url: 'di/catalogue_file/picture_combo.json', root: 'records', fields: ['real_name', 'name']}),
+		valueField: 'real_name', displayField: 'name', triggerAction: 'all', editable: false
+	});
 	files.on({
 		changes: function(){
 			preview.store.reload();
+			picture.store.reload();
+		},
+		deleted: function(){
+			picture.store.reload();
 		}
 	})
 	this.Load = function(id){
@@ -38,6 +46,8 @@ ui.catalogue.item_form = function(config){
 		files.setItemId(id);
 		preview.store.baseParams = {_sciid: id};
 		preview.store.reload();
+		picture.store.baseParams = {_sciid: id};
+		picture.store.reload();
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -84,7 +94,7 @@ ui.catalogue.item_form = function(config){
 							valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
 						},
 						{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
-						preview,
+						preview, picture,
 						{fieldLabel: 'Цена', xtype: 'compositefield', items: [
 							{xtype: 'displayfield', value: this.labelExist},
 							{hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0,
@@ -158,7 +168,8 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 	labelCollection: 'Коллекция',
 	labelGroup: 'Группа',
 	labelStyle: 'Стиль',
-	labelPreview: 'Изображение',
+	labelPreview: 'Preview',
+	labelPicture: 'Изображение',
 
 	saveText: 'Сохранение...',
 	blankText: 'Необходимо заполнить',
