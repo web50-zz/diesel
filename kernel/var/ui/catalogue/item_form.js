@@ -1,6 +1,15 @@
 ui.catalogue.item_form = function(config){
 	Ext.apply(this, config);
 	var files = new ui.catalogue.files({});
+	var preview = new Ext.form.ComboBox({fieldLabel: this.labelPreview, hiddenName: 'preview',
+		store: new Ext.data.JsonStore({url: 'di/catalogue_file/preview_combo.json', root: 'records', fields: ['real_name', 'name']}),
+		valueField: 'real_name', displayField: 'name', triggerAction: 'all', editable: false
+	});
+	files.on({
+		changes: function(){
+			preview.store.reload();
+		}
+	})
 	this.Load = function(id){
 		var f = this.getForm();
 		f.load({
@@ -10,6 +19,8 @@ ui.catalogue.item_form = function(config){
 		});
 		f.setValues([{id: '_sid', value: id}]);
 		files.setItemId(id);
+		preview.store.baseParams = {_sciid: id};
+		preview.store.reload();
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -51,6 +62,7 @@ ui.catalogue.item_form = function(config){
 			defaults: {hideMode: 'offsets', frame: true, layout: 'form'}, items: [
 			{id: 'item-main', title: this.tabMain, defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
 				{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
+				preview,
 				{fieldLabel: this.labelPrepay, name: 'prepayment', width: 100, xtype: 'numberfield', decimalPrecision: 2},
 				{fieldLabel: this.labelPayfwd, name: 'payment_forward', width: 100, xtype: 'numberfield', decimalPrecision: 2},
 				{fieldLabel: this.labelExist, hiddenName: 'on_offer', xtype: 'combo', width: 50, anchor: null, value: 0,
@@ -78,10 +90,10 @@ ui.catalogue.item_form = function(config){
 					valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
 				}
 			]},
-			{id: 'item-descr', title: this.tabDescr, defaults: {width: '200', anchor: '100% 100%'}, items: [
+			{id: 'item-descr', title: this.tabDescr, frame: false, defaults: {width: '200', anchor: '100% 100%'}, items: [
 				{hideLabel: true, name: 'description', xtype: 'htmleditor'}
 			]},
-			{id: 'item-files', title: this.tabFiles, layout: 'fit', items: [files]}
+			{id: 'item-files', title: this.tabFiles, frame: false, layout: 'fit', items: [files]}
 		]}
 		],
 		buttonAlign: 'right',
@@ -118,6 +130,7 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 	labelCollection: 'Коллекция',
 	labelGroup: 'Группа',
 	labelStyle: 'Стиль',
+	labelPreview: 'Изображение',
 
 	saveText: 'Сохранение...',
 	blankText: 'Необходимо заполнить',

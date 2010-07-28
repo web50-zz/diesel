@@ -1,4 +1,4 @@
-ui.catalogue.file_form = function(config){
+ui.catalogue.file_form = function(config, strTypes){
 	Ext.apply(this, config);
 	this.Load = function(id, ciid){
 		var f = this.getForm();
@@ -54,12 +54,8 @@ ui.catalogue.file_form = function(config){
 			{fieldLabel: this.labelFile, name: 'file', xtype: 'fileuploadfield', buttonCfg: {text: '', iconCls: 'folder'}},
 			{fieldLabel: this.labelTitle, name: 'title'},
 			{fieldLabel: this.labelType, hiddenName: 'item_type', xtype: 'combo', value: 0,
-				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [
-					[0, 'Изображение'],
-					[1, 'Аудио-файл'],
-					[2, 'Другое']
-				] }),
-				valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+				store: strTypes,
+				valueField: 'id', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
 			},
 			{fieldLabel: this.labelComment, name: 'comment', height: '100', xtype: 'htmleditor'}
 		],
@@ -84,7 +80,7 @@ Ext.extend(ui.catalogue.file_form , Ext.form.FormPanel, {
 	loadText: 'Загрузка данных формы',
 
 	labelFile: 'Файл',
-	labelName: 'Наименование',
+	labelTitle: 'Наименование',
 	labelType: 'Тип файла',
 	labelComment: 'Коментарий',
 

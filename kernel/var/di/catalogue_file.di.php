@@ -58,6 +58,21 @@ class di_catalogue_file extends data_interface
 	{
 		return BASE_PATH . $this->path_to_storage;
 	}
+
+	/**
+	*	Получить список записей для выбора предпросмотра товара
+	*/
+	protected function sys_preview_combo()
+	{
+		$this->_flush();
+		$this->set_args(array('_sitem_type' => '0'), true);
+		$this->what = array('real_name', 'name');
+		$this->_get();
+		response::send(array(
+			'success' => true,
+			'records' => array_merge(array(0 => array('real_name' => '', 'name' => 'Нет изображения')), (array)$this->get_results())
+		), 'json');
+	}
 	
 	protected function sys_list()
 	{
@@ -121,6 +136,31 @@ class di_catalogue_file extends data_interface
 				file_system::remove_file($file->real_name, $this->get_path_to_storage());
 
 		response::send($data, 'json');
+	}
+
+	/**
+	*	Remove all files
+	* @access public
+	* @param	array|integer	$ids	The ID for `catalog_item_id` field
+	*/
+	public function remove_files($ids)
+	{
+		// TODO: Проверить, почему не удаляются файлы с файловой системы.
+		if (is_array($ids))
+		{
+			foreach ($ids as $id)
+			{
+				$this->_flush();
+				$this->set_args(array('_sciid' => $id));
+				$this->extjs_unset_json(false);
+			}
+		}
+		else
+		{
+			$this->_flush();
+			$this->set_args(array('_sciid' => $ids));
+			$this->extjs_unset_json(false);
+		}
 	}
 }
 ?>

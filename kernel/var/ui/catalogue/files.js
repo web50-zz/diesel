@@ -18,7 +18,7 @@ ui.catalogue.files = function(config, vp){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'title', 'item_type']
+		[{name: 'id', type: 'int'}, 'title', 'name', 'item_type', 'size']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -31,21 +31,40 @@ ui.catalogue.files = function(config, vp){
 		reader: reader,
 		writer: writer
 	});
+	var strTypes = new Ext.data.ArrayStore({
+		fields: ['id', 'title'],
+		idIndex: 0,
+		data: [
+			[0, 'Изображение'],
+			[1, 'Аудио-файл'],
+			[2, 'Другое']
+		]
+	})
 	if (vp && vp.ui_configure) store.baseParams = vp.ui_configure;
+	var rndrType = function(value){
+		var r  = strTypes.getById(value);
+		return r.get('title');
+	}
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{header: "ID", width: 50, sortable: true, dataIndex: 'id', id: 'id'},
-		{header: this.colNameType, width: 100, sortable: true, dataIndex: 'item_type', id: 'item_type'},
-		{header: this.colNameTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title'}
+		{header: this.colTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title'},
+		{header: this.colName, width: 200, sortable: true, dataIndex: 'name', id: 'name'},
+		{header: this.colType, width: 100, sortable: true, dataIndex: 'item_type', id: 'item_type', renderer: rndrType},
+		{header: this.colSize, width: 100, sortable: true, dataIndex: 'size', id: 'size', renderer: Ext.util.Format.fileSize}
 	];
 	var Add = function(){
 		var id = this.getItemId();
 		if (id > 0){
-			var f = new ui.catalogue.file_form();
+			var f = new ui.catalogue.file_form({}, strTypes);
 			var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', maximizable: true, width: formW, height: formH, items: f});
 			f.on({
-				saved: function(){store.reload()},
-				cancelled: function(){w.destroy()}
+				saved: function(){
+					this.fireEvent('changes');
+					store.reload();
+				},
+				cancelled: function(){w.destroy()},
+				scope: this
 			});
 			w.show(null, function(){f.Load(0, id)}, this);
 		}else{
@@ -54,11 +73,15 @@ ui.catalogue.files = function(config, vp){
 	}.createDelegate(this);
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
-		var f = new ui.catalogue.file_form();
+		var f = new ui.catalogue.file_form({}, strTypes);
 		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', maximizable: true, width: formW, height: formH, items: f});
 		f.on({
-			saved: function(){store.reload()},
-			cancelled: function(){w.destroy()}
+			saved: function(){
+				this.fireEvent('changes');
+				store.reload();
+			},
+			cancelled: function(){w.destroy()},
+			scope: this
 		});
 		w.show(null, function(){f.Load(id, this.getItemId())}, this);
 	}.createDelegate(this);
@@ -98,8 +121,9 @@ ui.catalogue.files = function(config, vp){
 		],
 		bbar: new Ext.PagingToolbar({pageSize: this.limit, store: store, displayInfo: true})
 	});
-	this.addEvents(
-	);
+	this.addEvents({
+		changes: true
+	});
 	this.on({
 		rowcontextmenu: onCmenu,
 		render: function(){store.load({params:{start:0, limit: this.limit}})},
@@ -110,8 +134,10 @@ Ext.extend(ui.catalogue.files, Ext.grid.GridPanel, {
 	limit: 20,
 	errNoItemId: "Сначала сохраните данные",
 
-	colNameTitle: "Наименование",
-	colNameType: "Тип",
+	colType: "Тип",
+	colSize: "Размер",
+	colName: "Файл",
+	colTitle: "Наименование",
 
 	addTitle: "Добавление файла",
 	editTitle: "Изменение файла",

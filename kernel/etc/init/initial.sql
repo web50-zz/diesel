@@ -226,6 +226,7 @@ CREATE TABLE `catalogue_item` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `on_offer` tinyint(1) unsigned NOT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',
+  `preview` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `prepayment` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
   `payment_forward` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
