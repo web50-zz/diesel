@@ -1,0 +1,12 @@
+.guestbook{
+border:1px dotted;
+height:100%;
+padding:5px;
+margin-top:10px;
+font-family:Verdana;
+font-size:11px;
+}
+
+#guestbook h1{
+font-size:12px;
+}
