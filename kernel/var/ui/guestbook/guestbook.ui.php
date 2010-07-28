@@ -6,6 +6,7 @@
 * @access	public
 * @package	SBIN Diesel 	
 */
+// see also guestbook.di.php 
 class ui_guestbook extends user_interface
 {
 	public $title = 'Гостевая';
