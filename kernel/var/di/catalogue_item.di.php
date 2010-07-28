@@ -32,6 +32,7 @@ class di_catalogue_item extends data_interface
 		'on_offer' => array('type' => 'integer'),
 		'title' => array('type' => 'string'),
 		'preview' => array('type' => 'string'),
+		'picture' => array('type' => 'string'),
 		'description' => array('type' => 'text'),
 		'prepayment' => array('type' => 'float'),
 		'payment_forward' => array('type' => 'float'),
