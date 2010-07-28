@@ -2,11 +2,8 @@
 /**
 *	Библиотека для работы с деревьями
 *
-* @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
-* @version	0.1
-* @access	public
-* @package	CFsCMS2(PE)
-* @since	31-07-2008
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class file_system
 {

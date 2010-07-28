@@ -1,13 +1,13 @@
-ui.catalogue.main = function(config, vp){
+ui.catalogue.files = function(config, vp){
 	var formW = 640;
-	var formH = 480;
+	var formH = 320;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
-			read: 'di/catalogue_item/list.json',
-			create: 'di/catalogue_item/set.do',
-			update: 'di/catalogue_item/set.do',
-			destroy: 'di/catalogue_item/unset.do'
+			read: 'di/catalogue_file/list.json',
+			create: 'di/catalogue_file/set.do',
+			update: 'di/catalogue_file/set.do',
+			destroy: 'di/catalogue_file/unset.do'
 		}
 	});
 	// Typical JsonReader.  Notice additional meta-data params for defining the core attributes of your json-response
@@ -18,7 +18,7 @@ ui.catalogue.main = function(config, vp){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'prepayment', type: 'float'}, {name: 'payment_forward', type: 'float'}, {name: 'on_offer', type: 'int'}, {name: 'id', type: 'int'}, 'title', 'type']
+		[{name: 'id', type: 'int'}, 'title', 'item_type']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -32,39 +32,35 @@ ui.catalogue.main = function(config, vp){
 		writer: writer
 	});
 	if (vp && vp.ui_configure) store.baseParams = vp.ui_configure;
-	var existFormat = function(value){
-		return (value == 1) ? 'Да' : 'Нет';
-	}
-	var priceFormat = function(value){
-		return Ext.util.Format.number(value, '0.00');
-	}
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{header: "ID", width: 50, sortable: true, dataIndex: 'id', id: 'id'},
-		{header: this.colNameType, width: 100, sortable: true, dataIndex: 'type', id: 'type'},
-		{header: this.colNameExist, width: 50, sortable: true, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: existFormat},
-		{header: this.colNamePrepay, width: 100, sortable: true, dataIndex: 'prepayment', id: 'prepayment', align: 'right', renderer: priceFormat},
-		{header: this.colNamePayfwd, width: 100, sortable: true, dataIndex: 'payment_forward', id: 'payment_forward', align: 'right', renderer: priceFormat},
+		{header: this.colNameType, width: 100, sortable: true, dataIndex: 'item_type', id: 'item_type'},
 		{header: this.colNameTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title'}
 	];
 	var Add = function(){
-		var f = new ui.catalogue.item_form();
-		var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', maximizable: true, width: formW, height: formH, items: f});
-		f.on({
-			saved: function(){store.reload()},
-			cancelled: function(){w.destroy()}
-		});
-		w.show(null, function(){f.Load(0, this.pid)}, this);
+		var id = this.getItemId();
+		if (id > 0){
+			var f = new ui.catalogue.file_form();
+			var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', maximizable: true, width: formW, height: formH, items: f});
+			f.on({
+				saved: function(){store.reload()},
+				cancelled: function(){w.destroy()}
+			});
+			w.show(null, function(){f.Load(0, id)}, this);
+		}else{
+			showError(this.errNoItemId);
+		}
 	}.createDelegate(this);
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
-		var f = new ui.catalogue.item_form();
+		var f = new ui.catalogue.file_form();
 		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', maximizable: true, width: formW, height: formH, items: f});
 		f.on({
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
 		});
-		w.show(null, function(){f.Load(id, this.pid)}, this);
+		w.show(null, function(){f.Load(id, this.getItemId())}, this);
 	}.createDelegate(this);
 	var Delete = function(){
 		var record = this.getSelectionModel().getSelections();
@@ -85,7 +81,14 @@ ui.catalogue.main = function(config, vp){
 		e.stopEvent();  
 		cmenu.showAt(e.getXY());
 	}.createDelegate(this);
-	ui.catalogue.main.superclass.constructor.call(this, {
+	this.setItemId = function(id){
+		this.store.baseParams = {_sciid: id};
+		this.store.reload();
+	}
+	this.getItemId = function(){
+		return this.store.baseParams._sciid;
+	}
+	ui.catalogue.files.superclass.constructor.call(this, {
 		store: store,
 		columns: columns,
 		autoExpandColumn: 'title',
@@ -103,21 +106,20 @@ ui.catalogue.main = function(config, vp){
 		scope: this
 	})
 };
-Ext.extend(ui.catalogue.main, Ext.grid.GridPanel, {
+Ext.extend(ui.catalogue.files, Ext.grid.GridPanel, {
 	limit: 20,
-	colNameExist: "В продаже",
-	colNamePrepay: "Предоплата",
-	colNamePayfwd: "Нал. плат.",
-	colNameType: "Тип",
-	colNameTitle: "Наименование",
+	errNoItemId: "Сначала сохраните данные",
 
-	addTitle: "Добавление элемента",
-	editTitle: "Изменение элемента",
+	colNameTitle: "Наименование",
+	colNameType: "Тип",
+
+	addTitle: "Добавление файла",
+	editTitle: "Изменение файла",
 
 	bttAdd: "Добавить",
 	bttEdit: "Изменить",
 	bttDelete: "Удалить",
 
 	cnfrmTitle: "Подтверждение",
-	cnfrmMsg: "Вы действительно хотите удалить эт(и|у) элемент(ы|у)?"
+	cnfrmMsg: "Вы действительно хотите удалить этот файл?"
 });

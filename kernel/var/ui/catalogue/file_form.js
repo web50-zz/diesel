@@ -1,21 +1,23 @@
-ui.text.item_form = function(config){
+ui.catalogue.file_form = function(config){
 	Ext.apply(this, config);
-	this.Load = function(id){
+	this.Load = function(id, ciid){
 		var f = this.getForm();
 		f.load({
-			url: 'di/text/get.json',
+			url: 'di/catalogue_file/get.json',
 			params: {_sid: id},
 			waitMsg: this.loadText
 		});
-		f.setValues([{id: '_sid', value: id}]);
+		f.setValues([{id: '_sid', value: id}, {id: 'ciid', value: ciid}]);
 	}
 	var Save = function(){
 		var f = this.getForm();
 		if (f.isValid()){
 			f.submit({
-				url: 'di/text/set.do',
+				url: 'di/catalogue_file/set.do',
 				waitMsg: this.saveText,
 				success: function(form, action){
+					//var j = Ext.query('json', action.response.responseXML)[0].textContent.trim();
+					//var d = Ext.util.JSON.decode(j);
 					var d = Ext.util.JSON.decode(action.response.responseText);
 					if (d.success)
 						this.fireEvent('saved', d.data);
@@ -41,26 +43,25 @@ ui.text.item_form = function(config){
 	var Cancel = function(){
 		this.fireEvent('cancelled');
 	}.createDelegate(this);
-	ui.text.item_form.superclass.constructor.call(this, {
-		frame: true, 
-		labelWidth:150, 
-		defaults: {hideLabel: true, xtype: 'textfield', width: 150, anchor: '100%'},
+	ui.catalogue.file_form.superclass.constructor.call(this, {
+		frame: true,
+		layout: 'form',
+		fileUpload: true,
+		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
-			{name: '_sid', inputType: 'hidden'},
-			{name: 'title', allowBlank: false},
-			{fieldLabel: 'Скрывать заголовок', hiddenName: 'hide_title', value: 0,xtype:'combo',width:50,anchor:null,
-				valueField: 'value',
-				displayField: 'hide_title',
-				mode: 'local',
-				triggerAction: 'all',
-				selectOnFocus: true,
-				editable: false,
-				store: new Ext.data.SimpleStore({ fields: ['value', 'hide_title'], data: [[0, 'Нет'], [1, 'Да']] })
+			{name: '_sid', xtype: 'hidden'},
+			{name: 'ciid', xtype: 'hidden'},
+			{fieldLabel: this.labelFile, name: 'file', xtype: 'fileuploadfield', buttonCfg: {text: '', iconCls: 'folder'}},
+			{fieldLabel: this.labelTitle, name: 'title'},
+			{fieldLabel: this.labelType, hiddenName: 'item_type', xtype: 'combo', value: 0,
+				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [
+					[0, 'Изображение'],
+					[1, 'Аудио-файл'],
+					[2, 'Другое']
+				] }),
+				valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
 			},
-			{name: 'content', xtype: 'ckeditor', CKConfig: {
-				height: 300,
-				filebrowserImageBrowseUrl: 'ui/file_manager/browser.html'
-			}}
+			{fieldLabel: this.labelComment, name: 'comment', height: '100', xtype: 'htmleditor'}
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -79,10 +80,17 @@ ui.text.item_form = function(config){
 		scope: this
 	})
 }
-Ext.extend(ui.text.item_form , Ext.form.FormPanel, {
+Ext.extend(ui.catalogue.file_form , Ext.form.FormPanel, {
 	loadText: 'Загрузка данных формы',
 
+	labelFile: 'Файл',
+	labelName: 'Наименование',
+	labelType: 'Тип файла',
+	labelComment: 'Коментарий',
+
 	saveText: 'Сохранение...',
+	blankText: 'Необходимо заполнить',
+	maxLengthText: 'Не больше 256 символов',
 
 	bttSave: 'Сохранить',
 	bttCancel: 'Отмена',
