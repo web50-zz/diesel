@@ -81,8 +81,7 @@ class di_text extends data_interface
 	*/
 	protected function sys_get()
 	{
-		$this->_flush(true);
-		$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
+		$this->_flush();
 		$this->extjs_form_json(array(
 			'id', 'title', 'content','hide_title'
 		));
