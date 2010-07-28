@@ -31,6 +31,7 @@ class di_catalogue_item extends data_interface
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
 		'on_offer' => array('type' => 'integer'),
 		'title' => array('type' => 'string'),
+		'preview' => array('type' => 'string'),
 		'description' => array('type' => 'text'),
 		'prepayment' => array('type' => 'float'),
 		'payment_forward' => array('type' => 'float'),
@@ -94,7 +95,17 @@ class di_catalogue_item extends data_interface
 	protected function sys_unset()
 	{
 		$this->_flush();
-		$this->extjs_unset_json();
+		$data = $this->extjs_unset_json(false);
+		$ids = $this->get_lastChangedId();
+		
+		// Remove all files from catalogue items
+		if (($ids > 0 || count($ids) > 0))
+		{
+			$cf = data_interface::get_instance('catalogue_file');
+			$cf->remove_files($ids);
+		}
+
+		response::send($data, 'json');
 	}
 }
 ?>
