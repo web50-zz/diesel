@@ -1,5 +1,5 @@
 ui.catalogue.main = function(config, vp){
-	var formW = 640;
+	var formW = 700;
 	var formH = 480;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
