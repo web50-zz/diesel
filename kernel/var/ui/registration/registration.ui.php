@@ -9,7 +9,7 @@
 // see also guestbook.di.php 
 class ui_registration extends user_interface
 {
-	public $title = 'Форма логина';
+	public $title = 'Форма регистрации';
 
 	
 	public function __construct()
@@ -18,7 +18,7 @@ class ui_registration extends user_interface
 		$this->files_path = dirname(__FILE__).'/'; 
 	}
 
-        public function pub_longin_form()
+        public function pub_registration_form()
         {
 		$data = array();
 		return $this->parse_tmpl('default.html',$data);
