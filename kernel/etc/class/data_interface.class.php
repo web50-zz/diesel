@@ -572,7 +572,7 @@ class data_interface extends base_interface
 		else if ($deep_into > 1)
 			$this->where.= $this->name.'_parent.level > '.$this->name.'.level AND '.$this->name.'_parent.level + '.$deep_into.' <= '.$this->name.'.level';
 		$this->NOT_prepare_where = false;
-		$this->connector->set_order($this->args['sort'], $this->args['dir']);
+		$this->connector->set_order('left', 'ASC');
 		$this->_get();
 		$data = array();
 		foreach ($this->results AS $rec)
