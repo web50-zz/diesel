@@ -95,15 +95,17 @@ class di_catalogue_item extends data_interface
 	*/
 	protected function sys_unset()
 	{
+		$cf = data_interface::get_instance('catalogue_file');
+		$cs = data_interface::get_instance('catalogue_style');
 		$this->_flush();
 		$data = $this->extjs_unset_json(false);
 		$ids = $this->get_lastChangedId();
 		
-		// Remove all files from catalogue items
+		// Remove all files and styles from catalogue items
 		if (($ids > 0 || count($ids) > 0))
 		{
-			$cf = data_interface::get_instance('catalogue_file');
 			$cf->remove_files($ids);
+			$cs->remove_styles_from_item($ids);
 		}
 
 		response::send($data, 'json');

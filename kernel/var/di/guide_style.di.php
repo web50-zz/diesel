@@ -38,6 +38,16 @@ class di_guide_style extends data_interface
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
 	}
+	
+	/**
+	*	Get styles in item
+	*/
+	public function sys_styles_in_item()
+	{
+		$this->_flush(true);
+		$gu = $this->join_with_di('catalogue_style', array('id' => 'style_id', intval($this->get_args('iid')) => 'catalogue_item_id'), array('catalogue_item_id' => 'iid'));
+		return $this->extjs_grid_json(array('id', 'name'));
+	}
 
 	/**
 	*	Список записей для ComboBox
@@ -84,8 +94,18 @@ class di_guide_style extends data_interface
 	*/
 	protected function sys_unset()
 	{
+		$cs = data_interface::get_instance('catalogue_style');
 		$this->_flush();
-		$this->extjs_unset_json();
+		$data = $this->extjs_unset_json(false);
+
+		// Remove all links between catalogue items and styles
+		$ids = (array)$this->get_lastChangedId();
+		if (($ids > 0 || count($ids) > 0))
+		{
+			$cs->remove_items_from_style($ids);
+		}
+
+		response::send($data, 'json');
 	}
 }
 ?>

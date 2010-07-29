@@ -258,6 +258,14 @@ CREATE TABLE `catalogue_file` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `catalogue_style`;
+CREATE TABLE `catalogue_style` (
+	`catalogue_item_id` SMALLINT(5) UNSIGNED NOT NULL COMMENT 'The catalogue`s item ID',
+	`style_id` SMALLINT(5) UNSIGNED NOT NULL COMMENT 'The style ID',
+	UNIQUE `catalogue_style` (`catalogue_item_id`, `style_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `ui_view_point`;
 CREATE TABLE `ui_view_point` (
 	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,

@@ -26,7 +26,33 @@ ui.catalogue.item_form = function(config){
 		deleted: function(){
 			picture.store.reload();
 		}
-	})
+	});
+	var style_out = new ui.catalogue.styles({title: 'Доступные', region: 'east', width: 300, split: true,
+		ddGroup: 'style_out',
+		enableDragDrop: true});
+	style_out.store.baseParams = {iid: 0, _siid: 'null'};
+	var style_in = new ui.catalogue.styles({title: 'Выбранные', region: 'center',
+		ddGroup: 'style_in',
+		enableDragDrop: true});
+	style_in.store.baseParams = {iid: 0, _niid: 'null'};
+	style_out.on({
+		styles_removed: function(){
+			style_out.reload();
+			style_in.reload();
+		},
+		afterrender: function(){
+			new Ext.dd.DropTarget(style_out.getView().scroller.dom , {ddGroup: 'style_in', notifyDrop: style_out.removeStyles});
+		}
+	});
+	style_in.on({
+		styles_added: function(){
+			style_out.reload();
+			style_in.reload();
+		},
+		afterrender: function(){
+			new Ext.dd.DropTarget(style_in.getView().scroller.dom , {ddGroup: 'style_out', notifyDrop: style_in.addStyles});
+		}
+	});
 	this.Load = function(id){
 		var f = this.getForm();
 		f.load({
@@ -44,10 +70,16 @@ ui.catalogue.item_form = function(config){
 		});
 		f.setValues([{id: '_sid', value: id}]);
 		files.setItemId(id);
+
 		preview.store.baseParams = {_sciid: id};
 		preview.store.reload();
+
 		picture.store.baseParams = {_sciid: id};
 		picture.store.reload();
+
+		Ext.apply(style_in.store.baseParams, {iid: id});
+
+		Ext.apply(style_out.store.baseParams, {iid: id});
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -109,6 +141,10 @@ ui.catalogue.item_form = function(config){
 					]},
 					{columnWidth: .4, bodyStyle: 'margin: 0 0 0 5px', items: [pnlPrvw]}
 				]},
+				{id: 'item-style', title: this.tabStyle, frame: false, layout: 'border', items: [
+					style_in,
+					style_out
+				]},
 				{id: 'item-extend', title: this.tabExtend, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
 						{fieldLabel: this.labelProducer, hiddenName: 'producer_id', xtype: 'combo', emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText,
 							store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
@@ -120,10 +156,6 @@ ui.catalogue.item_form = function(config){
 						},
 						{fieldLabel: this.labelGroup, hiddenName: 'group_id', xtype: 'combo',  emptyText: this.blankGroupText, valueNotFoundText: this.blankGroupText,
 							store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-							valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
-						},
-						{fieldLabel: this.labelStyle, hiddenName: 'style_id', xtype: 'combo', emptyText: this.blankStyleText, valueNotFoundText: this.blankStyleText,
-							store: new Ext.data.JsonStore({url: 'di/guide_style/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
 							valueField: 'id', displayField: 'name', triggerAction: 'all', selectOnFocus: true, editable: false
 						}
 				]},
@@ -147,6 +179,16 @@ ui.catalogue.item_form = function(config){
 		saved: function(data){
 			this.getForm().setValues([{id: '_sid', value: data.id}]);
 			files.setItemId(data.id);
+
+			preview.store.baseParams = {_sciid: data.id};
+			preview.store.reload();
+
+			picture.store.baseParams = {_sciid: data.id};
+			picture.store.reload();
+
+			Ext.apply(style_in.store.baseParams, {iid: data.id});
+
+			Ext.apply(style_out.store.baseParams, {iid: data.id});
 		},
 		scope: this
 	})
@@ -155,6 +197,7 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 	loadText: 'Загрузка данных формы',
 
 	tabMain: 'Общая информация',
+	tabStyle: 'Стили',
 	tabExtend: 'Дополнительно',
 	tabDescr: 'Описание',
 	tabFiles: 'Файлы',
