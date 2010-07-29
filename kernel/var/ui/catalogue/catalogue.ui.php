@@ -17,7 +17,8 @@ class ui_catalogue extends user_interface
 			'catalogue.files'
 		),
 		'files' => array(
-			'catalogue.file_form'
+			'catalogue.file_form',
+			'catalogue.resize_form'
 		)
 	);
 	
@@ -67,6 +68,15 @@ class ui_catalogue extends user_interface
 	protected function sys_file_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'file_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Files form
+	*/
+	protected function sys_resize_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'resize_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 	
