@@ -148,6 +148,43 @@ class di_structure extends data_interface
 	}
 	
 	/**
+	*	Переместить узел
+	* @access protected
+	*/
+	protected function sys_move()
+	{
+		$id = intval($this->get_args('_sid'));
+		$pid = intval($this->get_args('pid'));
+		$ind = intval($this->get_args('ind'));
+
+		if ($id > 0)
+		{
+			$ns = new nested_sets($this);
+
+			if ($ns->move_node($id, $pid, $ind))
+			{
+				$this->push_args($ns->get_node($id));		// Запоминаем параметры ноды
+				$this->set_args(array('_sid' => $id), true);	// Задаём поисковый ключ
+				$this->calc_uri();				// Расчитываем URI
+
+				$this->_flush();				// Сбрасываем DI
+				$this->insert_on_empty = false;			// Запрещаем записывать новые записи
+				$data = $this->extjs_set_json(false);		// Сохраняем новый URI
+
+				$this->pop_args();				// Возвращаем исходные параметры
+				$this->recalc_uri();				// Расчитываем URI всех потомков
+			}
+		}
+		else
+		{
+			$data = array(
+				'success' => true
+				);
+		}
+		response::send($data, 'json');
+	}
+	
+	/**
 	*	Расчитать URI страницы
 	*/
 	private function calc_uri()
@@ -194,37 +231,6 @@ class di_structure extends data_interface
 		}
 		
 		return TRUE;
-	}
-	
-	/**
-	*	Переместить узел
-	* @access protected
-	*/
-	protected function sys_move()
-	{
-		$id = intval($this->args['_sid']);
-		$pid = intval($this->args['pid']);
-		if ($id > 0)
-		{
-			$ns = new nested_sets($this);
-			if ($ns->move_node($id, $pid))
-			{
-				$node = $ns->get_node($id);
-				$this->args['name'] = $node['name'];
-				$this->calc_uri();
-				$this->insert_on_empty = false;
-				$data = $this->extjs_set_json(false);
-				
-				$this->recalc_uri();
-			}
-		}
-		else
-		{
-			$data = array(
-				'success' => true
-				);
-		}
-		response::send($data, 'json');
 	}
 	
 	/**

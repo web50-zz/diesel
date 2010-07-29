@@ -57,6 +57,21 @@ ui.structure.site_tree = function(config){
 		});
 		w.show(null, function(){f.Load(id)});
 	}.createDelegate(this);
+	var Move = function(tree, node, oldParent, newParent, index){
+		Ext.Ajax.request({
+			url: 'di/structure/move.do',
+			params: {_sid: node.id, pid: newParent.id, ind: index},
+			disableCaching: true,
+			callback: function(options, success, response){
+				var d = Ext.util.JSON.decode(response.responseText);
+				if (d.success == false) showError(d.errors);
+			},
+			failure: function(result, request){
+				showError('Внутренняя ошибка сервера');
+			},
+			scope: this
+		});
+	}.createDelegate(this);
 	var Delete = function(id){
 		Ext.Ajax.request({
 			url: 'di/structure/unset.do',
@@ -88,6 +103,7 @@ ui.structure.site_tree = function(config){
 		this.fireEvent('changenode', node.id, node);
 	}.createDelegate(this);
 	ui.structure.site_tree.superclass.constructor.call(this,{
+		enableDD: true,
 		tbar: [
 			{id: 'add', iconCls: 'add', text: 'Добавить', handler: Add.createDelegate(this, [0])},
 			'->', {iconCls: 'help', handler: function(){showHelp('test')}}
@@ -103,6 +119,7 @@ ui.structure.site_tree = function(config){
 	});
 	this.on({
 		contextmenu: onCmenu,
+		movenode: Move,
 		click: onNodeClick,
 		saved: afterSave,
 		deleted: afterDelete,
