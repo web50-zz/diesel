@@ -75,10 +75,12 @@ class nested_sets
 	* @param	integer	$pos	Позиция элемента в текущей ветке
 	* @return	boolean	TRUE, или FALSE в случае ошибки.
 	*/
-  	public function move_node($id, $pid)
+  	public function move_node($id, $pid, $pos = 0)
 	{
 		try
 		{
+			$next_node = $this->get_child_node_by_position($pid, $id, $pos);
+
 			if ($id AND $pid)
 			{
 				if (!($B = $this->get_node($id)) || empty($B)) throw new Exception('Can`t get node by ID: '. $id);
@@ -113,6 +115,25 @@ class nested_sets
 				
 				$Dinterval = ($B['right'] + 1) . ' AND ' . $D['right'];
 				$Dshift = ' - ' . ($B['right'] - $B['left'] + 1);
+			}
+			
+			// если перемещение между нодами
+			if ( $next_node['id'] > 0 )
+			{
+				if ( $next_node['left'] > $B['left'] )
+				{
+					// вправо
+					$Bshift = ' + ' .($next_node['left'] -1 - $B['right']);
+					$Dshift = ' - ' . ($B['right'] - $B['left'] +1);
+					$Dinterval =  ($B['right']+1) . ' AND ' . ($next_node['left'] -1 );
+				}
+				else
+				{
+					// влево
+					$Bshift = ' - ' .($B['left'] - $next_node['left']);
+					$Dshift = ' + ' . ($B['right'] - $B['left'] + 1);
+					$Dinterval = ($next_node['left']) . ' AND ' . ($B['left'] - 1);
+				}
 			}
 			
 			$sql = 'UPDATE `' . $this->di->get_name() . '` SET
@@ -293,6 +314,64 @@ class nested_sets
 		{
 			throw new Exception('Error while getting parents: ' . $e->getMessage());
 		}
+	}
+	
+	/**
+	*	Вернуть непосредственного потомка по позиции
+	* @param	integer	$pid	ID родительского элемента
+	* @param	integer	$ind	Номер позиции (0 - первый, 1 - второй и т.д.), по умочанию 0
+	* @return	array	Узел
+	*/
+	public function get_child_node_by_position($pid, $id, $ind = 0)
+	{
+		if ($pid)
+		{
+			$sql = 'SELECT sp1.* FROM';
+			$sql.= ' `' . $this->di->get_name() . '` AS sp1';
+			$sql.= ' LEFT JOIN `' . $this->di->get_name() . '` AS sp2 ON sp2.left < sp1.left AND sp2.right > sp1.right';
+			$sql.= ' WHERE sp2.id = ' . $pid . ' AND sp2.level + 1 = sp1.level AND sp1.id != ' . $id;
+			$sql.= ' ORDER BY sp1.left';
+		}
+		else
+		{
+			$sql = 'SELECT * FROM `' . $this->di->get_name() . '`';
+			$sql.= ' WHERE level = 1 AND id != ' . $id;
+			$sql.= ' ORDER BY `left`';
+		}
+		$sql.= ' LIMIT ' . $ind . ', 1';
+		$this->di->connector->fetchMethod = PDO::FETCH_ASSOC;
+		$this->di->_get($sql);
+		return $this->di->get_results(0);
+		//throw new Exception('Error while getting the childs for node #'.$id);
+	}
+	
+	/**
+	*	Вернуть последнего непосредственного потомка
+	* @param	integer	$pid	ID родительского элемента
+	* @return	array	Узел
+	*/
+	public function get_last_child_node($pid)
+	{
+		if ($pid)
+		{
+			$sql = 'SELECT sp1.* FROM';
+			$sql.= ' `' . $this->di->get_name() . '` AS sp1';
+			$sql.= ' LEFT JOIN `' . $this->di->get_name() . '` AS sp2 ON sp2.left < sp1.left AND sp2.right > sp1.right';
+			$sql.= ' WHERE sp2.id = ' . $pid . ' AND sp2.level + 1 = sp1.level';
+			$sql.= ' ORDER BY sp1.left DESC LIMIT 1';
+		}
+		else
+		{
+			$sql = 'SELECT * FROM `' . $this->di->get_name() . '`';
+			$sql.= ' WHERE level = 1';
+			$sql.= ' ORDER BY `left` DESC LIMIT 1';
+		}
+		
+		$this->di->connector->fetchMethod = PDO::FETCH_ASSOC;
+		if ($this->di->_get($sql))
+			return $this->di->results[0];
+		else
+			throw new Exception('Error while getting the childs for node #'.$id);
 	}
 }
 ?>
