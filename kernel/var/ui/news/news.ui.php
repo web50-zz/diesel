@@ -29,7 +29,7 @@ class ui_news extends user_interface
 //                return $tmpl->parse($di->_get());
 //		$data = array();
 		$data['news'] = $di->_get();
-		dbg::show($data);
+//		dbg::show($data);
 		return $this->parse_tmpl('default.html',$data);
         }
 	

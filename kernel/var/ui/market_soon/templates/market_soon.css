@@ -1,0 +1,12 @@
+.market_soon{
+font-family:Verdana;
+font-size:11px;
+margin-top:20px;
+border:1px dotted;
+height:100%;
+padding:10px;
+}
+#market_soon h1{
+font-size:12px;
+}
+
