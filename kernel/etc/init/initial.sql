@@ -113,6 +113,7 @@ DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `login` varchar(32) NOT NULL COMMENT 'Login',
+  `multi_login` tinyint(1) UNSIGNED NOT NULL COMMENT 'Multi-Login',
   `passw` varchar(64) NOT NULL COMMENT 'Password',
   `name` varchar(64) NOT NULL COMMENT 'User name',
   `email` varchar(64) NOT NULL COMMENT 'e-mail',
