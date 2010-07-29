@@ -46,6 +46,11 @@ ui.user.editForm = function(config){
 		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
+			{fieldLabel: this.labelMulti, hiddenName: 'multi_login', value: 0, xtype: 'combo', width: 50, anchor: null,
+				store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [[1, 'Да'], [0, 'Нет']] }),
+				valueField: 'value', displayField: 'title',
+				mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+			},
 			{fieldLabel: this.labelName, name: 'name', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: this.maxLengthText},
 			{fieldLabel: this.labelLogin, name: 'login', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: this.maxLengthText},
 			{fieldLabel: this.labelEMail, name: 'email', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: 'Не больше 64 символов', vtype: 'email', emailText: 'e-mail введён не верно'},
@@ -79,6 +84,7 @@ ui.user.editForm = function(config){
 }
 Ext.extend(ui.user.editForm, Ext.form.FormPanel, {
 	labelName: 'Имя',
+	labelMulti: "multi-вход",
 	labelLogin: 'Login',
 	labelEMail: 'e-mail',
 	labelLang: 'Язык',

@@ -1,6 +1,6 @@
 ui.user.main = function(config){
 	var frmW = 350;
-	var frmH = 240;
+	var frmH = 270;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {

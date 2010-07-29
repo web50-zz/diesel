@@ -34,6 +34,7 @@ class di_user extends data_interface
 	*/
 	public $fields = array(
 			'id' => array('type' => 'integer', 'serial' => TRUE, 'protected' => FALSE),
+			'multi_login' => array('type' => 'integer'),
 			'login' => array('type' => 'string'),
 			'passw' => array('type' => 'password', 'alias' => 'secret'),
 			'name' => array('type' => 'string'),
@@ -67,7 +68,7 @@ class di_user extends data_interface
 	*/
 	public function get_by_hash($id, $login, $hash)
 	{
-		$sql = 'SELECT `id`, `login`, `name`, `email`, `lang`, `hash` FROM `' . $this->name . '` WHERE `id` = :id AND `login` = :login AND `hash` = :hash';
+		$sql = 'SELECT `id`, `login`, `multi_login`, `name`, `email`, `lang`, `hash` FROM `' . $this->name . '` WHERE `id` = :id AND `login` = :login AND `hash` = :hash';
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
 		$result = $this->connector->exec($sql, array('id' => $id, 'login' => $login, 'hash' => $hash), true, true);
 		if (count($result) == 1)
@@ -88,7 +89,7 @@ class di_user extends data_interface
 	*/
 	public function get_by_password($login, $password)
 	{
-		$sql = 'SELECT `id`, `login`, `name`, `email`, `lang`, `hash` FROM `' . $this->name . '` WHERE `login` = :login AND `passw` = PASSWORD(:password)';
+		$sql = 'SELECT `id`, `login`, `multi_login`, `name`, `email`, `lang`, `hash` FROM `' . $this->name . '` WHERE `login` = :login AND `passw` = PASSWORD(:password)';
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
 		$result = $this->connector->exec($sql, array('login' => $login, 'password' => $password), true, true);
 		if (count($result) == 1)
@@ -107,10 +108,17 @@ class di_user extends data_interface
 	*/
 	public function update_hash($id)
 	{
-		$sql = 'UPDATE `' . $this->name . '` SET `hash` = :hash, `login_date` = NOW(), `remote_addr` = :remote_addr WHERE `id` = :id';
-		$hash = md5($id . mktime());
-		$remote_addr = $_SERVER['REMOTE_ADDR'];
-		$this->connector->exec($sql, array('id' => $id, 'hash' => $hash, 'remote_addr' => $remote_addr));
+		if (empty($this->user['hash']) || $this->user['multi_login'] == 0)
+		{
+			$sql = 'UPDATE `' . $this->name . '` SET `hash` = :hash, `login_date` = NOW(), `remote_addr` = :remote_addr WHERE `id` = :id';
+			$hash = md5($id . mktime());
+			$remote_addr = $_SERVER['REMOTE_ADDR'];
+			$this->connector->exec($sql, array('id' => $id, 'hash' => $hash, 'remote_addr' => $remote_addr));
+		}
+		else
+		{
+			$hash = $this->user['hash'];
+		}
 		return $hash;
 	}
 	
@@ -164,7 +172,7 @@ class di_user extends data_interface
 	protected function sys_get()
 	{
 		$this->_flush();
-		$this->extjs_form_json(array('login', 'name', 'email', 'lang'));
+		$this->extjs_form_json(array('login', 'multi_login', 'name', 'email', 'lang'));
 	}
 	
 	/**
