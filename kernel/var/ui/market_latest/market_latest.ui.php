@@ -18,15 +18,16 @@ class ui_market_latest extends user_interface
 		$this->files_path = dirname(__FILE__).'/'; 
 	}
 
-        public function pub_content()
+        public function pub_long()
         {
 		$data = array();
 		return $this->parse_tmpl('default.html',$data);
 	}
 
-	public function pub_double()
+	public function pub_short()
         {
-		return 'guest book here';
+		$data = array();
+		return $this->parse_tmpl('short.html',$data);
 	}
 }
 ?>

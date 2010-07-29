@@ -9,3 +9,15 @@ padding:10px;
 #market_latest h1{
 font-size:12px;
 }
+
+.market_latest_short{
+font-family:Verdana;
+font-size:11px;
+margin-top:20px;
+border:1px dotted;
+height:100%;
+padding:10px;
+}
+#market_latest_short h1{
+font-size:12px;
+}
