@@ -35,6 +35,9 @@ ui.structure.page_view_point = function(config){
 		}, this);
 		app.on('deperror', function(){
 			var page = this.getComponent(pageId);
+			Ext.apply(config, {
+				frame: true
+			});
 			if (page){
 				if (recreate){
 					var active = (this.getActiveTab() == page);
