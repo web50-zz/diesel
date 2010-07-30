@@ -75,6 +75,7 @@ class di_ui_view_point extends data_interface
 	protected function sys_page_configuration()
 	{
 		$this->_flush();
+		$this->set_order('view_point', 'ASC');
 		response::send(array(
 			'success' => true,
 			'data' => $this->_get()
