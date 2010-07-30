@@ -74,6 +74,10 @@ ui.structure.page_view_point_form = function(config){
 	var diEP = new Ext.form.ComboBox({
 		store: new Ext.data.JsonStore({url: 'di/interface/pub_entry_points.json', fields: ['name', 'human_name']}),
 		fieldLabel: this.labelCalls, hiddenName: 'ui_call',
+		allQuery: true,
+		forceSelection: true,
+		loadingText: this.loadText,
+		emptyText: 'Укажите используемый вызов',
 		valueField: 'name', displayField: 'human_name', triggerAction: 'all', selectOnFocus: true, editable: false
 	});
 	ui.structure.page_view_point_form.superclass.constructor.call(this,{
@@ -92,7 +96,8 @@ ui.structure.page_view_point_form = function(config){
 				listeners: {
 					select: function(comdo, record, index){
 						diEP.store.baseParams = {name: record.get('name')};
-						diEP.doQuery('');
+						diEP.clearValue();
+						diEP.doQuery('', true);
 					}
 				}
 			}),
@@ -123,7 +128,7 @@ Ext.extend(ui.structure.page_view_point_form, Ext.form.FormPanel, {
 	labelCalls: 'Вызов',
 	labelParams: 'Параметры',
 
-	loadText: 'Загрузка данных',
+	loadText: 'Загрузка данных...',
 	saveText: 'Сохранение данных...',
 	blankText: 'Необходимо заполнить',
 	maxLengthText: 'Не больше 256 символов',
