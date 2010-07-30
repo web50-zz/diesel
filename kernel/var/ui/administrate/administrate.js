@@ -47,7 +47,11 @@ ui.administrate = function(config){
 					{text: "Группы", iconCls: 'book_open', appName: 'guide', appFace: 'group', handler: appLauncher},
 					{text: "Стили", iconCls: 'book_open', appName: 'guide', appFace: 'style', handler: appLauncher},
 					{text: "Типы", iconCls: 'book_open', appName: 'guide', appFace: 'type', handler: appLauncher},
+				]},	
+				{text: this.menuApps, iconCls: 'book', menu:[
+					{text: "FAQ", iconCls: 'book_open', appName: 'faq', appFace: 'main', handler: appLauncher}
 				]},
+
 				{text: this.menuSecurity, iconCls: 'package', menu:[
 					{text: this.menuUsers, iconCls: 'user', appName: 'user', appFace: 'main', handler: appLauncher},
 					{text: this.menuGroups, iconCls: 'group', appName: 'group', appFace: 'main', handler: appLauncher},
@@ -67,6 +71,7 @@ Ext.extend(ui.administrate, Ext.Viewport, {
 	menuFileManager: 'File manager',
 	menuUsers: 'Users',
 	menuGuide: 'Reference Books',
+	menuApps: 'Applications',
 	menuCatalogue: 'Catalogue',
 	menuGroups: 'Groups',
 	menuSecurity: 'Security',

@@ -4,6 +4,7 @@ var ApplyLocale = function(){
 			menuStructure: 'Структура',
 			menuFileManager: 'Файл-менеджер',
 			menuGuide: 'Справочники',
+			menuApps: 'Приложения',
 			menuCatalogue: 'Каталог',
 			menuUsers: 'Пользователи',
 			menuGroups: 'Группы пользователей',

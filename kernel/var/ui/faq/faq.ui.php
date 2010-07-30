@@ -11,6 +11,12 @@ class ui_faq extends user_interface
 {
 	public $title = 'FAQ';
 
+	protected $deps = array(
+		'main' => array(
+			'faq.faq_form'
+		),
+	);
+
 	
 	public function __construct()
 	{
@@ -28,5 +34,22 @@ class ui_faq extends user_interface
         {
 		return 'faq here';
 	}
+
+	public function sys_main()
+	{
+		$tmpl = new tmpl($this->pwd() . 'faq.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*       Форма редактирования 
+	*/
+	public function sys_faq_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'faq_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+
 }
 ?>
