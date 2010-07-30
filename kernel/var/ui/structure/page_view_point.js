@@ -121,6 +121,7 @@ ui.structure.page_view_point = function(config){
 		return false;
 	}
 	ui.structure.page_view_point.superclass.constructor.call(this,{
+		enableTabScroll: true
 	});
 	this.addEvents({
 		'view-point-inited': true,
