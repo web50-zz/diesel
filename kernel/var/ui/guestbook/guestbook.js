@@ -18,7 +18,7 @@ ui.guestbook.main = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'},'gb_created_datetime', 'gb_author_name','gb_author_email','gb_record','gb_answer']
+		[{name: 'id', type: 'int'},'gb_created_datetime', 'gb_author_name','gb_author_email','gb_record','gb_author_location','gb_answer']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -34,9 +34,10 @@ ui.guestbook.main = function(config){
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'gb_created_datetime', dataIndex:'gb_created_datetime', header:  this.labelCreated, width:200},
-		{id: 'gb_author_name', dataIndex:'gb_author_name', header:  this.labelName, width:200},
+		{id: 'gb_created_datetime', dataIndex:'gb_created_datetime', header:  this.labelCreated, width:120},
+		{id: 'gb_author_name', dataIndex:'gb_author_name', header:  this.labelName, width:150},
 		{id: 'gb_author_email', dataIndex:'gb_author_email', header:  this.labelEmail, width: 200},
+		{id: 'gb_author_location', dataIndex:'gb_author_location', header:  this.labelLocation, width: 100},
 		{id: 'gb_record', dataIndex:'gb_record', header:  this.labelRecord, width: 400},
 		{id: 'gb_answer', dataIndex:'gb_answer', header:  this.labelAnswer}
 	];
@@ -109,6 +110,7 @@ Ext.extend(ui.guestbook.main, Ext.grid.GridPanel, {
 	labelRecord: 'Запись',
 	labelAnswer: 'Ответ',
 	labelCreated: 'Создано',
+	labelLocation: 'Местоположение',
 
 	addTitle: "Добавление запись",
 	editTitle: "Изменение записи",

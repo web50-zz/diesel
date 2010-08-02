@@ -46,10 +46,12 @@ ui.guestbook.guestbook_form = function(config){
 		defaults: {xtype: 'textfield'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
+			{xtype: 'displayfield', fieldLabel:this.labelCreated , name: 'gb_created_datetime'},
 			{fieldLabel: this.labelName, name: 'gb_author_name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 			{fieldLabel: this.labelEmail, name: 'gb_author_email', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelRecord, name: 'gb_record', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelAnswer, name: 'gb_answer', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
+			{fieldLabel: this.labelLocation, name: 'gb_author_location', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
+			{xtype: 'htmleditor',ieldLabel: this.labelRecord, name: 'gb_record', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
+			{xtype: 'htmleditor',ieldLabel: this.labelAnswer, name: 'gb_answer', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -73,8 +75,8 @@ Ext.extend(ui.guestbook.guestbook_form, Ext.form.FormPanel, {
 	labelEmail: 'Email',
 	labelRecord: 'Запись',
 	labelAnswer:'Ответ',
-	labelName: 'Имя',
-	labelDescr: 'Описание',
+	labelLocation:'Местоположение',
+	labelCreated:'Создано',
 
 	loadText: 'Загрузка данных формы',
 	saveText: 'Сохранение...',

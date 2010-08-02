@@ -30,8 +30,14 @@ class di_guestbook extends data_interface
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
 		'gb_created_datetime' => array('type' => 'string'),
+		'gb_changed_datetime' => array('type' => 'string'),
+		'gb_deleted_datetime' => array('type' => 'string'),
+		'gb_creator_uid' => array('type' => 'string'),
+		'gb_changer_uid' => array('type' => 'string'),
+		'gb_deleted_uid' => array('type' => 'string'),
 		'gb_author_email' => array('type' => 'string'),
 		'gb_author_name' => array('type' => 'string'),
+		'gb_author_location' => array('type' => 'string'),
 		'gb_record' => array('type' => 'text'),
 		'gb_answer' => array('type' => 'text')
 	);
@@ -60,7 +66,7 @@ class di_guestbook extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
-		$this->extjs_grid_json(array('id','gb_created_datetime','gb_author_name','gb_author_email','gb_record','gb_answer'));
+		$this->extjs_grid_json(array('id','gb_creator_uid','gb_changer_uid','gb_deleter_uid','gb_created_datetime','gb_author_name','gb_author_location','gb_author_email','gb_record','gb_answer'));
 	}
 	
 	/**
@@ -91,6 +97,18 @@ class di_guestbook extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
+		if ($this->get_args('_sid')>0)
+		{
+			$this->set_args(array('gb_changed_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('gb_changer_uid' => UID), true);
+		}
+		else
+		{
+			$this->set_args(array('gb_created_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('gb_changed_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('gb_changer_uid' => UID), true);
+			$this->set_args(array('gb_creator_uid' => UID), true);
+		}
 		$this->extjs_set_json();
 	}
 	
