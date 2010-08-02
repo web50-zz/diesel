@@ -34,7 +34,7 @@ class di_guestbook extends data_interface
 		'gb_deleted_datetime' => array('type' => 'string'),
 		'gb_creator_uid' => array('type' => 'string'),
 		'gb_changer_uid' => array('type' => 'string'),
-		'gb_deleted_uid' => array('type' => 'string'),
+		'gb_deleter_uid' => array('type' => 'string'),
 		'gb_author_email' => array('type' => 'string'),
 		'gb_author_name' => array('type' => 'string'),
 		'gb_author_location' => array('type' => 'string'),
