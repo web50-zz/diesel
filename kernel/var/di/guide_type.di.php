@@ -45,7 +45,10 @@ class di_guide_type extends data_interface
 	protected function sys_combolist()
 	{
 		$this->_flush();
-		$this->extjs_grid_json(array('id', 'name'));
+		$data = $this->extjs_grid_json(array('id', 'name'), false);
+		if ($this->get_args('with_empty') == 'yes')
+			array_unshift($data['records'], array('id' => '', 'name' => 'Все'));
+		response::send($data, 'json');
 	}
 	
 	/**

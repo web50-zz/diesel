@@ -21,7 +21,15 @@ ui.catalogue.filter_form = function(config){
 		labelAlign: 'top',
 		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
-			{fieldLabel: this.labelTitle, name: '_stitle'}
+			{fieldLabel: this.labelTitle, name: '_stitle'},
+			{fieldLabel: this.labelType, hiddenName: '_stype_id', xtype: 'combo', value: '',
+				store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'name'], autoLoad: true}),
+				valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
+			},
+			{fieldLabel: this.labelExist, hiddenName: '_son_offer', xtype: 'combo', width: 50, value: '',
+				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [['', 'Все'], [1, 'Да'], [0, 'Нет']] }),
+				valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+			}
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -36,6 +44,8 @@ ui.catalogue.filter_form = function(config){
 }
 Ext.extend(ui.catalogue.filter_form , Ext.form.FormPanel, {
 	labelTitle: 'Наименование',
+	labelType: 'Тип',
+	labelExist: 'В продаже',
 
 	bttSubmit: 'Применить',
 	bttReset: 'Сбросить'

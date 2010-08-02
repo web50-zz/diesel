@@ -68,6 +68,9 @@ class di_catalogue_item extends data_interface
 		else
 			unset($this->args['_stitle']);
 
+		if ($this->args['_son_offer'] == '') unset($this->args['_son_offer']);
+		if ($this->args['_stype_id'] == '') unset($this->args['_stype_id']);
+
 		$this->_flush(true);
 		$sc = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'type'));
 		$this->extjs_grid_json(array('id', 'on_offer', 'title', 'prepayment', 'payment_forward', array('di' => $sc, 'name' => 'name')));
