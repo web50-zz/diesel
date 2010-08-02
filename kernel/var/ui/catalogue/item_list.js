@@ -33,7 +33,7 @@ ui.catalogue.item_list = function(config, vp){
 	});
 	this.applyStore = function(data){
 		store.baseParams = data;
-		store.reload();
+		store.reload(true);
 	}
 	var existFormat = function(value){
 		return (value == 1) ? 'Да' : 'Нет';
