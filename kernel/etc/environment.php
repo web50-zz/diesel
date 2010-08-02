@@ -65,6 +65,8 @@ define ('DI_CLASS_PREFIX', 'di_');
 define ('KERNEL_INIT', INIT_PATH . 'kernel' . INIT_FEXT);
 // NOTE: User interface initialization file
 define ('UI_INIT', INIT_PATH . 'ui' . INIT_FEXT);
+// NOTE: Public user interface initialization file
+define ('UI_PUB_INIT', INIT_PATH . 'ui_pub' . INIT_FEXT);
 // NOTE: Data interface initialization file
 define ('DI_INIT', INIT_PATH . 'di' . INIT_FEXT);
 
