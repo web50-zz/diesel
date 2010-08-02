@@ -1,13 +1,13 @@
-ui.guide.group = function(config){
+ui.guestbook.main = function(config){
 	var frmW = 640;
 	var frmH = 480;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
-			read: 'di/guide_group/list.js',
-			create: 'di/guide_group/set.js',
-			update: 'di/guide_group/set.js',
-			destroy: 'di/guide_group/unset.js'
+			read: 'di/guestbook/list.js',
+			create: 'di/guestbook/set.js',
+			update: 'di/guestbook/set.js',
+			destroy: 'di/guestbook/unset.js'
 		}
 	});
 	// Typical JsonReader.  Notice additional meta-data params for defining the core attributes of your json-response
@@ -18,7 +18,7 @@ ui.guide.group = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'name']
+		[{name: 'id', type: 'int'}, 'gb_author_name']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -34,10 +34,10 @@ ui.guide.group = function(config){
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'name', dataIndex: 'name', header:  this.labelName}
+		{id: 'gb_author_name', dataIndex:'gb_author_name', header:  this.labelName}
 	];
 	var Add = function(){
-		var f = new ui.guide.group_form();
+		var f = new ui.guestbook.guestbook_form();
 		var w = new Ext.Window({title: this.addTitle, modal: true, layout: 'fit', width: frmW, height: frmH, items: f});
 		f.on({
 			saved: function(){store.reload()},
@@ -47,7 +47,7 @@ ui.guide.group = function(config){
 	}.createDelegate(this);
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
-		var f = new ui.guide.group_form();
+		var f = new ui.guestbook.guestbook_form();
 		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', width: frmW, height: frmH, items: f});
 		f.on({
 			saved: function(){store.reload()},
@@ -67,16 +67,16 @@ ui.guide.group = function(config){
 			}
 		}, this);
 	}.createDelegate(this);
-	ui.guide.group.superclass.constructor.call(this,{
+	ui.guestbook.main.superclass.constructor.call(this,{
 		store: store,
 		columns: columns,
 		loadMask: true,
-		autoExpandColumn: 'name',
+		autoExpandColumn: 'gb_author_name',
 		tbar: [
 			{text: this.bttAdd, iconCls: 'book_add', handler: Add},
 			{text: this.bttEdit, iconCls: "book_edit", handler: Edit, id: "bttEdt-gg", disabled: true},
 			{text: this.bttDelete, iconCls: "book_delete", handler: Delete, id: "bttDel-gg", disabled: true},
-			'->', {iconCls: 'help', handler: function(){showHelp('guide-group')}}
+			'->', {iconCls: 'help', handler: function(){showHelp('guestbook')}}
 		],
 		bbar: new Ext.PagingToolbar({
 			pageSize: this.limit,
@@ -97,7 +97,7 @@ ui.guide.group = function(config){
 		scope: this
 	})
 };
-Ext.extend(ui.guide.group, Ext.grid.GridPanel, {
+Ext.extend(ui.guestbook.main, Ext.grid.GridPanel, {
 	limit: 20,
 
 	labelName: 'Имя',

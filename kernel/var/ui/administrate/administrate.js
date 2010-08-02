@@ -49,7 +49,8 @@ ui.administrate = function(config){
 					{text: "Типы", iconCls: 'book_open', appName: 'guide', appFace: 'type', handler: appLauncher},
 				]},	
 				{text: this.menuApps, iconCls: 'book', menu:[
-					{text: "FAQ", iconCls: 'book_open', appName: 'faq', appFace: 'main', handler: appLauncher}
+					{text: "FAQ", iconCls: 'book_open', appName: 'faq', appFace: 'main', handler: appLauncher},
+					{text: "Гостевая", iconCls: 'book_open', appName: 'guestbook', appFace: 'main', handler: appLauncher}
 				]},
 
 				{text: this.menuSecurity, iconCls: 'package', menu:[

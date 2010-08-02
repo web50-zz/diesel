@@ -29,10 +29,11 @@ class di_guestbook extends data_interface
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'title' => array('type' => 'string'),
-		'hide_title' => array('type' => 'integer'),
-		'content' => array('type' => 'text'),
+		'gb_author_email' => array('type' => 'string'),
+		'gb_author_name' => array('type' => 'string'),
+		'gb_record' => array('type' => 'text')
 	);
+
 	
 	public function __construct ()
 	{
@@ -52,23 +53,12 @@ class di_guestbook extends data_interface
 	}
 
 	/**
-	*	Список доступных текстовых контентов
-	*/
-	protected function sys_available()
-	{
-		$this->_flush();
-		$data = $this->_get();
-		array_unshift($data, array('id' => '', 'title' => 'Новый текст'));
-		return response::send($data, 'json');
-	}
-	
-	/**
 	*	Список записей
 	*/
 	protected function sys_list()
 	{
 		$this->_flush();
-		$this->extjs_grid_json();
+		$this->extjs_grid_json(array('id','gb_author_name'));
 	}
 	
 	/**
@@ -78,9 +68,7 @@ class di_guestbook extends data_interface
 	protected function sys_get()
 	{
 		$this->_flush();
-		$this->extjs_form_json(array(
-			'id', 'title', 'content','hide_title'
-		));
+		$this->extjs_form_json();
 	}
 	
 	/**

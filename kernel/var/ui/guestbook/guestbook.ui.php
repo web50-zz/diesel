@@ -11,6 +11,12 @@ class ui_guestbook extends user_interface
 {
 	public $title = 'Гостевая';
 
+	protected $deps = array(
+		'main' => array(
+			'guestbook.guestbook_form'
+		),
+	);
+
 	
 	public function __construct()
 	{
@@ -27,6 +33,21 @@ class ui_guestbook extends user_interface
 	public function pub_double()
         {
 		return 'guest book here';
+	}
+
+	public function sys_main()
+	{
+		$tmpl = new tmpl($this->pwd() . 'guestbook.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*       Форма редактирования 
+	*/
+	public function sys_guestbook_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'guestbook_form.js');
+		response::send($tmpl->parse($this), 'js');
 	}
 }
 ?>
