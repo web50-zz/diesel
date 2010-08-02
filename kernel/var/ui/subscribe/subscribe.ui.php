@@ -10,6 +10,14 @@ class ui_subscribe extends user_interface
 {
 	public $title = 'Рассылка';
 
+/*	
+	protected $deps = array(
+		'main' => array(
+			'group.main',
+			'user.list',
+		)
+	);
+*/
 	
 	public function __construct()
 	{
@@ -27,5 +35,24 @@ class ui_subscribe extends user_interface
         {
 		return 'Subscribe here';
 	}
+
+	/**
+	*       Управляющий JS админки
+	*/
+	protected function sys_main()
+	{
+		$tmpl = new tmpl($this->pwd() . 'subscribe.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*	ExtJS Grid of available entry points
+	*/
+	protected function sys_interfaces()
+	{
+		$tmpl = new tmpl($this->pwd() . 'interfaces.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
 }
 ?>
