@@ -63,6 +63,9 @@ class di_catalogue_item extends data_interface
 	*/
 	protected function sys_list()
 	{
+		if (!empty($this->args['_stitle']))
+			$this->args['_stitle'] = "%{$this->args['_stitle']}%";
+
 		$this->_flush(true);
 		$sc = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'type'));
 		$this->extjs_grid_json(array('id', 'on_offer', 'title', 'prepayment', 'payment_forward', array('di' => $sc, 'name' => 'name')));

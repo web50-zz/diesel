@@ -575,6 +575,16 @@ class connector_mysql
 						$str = "{$name}.{$field} IS NOT NULL";
 					}
 				}
+				else if (isset($this->_args['_m'.$sField]))
+				{
+					$str = "{$name}.{$field} > :_n{$sField}";
+					$this->_where_values['_m'.$sField] = intval($this->_args['_n'.$sField]);
+				}
+				else if (isset($this->_args['_l'.$sField]))
+				{
+					$str = "{$name}.{$field} < :_l{$sField}";
+					$this->_where_values['_l'.$sField] = intval($this->_args['_n'.$sField]);
+				}
 			break;
 			case 'date':
 				if (isset($this->_args['_s'.$sField]))
@@ -670,6 +680,32 @@ class connector_mysql
 				{
 					$str = "{$name}.{$field} <= :_sTo{$sField}";
 					$this->_where_values['_sTo'.$sField] = sprintf('%04d-%02d-%02d H:i:s', $this->_args['_sTo'.$sField.'_year'], $this->_args['_sTo'.$sField.'_month'], $this->_args['_sTo'.$sField.'_day'], $this->_args['_sTo'.$sField.'_hour'], $this->_args['_sTo'.$sField.'_min'], $this->_args['_sTo'.$sField.'_sec']);
+				}
+			break;
+			case 'string': case 'text':
+				if (isset($this->_args['_s'.$sField]))
+				{
+					if ('null' != strtolower($this->_args['_s'.$sField]))
+					{
+						$str = "{$name}.{$field} LIKE :_s{$sField}";
+						$this->_where_values['_s'.$sField] = $this->_args['_s'.$sField];
+					}
+					else
+					{
+						$str = "{$name}.{$field} IS NULL";
+					}
+				}
+				else if (isset($this->_args['_n'.$sField]))
+				{
+					if ('null' != strtolower($this->_args['_n'.$sField]))
+					{
+						$str = "{$name}.{$field} NOT LIKE :_n{$sField}";
+						$this->_where_values['_n'.$sField] = $this->_args['_n'.$sField];
+					}
+					else
+					{
+						$str = "{$name}.{$field} IS NOT NULL";
+					}
 				}
 			break;
 			default:

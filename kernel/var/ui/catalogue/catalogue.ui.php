@@ -11,7 +11,9 @@ class ui_catalogue extends user_interface
 
 	protected $deps = array(
 		'main' => array(
-			'catalogue.item_form'
+			'catalogue.item_list',
+			'catalogue.item_form',
+			'catalogue.filter_form'
 		),
 		'item_form' => array(
 			'catalogue.files',
@@ -46,11 +48,29 @@ class ui_catalogue extends user_interface
 	}
 	
 	/**
+	*       Item`s list
+	*/
+	protected function sys_item_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'item_list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
 	*       Edit form
 	*/
 	protected function sys_item_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'item_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Filter form
+	*/
+	protected function sys_filter_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'filter_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 	
