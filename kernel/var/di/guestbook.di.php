@@ -29,9 +29,11 @@ class di_guestbook extends data_interface
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
+		'gb_created_datetime' => array('type' => 'string'),
 		'gb_author_email' => array('type' => 'string'),
 		'gb_author_name' => array('type' => 'string'),
-		'gb_record' => array('type' => 'text')
+		'gb_record' => array('type' => 'text'),
+		'gb_answer' => array('type' => 'text')
 	);
 
 	
@@ -58,7 +60,7 @@ class di_guestbook extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
-		$this->extjs_grid_json(array('id','gb_author_name'));
+		$this->extjs_grid_json(array('id','gb_created_datetime','gb_author_name','gb_author_email','gb_record','gb_answer'));
 	}
 	
 	/**
