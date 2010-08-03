@@ -1,22 +1,8 @@
 ui.subscribe.main = function(config){
 	var loadMask = new Ext.LoadMask(Ext.getBody());
 	Ext.apply(this, config);
-	var doSync = function(){
-		loadMask.show();
-		Ext.Ajax.request({
-			url: 'di/interface/sync.do',
-			disableCaching: true,
-			callback: function(options, success, response){
-				loadMask.hide();
-				var d = Ext.util.JSON.decode(response.responseText);
-				if (!(success && d.success))
-					showError(this.errDoSync);
-			},
-			scope: this
-		});
-	}.createDelegate(this);
-	var group = new ui.group.main({
-		title: 'Группы',
+	var group = new ui.subscribe.group({
+		title: 'Расслыки',
 		region: 'west',
 		split: true,
 		width: 300
@@ -28,7 +14,7 @@ ui.subscribe.main = function(config){
 	var addUsers = function(){
 		var gid = getSelectedGroup();
 		if (gid > 0){
-			var u = new ui.user.list();
+			var u = new ui.subscribe.subscriber_list();
 			u.store.baseParams = {gid: gid, _sgid: 'null'};
 			u.addEvents('users_added');
 			u.on('users_added', u.reload);
@@ -45,7 +31,7 @@ ui.subscribe.main = function(config){
 							}
 							if (uids.length > 0){
 								Ext.Ajax.request({
-									url: 'di/group_user/add_users_to_group.do',
+									url: 'di/subscribe_user/add_users_to_group.do',
 									params: {gid: gid, uids: uids.join(",")},
 									disableCaching: true,
 									callback: function(options, success, response){
@@ -72,7 +58,7 @@ ui.subscribe.main = function(config){
 			showError(this.errGroupNotSelected);
 		}
 	}.createDelegate(this);
-	var user = new ui.user.list({
+	var user = new ui.subscribe.subscriber_list({
 		title: 'Пользователи',
 		region: 'center',
 		tbar: [{text: this.bttAddUsers, iconCls: 'user_add', handler: addUsers}]
@@ -89,7 +75,7 @@ ui.subscribe.main = function(config){
 				}
 				if (uids.length > 0){
 					Ext.Ajax.request({
-						url: 'di/group_user/remove_users_from_group.do',
+						url: 'di/subscribe_user/remove_users_from_group.do',
 						params: {gid: gid, uids: uids.join(",")},
 						disableCaching: true,
 						callback: function(options, success, response){
@@ -107,7 +93,21 @@ ui.subscribe.main = function(config){
 			}
 		}
 	}.createDelegate(this);
+
+	var addSubscriber = function(){
+		var gid = getSelectedGroup();
+		if (gid > 0){
+			var w = new Ext.Window({title: "Пользователь", modal: true, layout: 'fit', width: 640, height: 480,
+			});
+			w.show();
+		}else{
+			showError(this.errGroupNotSelected);
+		}
+	}.createDelegate(this);
+
+
 	user.getTopToolbar().add({text: this.bttRemoveUsers, iconCls: 'user_add', handler: delUsers});
+	user.getTopToolbar().add({text: this.bttAddSubscriber, iconCls: 'user_add',handler: addSubscriber});
 	user.store.baseParams = {gid: 0, _ngid: 'null'};
 	group.on({
 		rowclick: function(grid, rowIndex, ev){
@@ -119,7 +119,7 @@ ui.subscribe.main = function(config){
 		layout: 'border',
 		tbar: new Ext.Toolbar({items:[
 			{text: this.menuTitleMain, iconCls: 'package', menu:[
-				{text: this.menuTitleSync, iconCls: 'package_go', handler: doSync}
+				{text: this.menuTitleSync, iconCls: 'package_go'}
 			]}
 		]}),
 		items: [group, user]
@@ -137,8 +137,9 @@ ui.subscribe.main = function(config){
 Ext.extend(ui.subscribe.main, Ext.Panel, {
 	menuTitleMain: 'Operations',
 	menuTitleSync: 'Syncronization',
-	bttAddUsers: 'Add users', 
-	bttRemoveUsers: 'Remove users', 
+	bttAddUsers: 'Добавить в рассылку', 
+	bttRemoveUsers: 'Удалить из рассылки',
+	bttAddSubscriber:'Добавить подписчика',
 	errDoSync: 'Error while modules syncronization',
 	errGroupNotSelected: 'The group not selected',
 	errUserNotSelected: 'The user(s) not selected'
