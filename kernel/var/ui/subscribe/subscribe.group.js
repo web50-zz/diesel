@@ -67,6 +67,24 @@ ui.subscribe.group = function(config){
 			}
 		}, this);
 	}.createDelegate(this);
+	
+	var msgList = function(){
+		        var record = this.getSelectionModel().getSelected().get('id');
+			var w = new Ext.Window({title: "Сообщение", modal: true, layout: 'fit', width: 640, height: 480,
+			});
+			w.show();
+	}.createDelegate(this);
+
+
+	var onCmenu = function(grid, rowIndex, e){
+		this.getSelectionModel().selectRow(rowIndex);
+		var cmenu = new Ext.menu.Menu({items: [
+			{iconCls: 'pencil', text: this.bttMsgList, handler: msgList}
+		]});
+		e.stopEvent();  
+		cmenu.showAt(e.getXY());
+	}.createDelegate(this);
+
 	ui.subscribe.group.superclass.constructor.call(this, {
 		store: store,
 		columns: columns,
@@ -86,6 +104,7 @@ ui.subscribe.group = function(config){
 			grid.getTopToolbar().findById("bttEdt").enable();
 			grid.getTopToolbar().findById("bttDel").enable();
 		},
+		rowcontextmenu: onCmenu,
 		render: function(){store.load({params:{start:0, limit: this.limit}})},
 		scope: this
 	})
@@ -96,12 +115,13 @@ Ext.extend(ui.subscribe.group, Ext.grid.GridPanel, {
 
 	addTitle: "Добавление рассылки",
 	editTitle: "Изменение рассылки",
-	permTitle: "Права доступа",
+	
 
 	bttAdd: "Добавить",
 	bttEdit: "Изменить",
 	bttDelete: "Удалить",
-	bttFaces: "Права доступа",
+	bttMsgAdd: "Добавить сообщение",
+	bttMsgList:"Список сообщений",
 
 	cnfrmTitle: "Подтверждение",
 	cnfrmMsg: "Вы действительно хотите удалить эт(и|у) групп(ы|у)?"

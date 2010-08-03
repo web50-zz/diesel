@@ -94,17 +94,6 @@ ui.subscribe.main = function(config){
 		}
 	}.createDelegate(this);
 
-	var addMessage = function(){
-		var gid = getSelectedGroup();
-		if (gid > 0){
-			var w = new Ext.Window({title: "Сообщение", modal: true, layout: 'fit', width: 640, height: 480,
-			});
-			w.show();
-		}else{
-			showError(this.errGroupNotSelected);
-		}
-	}.createDelegate(this);
-
 	var accountsList = function(){
 	var aclist = new ui.subscribe.accounts_list({region: 'west', split: true, width: 200});
 	var w = new Ext.Window({title: "Аккаунты", 
@@ -119,7 +108,6 @@ ui.subscribe.main = function(config){
 
 
 	user.getTopToolbar().add({text: this.bttRemoveUsers, iconCls: 'user_add', handler: delUsers});
-	user.getTopToolbar().add({text: this.bttAddMessage, iconCls: 'user_add',handler: addMessage});
 	user.store.baseParams = {gid: 0, _ngid: 'null'};
 	group.on({
 		rowclick: function(grid, rowIndex, ev){
@@ -130,10 +118,7 @@ ui.subscribe.main = function(config){
 	ui.subscribe.main.superclass.constructor.call(this, {
 		layout: 'border',
 		tbar: new Ext.Toolbar({items:[
-			{text: this.menuTitleMain, iconCls: 'package', menu:[
-				{text: this.menuTitleMessages, iconCls: 'package_go',handler: addMessage}
-			]},
-			{text: this.menuTitleUsers, iconCls: 'package_go',handler: accountsList}
+				{text: this.menuTitleUsers, iconCls: 'package_go',handler: accountsList}
 		]}),
 		items: [group, user]
 	});
