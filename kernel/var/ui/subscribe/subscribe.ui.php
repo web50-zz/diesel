@@ -16,6 +16,8 @@ class ui_subscribe extends user_interface
 			'subscribe.group',
 			'subscribe.subscriber_list',
 			'subscribe.editForm',
+			'subscribe.accounts_list',
+			'subscribe.account_form',
 		)
 	);
 
@@ -56,6 +58,19 @@ class ui_subscribe extends user_interface
 	protected function sys_editForm()
 	{
 		$tmpl = new tmpl($this->pwd() . 'editForm.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	protected function sys_accounts_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'subscribe.accounts_list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+
+	protected function sys_account_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'subscribe.account_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 

@@ -1,5 +1,6 @@
 ui.subscribe.group = function(config){
 	Ext.apply(this, config);
+	this.selModel = new Ext.grid.RowSelectionModel({singleSelect: true});
 	var proxy = new Ext.data.HttpProxy({
 		api: {
 			read: 'di/subscribe/list.js',

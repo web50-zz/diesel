@@ -2,7 +2,7 @@ ui.subscribe.main = function(config){
 	var loadMask = new Ext.LoadMask(Ext.getBody());
 	Ext.apply(this, config);
 	var group = new ui.subscribe.group({
-		title: 'Расслыки',
+		title: 'Рассылки',
 		region: 'west',
 		split: true,
 		width: 300
@@ -94,10 +94,10 @@ ui.subscribe.main = function(config){
 		}
 	}.createDelegate(this);
 
-	var addSubscriber = function(){
+	var addMessage = function(){
 		var gid = getSelectedGroup();
 		if (gid > 0){
-			var w = new Ext.Window({title: "Пользователь", modal: true, layout: 'fit', width: 640, height: 480,
+			var w = new Ext.Window({title: "Сообщение", modal: true, layout: 'fit', width: 640, height: 480,
 			});
 			w.show();
 		}else{
@@ -105,9 +105,21 @@ ui.subscribe.main = function(config){
 		}
 	}.createDelegate(this);
 
+	var accountsList = function(){
+	var aclist = new ui.subscribe.accounts_list({region: 'west', split: true, width: 200});
+	var w = new Ext.Window({title: "Аккаунты", 
+					modal: true, 
+					layout: 'fit', 
+					width: 800, 
+					height: 600,
+					items:[aclist]
+	});
+		w.show();
+	}.createDelegate(this);
+
 
 	user.getTopToolbar().add({text: this.bttRemoveUsers, iconCls: 'user_add', handler: delUsers});
-	user.getTopToolbar().add({text: this.bttAddSubscriber, iconCls: 'user_add',handler: addSubscriber});
+	user.getTopToolbar().add({text: this.bttAddMessage, iconCls: 'user_add',handler: addMessage});
 	user.store.baseParams = {gid: 0, _ngid: 'null'};
 	group.on({
 		rowclick: function(grid, rowIndex, ev){
@@ -119,8 +131,9 @@ ui.subscribe.main = function(config){
 		layout: 'border',
 		tbar: new Ext.Toolbar({items:[
 			{text: this.menuTitleMain, iconCls: 'package', menu:[
-				{text: this.menuTitleSync, iconCls: 'package_go'}
-			]}
+				{text: this.menuTitleMessages, iconCls: 'package_go',handler: addMessage}
+			]},
+			{text: this.menuTitleUsers, iconCls: 'package_go',handler: accountsList}
 		]}),
 		items: [group, user]
 	});
@@ -135,11 +148,12 @@ ui.subscribe.main = function(config){
 	});
 };
 Ext.extend(ui.subscribe.main, Ext.Panel, {
-	menuTitleMain: 'Operations',
-	menuTitleSync: 'Syncronization',
+	menuTitleMain: 'Операции',
+	menuTitleUsers: 'Аккаунты',
+	menuTitleMessages: 'Сообщения',
 	bttAddUsers: 'Добавить в рассылку', 
 	bttRemoveUsers: 'Удалить из рассылки',
-	bttAddSubscriber:'Добавить подписчика',
+	bttAddMessage:'Создать сообщение',
 	errDoSync: 'Error while modules syncronization',
 	errGroupNotSelected: 'The group not selected',
 	errUserNotSelected: 'The user(s) not selected'
