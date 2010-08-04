@@ -5,7 +5,8 @@ ui.catalogue.main = function(config, vp){
 	var grid = new ui.catalogue.item_list({region: 'center'}, vp);
 	filter.on({
 		submit: grid.applyStore,
-		reset: grid.applyStore
+		reset: grid.applyStore,
+		scope: grid
 	});
 	ui.catalogue.main.superclass.constructor.call(this, {
 		layout: 'border',

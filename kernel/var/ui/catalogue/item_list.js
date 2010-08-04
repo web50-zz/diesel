@@ -32,8 +32,10 @@ ui.catalogue.item_list = function(config, vp){
 		writer: writer
 	});
 	this.applyStore = function(data){
-		store.baseParams = data;
-		store.reload(true);
+		Ext.apply(store.baseParams, data);
+		var bb = this.getBottomToolbar();
+		bb.changePage(1);
+		bb.doRefresh();
 	}
 	var existFormat = function(value){
 		return (value == 1) ? 'Да' : 'Нет';
