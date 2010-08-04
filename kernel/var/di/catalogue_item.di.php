@@ -55,6 +55,8 @@ class di_catalogue_item extends data_interface
 	public function get_items()
 	{
 		$this->_flush();
+		$this->set_limit(0, 20);
+		$this->set_order('title', 'ASC');
 		return $this->_get();
 	}
 	
