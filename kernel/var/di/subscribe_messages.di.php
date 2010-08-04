@@ -80,18 +80,6 @@ class di_subscribe_messages extends data_interface
 	}
 	
 	/**
-	*	Add new user
-	* @access protected
-	*/
-	protected function sys_new()
-	{
-		$this->_flush();
-		$this->insert_on_empty = true;
-		$data = $this->extjs_set_json(false);
-		response::send($data, 'json');
-	}
-	
-	/**
 	*	Save record
 	* @access protected
 	*/
@@ -99,6 +87,18 @@ class di_subscribe_messages extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
+		if ($this->get_args('_sid')>0)
+		{
+			$this->set_args(array('subscr_changed_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('subscr_changer_uid' => UID), true);
+		}
+		else
+		{
+			$this->set_args(array('subscr_created_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('subscr_changed_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('subscr_changer_uid' => UID), true);
+			$this->set_args(array('subscr_creator_uid' => UID), true);
+		}
 		$data = $this->extjs_set_json(false);
 		response::send($data, 'json');
 	}
