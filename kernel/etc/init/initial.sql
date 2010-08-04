@@ -222,6 +222,15 @@ CREATE TABLE `guide_type` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `guide_price`;
+CREATE TABLE `guide_price` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255) NOT NULL COMMENT "The type`s name",
+	`cost` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT "Cost",
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `catalogue_item`;
 CREATE TABLE `catalogue_item` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -230,6 +239,7 @@ CREATE TABLE `catalogue_item` (
   `preview` varchar(255) NOT NULL DEFAULT '',
   `picture` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
+  `price_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `prepayment` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
   `payment_forward` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
   `type_id` smallint(5) unsigned NOT NULL,

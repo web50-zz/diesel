@@ -22,13 +22,17 @@ ui.catalogue.filter_form = function(config){
 		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
 			{fieldLabel: this.labelTitle, name: '_stitle'},
+			{fieldLabel: this.labelExist, hiddenName: '_son_offer', xtype: 'combo', width: 50, value: '',
+				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [['', 'Все'], [1, 'Да'], [0, 'Нет']] }),
+				valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+			},
 			{fieldLabel: this.labelType, hiddenName: '_stype_id', xtype: 'combo', value: '',
 				store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'name'], autoLoad: true}),
 				valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
 			},
-			{fieldLabel: this.labelExist, hiddenName: '_son_offer', xtype: 'combo', width: 50, value: '',
-				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [['', 'Все'], [1, 'Да'], [0, 'Нет']] }),
-				valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+			{fieldLabel: this.labelGroup, hiddenName: '_sgroup_id', xtype: 'combo',
+				store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'name']}),
+				valueField: 'id', displayField: 'name', triggerAction: 'all', queryParam: '_sname'
 			}
 		],
 		buttonAlign: 'right',

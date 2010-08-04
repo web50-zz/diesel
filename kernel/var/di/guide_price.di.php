@@ -1,13 +1,13 @@
 <?php
 /**
-*	Интерфейс данных "Справочник: Группы"
+*	Интерфейс данных "Справочник: Цены"
 *
 * @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
 * @package	SBIN Diesel
 */
-class di_guide_group extends data_interface
+class di_guide_price extends data_interface
 {
-	public $title = 'Справочник: Группы';
+	public $title = 'Справочник: Цены';
 
 	/**
 	* @var	string	$cfg	Имя конфигурации БД
@@ -22,15 +22,15 @@ class di_guide_group extends data_interface
 	/**
 	* @var	string	$name	Имя таблицы
 	*/
-	protected $name = 'guide_group';
+	protected $name = 'guide_price';
 	
 	/**
 	* @var	array	$fields	Конфигурация таблицы
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'name' => array('type' => 'string'),
-		'description' => array('type' => 'text'),
+		'title' => array('type' => 'string'),
+		'cost' => array('type' => 'float'),
 	);
 	
 	public function __construct()
@@ -44,13 +44,9 @@ class di_guide_group extends data_interface
 	*/
 	protected function sys_combolist()
 	{
-		if (!empty($this->args['_sname']))
-			$this->args['_sname'] = "{$this->args['_sname']}%";
-		else
-			unset($this->args['_sname']);
-
 		$this->_flush();
-		$this->extjs_grid_json(array('id', 'name'));
+		$this->set_order('title', 'ASC');
+		$this->extjs_grid_json(array('id', 'title'));
 	}
 	
 	/**

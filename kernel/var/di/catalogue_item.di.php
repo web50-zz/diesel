@@ -34,6 +34,7 @@ class di_catalogue_item extends data_interface
 		'preview' => array('type' => 'string'),
 		'picture' => array('type' => 'string'),
 		'description' => array('type' => 'text'),
+		'price_id' => array('type' => 'integer'),
 		'prepayment' => array('type' => 'float'),
 		'payment_forward' => array('type' => 'float'),
 		'type_id' => array('type' => 'integer'),
@@ -72,10 +73,22 @@ class di_catalogue_item extends data_interface
 
 		if ($this->args['_son_offer'] == '') unset($this->args['_son_offer']);
 		if ($this->args['_stype_id'] == '') unset($this->args['_stype_id']);
+		if ($this->args['_sgroup_id'] == '') unset($this->args['_sgroup_id']);
 
 		$this->_flush(true);
-		$sc = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'type'));
-		$this->extjs_grid_json(array('id', 'on_offer', 'title', 'prepayment', 'payment_forward', array('di' => $sc, 'name' => 'name')));
+		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
+		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('title' => 'str_price'));
+		$this->extjs_grid_json(array(
+			'id',
+			'on_offer',
+			'title',
+			'prepayment',
+			'payment_forward',
+			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gg, 'name' => 'name'),
+			array('di' => $gp, 'name' => 'title'),
+		));
 	}
 	
 	/**

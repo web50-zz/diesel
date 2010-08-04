@@ -17,8 +17,16 @@ ui.catalogue.item_list = function(config, vp){
 			idProperty: 'id',
 			root: 'records',
 			messageProperty: 'errors'
-		},
-		[{name: 'prepayment', type: 'float'}, {name: 'payment_forward', type: 'float'}, {name: 'on_offer', type: 'int'}, {name: 'id', type: 'int'}, 'title', 'type']
+		}, [
+			{name: 'prepayment', type: 'float'},
+			{name: 'payment_forward', type: 'float'},
+			{name: 'on_offer', type: 'int'},
+			{name: 'id', type: 'int'},
+			'title',
+			'str_type',
+			'str_group',
+			'str_price'
+		]
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -34,8 +42,10 @@ ui.catalogue.item_list = function(config, vp){
 	this.applyStore = function(data){
 		Ext.apply(store.baseParams, data);
 		var bb = this.getBottomToolbar();
-		bb.changePage(1);
-		bb.doRefresh();
+		if (bb){
+			bb.changePage(1);
+			bb.doRefresh();
+		}
 	}
 	var existFormat = function(value){
 		return (value == 1) ? 'Да' : 'Нет';
@@ -46,11 +56,13 @@ ui.catalogue.item_list = function(config, vp){
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{header: "ID", width: 50, sortable: true, dataIndex: 'id', id: 'id'},
-		{header: this.colNameType, width: 100, sortable: true, dataIndex: 'type', id: 'type'},
+		{header: this.colNameType, width: 100, sortable: true, dataIndex: 'str_type', id: 'str_type'},
 		{header: this.colNameExist, width: 50, sortable: true, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: existFormat},
+		{header: this.colNamePrice, width: 200, sortable: true, dataIndex: 'str_price', id:'str_price'},
+		{header: this.colNameGroup, width: 200, sortable: true, dataIndex: 'str_group', id:'str_group'},
+		{header: this.colNameTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title'},
 		{header: this.colNamePrepay, width: 100, sortable: true, dataIndex: 'prepayment', id: 'prepayment', align: 'right', renderer: priceFormat},
-		{header: this.colNamePayfwd, width: 100, sortable: true, dataIndex: 'payment_forward', id: 'payment_forward', align: 'right', renderer: priceFormat},
-		{header: this.colNameTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title'}
+		{header: this.colNamePayfwd, width: 100, sortable: true, dataIndex: 'payment_forward', id: 'payment_forward', align: 'right', renderer: priceFormat}
 	];
 	var Add = function(){
 		var f = new ui.catalogue.item_form();
@@ -111,6 +123,8 @@ ui.catalogue.item_list = function(config, vp){
 Ext.extend(ui.catalogue.item_list, Ext.grid.GridPanel, {
 	limit: 20,
 	colNameExist: "В продаже",
+	colNameGroup: "Группа",
+	colNamePrice: "Прайс",
 	colNamePrepay: "Предоплата",
 	colNamePayfwd: "Нал. плат.",
 	colNameType: "Тип",

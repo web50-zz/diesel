@@ -26,6 +26,9 @@ class ui_guide extends user_interface
 		'type' => array(
 			'guide.type_form'
 		),
+		'price' => array(
+			'guide.price_form'
+		),
 	);
 	
 	public function __construct ()
@@ -120,6 +123,24 @@ class ui_guide extends user_interface
 	public function sys_type_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'type_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Цены
+	*/
+	public function sys_price()
+	{
+		$tmpl = new tmpl($this->pwd() . 'price.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Форма редактирования (Цены)
+	*/
+	public function sys_price_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'price_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }
