@@ -50,6 +50,7 @@ Ext.extend(ui.catalogue.filter_form , Ext.form.FormPanel, {
 	labelTitle: 'Наименование',
 	labelType: 'Тип',
 	labelExist: 'В продаже',
+	labelGroup: 'Группа',
 
 	bttSubmit: 'Применить',
 	bttReset: 'Сбросить'
