@@ -70,8 +70,15 @@ ui.subscribe.group = function(config){
 	
 	var msgList = function(){
 		        var record = this.getSelectionModel().getSelected().get('id');
-			var w = new Ext.Window({title: "Сообщение", modal: true, layout: 'fit', width: 640, height: 480,
+			var msglist = new ui.subscribe.messages_list({region: 'west', split: true, width: 200});
+			var w = new Ext.Window({title: "Сообщения", 
+						modal: true, 
+						layout: 'fit', 
+						width: 800, 
+						height: 600,
+						items: [msglist],
 			});
+			msglist.applyStore({_ssubscr_id: record});
 			w.show();
 	}.createDelegate(this);
 
