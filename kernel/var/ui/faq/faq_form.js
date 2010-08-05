@@ -46,7 +46,7 @@ ui.faq.faq_form = function(config){
 		defaults: {xtype: 'textfield'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
-			{fieldLabel: this.labelName, name: 'faq_question_author_name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
+			{fieldLabel: this.labelName, name: 'faq_question_author_name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText}
 		],
 		buttonAlign: 'right',
 		buttons: [

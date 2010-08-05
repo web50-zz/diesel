@@ -51,7 +51,7 @@ ui.guestbook.guestbook_form = function(config){
 			{fieldLabel: this.labelEmail, name: 'gb_author_email', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 			{fieldLabel: this.labelLocation, name: 'gb_author_location', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 			{xtype: 'htmleditor',ieldLabel: this.labelRecord, name: 'gb_record', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-			{xtype: 'htmleditor',ieldLabel: this.labelAnswer, name: 'gb_answer', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
+			{xtype: 'htmleditor',ieldLabel: this.labelAnswer, name: 'gb_answer', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText}
 		],
 		buttonAlign: 'right',
 		buttons: [
