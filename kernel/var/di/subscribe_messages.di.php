@@ -43,6 +43,9 @@ class di_subscribe_messages extends data_interface
 			'subscr_title' => array('type' => 'string'),
 			'subscr_message_body' => array('type' => 'string'),
 			'subscr_id' => array('type' => 'string'),
+			'subscr_sheduled_to_send' => array('type' => 'integer'),
+			'subscr_sended_flag' => array('type' => 'integer'),
+			'subscr_sended_datetime' => array('type' => 'string'),
 		);
 	
 	public function __construct () {
@@ -76,7 +79,11 @@ class di_subscribe_messages extends data_interface
 						'subscr_title',
 						'subscr_message_body',
 						'subscr_id',
-		));
+						'subscr_sheduled_to_send',
+						'subscr_sended_flag',
+						'subscr_sended_datetime'
+						)
+					);
 	}
 	
 	/**
@@ -99,7 +106,19 @@ class di_subscribe_messages extends data_interface
 			$this->set_args(array('subscr_changer_uid' => UID), true);
 			$this->set_args(array('subscr_creator_uid' => UID), true);
 		}
+		if($this->get_args('subscr_sheduled_to_send') == 1)
+		{
+			$data_b = $this->extjs_form_json(array('subscr_sheduled_to_send','id'),false);
+			if($data_b['data']['subscr_sheduled_to_send'] == '0')
+			{
+				$send_after_saving = true;
+			}
+		}
 		$data = $this->extjs_set_json(false);
+		if($send_after_saving == true)
+		{
+			$this->_send_message_now($this->get_args('_sid'));
+		}
 		response::send($data, 'json');
 	}
 	
@@ -113,6 +132,19 @@ class di_subscribe_messages extends data_interface
 		$this->_flush();
 		$data = $this->extjs_unset_json(false);
 		response::send($data, 'json');
+	}
+
+	protected function _send_message_now($id)
+	{
+		dbg::write('start spam'.$id);
+		$data = $this->_get('SELECT * FROM '.$this->name." WHERE id = $id");
+		$sl = data_interface::get_instance('subscribe_accounts');
+		$slist = $sl->_users_in_group($data[0]['subscr_id']);
+		foreach($slist as $key=>$value)
+		{
+			mail($value['email'],$data[0]['subscr_title'],$data[0]['subscr_message_body']);
+			dbg::write($value['email']);
+		}
 	}
 }
 ?>

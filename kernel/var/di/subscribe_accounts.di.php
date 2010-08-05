@@ -129,10 +129,25 @@ class di_subscribe_accounts extends data_interface
 	{
 		$this->_flush(true);
 		$gu = $this->join_with_di('subscribe_user', array('id' => 'user_id', intval($this->get_args('gid')) => 'group_id'), array('group_id' => 'gid'));
-		return $this->extjs_grid_json(array('id', 'login', 'name'));
+		return $this->extjs_grid_json(array('id', 'email', 'name'));
 	}
 
-	
+	/**
+	*	Get users in group int
+	*/
+	public function _users_in_group($gid)
+	{
+		$this->push_args(array('gid' => $gid, '_ngid' => 'null'));
+		$this->_flush(true);
+		$this->join_with_di('subscribe_user', array('id' => 'user_id', intval($this->get_args('gid')) => 'group_id'), array('group_id' => 'gid'));
+		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
+		$this->what = array('id', 'email','name');
+		$result = $this->_get();
+		$this->pop_args();
+	        return $result;
+	}
+
+
 	/**
 	*	Get records
 	* @access protected

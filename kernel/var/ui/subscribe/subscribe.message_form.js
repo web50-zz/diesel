@@ -55,8 +55,18 @@ ui.subscribe.message_form = function(config){
 		items: [
 			{name: '_sid', xtype: 'hidden'},
 			{name: 'subscr_id', xtype: 'hidden'},
+			{fieldLabel: 'Разослать', hiddenName: 'subscr_sheduled_to_send', value: 0,xtype:'combo',width:50,anchor:null,
+				valueField: 'value',
+				displayField: 'subscr_sheduled_to_send',
+				mode: 'local',
+				triggerAction: 'all',
+				selectOnFocus: true,
+				editable: false,
+				store: new Ext.data.SimpleStore({ fields: ['value', 'subscr_sheduled_to_send'], data: [[0, 'Нет'], [1, 'Да']] })
+			},
 			{fieldLabel: this.labelTitle, name: 'subscr_title', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 			{xtype:'htmleditor', fieldLabel: this.labelBody, name: 'subscr_message_body', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, height:500}
+
 		],
 		buttonAlign: 'right',
 		buttons: [

@@ -78,13 +78,11 @@ class di_subscribe extends data_interface
 		$data = $this->extjs_unset_json(false);
 
 		// Remove all links between users and deleted groups
-		$gu = data_interface::get_instance('group_user');
-		$ig = data_interface::get_instance('interface_group');
+		$gu = data_interface::get_instance('subscribe_user');
 		$ids = (array)$this->get_lastChangedId();
 		foreach ($ids as $gid)
 		{
 			$gu->remove_users_from_group($gid);
-			$gu->remove_interfaces_from_group($gid);
 		}
 
 		response::send($data, 'json');
