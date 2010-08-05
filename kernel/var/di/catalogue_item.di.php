@@ -29,7 +29,13 @@ class di_catalogue_item extends data_interface
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
+		'created_datetime' => array('type' => 'datetime'),
+		'creator_uid' => array('type' => 'integer'),
+		'changed_datetime' => array('type' => 'datetime'),
+		'changer_uid' => array('type' => 'integer'),
+		'income_date' => array('type' => 'date'),
 		'on_offer' => array('type' => 'integer'),
+		'recomended' => array('type' => 'integer'),
 		'title' => array('type' => 'string'),
 		'preview' => array('type' => 'string'),
 		'picture' => array('type' => 'string'),
@@ -82,6 +88,7 @@ class di_catalogue_item extends data_interface
 		$this->extjs_grid_json(array(
 			'id',
 			'on_offer',
+			'recomended',
 			'title',
 			'prepayment',
 			'payment_forward',
@@ -109,6 +116,22 @@ class di_catalogue_item extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
+		if ($this->get_args('_sid') == 0)
+		{
+			$this->set_args(array(
+				'created_datetime' => date('Y-m-d H:i:s'),
+				'creator_uid' => UID,
+				'changed_datetime' => date('Y-m-d H:i:s'),
+				'changer_uid' => UID,
+			), true);
+		}
+		else
+		{
+			$this->set_args(array(
+				'changed_datetime' => date('Y-m-d H:i:s'),
+				'changer_uid' => UID,
+			), true);
+		}
 		$this->extjs_set_json();
 	}
 	

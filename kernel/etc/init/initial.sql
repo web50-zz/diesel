@@ -234,7 +234,13 @@ CREATE TABLE `guide_price` (
 DROP TABLE IF EXISTS `catalogue_item`;
 CREATE TABLE `catalogue_item` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creator_uid` smallint(5) unsigned NOT NULL,
+  `changed_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `changer_uid` smallint(5) unsigned NOT NULL,
   `on_offer` tinyint(1) unsigned NOT NULL,
+  `recomended` tinyint(1) unsigned NOT NULL,
+  `income_date` date NOT NULL DEFAULT '0000-00-00',
   `title` varchar(255) NOT NULL DEFAULT '',
   `preview` varchar(255) NOT NULL DEFAULT '',
   `picture` varchar(255) NOT NULL DEFAULT '',

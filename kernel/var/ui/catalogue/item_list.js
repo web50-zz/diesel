@@ -21,6 +21,7 @@ ui.catalogue.item_list = function(config, vp){
 			{name: 'prepayment', type: 'float'},
 			{name: 'payment_forward', type: 'float'},
 			{name: 'on_offer', type: 'int'},
+			{name: 'recomended', type: 'int'},
 			{name: 'id', type: 'int'},
 			'title',
 			'str_type',
@@ -47,7 +48,7 @@ ui.catalogue.item_list = function(config, vp){
 			bb.doRefresh();
 		}
 	}
-	var existFormat = function(value){
+	var ynFormat = function(value){
 		return (value == 1) ? 'Да' : 'Нет';
 	}
 	var priceFormat = function(value){
@@ -56,13 +57,14 @@ ui.catalogue.item_list = function(config, vp){
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{header: "ID", width: 50, sortable: true, dataIndex: 'id', id: 'id'},
-		{header: this.colNameType, width: 100, sortable: true, dataIndex: 'str_type', id: 'str_type'},
-		{header: this.colNameExist, width: 50, sortable: true, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: existFormat},
-		{header: this.colNamePrice, width: 200, sortable: true, dataIndex: 'str_price', id:'str_price'},
-		{header: this.colNameGroup, width: 200, sortable: true, dataIndex: 'str_group', id:'str_group'},
-		{header: this.colNameTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title'},
-		{header: this.colNamePrepay, width: 100, sortable: true, dataIndex: 'prepayment', id: 'prepayment', align: 'right', renderer: priceFormat},
-		{header: this.colNamePayfwd, width: 100, sortable: true, dataIndex: 'payment_forward', id: 'payment_forward', align: 'right', renderer: priceFormat}
+		{header: this.colType, width: 100, sortable: true, dataIndex: 'str_type', id: 'str_type'},
+		{header: this.colExist, width: 50, sortable: true, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: ynFormat},
+		{header: this.colRecom, width: 50, sortable: true, dataIndex: 'recomended', id:'decomended', align: 'center', renderer: ynFormat},
+		{header: this.colPrice, width: 200, sortable: true, dataIndex: 'str_price', id:'str_price'},
+		{header: this.colGroup, width: 200, sortable: true, dataIndex: 'str_group', id:'str_group'},
+		{header: this.colTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title'},
+		{header: this.colPrepay, width: 100, sortable: true, dataIndex: 'prepayment', id: 'prepayment', align: 'right', renderer: priceFormat},
+		{header: this.colPayfwd, width: 100, sortable: true, dataIndex: 'payment_forward', id: 'payment_forward', align: 'right', renderer: priceFormat}
 	];
 	var Add = function(){
 		var f = new ui.catalogue.item_form();
@@ -122,13 +124,14 @@ ui.catalogue.item_list = function(config, vp){
 };
 Ext.extend(ui.catalogue.item_list, Ext.grid.GridPanel, {
 	limit: 20,
-	colNameExist: "В продаже",
-	colNameGroup: "Группа",
-	colNamePrice: "Прайс",
-	colNamePrepay: "Предоплата",
-	colNamePayfwd: "Нал. плат.",
-	colNameType: "Тип",
-	colNameTitle: "Наименование",
+	colExist: "В продаже",
+	colRecom: "Рекомендовано",
+	colGroup: "Группа",
+	colPrice: "Прайс",
+	colPrepay: "Предоплата",
+	colPayfwd: "Нал. плат.",
+	colType: "Тип",
+	colTitle: "Наименование",
 
 	addTitle: "Добавление элемента",
 	editTitle: "Изменение элемента",

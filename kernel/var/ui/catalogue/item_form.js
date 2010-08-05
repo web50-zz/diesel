@@ -126,19 +126,24 @@ ui.catalogue.item_form = function(config){
 							valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
 						},
 						{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
+						{fieldLabel: this.labelDate, name: 'income_date', xtype: 'datefield', format: 'Y-m-d'},
 						preview, picture,
 						{hideLabel: true, xtype: 'compositefield', items: [
+							{xtype: 'displayfield', value: this.labelRecomended},
+							{hiddenName: 'recomended', xtype: 'combo', width: 50, value: 0,
+								store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
+								valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+							},
 							{xtype: 'displayfield', value: this.labelExist},
 							{hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0,
 								store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
 								valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
-							},
-							{xtype: 'displayfield', value: this.labelPrice},
-							{hiddenName: 'price_id', xtype: 'combo', width: 200,
-								store: new Ext.data.JsonStore({url: 'di/guide_price/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
-								valueField: 'id', displayField: 'title', triggerAction: 'all', editable: false
-							},
+							}
 						]},
+						{fieldLabel: this.labelPrice, hiddenName: 'price_id', xtype: 'combo', width: 200,
+							store: new Ext.data.JsonStore({url: 'di/guide_price/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
+							valueField: 'id', displayField: 'title', triggerAction: 'all', editable: false
+						},
 						{hideLabel: true, xtype: 'compositefield', items: [
 							{xtype: 'displayfield', value: this.labelPrepay},
 							{name: 'prepayment', width: 70, xtype: 'numberfield', decimalPrecision: 2},
@@ -210,7 +215,9 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 	tabFiles: 'Файлы',
 
 	labelName: 'Наименование',
+	labelDate: 'Дата поступления',
 	labelExist: 'В продаже',
+	labelRecomended: 'Рекомендовано',
 	labelPrice: 'Прайс-цена',
 	labelPrepay: "Цена по предоплата",
 	labelPayfwd: "Цена нал. плат.",
