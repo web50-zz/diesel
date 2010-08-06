@@ -20,9 +20,10 @@ class db_config
 			'dbs' => array(
 				'db1' => 'market_web50'
 				)
-			)
+			),
 		'session' => array(
 			'type' => 'session',
-		);
+		)
+	);
 }
 ?>
