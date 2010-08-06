@@ -5,25 +5,33 @@
 * @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
 * @package	SBIN Diesel
 */
-class di_basket extends data_interface
+class di_order extends data_interface
 {
 	public $title = 'Заказы';
 
 	/**
 	* @var	string	$cfg	Имя конфигурации БД
 	*/
-	protected $cfg = 'session';
+	protected $cfg = 'localhost';
+	
+	/**
+	* @var	string	$db	Имя БД
+	*/
+	protected $db = 'db1';
 	
 	/**
 	* @var	string	$name	Имя таблицы
 	*/
-	protected $name = 'basket';
+	protected $name = 'order';
 
 	/**
 	* @var	array	$fields	Конфигурация таблицы
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
+		'created_datetime' => array('type' => 'datetime'),
+		'user_id' => array('type' => 'integer'),
+		'status' => array('type' => 'integer'),
 	);
 	
 	public function __construct ()
@@ -37,6 +45,8 @@ class di_basket extends data_interface
 	*/
 	protected function sys_list()
 	{
+		$this->_flush();
+		$this->extjs_grid_json();
 	}
 	
 	/**
@@ -45,6 +55,8 @@ class di_basket extends data_interface
 	*/
 	protected function sys_get()
 	{
+		$this->_flush();
+		$this->extjs_form_json();
 	}
 	
 	/**
@@ -53,6 +65,9 @@ class di_basket extends data_interface
 	*/
 	protected function sys_set()
 	{
+		$this->_flush();
+		$this->insert_on_empty = true;
+		$this->extjs_set_json();
 	}
 	
 	/**
@@ -61,6 +76,8 @@ class di_basket extends data_interface
 	*/
 	protected function sys_unset()
 	{
+		$this->_flush();
+		$this->extjs_unset_json();
 	}
 }
 ?>

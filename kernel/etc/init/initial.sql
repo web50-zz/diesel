@@ -257,6 +257,17 @@ CREATE TABLE `catalogue_item` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `catalogue_item`;
+CREATE TABLE `catalogue_item` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `user_id` smallint(5) unsigned NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `catalogue_file`;
 CREATE TABLE `catalogue_file` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
