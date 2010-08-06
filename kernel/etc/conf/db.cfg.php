@@ -21,6 +21,8 @@ class db_config
 				'db1' => 'market_web50'
 				)
 			)
+		'session' => array(
+			'type' => 'session',
 		);
 }
 ?>
