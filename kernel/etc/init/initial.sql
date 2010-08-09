@@ -257,8 +257,8 @@ CREATE TABLE `catalogue_item` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `catalogue_item`;
-CREATE TABLE `catalogue_item` (
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `user_id` smallint(5) unsigned NOT NULL,
