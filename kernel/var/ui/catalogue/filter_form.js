@@ -3,7 +3,7 @@ ui.catalogue.filter_form = function(config){
 	this.Load = function(data){
 		var f = this.getForm();
 		f.setValues(data);
-		this.fireEvent('submit', f.getValues());
+		//this.fireEvent('submit', f.getValues());
 	}
 	var Submit = function(){
 		var f = this.getForm();
