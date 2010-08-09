@@ -13,7 +13,10 @@ class ui_faq extends user_interface
 
 	protected $deps = array(
 		'main' => array(
-			'faq.faq_form'
+			'faq.faq_form',
+			'faq.parts_form',
+			'faq.list',
+			'faq.parts_list'
 		),
 	);
 
@@ -30,11 +33,6 @@ class ui_faq extends user_interface
 		return $this->parse_tmpl('default.html',$data);
 	}
 
-	public function pub_double()
-        {
-		return 'faq here';
-	}
-
 	public function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'faq.js');
@@ -42,7 +40,7 @@ class ui_faq extends user_interface
 	}
 
 	/**
-	*       Форма редактирования 
+	*       Форма редактирования вопроса faq 
 	*/
 	public function sys_faq_form()
 	{
@@ -50,6 +48,32 @@ class ui_faq extends user_interface
 		response::send($tmpl->parse($this), 'js');
 	}
 
+	/**
+	*      Грид списка фопросов faq 
+	*/
+	public function sys_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'faq.list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*  Грид разделов faq       
+	*/
+	public function sys_parts_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'faq.parts_list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*  Грид разделов faq       
+	*/
+	public function sys_parts_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'faq.parts_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
 
 }
 ?>

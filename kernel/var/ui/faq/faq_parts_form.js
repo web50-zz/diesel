@@ -1,21 +1,13 @@
-ui.faq.faq_form = function(config){
+ui.faq.faq_parts_form = function(config){
 	Ext.apply(this, config);
-	this.Load = function(id,part_id){
+	this.Load = function(id){
 		var f = this.getForm();
 		f.load({
 			url: 'di/faq/get.json',
 			params: {_sid: id},
 			waitMsg: this.loadText
 		});
-		if(part_id>0)
-		{
-			f.setValues([{id: '_sid', value: id},{id: 'faq_part_id', value: part_id}]);
-		}
-		else
-		{
-			f.setValues([{id: '_sid', value: id}]);
-		}
-
+		f.setValues([{id: '_sid', value: id}]);
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -49,18 +41,12 @@ ui.faq.faq_form = function(config){
 	var Cancel = function(){
 		this.fireEvent('cancelled');
 	}.createDelegate(this);
-	ui.faq.faq_form.superclass.constructor.call(this, {
+	ui.faq.faq_parts_form.superclass.constructor.call(this, {
 		frame: true, 
 		defaults: {xtype: 'textfield'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
-			{xtype: 'displayfield', fieldLabel:this.labelCreated , name: 'faq_created_datetime'},
-			{xtype: 'displayfield', fieldLabel:this.labelChanged , name: 'faq_changed_datetime'},
-			{name: 'faq_part_id', xtype: 'hidden'},
-			{fieldLabel: this.labelName, name: 'faq_question_author_name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelEmail, name: 'faq_question_author_email', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-			{xtype:'htmleditor', fieldLabel: this.labelQuestion, name: 'faq_question', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, height:100},
-			{xtype:'htmleditor', fieldLabel: this.labelAnswer, name: 'faq_answer', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, height:300}
+			{fieldLabel: this.labelName, name: 'faq_question_author_name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText}
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -79,13 +65,10 @@ ui.faq.faq_form = function(config){
 		scope: this
 	})
 }
-Ext.extend(ui.faq.faq_form, Ext.form.FormPanel, {
-	labelName: 'Имя автора',
-	labelEmail: 'email автора',
-	labelQuestion: 'Вопрос',
-	labelAnswer: 'Ответ',
-	labelCreated: 'Создано',
-	labelChanged: 'Изменено',
+Ext.extend(ui.faq.faq_parts_form, Ext.form.FormPanel, {
+	labelName: 'Имя',
+	labelDescr: 'Описание',
+
 	loadText: 'Загрузка данных формы',
 	saveText: 'Сохранение...',
 	blankText: 'Необходимо заполнить',

@@ -1,13 +1,13 @@
 <?php
 /**
-*  DI FAQ latest products
+*  DI FAQ Разделы
 *
 * @author       9*	
 * @package	SBIN Diesel
 */
-class di_faq extends data_interface
+class di_faq_parts extends data_interface
 {
-	public $title = 'FAQ';
+	public $title = 'FAQ parts';
 
 	/**
 	* @var	string	$cfg	Имя конфигурации БД
@@ -22,20 +22,20 @@ class di_faq extends data_interface
 	/**
 	* @var	string	$name	Имя таблицы
 	*/
-	protected $name = 'faq';
+	protected $name = 'faq_parts';
 
 	/**
 	* @var	array	$fields	Конфигурация таблицы
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'faq_question_author_name' => array('type' => 'string'),
-		'faq_question_author_email' => array('type' => 'string'),
-		'faq_created_datetime' => array('type' => 'string'),
-		'faq_changed_datetime' => array('type' => 'string'),
-		'faq_question' => array('type' => 'text'),
-		'faq_answer' => array('type' => 'text'),
-		'faq_part_id' => array('type' => 'integer'),
+		'faqp_title' => array('type' => 'string'),
+		'faqp_created_datetime'=>array('type'=>'string'),
+		'faqp_changed_datetime'=>array('type'=>'string'),
+		'faqp_deleted_datetime'=>array('type'=>'string'),
+		'faqp_deleter_uid'=>array('type'=>'integer'),
+		'faqp_creator_uid'=>array('type'=>'integer'),
+		'faqp_changer_uid'=>array('type'=>'integer'),
 	);
 	
 	public function __construct ()
@@ -61,7 +61,7 @@ class di_faq extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
-		$this->extjs_grid_json(array('id','faq_question'));
+		$this->extjs_grid_json(array('id','faqp_title'));
 	}
 	
 	/**
@@ -91,19 +91,20 @@ class di_faq extends data_interface
 	protected function sys_set()
 	{
 		$this->_flush();
-		$this->insert_on_empty = true;
+		$this->insert_on_empty = true;	
 		if ($this->get_args('_sid')>0)
 		{
-			$this->set_args(array('faq_changed_datetime' => date('Y-m-d H:i:S')), true);
-			$this->set_args(array('faq_changer_uid' => UID), true);
+			$this->set_args(array('faqp_changed_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('faqp_changer_uid' => UID), true);
 		}
 		else
 		{
-			$this->set_args(array('faq_created_datetime' => date('Y-m-d H:i:S')), true);
-			$this->set_args(array('faq_changed_datetime' => date('Y-m-d H:i:S')), true);
-			$this->set_args(array('faq_changer_uid' => UID), true);
-			$this->set_args(array('faq_creator_uid' => UID), true);
+			$this->set_args(array('faqp_created_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('faqp_changed_datetime' => date('Y-m-d H:i:S')), true);
+			$this->set_args(array('faqp_changer_uid' => UID), true);
+			$this->set_args(array('faqp_creator_uid' => UID), true);
 		}
+
 		$this->extjs_set_json();
 	}
 	
