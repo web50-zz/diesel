@@ -72,6 +72,16 @@ class ui_structure extends user_interface
 					}
 					$css_resource[$vp->ui_name] = true;
 				}
+				//9* js output
+				if(!$js_resource[$vp->ui_name])
+				{
+					if($path = $ui->get_resource_path($vp->ui_name.'.res.js'))
+					{
+						$data['js_resources'][] = $path;
+					}
+					$js_resource[$vp->ui_name] = true;
+				}
+
 			}
 			catch(exception $e)
 			{
@@ -82,6 +92,10 @@ class ui_structure extends user_interface
 		if($path = $this->get_resource_path($this->interfaceName.'.css'))
 		{
 			$data['css_resources'][] = $path;
+		}
+        		if($path = $this->get_resource_path($this->interfaceName.'.res.js'))
+		{
+			$data['js_resources'][] = $path;
 		}
         
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
