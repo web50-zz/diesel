@@ -19,13 +19,34 @@ class ui_pub_auth extends user_interface
 
         public function pub_content()
         {
+		$args = request::get(array('user', 'secret'));
 		$data = array();
-		return $this->parse_tmpl('default.html',$data);
-	}
+		
+		try
+		{
+			if (!empty($args))
+				authenticate::login();
+		}
+		catch(Exception $e)
+		{
+			dbg::write($e->getMessage(), LOG_PATH . 'access.log');
+			$data['errors'] = $e->getMessage();
+		}
 
-	public function pub_double()
-        {
-		return 'pub auth here';
+		if (request::get('logout') == 'yes')
+			authenticate::logout();
+			
+
+		if (authenticate::is_logged())
+		{
+			$su = data_interface::get_instance(AUTH_DI);
+			$data ['user'] = $su->get_user();
+			return $this->parse_tmpl('logged.html',$data);
+		}
+		else
+		{
+			return $this->parse_tmpl('login.html',$data);
+		}
 	}
 }
 ?>

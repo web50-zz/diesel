@@ -1,4 +1,7 @@
 <?php
+// NOTE: Start session
+session_start();
+
 // NOTE: Определяем базовый путь
 $pathinfo = pathinfo(__FILE__);
 define('BASE_PATH', $pathinfo['dirname'] . '/');
