@@ -32,7 +32,6 @@ class ui_catalogue extends user_interface
 
 	protected function pub_content()
 	{
-		$cart = data_interface::get_instance('cart');
 		$di = data_interface::get_instance('catalogue_item');
 		$di->set_args(array(
 			'sort' => 'id',
@@ -42,36 +41,10 @@ class ui_catalogue extends user_interface
 		));
 		$di->set_args($this->get_args(), true);
 		$data = $di->get_items();
+
+		$cart = data_interface::get_instance('cart');
 		$data['cart'] = $cart->_list();
 		return $this->parse_tmpl('default.html',$data);
-	}
-
-	/**
-	*	Добавить элемент в корзину
-	*/
-	protected function pub_add2cart()
-	{
-		$id = request::get('id');
-		$di = data_interface::get_instance('cart');
-		$di->_set($id);
-		response::send(array(
-			'success' => true,
-			'count' => $di->_get($id)
-		), 'json');
-	}
-
-	/**
-	*	Добавить элемент в корзину
-	*/
-	protected function pub_rem2cart()
-	{
-		$id = request::get('id');
-		$di = data_interface::get_instance('cart');
-		$di->_unset($id);
-		response::send(array(
-			'success' => true,
-			'count' => $di->_get($id)
-		), 'json');
 	}
 	
 	/**

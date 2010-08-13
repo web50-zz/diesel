@@ -287,6 +287,7 @@ class connector_mysql
 			$this->_prepare_get();
 			$sql = "SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_order} {$this->_limit}";
 		}
+		dbg::write($sql);
 
 		$results = $this->exec($sql, $this->_where_values, TRUE, TRUE);
 		$this->di->set_results($results);
@@ -552,6 +553,10 @@ class connector_mysql
 					{
 						$str = "{$name}_parent.{$field} = :_s{$sField}";
 						$this->_where_values['_s'.$sField] = intval($this->_args['_s'.$sField]);
+					}
+					else if (is_array($this->_args['_s'.$sField]))
+					{
+						$str = "{$name}.{$field} IN (" . join(", ", array_map('intval', $this->_args['_s'.$sField])) . ")";
 					}
 					else if ('null' != strtolower($this->_args['_s'.$sField]))
 					{

@@ -53,9 +53,10 @@ class di_cart extends data_interface
 	*	Сохранить данные и вернуть JSON-пакет для ExtJS
 	* @access protected
 	*/
-	public function _set($id)
+	public function _set($id, $count)
 	{
-		return session::set($id, $this->_get($id) + 1, $this->name);
+		$count = (!$count) ? $this->_get($id) + 1 : $count;
+		return session::set($id, $count, $this->name);
 	}
 	
 	/**
@@ -64,11 +65,7 @@ class di_cart extends data_interface
 	*/
 	public function _unset($id)
 	{
-		$count = $this->_get($id);
-		if ($count > 1)
-			session::set($id, $count - 1, $this->name);
-		else
-			session::del($id, $this->name);
+		return session::del($id, $this->name);
 	}
 }
 ?>
