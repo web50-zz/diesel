@@ -1,8 +1,12 @@
 <div class="catalogue">
 {__(apply(/records)__}
-	<div class="news_div">
+	<div class="item">
+		<a href="javascript: void(0)" title="Remove from cart" class="rem2cart" cid="{__id__}"><img src="/ico/silk/cart_delete.png" align="right" border="0"/></a>
+		<a href="javascript: void(0)" title="Add to cart" class="add2cart" cid="{__id__}"><img src="/ico/silk/cart_add.png" align="right" border="0" hspace="5"/></a>
 		<h1>{__title__}</h1>
-		{__description__}<hr/>
+		{__description__}<br/>
+		<input type="text" id="catalogue_item_{__id__}" value="{__echo(/cart[$id])__}"/>
+		<hr/>
 	</div>
 {__apply)__}
 </div>

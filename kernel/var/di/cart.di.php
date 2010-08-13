@@ -5,7 +5,7 @@
 * @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
 * @package	SBIN Diesel
 */
-class di_basket extends data_interface
+class di_cart extends data_interface
 {
 	public $title = 'Заказы';
 
@@ -17,7 +17,7 @@ class di_basket extends data_interface
 	/**
 	* @var	string	$name	Имя таблицы
 	*/
-	protected $name = 'basket';
+	protected $name = 'cart';
 
 	/**
 	* @var	array	$fields	Конфигурация таблицы
@@ -35,32 +35,40 @@ class di_basket extends data_interface
 	/**
 	*	Список записей
 	*/
-	protected function sys_list()
+	public function _list()
 	{
+		return session::get(null, array(), $this->name);
 	}
 	
 	/**
 	*	Получить данные элемента в виде JSON
 	* @access protected
 	*/
-	protected function sys_get()
+	public function _get($id)
 	{
+		return session::get($id, 0, $this->name);
 	}
 	
 	/**
 	*	Сохранить данные и вернуть JSON-пакет для ExtJS
 	* @access protected
 	*/
-	protected function sys_set()
+	public function _set($id)
 	{
+		return session::set($id, $this->_get($id) + 1, $this->name);
 	}
 	
 	/**
 	*	Удалить данные и вернуть JSON-пакет для ExtJS
 	* @access protected
 	*/
-	protected function sys_unset()
+	public function _unset($id)
 	{
+		$count = $this->_get($id);
+		if ($count > 1)
+			session::set($id, $count - 1, $this->name);
+		else
+			session::del($id, $this->name);
 	}
 }
 ?>

@@ -16,19 +16,6 @@ class connector_session
 	public function __construct($di)
 	{
 		$this->di = $di;
-		$this->_init();
-	}
-	
-	protected function _init()
-	{
-		try
-		{
-			$cfg = $this->di->get_cfg();
-		}
-		catch(PDOException $e)
-		{
-			throw new Exception('Init error: '.$e->getMessage());
-		}
 	}
 	
 	/**
@@ -52,6 +39,26 @@ class connector_session
 	*/
 	public function _set()
 	{
+		$data = $this->prepare_set();
+
+		if (!empty($data))
+		{
+			session::set($data, NULL, $this->di->name);
+		}
+
+	}
+
+	private function prepare_set()
+	{
+		$data = array();
+		foreach ($this->di->fields as $field => $params)
+		{
+			if (array_key_exists($field, $this->di->args))
+			{
+				$value = $this->di->args[$field];
+			}
+		}
+		return $data;
 	}
 	
 	/**
