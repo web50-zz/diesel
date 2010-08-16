@@ -40,7 +40,9 @@ class di_user extends data_interface
 			'name' => array('type' => 'string'),
 			'email' => array('type' => 'string'),
 			'lang' => array('type' => 'string'),
-			'hash' => array('type' => 'string', 'hash' => TRUE, 'protected' => FALSE)
+			'hash' => array('type' => 'string', 'hash' => TRUE, 'protected' => FALSE),
+			'remote_addr' => array('type' => 'string'),
+			'created_datetime' => array('type' => 'datetime')
 		);
 	
 	public function __construct () {
