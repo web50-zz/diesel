@@ -287,7 +287,6 @@ class connector_mysql
 			$this->_prepare_get();
 			$sql = "SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_order} {$this->_limit}";
 		}
-		dbg::write($sql);
 
 		$results = $this->exec($sql, $this->_where_values, TRUE, TRUE);
 		$this->di->set_results($results);

@@ -31,13 +31,44 @@ class di_cart extends data_interface
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
 	}
+	
+	public function get_records()
+	{
+		$records = array();
+		$ids = array_keys($this->_list());
+
+		if (!empty($ids))
+		{
+			$cati = data_interface::get_instance('catalogue_item');
+			$cati->_flush(true);
+			$cati->connector->fetchMethod = PDO::FETCH_ASSOC;
+			$gt = $cati->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+			$gp = $cati->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'str_cost'));
+			$cati->what = array(
+				'id',
+				'title',
+				array('di' => $gt, 'name' => 'name'),
+				array('di' => $gp, 'name' => 'cost'),
+			);
+			$cati->set_args(array("_sid" => $ids));
+
+			$records = $cati->_get();
+			$i = $this->_list();
+			foreach ($records as $n => $rec)
+			{
+				$records[$n]['count'] = $i[$rec['id']];
+			}
+		}
+
+		return (array)$records;
+	}
 
 	/**
 	*	Список записей
 	*/
 	public function _list()
 	{
-		return session::get(null, array(), $this->name);
+		return (array)session::get(null, array(), $this->name);
 	}
 	
 	/**

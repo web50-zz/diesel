@@ -16,6 +16,7 @@ ui.catalogue = function(conf){
 			params: {id: id},
 			success: function(resp, opts){
 				var obj = Ext.decode(resp.responseText);
+				alert("Товар добавлен в корзину")
 			},
 			failure: function(resp, opts){
 				alert(resp.status);

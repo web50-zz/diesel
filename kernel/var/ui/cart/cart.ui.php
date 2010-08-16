@@ -21,30 +21,47 @@ class ui_cart extends user_interface
         public function pub_content()
         {
 		$cart = data_interface::get_instance('cart');
-		$items = $cart->_list();
-		if (!empty($items))
-		{
-			$ids = array_keys($items);
-			$cati = data_interface::get_instance('catalogue_item');
-			$cati->_flush(true);
-			$gt = $cati->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
-			$gp = $cati->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'str_cost'));
-			$cati->what = array(
-				'id',
-				'title',
-				array('di' => $gt, 'name' => 'name'),
-				array('di' => $gp, 'name' => 'cost'),
-			);
-			$cati->set_args(array("_sid" => $ids));
-			//$cati->set_args(array("_sid" => $ids[0]));
-			$records = $cati->_get();
-		}
 		$data = array(
-			'cart' => $items,
-			'records' => $records
+			'records' => $cart->get_records()
 		);
                 return $this->parse_tmpl('default.html', $data);
         }
+
+	/**
+	*	Расчитать общую сумму корзины
+	*/
+	public function calculate()
+	{
+		$summ = 0;
+		$cart = data_interface::get_instance('cart');
+		$records = $cart->get_records();
+
+		foreach ($records as $rec)
+		{
+			$summ+= (float)$rec['str_cost'] * $rec['count'];
+		}
+
+		return $summ;
+	}
+
+	/**
+	*	Пересчёт корзины
+	*/
+	protected function pub_recalc()
+	{
+		$counts = request::get('count', array());
+		$di = data_interface::get_instance('cart');
+
+		foreach ($counts as $id => $count)
+		{
+			$di->_set($id, $count);
+		}
+
+		response::send(array(
+			'success' => true,
+			'summ' => $this->calculate()
+		), 'json');
+	}
 
 	/**
 	*	Добавить элемент в корзину
@@ -56,7 +73,8 @@ class ui_cart extends user_interface
 		$di->_set($id);
 		response::send(array(
 			'success' => true,
-			'count' => $di->_get($id)
+			'count' => $di->_get($id),
+			'summ' => $this->calculate()
 		), 'json');
 	}
 
@@ -69,7 +87,8 @@ class ui_cart extends user_interface
 		$di = data_interface::get_instance('cart');
 		$di->_unset($id);
 		response::send(array(
-			'success' => true
+			'success' => true,
+			'summ' => $this->calculate()
 		), 'json');
 	}
 }
