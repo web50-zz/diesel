@@ -23,8 +23,31 @@ class ui_order extends user_interface
 
         public function pub_content()
         {
-		$data = array();
-		return $this->parse_tmpl('default.html',$data);
+		if (request::get('order-confirm') == 'yes')
+		{
+			$diOrder = data_interface::get_instance('order');
+			$diOItem = data_interface::get_instance('order_item');
+			// Создаём запись заказа и получает ID
+			$result = $diOrder->set(request::get());
+			dbg::write($result);
+
+			if ($result['success'] == true)
+			{
+				// Сохраняем карзину в талицу
+				$diOItem->remember_cart($result['data']['id']);
+			}
+
+			// возвращаем результат
+			return $this->parse_tmpl('success.html', $data);
+		}
+		else
+		{
+			$uiCart = user_interface::get_instance('cart');
+			$data = array(
+				'cart' => $uiCart->get_html_cart()
+			);
+			return $this->parse_tmpl('default.html',$data);
+		}
 	}
 
 	public function sys_main()

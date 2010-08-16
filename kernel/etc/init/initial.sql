@@ -268,6 +268,18 @@ CREATE TABLE `order` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `order_item`;
+CREATE TABLE `order_item` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` smallint(5) unsigned NOT NULL,
+  `item_id` smallint(5) unsigned NOT NULL,
+  `count` smallint(5) unsigned NOT NULL,
+  `cost` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `catalogue_file`;
 CREATE TABLE `catalogue_file` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,

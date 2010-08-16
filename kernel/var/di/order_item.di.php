@@ -1,13 +1,13 @@
 <?php
 /**
-*	Интерфейс данных "Заказы"
+*	Интерфейс данных "Заказы: товары"
 *
 * @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
 * @package	SBIN Diesel
 */
-class di_order extends data_interface
+class di_order_item extends data_interface
 {
-	public $title = 'Заказы';
+	public $title = 'Заказы: товары';
 
 	/**
 	* @var	string	$cfg	Имя конфигурации БД
@@ -22,19 +22,20 @@ class di_order extends data_interface
 	/**
 	* @var	string	$name	Имя таблицы
 	*/
-	protected $name = 'order';
+	protected $name = 'order_item';
 
 	/**
 	* @var	array	$fields	Конфигурация таблицы
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'created_datetime' => array('type' => 'datetime'),
-		'user_id' => array('type' => 'integer'),
-		'status' => array('type' => 'integer'),
+		'order_id' => array('type' => 'integer'),
+		'item_id' => array('type' => 'integer'),
+		'count' => array('type' => 'integer'),
+		'cost' => array('type' => 'integer'),
 	);
 	
-	public function __construct ()
+	public function __construct()
 	{
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
@@ -69,25 +70,32 @@ class di_order extends data_interface
 		$this->insert_on_empty = true;
 		$this->extjs_set_json();
 	}
-	
+
 	/**
-	*	Сохранить данные
-	* @access	public
-	* @param	array	$data	Datas
+	*	Запомнить набор корзины в таблицу
+	* @access public
+	* @param	integer	$order_id	ID заказа
 	*/
-	public function set($data)
+	public function remember_cart($order_id)
 	{
-		$this->push_args((array)$data);
-		$this->set_args(array(
-			'created_datetime' => date('Y-m-d H:i:s'),
-			'user_id' => (integer)UID,
-			'status' => 0
-		), true);
-		$this->_flush();
-		$this->insert_on_empty = true;
-		$results = $this->extjs_set_json(false);
-		$this->pop_args();
-		return $results;
+		$cart = data_interface::get_instance('cart');
+		$records = $cart->get_records();
+		
+		foreach ($records as $rec)
+		{
+			$this->set_args(array(
+				'order_id' => $order_id,
+				'item_id' => $rec['id'],
+				'count' => $rec['count'],
+				'cost' => $rec['str_cost'],
+			));
+			$this->_flush();
+			$this->insert_on_empty = true;
+			$this->_set();
+			$cart->_unset($rec['id']);
+		}
+
+		return true;
 	}
 	
 	/**

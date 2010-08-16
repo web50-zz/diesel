@@ -18,7 +18,7 @@ class ui_cart extends user_interface
         /**
         *       Отрисовка контента для внешней части
         */
-        public function pub_content()
+        protected function pub_content()
         {
 		$cart = data_interface::get_instance('cart');
 		$data = array(
@@ -26,6 +26,18 @@ class ui_cart extends user_interface
 		);
                 return $this->parse_tmpl('default.html', $data);
         }
+
+	/**
+	*	Получить корзину в виде HTML
+	*/
+	public function get_html_cart()
+	{
+		$cart = data_interface::get_instance('cart');
+		$data = array(
+			'records' => $cart->get_records()
+		);
+                return $this->parse_tmpl('table.html', $data);
+	}
 
 	/**
 	*	Расчитать общую сумму корзины

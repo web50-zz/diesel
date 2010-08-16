@@ -1,0 +1,61 @@
+<div class="order-ui">
+	<h1>Оформить заказ</h1>
+	<b>Уважаемый(ая), {__/user/name__}!</b>
+	Спасибо, что воспользовались услугами нашего магазина.
+
+	<b>Данные для доставки заказа:</b>
+	<form id="order_form">
+		<input type="hidden" name="order-confirm" value="yes"/>
+		<table>
+		<tr>
+			<td>Страна:</td>
+			<td>{__/user/country__}</td>
+		</tr>
+		<tr>
+			<td>Регион:</td>
+			<td>{__/user/region__}</td>
+		</tr>
+		<tr>
+			<td>Почтовый адрес:</td>
+			<td>{__/user/address__}</td>
+		</tr>
+		<tr>
+			<td>Способ оплаты:</td>
+			<td>
+				<input type="radio" name="method_of_payment" value="1"> WebMoney<br/>
+				<input type="radio" name="method_of_payment" value="2"> Курьеру наличными (Москва)<br/>
+				<input type="radio" name="method_of_payment" value="3"> Наложенные платёж<br/>
+				<input type="radio" name="method_of_payment" value="4"> Предоплата<br/>
+				<input type="radio" name="method_of_payment" value="5"> Яндекс.Деньги<br/>
+			</td>
+		</tr>
+		<tr>
+			<td><b>Ваша скидка:</b></td>
+			<td>{__php::sprintf('%0.2f %%', /user/discount)__}</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<b>Ваш заказ:</b><br/>
+				{__cart__}
+			</td>
+		</tr>
+		<tr>
+			<td>Кол-во почтовых отправлений:</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>Стоимость доставки:</td>
+			<td><div id="order-fld-delivery_cost">200</div></td>
+		</tr>
+		<tr>
+			<td>Общая стоимость заказа:</td>
+			<td><div id="order-fld-total_cost">{__total_summ__}</div></td>
+		</tr>
+		<tr>
+			<td>Комментарий:</td>
+			<td><textarea name="comments" style="width: 100%"></textarea></td>
+		</tr>
+		</table>
+		<center><input type="submit" class="order-btt-submit" value="Отправить заказать"/></center>
+	</form>
+</div>
