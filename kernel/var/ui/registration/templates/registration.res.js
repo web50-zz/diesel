@@ -1,20 +1,9 @@
-Ext.namespace("ui.registration");
+Ext.onReady(function(){
+Ext.EventManager.on('submbutt','click',handleSubmit);
+});
 
-ui.registration = function(conf){
 
-this.collectButtons = function(){
-		Ext.each(Ext.query(".submbutt"), function(item, index, allItems){
-			Ext.get(item).on({
-				click: function(ev, el, opt){
-					this.handleSubmit();
-				},
-				scope: this
-			})
-		}, this);
-
-}
-
-this.handleSubmit = function(){
+function handleSubmit(){
 	Ext.each(Ext.query(".req",Ext.fly('.regform')), function(item, index, allItems){
 		el = Ext.get(item);
 		if(el.getValue() == '')
@@ -31,37 +20,33 @@ this.handleSubmit = function(){
 		}
 	}, this);
 
-	Ext.Ajax.request({
-		url: '/ui/registration/register.do',
-		form: 'regform',
-		success: function(response, opts) {
-		var obj = Ext.decode(response.responseText);
-			if(obj.code == '400')
-			{
-				Ext.fly('errortext').dom.innerHTML = obj.error;
-			}
-			else
-			{
-				Ext.fly('errortext').dom.innerHTML = '';
-			}
 
-			if(obj.code == '200')
-			{
-				Ext.fly('report').dom.innerHTML = obj.report;
-			}
-			else
-			{
-				Ext.fly('report').dom.innerHTML = '';
-			}
-		},
-		 failure: function(response, opts) {
-			 console.log(' Error ' + response.status);
-			}
-		});
-	}
+Ext.Ajax.request({
+   url: '/ui/registration/register.do',
+   form: 'regform',
+   success: function(response, opts) {
+     var obj = Ext.decode(response.responseText);
+		if(obj.code == '400')
+		{
+			Ext.fly('errortext').dom.innerHTML = obj.error;
+		}
+		else
+		{
+			Ext.fly('errortext').dom.innerHTML = '';
+		}
+
+		if(obj.code == '200')
+		{
+			Ext.fly('report').dom.innerHTML = obj.report;
+		}
+		else
+		{
+			Ext.fly('report').dom.innerHTML = '';
+		}
+	},
+   failure: function(response, opts) {
+   console.log(' Error ' + response.status);
+    }
+ });
+
 }
-
-Ext.onReady(function(){
-	var c = new ui.registration();
-	c.collectButtons();
-});
