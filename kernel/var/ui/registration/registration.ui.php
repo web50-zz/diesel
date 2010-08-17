@@ -19,10 +19,8 @@ class ui_registration extends user_interface
 
         public function pub_registration_form()
         {
-		dbg::write(UID);
-
 		$data = array();
-		if((integer)UID)
+		if(authenticate::is_logged())
 		{
 			return $this->parse_tmpl('logged.html',$data);
 		}
