@@ -28,6 +28,11 @@ class di_user extends data_interface
 	* @var	array	$user	Current logged in user`s data
 	*/
 	protected $user = array();
+
+	/**
+	* @var	boolean	$is_logged	Состояние пользователя
+	*/
+	public $is_logged = false;
 	
 	/**
 	* @var	array	$fields	The fields configuration

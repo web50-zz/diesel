@@ -17,6 +17,8 @@ class authenticate
 		// Get instance of authentification data interface
 		$auth = data_interface::get_instance(AUTH_DI);
 
+		if ($auth->is_logged) return TRUE;
+
 		// Get values stored in session
 		$sess = session::get(array('uid', 'ulogin', 'uhash'), NULL, AUTH_DI);
 
@@ -28,6 +30,8 @@ class authenticate
 
 		// If there is no authentification`s data then return FALSE
 		if (!$data) return FALSE;
+
+		$auth->is_logged = TRUE;
 
 		// Define UID of logged user
 		define('UID', $data['id']);
@@ -72,6 +76,9 @@ class authenticate
 	public static function logout()
 	{
 		session::del(array('uid', 'ulogin', 'uhash'), AUTH_DI);
+		// Get instance of authentification data interface
+		$auth = data_interface::get_instance(AUTH_DI);
+		$auth->is_logged = FALSE;
 	}
 }
 ?>
