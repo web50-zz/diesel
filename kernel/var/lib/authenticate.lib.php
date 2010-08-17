@@ -69,6 +69,8 @@ class authenticate
 	public static function logout()
 	{
 		session::del(array('uid', 'ulogin', 'uhash'), AUTH_DI);
+		if (defined(UID)) unset(UID);
+		if (defined(AID)) unset(AID);
 	}
 }
 ?>
