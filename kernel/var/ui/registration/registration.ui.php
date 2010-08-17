@@ -35,7 +35,7 @@ class ui_registration extends user_interface
 			$data['login'] = $this->args['email'];
 			$data['name'] = $this->args['fio'];
 			$data['email'] = $this->args['email'];
-			$data['passw'] = 'default';
+			$data['passw'] = $this->args['passwd'];
 			$data['lang'] = 'ru_RU';
 			$data['remote_addr'] = $_SERVER['REMOTE_ADDR'];
 			$data['created_datetime'] =  date('Y-m-d H:i:S'); 

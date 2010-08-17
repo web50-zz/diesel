@@ -30,7 +30,6 @@ this.handleSubmit = function(){
 			elt.replaceClass('field_name_error','field_name');
 		}
 	}, this);
-
 	Ext.Ajax.request({
 		url: '/ui/registration/register.do',
 		form: 'regform',
@@ -48,6 +47,16 @@ this.handleSubmit = function(){
 			if(obj.code == '200')
 			{
 				Ext.fly('report').dom.innerHTML = obj.report;
+				Ext.Ajax.request({
+					url: '?',
+					success: function(response,opts){
+							window.location="?";
+						},
+					failure: function(response,opts){
+							alert('failure');
+						},
+					params: { user: Ext.fly('email').getValue(),secret: Ext.fly('passwd').getValue()}
+				});
 			}
 			else
 			{
@@ -59,6 +68,7 @@ this.handleSubmit = function(){
 			}
 		});
 	}
+	
 }
 
 Ext.onReady(function(){
