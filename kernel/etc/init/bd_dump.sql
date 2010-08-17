@@ -364,7 +364,7 @@ CREATE TABLE `interface` (
   `entry_point` varchar(255) NOT NULL COMMENT 'The name of interfaces method',
   `human_entry_point` varchar(255) NOT NULL COMMENT 'The human name of interfaces method',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=282 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=312 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -400,6 +400,48 @@ CREATE TABLE `news` (
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `order` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `created_datetime` datetime NOT NULL default '0000-00-00 00:00:00',
+  `user_id` smallint(5) unsigned NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL,
+  `country_id` smallint(5) unsigned NOT NULL,
+  `region_id` smallint(5) unsigned NOT NULL,
+  `address` text NOT NULL,
+  `method_of_payment` tinyint(1) unsigned NOT NULL,
+  `discount` decimal(10,2) unsigned NOT NULL,
+  `delivery_cost` decimal(10,2) unsigned NOT NULL,
+  `comments` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `order_item`
+--
+
+DROP TABLE IF EXISTS `order_item`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `order_item` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `order_id` smallint(5) unsigned NOT NULL,
+  `item_id` smallint(5) unsigned NOT NULL,
+  `count` smallint(5) unsigned NOT NULL,
+  `cost` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `order_id` (`order_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `structure`
 --
 
@@ -427,7 +469,7 @@ CREATE TABLE `structure` (
   PRIMARY KEY  (`id`),
   KEY `site_part_id` (`left`,`right`,`level`),
   KEY `uri` (`uri`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -540,10 +582,11 @@ CREATE TABLE `sys_user` (
   `hash` varchar(64) NOT NULL,
   `login_date` datetime NOT NULL,
   `remote_addr` varchar(32) NOT NULL,
+  `created_datetime` datetime NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `account_id` (`login`,`passw`),
   KEY `hash` (`hash`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='System user';
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='System user';
 SET character_set_client = @saved_cs_client;
 
 --
@@ -579,7 +622,7 @@ CREATE TABLE `ui_view_point` (
   `ui_configure` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `page_id` (`page_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -591,4 +634,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-12  9:06:21
+-- Dump completed on 2010-08-17 14:27:49
