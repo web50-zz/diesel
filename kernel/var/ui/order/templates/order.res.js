@@ -1,5 +1,5 @@
 Ext.namespace("ui.order");
-ui.cart = function(conf){
+ui.order = function(conf){
 	this.collectButtons = function(){
 	}
 }

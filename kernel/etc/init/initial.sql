@@ -263,6 +263,13 @@ CREATE TABLE `order` (
   `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `user_id` smallint(5) unsigned NOT NULL,
   `status` tinyint(1) unsigned NOT NULL,
+  `country_id` smallint(5) unsigned NOT NULL,
+  `region_id` smallint(5) unsigned NOT NULL,
+  `address` text NOT NULL,
+  `method_of_payment` tinyint(1) unsigned NOT NULL,
+  `discount` decimal(10,2) unsigned NOT NULL,
+  `delivery_cost` decimal(10,2) unsigned NOT NULL,
+  `comments` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

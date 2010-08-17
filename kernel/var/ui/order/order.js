@@ -18,7 +18,7 @@ ui.order.main = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}]
+		[{name: 'id', type: 'int'}, 'created_datetime', 'status', 'method_of_payment', 'discount', 'delivery_cost', 'str_user_name']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -33,7 +33,13 @@ ui.order.main = function(config){
 	});
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50}
+		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
+		{id: 'created_datetime', dataIndex: 'created_datetime', header: 'Дата создания', width: 100},
+		{id: 'status', dataIndex: 'status', header: 'Статус', width: 100},
+		{id: 'method_of_payment', dataIndex: 'method_of_payment', header: 'Способ оплаты', width: 100},
+		{id: 'discount', dataIndex: 'discount', header: 'Скидка', width: 100},
+		{id: 'delivery_cost', dataIndex: 'delivery_cost', header: 'Соимость доставки', width: 100},
+		{id: 'str_user_name', dataIndex: 'str_user_name', header: 'Пользователь', width: 100}
 	];
 	var Add = function(){
 		var f = new ui.order.order_form();

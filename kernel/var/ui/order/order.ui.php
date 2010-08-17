@@ -29,7 +29,6 @@ class ui_order extends user_interface
 			$diOItem = data_interface::get_instance('order_item');
 			// Создаём запись заказа и получает ID
 			$result = $diOrder->set(request::get());
-			dbg::write($result);
 
 			if ($result['success'] == true)
 			{
@@ -43,7 +42,9 @@ class ui_order extends user_interface
 		else
 		{
 			$uiCart = user_interface::get_instance('cart');
+			$diUser = data_interface::get_instance(AUTH_DI);
 			$data = array(
+				'user' => $diUser->get_user(),
 				'cart' => $uiCart->get_html_cart()
 			);
 			return $this->parse_tmpl('default.html',$data);

@@ -29,9 +29,16 @@ class di_order extends data_interface
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'created_datetime' => array('type' => 'datetime'),
-		'user_id' => array('type' => 'integer'),
-		'status' => array('type' => 'integer'),
+		'created_datetime' => array('type' => 'datetime'),	// Дата создания
+		'user_id' => array('type' => 'integer'),		// ID пользователя
+		'status' => array('type' => 'integer'),			// Статус заказа
+		'country_id' => array('type' => 'integer'),		// Страна
+		'region_id' => array('type' => 'integer'),		// Регион
+		'address' => array('type' => 'string'),			// Адрес
+		'method_of_payment' => array('type' => 'integer'),	// Способ оплаты
+		'discount' => array('type' => 'float'),			// Скидка
+		'delivery_cost' => array('type' => 'float'),		// Стоимость доставки
+		'comments' => array('type' => 'text'),			// Коментарий
 	);
 	
 	public function __construct ()
@@ -45,8 +52,12 @@ class di_order extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->_flush();
-		$this->extjs_grid_json();
+		$this->_flush(true);
+		$user = $this->join_with_di('user', array('user_id' => 'id'), array('name' => 'str_user_name'));
+		$this->extjs_grid_json(array(
+			'id', 'created_datetime', 'status', 'method_of_payment', 'discount', 'delivery_cost',
+			array('di' => $user, 'name' => 'name')
+		));
 	}
 	
 	/**
