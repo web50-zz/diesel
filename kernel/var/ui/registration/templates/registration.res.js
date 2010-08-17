@@ -9,14 +9,14 @@ function handleSubmit(){
 		if(el.getValue() == '')
 		{
 			var elt = Ext.fly(el.getAttribute('fldttlid'));
-			el.setStyle({'background-color':'#FAA'});
-			elt.setStyle({'color':'#F00'});
+			el.replaceClass('field','field_error');
+			elt.replaceClass('field_name','field_name_error');
 		}
 		else
 		{
 			var elt = Ext.fly(el.getAttribute('fldttlid'));
-			el.setStyle({'background-color':null});
-			elt.setStyle({'color':null});
+			el.replaceClass('field_error','field');
+			elt.replaceClass('field_name_error','field_name');
 		}
 	}, this);
 
