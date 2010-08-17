@@ -29,7 +29,7 @@ class di_order_item extends data_interface
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'order_id' => array('type' => 'integer'),
+		'order_id' => array('type' => 'integer', 'alias' => 'oid'),
 		'item_id' => array('type' => 'integer'),
 		'count' => array('type' => 'integer'),
 		'cost' => array('type' => 'integer'),
@@ -46,8 +46,16 @@ class di_order_item extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->_flush();
-		$this->extjs_grid_json();
+		$this->_flush(true);
+		// Объединяем с ДИ Товары
+		$ci = $this->join_with_di('catalogue_item', array('item_id' => 'id'), array('title' => 'str_title'));
+		// Объединяем ДИ Товары с ДИ типы товаров
+		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'), $ci);
+		$this->extjs_grid_json(array(
+			'id', 'count', 'cost',
+			array('di' => $ci, 'name' => 'title'),	// Наименование товара
+			array('di' => $gt, 'name' => 'name'),	// Тип товара
+		));
 	}
 	
 	/**
