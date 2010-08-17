@@ -1,33 +1,12 @@
 <div class="registr" id="registr">
-	<h1>Форма логина</h1>
-	<table><tbody>
-	<tr>
-	<td>Q-mail: </td>
-	<td class=""><input type="Text" value="" title="e-mail" name="l"></td>
-	</tr>	
-	<tr>
-	<td>W-mail: </td>
-	<td class=""><input type="Text" value="" title="e-mail" name="l"></td>
-	</tr>	
-	<tr>
-	<td>E-mail: </td>
-	<td class=""><input type="Text" value="" title="e-mail" name="l"></td>
-	</tr>	
-
-	<tr>
-	<td>R-mail: </td>
-	<td class=""><input type="Text" value="" title="e-mail" name="l"></td>
-	</tr>	
-	<tr>
-	<td>T-mail: </td>
-	<td class=""><input type="Text" value="" title="e-mail" name="l"></td>
-	</tr>	
-	<tr>
-	<td>Y-mail: </td>
-	<td class=""><input type="Text" value="" title="e-mail" name="l"></td>
-	</tr>	
-	<tr>
-	<td><input type="submit" class="shortsubmit" value="Войти"></td>
-	</tr>
-	</tbody></table>
+	<h1>Регистрация</h1>
+<span id="report" class="report"></span>
+<span id="errortext" class="errortext"></span>
+<form id="regform">
+	<div id="title_name" class="field_name">Имя:</div><span><input fldttlid="title_name"  class="req" id="name" type="Text" name="name" value="" title="name"> </span><br>
+	<div id="title_email" class="field_name">E-mail:</div> <input fldttlid="title_email"  class="req" type="Text" value="" name="email" title="e-mail"></span><br>
+	<div id="title_passwd"  class="field_name">Пароль:</div> <input fldttlid="title_passwd" class="req" type="password" value="" name="passwd" title="passwd"></span><br>
+	<div id="title_passwd2" class="field_name">Повтор пароля:</div> <input fldttlid="title_passwd2" class="req" type="password" value="" name="passwd2" title="e-mail"></span><br>
+	<div   class="field_name">&nbsp;</div><input type="button" class="submbutt" id="submbutt"   value="Продолжить">
+</form>
 </div>
