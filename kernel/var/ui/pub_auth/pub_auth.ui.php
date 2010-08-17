@@ -19,23 +19,7 @@ class ui_pub_auth extends user_interface
 
         public function pub_content()
         {
-		$args = request::get(array('user', 'secret'));
 		$data = array();
-		
-		try
-		{
-			if (!empty($args))
-				authenticate::login();
-		}
-		catch(Exception $e)
-		{
-			dbg::write($e->getMessage(), LOG_PATH . 'access.log');
-			$data['errors'] = $e->getMessage();
-		}
-
-		if (request::get('logout') == 'yes')
-			authenticate::logout();
-			
 
 		if (authenticate::is_logged())
 		{
