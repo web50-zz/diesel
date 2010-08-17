@@ -10,17 +10,21 @@ font-size:11px;
 }
 #pub_auth .login{
 width:60px;
-height:15px;
+height:12px;
 }
 
 #pub_auth .password{
 width:60px;
-height:15px;
+height:12px;
 }
 
 #pub_auth .logbut{
 width:60px;
-height:25px;
+height:20px;
 font-family:Verdana;
 font-size:11px;
+}
+#pub_auth a{
+border-bottom: 1px dashed;
+color:#000;
 }

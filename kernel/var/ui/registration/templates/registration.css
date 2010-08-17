@@ -6,15 +6,48 @@ border:1px dotted;
 height:100%;
 padding:10px;
 }
+#registr a{
+border-bottom: 1px dashed;
+color:#000;
+}
+
 #registr h1{
 font-size:12px;
 }
+#regform .submbutt{
+margin:20px 0px;
+}
+
+
 #regform .field_name{
 width:100px;
 position:relative;
 float:left;
+color:#000;
 }
 
-#regform .submbutt{
-margin:20px 0px;
+
+#regform .field_name_error{
+width:100px;
+position:relative;
+float:left;
+color:#F00;
 }
+
+#regform .field_error{
+background-color:#F00;
+}
+
+#regform .field{
+background-color:#FFF;
+}
+
+#registr .errortext{
+color:#F00;
+margin-bottom:10px;
+}
+
+#registr .report{
+margin-bottom:10px;
+}
+
