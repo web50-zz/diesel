@@ -20,10 +20,13 @@ class authenticate
 		// Get values stored in session
 		$sess = session::get(array('uid', 'ulogin', 'uhash'), NULL, AUTH_DI);
 
+		// If session values not stored then return FALSE
+		if (empty($sess)) return FALSE;
+
 		// Get authentification`s data
 		$data = $auth->get_by_hash($sess['uid'], $sess['ulogin'], $sess['uhash']);
 
-		// If there is no authentification`s data then throw exception
+		// If there is no authentification`s data then return FALSE
 		if (!$data) return FALSE;
 
 		// Define UID of logged user
@@ -69,8 +72,6 @@ class authenticate
 	public static function logout()
 	{
 		session::del(array('uid', 'ulogin', 'uhash'), AUTH_DI);
-		if (defined(UID)) unset(UID);
-		if (defined(AID)) unset(AID);
 	}
 }
 ?>
