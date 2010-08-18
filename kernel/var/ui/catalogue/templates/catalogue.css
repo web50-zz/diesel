@@ -1,9 +1,11 @@
 .catalogue_ui{
 }
+
 #catalogue_ui .item{
-border:1px dotted;
+border:1px dotted #CCC;
 margin-bottom:10px;
 padding:5px;
+height:100%;
 }
 
 .itemheader{
@@ -14,6 +16,7 @@ padding:0px:
 #itemheader .itemlink{
 font-size:12px;
 color:#666;
+border-bottom:1px dotted;
 }
 .iteminfo{
 border:0px solid;
@@ -40,3 +43,23 @@ font-weight:normal;
 padding:3px;
 margin:0px;
 }
+
+#item .add2cartwrap{
+cursor:pointer;
+padding:0px;
+height:30px;
+
+}
+
+#add2cartwrap .add2cart{
+float:right;
+border:1px dotted #CCC;
+cursor:pointer;
+padding:5px;
+}
+#add2cart img{
+padding:0px;
+margin:0px;
+background-color:#ccc;
+}
+

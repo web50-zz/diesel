@@ -1,9 +1,8 @@
 <div class="catalogue_ui" id="catalogue_ui">
 {__pager__}
 {__(apply(/records)__}
-	<div class="item">
+	<div class="item" id="item">
 		<h1 class="itemheader" id="itemheader"><a class="itemlink" id="itemlink" href="item_{__id__}.html">{__str_group__} &laquo;{__title__}&raquo;</a></h1>
-		<a href="javascript: void(0)" title="Add to cart" class="add2cart" cid="{__id__}"><img src="/ico/silk/cart_add.png" align="right" border="0" hspace="5"/></a>
 		<table cellpadding="0" cellspacing="0" id="iteminfo" class="iteminfo">
 			<tr>
 				<th>Тип:</th>
@@ -29,6 +28,7 @@
 				</td>
 			</tr>
 		</table>
+		<div id="add2cartwrap" class="add2cartwrap"> <div title="Add to cart" is="add2cart" class="add2cart" cid="{__id__}">Заказать: <img src="/ico/silk/cart_add.png" border="0" hspace="5"/></div></div>
 	</div>
 {__apply)__}
 {__pager__}
