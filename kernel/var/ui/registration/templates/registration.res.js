@@ -36,6 +36,7 @@ ui.registration = function(conf){
 		Ext.Ajax.request({
 			url: '/ui/registration/register.do',
 			form: 'regform',
+			scope: this,
 			success: function(response, opts) {
 				var obj = Ext.decode(response.responseText);
 				if(obj.code == '400')
@@ -49,17 +50,8 @@ ui.registration = function(conf){
 				if(obj.code == '200')
 				{
 					Ext.fly('report').dom.innerHTML = obj.report;
+					this.authism();
 					//window.location="?secret="+Ext.fly('passwd').getValue()+"&user="+Ext.fly('email').getValue();
-					Ext.Ajax.request({
-						url: '?',
-						success: function(response2,opts){
-								window.location="";
-							},
-						failure: function(response2,opts){
-								alert('failure');
-							},
-						params: {user: Ext.fly('email').getValue(),secret: Ext.fly('passwd').getValue()}
-					});
 				}
 				else
 				{
@@ -82,6 +74,21 @@ ui.registration = function(conf){
 	}
 	this.hideSpinner =  function(){
 		Ext.fly('spinner').remove();
+	}
+
+	this.authism = function()
+	{
+		Ext.Ajax.request({
+			url: '/ui/registration/register.do',
+			scope:this,
+			success: function(response,opts){
+						window.location="";
+						},
+					failure: function(response,opts){
+							alert('failure');
+						},
+					params: {user: Ext.fly('email').getValue(),secret: Ext.fly('passwd').getValue()}
+				});
 	}
 }
 
