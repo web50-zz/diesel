@@ -24,7 +24,7 @@ ui.registration = function(conf){
 
 	this.handleSubmit = function(){
 		Ext.each(Ext.query(".req",Ext.fly('.regform')), function(item, index, allItems){
-			el = Ext.get(item);
+			var el = Ext.get(item);
 			if(el.getValue() == '')
 			{
 				var elt = Ext.fly(el.getAttribute('fldttlid'));
@@ -76,13 +76,12 @@ ui.registration = function(conf){
 			url: '/ui/registration/registration_form.do',
 			scope:this,
 			success: function(response,opts){
-			//var el = Ext.Element(response.responseText);
 			Ext.fly('registrwrap').update(response.responseText);
 			this.collectButtons();
 			},
 					failure: function(response,opts){
 							alert('failure');
-						},
+						}
 				});
 	}
 
