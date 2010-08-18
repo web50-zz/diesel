@@ -51,14 +51,14 @@ class response
 		switch(strtolower($type))
 		{
 			case 'html':
-				header('Content-Type: text/html; charset=' . CHARSET);
+				header('Content-Type: text/html; charset=' . ENCODING);
 			break;
 			case 'xml':
-				header('Content-Type: text/xml; charset=' . CHARSET);
+				header('Content-Type: text/xml; charset=' . ENCODING);
 			break;
 			case 'javascript':
 			case 'js':
-				header('Content-Type: text/javascript; charset=' . CHARSET);
+				header('Content-Type: text/javascript; charset=' . ENCODING);
 			break;
 			case 'json':
 				header('Content-Type: text/x-json; charset=UTF-8');
@@ -79,7 +79,7 @@ class response
 			case 'text':
 			case 'txt':
 			default:
-				header('Content-Type: text/plain; charset=' . CHARSET);
+				header('Content-Type: text/plain; charset=' . ENCODING);
 			break;
 		}
                 if ($no_cache)
