@@ -48,6 +48,8 @@ class ui_catalogue extends user_interface
 
 		$cart = data_interface::get_instance('cart');
 		$data['cart'] = $cart->_list();
+		$pager = user_interface::get_instance('pager');
+		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit));
 		return $this->parse_tmpl('default.html',$data);
 	}
 	
