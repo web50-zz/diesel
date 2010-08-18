@@ -32,6 +32,32 @@ class ui_catalogue extends user_interface
 
 	protected function pub_content()
 	{
+		if (preg_match('/^item_(\d+)/', SRCH_URI, $matches))
+		{
+			return $this->get_item((int)$matches[1]);
+		}
+		else
+		{
+			return $this->get_list();
+		}
+	}
+
+	/**
+	*	Вывести описание товара
+	*/
+	private function get_item($id)
+	{
+		$di = data_interface::get_instance('catalogue_item');
+		$di->set_args(array('_sid' => $id));
+		$data = $di->get_item();
+		return $this->parse_tmpl('item.html',$data);
+	}
+
+	/**
+	*	Вывести список товаров в каталоге
+	*/
+	private function get_list()
+	{
 		$limit = 20;
 		$page = request::get('page', 1);
 		$di = data_interface::get_instance('catalogue_item');

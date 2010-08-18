@@ -57,17 +57,37 @@ class di_catalogue_item extends data_interface
 	}
 
 	/**
+	*	Get item
+	*/
+	public function get_item()
+	{
+		$this->_flush(true);
+		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
+		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
+		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
+		return $this->extjs_grid_json(array(
+			'id', 'on_offer', 'recomended', 'title', 'description', 
+			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gg, 'name' => 'name'),
+			array('di' => $gp, 'name' => 'cost'),
+			array('di' => $gc, 'name' => 'name'),
+			array('di' => $gc, 'name' => 'discount')
+		), false);
+	}
+
+	/**
 	*	Get items for page
 	*/
 	public function get_items()
 	{
 		$this->_flush(true);
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
-		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 		return $this->extjs_grid_json(array(
-			'id', 'on_offer', 'recomended', 'title', 'description',
+			'id', 'on_offer', 'recomended', 'title',
 			array('di' => $gt, 'name' => 'name'),
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gp, 'name' => 'cost'),
