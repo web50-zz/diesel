@@ -28,3 +28,7 @@ font-size:11px;
 border-bottom: 1px dashed;
 color:#000;
 }
+#pub_auth form{
+margin:0px;
+padding:0px;
+}
