@@ -1,4 +1,5 @@
 <div class="cart_ui">
+{__(if(!empty(/records))__}
 <form id="cart_form" onsubmit="return false">
 <table width="100%" border="1">
 {__set(#cost_total = 0)__}
@@ -24,5 +25,12 @@
 	</tr>
 </table>
 </form>
+{__(if(/is_logged)__}
 <a href="/order/">Оформить заказ</a>
+{__else__}
+Для продолжения, Вам необходимо <a href="/registration/">зарегистрироваться</a>
+{__if)__}
+{__else__}
+<center>Корзина пуста</center>
+{__if)__}
 </div>

@@ -4,6 +4,8 @@
 		<a href="javascript: void(0)" title="Add to cart" class="add2cart" cid="{__id__}"><img src="/ico/silk/cart_add.png" align="right" border="0" hspace="5"/></a>
 		<h1>{__title__}</h1>
 		{__description__}<br/>
+		<div style="text-align: right"><b>стоимость по предоплате: {__php::sprintf("%0.2f", $price_cost * ((100 - $discount) * 0.01))__} р.</b></div>
+		<div style="text-align: right">стоимость: {__price_cost__} р.</div>
 		<hr/>
 	</div>
 {__apply)__}

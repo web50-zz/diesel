@@ -22,7 +22,8 @@ class ui_cart extends user_interface
         {
 		$cart = data_interface::get_instance('cart');
 		$data = array(
-			'records' => $cart->get_records()
+			'records' => $cart->get_records(),
+			'is_logged' => authenticate::is_logged()
 		);
                 return $this->parse_tmpl('default.html', $data);
         }

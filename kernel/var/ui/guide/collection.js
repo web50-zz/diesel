@@ -18,7 +18,7 @@ ui.guide.collection = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'name']
+		[{name: 'id', type: 'int'}, 'name', 'name_eng', 'discount']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -31,10 +31,15 @@ ui.guide.collection = function(config){
 		reader: reader,
 		writer: writer
 	});
+	var prcnt = function(value){
+		return value + ' %';
+	}
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'name', dataIndex: 'name', header:  this.labelName}
+		{id: 'discount', dataIndex: 'discount', header:  this.colDiscount, width: 100, align: 'right', renderer: prcnt},
+		{id: 'name', dataIndex: 'name', header:  this.colName, width: 200},
+		{id: 'name_eng', dataIndex: 'name_eng', header:  this.colNameEng}
 	];
 	var Add = function(){
 		var f = new ui.guide.collection_form();
@@ -62,20 +67,25 @@ ui.guide.collection = function(config){
 		Ext.Msg.confirm(this.cnfrmTitle, this.cnfrmMsg, function(btn){
 			if (btn == "yes"){
 				this.store.remove(record);
-				this.getTopToolbar().findById("bttDel-gc").disable();
-				this.getTopToolbar().findById("bttEdt-gc").disable();
 			}
 		}, this);
+	}.createDelegate(this);
+	var onCmenu = function(grid, rowIndex, e){
+		this.getSelectionModel().selectRow(rowIndex);
+		var cmenu = new Ext.menu.Menu({items: [
+			{iconCls: 'book_edit', text: this.bttEdit, handler: Edit},
+			{iconCls: 'book_delete', text: this.bttDelete, handler: Delete}
+		]});
+		e.stopEvent();  
+		cmenu.showAt(e.getXY());
 	}.createDelegate(this);
 	ui.guide.collection.superclass.constructor.call(this,{
 		store: store,
 		columns: columns,
 		loadMask: true,
-		autoExpandColumn: 'name',
+		autoExpandColumn: 'name_eng',
 		tbar: [
 			{text: this.bttAdd, iconCls: 'book_add', handler: Add},
-			{text: this.bttEdit, iconCls: "book_edit", handler: Edit, id: "bttEdt-gc", disabled: true},
-			{text: this.bttDelete, iconCls: "book_delete", handler: Delete, id: "bttDel-gc", disabled: true},
 			'->', {iconCls: 'help', handler: function(){showHelp('guide-collection')}}
 		],
 		bbar: new Ext.PagingToolbar({
@@ -89,10 +99,7 @@ ui.guide.collection = function(config){
 	this.addEvents(
 	);
 	this.on({
-		rowclick: function(grid, rowIndex, ev){
-			grid.getTopToolbar().findById("bttEdt-gc").enable();
-			grid.getTopToolbar().findById("bttDel-gc").enable();
-		},
+		rowcontextmenu: onCmenu,
 		render: function(){store.load({params:{start:0, limit: this.limit}})},
 		scope: this
 	})
@@ -100,10 +107,9 @@ ui.guide.collection = function(config){
 Ext.extend(ui.guide.collection, Ext.grid.GridPanel, {
 	limit: 20,
 
-	labelName: 'Имя',
-	labelLogin: 'Login',
-	labelEMail: 'e-mail',
-	labelLang: 'Язык',
+	colName: 'Наименование',
+	colNameEng: 'Наименование Eng',
+	colDiscount: 'Скидка',
 
 	addTitle: "Добавление коллекции",
 	editTitle: "Изменение коллекции",

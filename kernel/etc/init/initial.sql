@@ -190,6 +190,8 @@ DROP TABLE IF EXISTS `guide_collection`;
 CREATE TABLE `guide_collection` (
 	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL COMMENT "The collection`s name",
+	`name_eng` VARCHAR(255) NOT NULL COMMENT "The collection`s name in English",
+	`discount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT "The collection`s discount",
 	`description` TEXT NOT NULL COMMENT "The collection`s description",
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

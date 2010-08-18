@@ -22,11 +22,11 @@ ui.order.order_items = function(config){
 	});
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{header: "ID", width: 50, sortable: true, dataIndex: 'id', id: 'id'},
-		{header: this.colType, width: 200, sortable: true, dataIndex: 'str_type', id: 'type'},
-		{header: this.colTitle, width: 200, sortable: true, dataIndex: 'str_title', id: 'title'},
-		{header: this.colCount, width: 200, sortable: true, dataIndex: 'count', id: 'count'},
-		{header: this.colCost, width: 200, sortable: true, dataIndex: 'cost', id: 'cost'}
+		{header: "ID", sortable: true, dataIndex: 'id', id: 'id', width: 50},
+		{header: this.colType, sortable: true, dataIndex: 'str_type', id: 'type', width: 120},
+		{header: this.colTitle, sortable: true, dataIndex: 'str_title', id: 'title', width: 200},
+		{header: this.colCount, sortable: true, dataIndex: 'count', id: 'count', width: 100},
+		{header: this.colCost, sortable: true, dataIndex: 'cost', id: 'cost', width: 100}
 	];
 	this.applyStore = function(data){
 		Ext.apply(store.baseParams, data);

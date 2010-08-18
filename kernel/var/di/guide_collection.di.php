@@ -30,6 +30,8 @@ class di_guide_collection extends data_interface
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
 		'name' => array('type' => 'string'),
+		'name_eng' => array('type' => 'string'),
+		'discount' => array('type' => 'float'),
 		'description' => array('type' => 'text'),
 	);
 	
@@ -54,7 +56,7 @@ class di_guide_collection extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
-		$this->extjs_grid_json();
+		$this->extjs_grid_json(array('id', 'name', 'name_eng', 'discount'));
 	}
 	
 	/**

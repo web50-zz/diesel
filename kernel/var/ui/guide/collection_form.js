@@ -43,11 +43,14 @@ ui.guide.collection_form = function(config){
 	}.createDelegate(this);
 	ui.guide.collection_form.superclass.constructor.call(this, {
 		frame: true, 
-		defaults: {xtype: 'textfield'},
+		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
+		labelWidth: 150,
 		items: [
 			{name: '_sid', xtype: 'hidden'},
-			{fieldLabel: this.labelName, name: 'name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelDescr, name: 'description', width: 100, anchor: '100%', height: 350, xtype: 'htmleditor'}
+			{fieldLabel: this.labelName, name: 'name', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
+			{fieldLabel: this.labelNameEng, name: 'name_eng', maxLength: 255, maxLengthText: this.maxLengthText},
+			{fieldLabel: this.labelDiscount, name: 'discount', xtype: 'numberfield', decimalPrecision: 2},
+			{fieldLabel: this.labelDescr, name: 'description', height: 250, xtype: 'htmleditor'}
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -67,7 +70,9 @@ ui.guide.collection_form = function(config){
 	})
 }
 Ext.extend(ui.guide.collection_form , Ext.form.FormPanel, {
-	labelName: 'Имя',
+	labelName: 'Наименование',
+	labelNameEng: 'Наименивание Eng',
+	labelDiscount: 'Скидка',
 	labelDescr: 'Описание',
 
 	loadText: 'Загрузка данных формы',
