@@ -38,6 +38,18 @@ class di_guide_style extends data_interface
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
 	}
+	/**
+	*	Get styles in item
+	*/
+	public function get_styles_in_item($id)
+	{
+		$this->_flush(true);
+		$this->push_args(array('_niid' => 'null'));
+		$gu = $this->join_with_di('catalogue_style', array('id' => 'style_id', $id => 'catalogue_item_id'), array('catalogue_item_id' => 'iid'));
+		$results = $this->extjs_grid_json(array('id', 'name'), false);
+		$this->pop_args();
+		return $results['records'];
+	}
 	
 	/**
 	*	Get styles in item
