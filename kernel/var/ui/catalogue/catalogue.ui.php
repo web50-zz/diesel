@@ -32,15 +32,19 @@ class ui_catalogue extends user_interface
 
 	protected function pub_content()
 	{
+		$limit = 20;
+		$page = request::get('page', 1);
 		$di = data_interface::get_instance('catalogue_item');
 		$di->set_args(array(
 			'sort' => 'id',
 			'dir' => 'DESC',
-			'start' => '0',
-			'limit' => '20',
+			'start' => ($page - 1) * $limit,
+			'limit' => $limit,
 		));
 		$di->set_args($this->get_args(), true);
 		$data = $di->get_items();
+		$data['page'] = $page;
+		$data['limit'] = $limit;
 
 		$cart = data_interface::get_instance('cart');
 		$data['cart'] = $cart->_list();

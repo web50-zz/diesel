@@ -1,0 +1,43 @@
+.catalogue_ui ul {
+	list-style-type:none;
+}
+.catalogue_ui div.paginator {
+	color: #666;
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
+	margin: 15px 0px 20px 0px;
+	overflow: hidden;
+}
+.catalogue_ui div.paginator p {
+	float: left;
+	margin: 0px;
+}
+.catalogue_ui div.paginator p b {
+	background: silver;
+	color: #000;
+	font-weight: normal;
+}
+.catalogue_ui div.paginator ul {
+	float: right;
+	line-height: 120%;
+	margin: 0px;
+}
+.catalogue_ui div.paginator ul li {
+	background: none;
+	float: left;
+	margin: 0px;
+	padding: 0px 4px 0px 4px;
+}
+.catalogue_ui div.paginator ul li.bordered {
+	border-right: 1px solid #666;	
+}
+.catalogue_ui div.paginator ul li a {
+	text-decoration: none;
+	color: #00F;
+}
+.catalogue_ui div.paginator ul li.active {
+	background: silver;
+}
+.catalogue_ui div.paginator ul li.active a {
+	color: #000;
+}
