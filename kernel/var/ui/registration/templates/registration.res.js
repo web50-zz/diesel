@@ -51,7 +51,6 @@ ui.registration = function(conf){
 				{
 					Ext.fly('report').dom.innerHTML = obj.report;
 					this.authism();
-					//window.location="?secret="+Ext.fly('passwd').getValue()+"&user="+Ext.fly('email').getValue();
 				}
 				else
 				{
