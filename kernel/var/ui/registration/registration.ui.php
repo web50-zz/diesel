@@ -27,6 +27,17 @@ class ui_registration extends user_interface
 		return $this->parse_tmpl('default.html',$data);
 	}
 
+
+	public function pub_start_reg()
+	{
+		$data = array();
+		if(authenticate::is_logged())
+		{
+			return  '';
+		}
+		return  $this->parse_tmpl('button.html',$data);
+	}
+
 	public function pub_register()
         {
 		try
