@@ -12,10 +12,12 @@
 				<th>Коллекция:</th>
 				<td>{__str_collection__}</td>
 			</tr>
-			<!--tr>
-				<th>Стиль:</th>
-				<td>{__str_style__}</td>
-			</tr-->
+			<tr>
+				<th>Стили:</th>
+				<td>{__(apply(/styles)__}
+					{__name__}{__(if(@position < @last)__}<span>, </span>{__if)__}
+				{__apply)__}</td>
+			</tr>
 			<tr>
 				<th>Описание:</th>
 				<td>{__description__}</td>

@@ -50,7 +50,9 @@ class ui_catalogue extends user_interface
 		$di = data_interface::get_instance('catalogue_item');
 		$di->set_args(array('_sid' => $id));
 		$data = $di->get_item();
-		return $this->parse_tmpl('item.html',$data);
+		$diStyles = data_interface::get_instance('guide_style');
+		$data['styles'] = $diStyles->get_styles_in_item($id);
+		return $this->parse_tmpl('item.html', $data);
 	}
 
 	/**
