@@ -98,6 +98,12 @@ class connector_mysql
 	* @var	integer	$fetchMethod	Способ формирования результатов запроса
 	*/
 	public $fetchMethod = PDO::FETCH_OBJ;
+
+	/**
+	* @access	public
+	* @var	boolean	$debug		Записать запрос в debug-файл
+	*/
+	public $debug = FALSE;
 	
 	public function __construct($di)
 	{
@@ -203,6 +209,12 @@ class connector_mysql
 		{
 			$sth = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 			$sth->execute($values);
+
+			if ($this->debug)
+			{
+				dbg::write($sql);
+				dbg::write($values);
+			}
 
 			$this->di->set_rowCount($sth->rowCount());
 

@@ -96,7 +96,7 @@ class base_interface
 	*/
 	public function get_args($ind = false)
 	{
-		return ($ind !== false) ? $this->args[$ind] : $this->args;
+		return ($ind !== false) ? $this->args[$ind] : (array)$this->args;
 	}
 	
 	/**
