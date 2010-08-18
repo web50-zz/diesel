@@ -340,23 +340,21 @@ class tmpl
 		
 		$results = preg_replace_callback('/{__(\w+)::(\w+)\((.*)\)__}/', array(&$this, '_parse_call_function'), $results);
 		
-		$results = preg_replace_callback('/\s*{__set\(#(\w+)\s*=\s*(.*)\)__}(?:\r|\n)*/', array(&$this, '_parse_sets'), $results);
+		$results = preg_replace_callback('/\s*{__set\(([#@])(\w+)\s*=\s*(.*)\)__}(?:\r|\n)*/', array(&$this, '_parse_sets'), $results);
 		
-		$results = preg_replace_callback('/\s*{__copy\(#(\w+)\s*=\s*(.+?)\)__}(?:\r|\n)*/', array(&$this, '_parse_copy'), $results);
+		$results = preg_replace_callback('/\s*{__copy\(([#@])(\w+)\s*=\s*(.+?)\)__}(?:\r|\n)*/', array(&$this, '_parse_sets'), $results);
 		
 		$results = preg_replace_callback('/{__echo\((.+?)\)__}/', array(&$this, '_parse_echo'), $results);
 		
 		$results = preg_replace_callback('/{__((?:#|@|\$)?\w+)__}/', array(&$this, '_parse_variable'), $results);
 		
-		$results = preg_replace_callback('/{__((?:#|@|\$|\/).+?)__}/', array(&$this, '_parse_variable'), $results);
+		$results = preg_replace_callback('/{__((?:#|@|\$|\/)(.+?))__}/', array(&$this, '_parse_variable'), $results);
 		
 		$results = preg_replace_callback('/{__loop\[(\w+)\]\[(.+?)\]__}/', array(&$this, '_parse_loops'), $results);
 		
-		$results = preg_replace_callback('/{__apply\((.+?)\)__}/', array(&$this, '_parse_call_apply'), $results);
+		$results = preg_replace_callback('/{__apply\((.*)\)__}/', array(&$this, '_parse_call_apply'), $results);
 		
-		$results = preg_replace_callback('/{__apply\s+(\w+)\((.+?|)\)__}/', array(&$this, '_parse_call_named_apply'), $results);
-		
-		$results = preg_replace_callback('/{__fckeditor\[(.*)\]\((.*)\)__}/', array(&$this, '_parse_fckeditor'), $results);
+		$results = preg_replace_callback('/{__apply\s+(\w+)\((.*)\)__}/', array(&$this, '_parse_call_named_apply'), $results);
 		
 		return $results;
 	}
@@ -475,30 +473,21 @@ class tmpl
 	}
 	
 	/**
-	*	Анализ шаблона вида {__set(переменная = значение)__}
+	*	Analyse template {__set(#variable = expression)__}
 	*
-	* @param	string	$argv	Результат работы регулярного выражения
-	* @see	this::parse()
+	* @param	string	$args	RegExp result
+	* @see	this::_parse()
 	*/
 	private function _parse_sets($args)
 	{
-		$name = $args[1];
-		$expr = $this->_parse_line($args[2]);
+		$scope = $args[1];
+		$name = $args[2];
+		$expr = $this->_parse_line($args[3]);
 		@eval('$value = ' . $expr . ';');
-		$this->global_vars[$name] = $value;
-		return '';
-	}
-	
-	/**
-	*	Анализ шаблона вида {__copy(переменная = значение)__}
-	*
-	* @param	string	$argv	Результат работы регулярного выражения
-	* @see	this::parse()
-	*/
-	private function _parse_copy($args)
-	{
-		$data = $this->_parse_path($args[2]);
-		$this->global_vars[$args[1]] = $data;
+		if ($scope == '#')
+			$this->global_vars[$name] = $value;
+		else if ($scope == '@')
+			$this->tmpl_vars[$name] = $value;
 		return '';
 	}
 	
@@ -717,27 +706,6 @@ class tmpl
 			throw new Exception('Именнованного шаблона "' . $name . '" не существует.');
 			return FALSE;
 		}
-	}
-	
-	/**
-	*	Анализ шаблона вида {__fckeditor name(p1)__}
-	* Вызов именнованого шаблона
-	*
-	* @param	array	$args	Результат работы регулярного выражения @see this::parse();
-	*				[1] => Указатель на имя поля.
-	*				[2] => Указатель на данные.
-	* @see	this::parse()
-	*/
-	private function _parse_fckeditor($args)
-	{
-		$field_name = $this->_parse_path($args['1']);
-		$field_value = $this->_parse_path($args['2']);
-		$oFCKeditor = new FCKeditor($field_name) ;
-		$oFCKeditor->BasePath = 'fckeditor/';
-		$oFCKeditor->Width = 640;
-		$oFCKeditor->Height = 350;
-		$oFCKeditor->Value = $field_value;
-		return $oFCKeditor->CreateHtml();
 	}
 	
 	/**
@@ -995,8 +963,10 @@ class tmpl
 	{
 		// NOTE: Обнуляем набор переменных;
 		$this->expr_vars = array();
-		$pattern = '/((?:#|@|\$|\&|\/)+(?:\w+|\.)?(?:\[[^\]]+\])?';
-		$pattern.= '(?:\/\w+(?:\[[^\]]+\])?)*)/';
+		//$pattern = '/((?:#|@|\$|\&|\/)+(?:\w+|\.)?(?:\[[^\]]+\])?';
+		//$pattern.= '(?:\/\w+(?:\[[^\]]+\])?)*)/';
+		$pattern = '/((?<!\\\\)(?:#|@|~|\$|\/)(?:\w+|\.)(?:\[[^\]]+\])?(?:\[\d+\])?';
+		$pattern.= '(?:\/\w+(?:\[[^\]]+\])?(?:\[\d+\])?)*)/';
 		return preg_replace_callback($pattern, array(&$this, '_parse_line_part'), $str);
 	}
 	
