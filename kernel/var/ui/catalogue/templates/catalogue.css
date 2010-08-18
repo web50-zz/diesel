@@ -1,0 +1,42 @@
+.catalogue_ui{
+}
+#catalogue_ui .item{
+border:1px dotted;
+margin-bottom:10px;
+padding:5px;
+}
+
+.itemheader{
+margin:0px;
+padding:0px:
+}
+
+#itemheader .itemlink{
+font-size:12px;
+color:#666;
+}
+.iteminfo{
+border:0px solid;
+border-bottom:0px;
+}
+
+#iteminfo th{
+border-right:0px  solid;
+border-bottom:0px  solid;
+text-align:left;
+vertical-align:top;
+font-size:11px;
+font-weight:bold;
+color:#666;
+padding:3px;
+margin:0px;
+}
+
+#iteminfo td{
+border-bottom:0px  solid;
+color:#000;
+text-align:left;
+font-weight:normal;
+padding:3px;
+margin:0px;
+}
