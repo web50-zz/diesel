@@ -11,6 +11,14 @@ ui.registration = function(conf){
 				scope: this
 			})
 		}, this);
+		Ext.each(Ext.query(".startreg"), function(item, index, allItems){
+			Ext.get(item).on({
+				click: function(ev, el, opt){
+					this.initReg();
+				},
+				scope: this
+			})
+		}, this);
 
 	}
 
@@ -62,7 +70,22 @@ ui.registration = function(conf){
 			}
 		});
 	}
-	
+
+	this.initReg = function(){
+		Ext.Ajax.request({
+			url: '/ui/registration/registration_form.do',
+			scope:this,
+			success: function(response,opts){
+			//var el = Ext.Element(response.responseText);
+			Ext.fly('registrwrap').update(response.responseText);
+			this.collectButtons();
+			},
+					failure: function(response,opts){
+							alert('failure');
+						},
+				});
+	}
+
 	this.showSpinner =  function(){
 		Ext.fly('registr').insertFirst({
 		tag: 'div',
@@ -92,6 +115,6 @@ ui.registration = function(conf){
 }
 
 Ext.onReady(function(){
-	var c = new ui.registration();
-	c.collectButtons();
+	var registration = new ui.registration();
+	registration.collectButtons();
 });
