@@ -10,7 +10,18 @@ class ui_registration extends user_interface
 {
 	public $title = 'Форма регистрации';
 	public $req_fields = array('name'=>'Имя','email'=>'e-mail','passwd'=>'пароль','passwd2'=>'подтверждение пароля');
-	
+	public $market_req_fields = array(
+					'lname'=>'Фамилия',
+					'clnt_country'=>'Страна',	
+					'clnt_region'=>'Регион',
+					'clnt_address'=>'Адрес',
+					'clnt_nas_punkt'=>'Город/Населенный пункт',
+					'clnt_phone'=>'Телефон',
+					'clnt_payment_pref'=>'Предпочтительеный способ оплаты',
+					'clnt_payment_curr'=>'Валюта',
+					);
+	public $mode = 'extended1';// currently 2 modes available 'default', 'extended1'
+
 	public function __construct()
 	{
 		parent::__construct((func_num_args() > 0) ? func_get_arg(0) : __CLASS__);
@@ -23,6 +34,12 @@ class ui_registration extends user_interface
 		if(authenticate::is_logged())
 		{
 			return $this->parse_tmpl('logged.html',$data);
+		}
+		switch($this->mode)
+		{
+			case 'extended1':
+				return $this->parse_tmpl('extended1.html',$data);
+			break;
 		}
 		return $this->parse_tmpl('default.html',$data);
 	}
@@ -43,14 +60,13 @@ class ui_registration extends user_interface
 		try
 		{
 			$this->check_input();
-			$data['login'] = $this->args['email'];
-			$data['name'] = $this->args['fio'];
-			$data['email'] = $this->args['email'];
-			$data['passw'] = $this->args['passwd'];
-			$data['lang'] = 'ru_RU';
-			$data['remote_addr'] = $_SERVER['REMOTE_ADDR'];
-			$data['created_datetime'] =  date('Y-m-d H:i:S'); 
-			$this->create_account($data);
+			$data = $this->prepare_sys_input();
+			$sys_user_data = $this->create_account($data);
+			if($this->mode == 'extended1')
+			{
+				$this->check_market_input();
+				$this->create_market_client($sys_user_data);
+			}
 		}
 		catch(Exception $e)
 		{
@@ -79,17 +95,62 @@ class ui_registration extends user_interface
 		$us->_flush();
 		$us ->set_args($data,false);
 		$data2 = $us ->extjs_set_json(false);
-		return;
+		return $data2;
 
+	}
+
+	public function create_market_client($sys_data)
+	{
+		$data = array();
+		$data = $this->args;
+		if(!$sys_data['data']['id'])
+		{
+			throw new Exception('Ошибка в создании системной записи покупателя');
+		}
+		$data['clnt_sys_uid'] = $sys_data['data']['id'];
+		$data['clnt_name'] = $this->args['name'];
+		$data['clnt_lname'] = $this->args['lname'];
+		$data['clnt_mname'] = $this->args['mname'];
+		$data['clnt_email'] = $this->args['email'];
+		$data['clnt_created_datetime'] = date('Y-m-d H:i:S');
+		$data['clnt_creator_uid']='0';
+		$us = data_interface::get_instance('market_clients');
+		$us->_flush();
+		$us ->set_args($data,false);
+		$data2 = $us ->extjs_set_json(false);
+		if(!$data2['data']['id'])
+		{
+			throw new Exception('Ошибка в создании профиля покупателя');
+		}
+		return $data2;
+	}
+
+
+	public function prepare_sys_input()
+	{
+		$data['login'] = $this->args['email'];
+		$data['name'] = $this->args['name'];
+		$data['email'] = $this->args['email'];
+		$data['passw'] = $this->args['passwd'];
+		$data['lang'] = 'ru_RU';
+		$data['remote_addr'] = $_SERVER['REMOTE_ADDR'];
+		$data['created_datetime'] =  date('Y-m-d H:i:S'); 
+		return $data;
 	}
 
 	public function check_input()
 	{
-		foreach($this->req_fields as $key=>$value)
+		$flds = array();
+		$flds = $this->req_fields;
+		if($this->mode == 'extended1')
+		{
+			$flds = array_merge((array)$flds,(array)$this->market_req_fields);
+		}
+		foreach($flds as $key=>$value)
 		{
 			if(!$this->args[$key])
 			{
-				$errors.= "Незаполнено обязательное поле $value <br>";
+				$errors.= "Незаполнено обязательное поле \"$value\" <br>";
 				$error = true;
 			}
 		}
