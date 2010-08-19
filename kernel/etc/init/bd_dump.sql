@@ -250,6 +250,8 @@ SET character_set_client = utf8;
 CREATE TABLE `guide_collection` (
   `id` smallint(5) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL COMMENT 'The collection`s name',
+  `name_eng` varchar(255) NOT NULL COMMENT 'The collection`s name in English',
+  `discount` decimal(10,2) unsigned NOT NULL default '0.00' COMMENT 'The collection`s discount',
   `description` text NOT NULL COMMENT 'The collection`s description',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
@@ -364,7 +366,7 @@ CREATE TABLE `interface` (
   `entry_point` varchar(255) NOT NULL COMMENT 'The name of interfaces method',
   `human_entry_point` varchar(255) NOT NULL COMMENT 'The human name of interfaces method',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=312 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=313 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -379,6 +381,41 @@ CREATE TABLE `interface_group` (
   `group_id` smallint(5) unsigned NOT NULL COMMENT 'The groups ID',
   UNIQUE KEY `interace_group` (`interface_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `market_clients`
+--
+
+DROP TABLE IF EXISTS `market_clients`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `market_clients` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `clnt_sys_uid` int(10) unsigned NOT NULL,
+  `clnt_created_datetime` datetime NOT NULL,
+  `clnt_changed_datetime` datetime NOT NULL,
+  `clnt_deleted_datetime` datetime NOT NULL,
+  `clnt_creator_uid` int(10) unsigned NOT NULL,
+  `clnt_changer_uid` int(10) unsigned NOT NULL,
+  `clnt_deleter_uid` int(10) unsigned NOT NULL,
+  `clnt_deleted_flag` tinyint(1) unsigned NOT NULL,
+  `clnt_name` varchar(64) NOT NULL,
+  `clnt_lname` varchar(64) NOT NULL,
+  `clnt_mname` varchar(64) NOT NULL,
+  `clnt_email` varchar(64) NOT NULL,
+  `clnt_country` int(10) unsigned NOT NULL,
+  `clnt_region` int(10) unsigned NOT NULL,
+  `clnt_region_custom` varchar(64) NOT NULL,
+  `clnt_nas_punkt` varchar(64) NOT NULL,
+  `clnt_address` varchar(255) NOT NULL,
+  `clnt_phone` varchar(32) NOT NULL,
+  `clnt_payment_pref` tinyint(1) unsigned NOT NULL,
+  `clnt_payment_curr` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `account_id` (`clnt_changed_datetime`,`clnt_deleted_datetime`),
+  KEY `hash` (`clnt_nas_punkt`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -586,7 +623,7 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY  (`id`),
   KEY `account_id` (`login`,`passw`),
   KEY `hash` (`hash`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='System user';
+) ENGINE=MyISAM AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COMMENT='System user';
 SET character_set_client = @saved_cs_client;
 
 --
@@ -622,7 +659,7 @@ CREATE TABLE `ui_view_point` (
   `ui_configure` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `page_id` (`page_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -634,4 +671,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-17 14:27:49
+-- Dump completed on 2010-08-19 18:20:42
