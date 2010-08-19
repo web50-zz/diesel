@@ -56,7 +56,7 @@ background-image:url("/images/large-loading.gif");
 background-position:center;
 background-repeat:no-repeat;
 background-color:#FFF;
-position:relative;
+position:fixed;
 width:120px;
 height:65px;
 border:1px dotted #000;
@@ -73,4 +73,56 @@ top:+100px;
 #registrwrap .regherelink{
 border-bottom: 1px dashed;
 cursor:pointer;
+}
+
+
+
+/*!
+ * Ext.ux.AlertBox
+ * http://www.artalat.com/
+ */
+
+
+#AlertBox{
+    background:#FFFFAA;
+    padding: 20px;
+    width:500px;
+    border:1px dotted #000;
+    color:#494848;
+    font-family:Verdana;
+    position: fixed;
+    z-index: 1000000;
+}
+
+#AlertBox p{
+    font-size:11px;
+    margin: 0;
+}
+
+#AlertBox p.icon{
+    padding-left:90px;
+    background-position: 10px center;
+    background-repeat:  no-repeat;
+    min-height: 48px;
+}
+
+
+#AlertBox p b{
+    font-size:15px;
+    display:block;
+}
+
+
+#AlertBox .closeBox{
+    cursor:pointer;
+    font-size:14px;
+    font-weight:bold;
+    padding:2px 5px;
+    position:absolute;
+    right:6px;
+    top:5px;
+}
+
+#AlertBox .closeBox:hover {
+    background-color: #eee;
 }

@@ -10,10 +10,7 @@
  **/
 
 return array(
-     'js' => array('//js/prototype.js', '//js/cntrl/livepipe.js','//js/cntrl/tabs.js','//js/cntrl/window.js','//js/web50.js'),
-     //'//js/scriptaculous/scriptaculous.js')
-     //,'//js/carousel.js'),
-    // 'css' => array('//css/file1.css', '//css/file2.css'),
+     'core' => array('//js/ext_core/ext-core-debug.js', '//js/libs/ext-frontloader.js'),
 
     // custom source example
     /*'js2' => array(

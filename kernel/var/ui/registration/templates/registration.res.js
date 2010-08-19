@@ -49,20 +49,21 @@ ui.registration = function(conf){
 				var obj = Ext.decode(response.responseText);
 				if(obj.code == '400')
 				{
-					Ext.fly('errortext').dom.innerHTML = obj.error;
+				//	Ext.fly('errortext').dom.innerHTML = obj.error;
+					this.oo(obj.error);
 				}
 				else
 				{
-					Ext.fly('errortext').dom.innerHTML = '';
+				//	Ext.fly('errortext').dom.innerHTML = '';
 				}
 				if(obj.code == '200')
 				{
-					Ext.fly('report').dom.innerHTML = obj.report;
+				//	Ext.fly('report').dom.innerHTML = obj.report;
 					this.authism();
 				}
 				else
 				{
-					Ext.fly('report').dom.innerHTML = '';
+				//	Ext.fly('report').dom.innerHTML = '';
 				}
 			},
 			 failure: function(response, opts) {
@@ -86,12 +87,14 @@ ui.registration = function(conf){
 	}
 
 	this.showSpinner =  function(){
-		Ext.fly('registr').insertFirst({
+		el = Ext.fly('registr').insertFirst({
 		tag: 'div',
 		cls: 'spinner',
 		id: 'spinner',
 		html: 'cоединение'
 		});
+		el.setLeft(document.documentElement.clientWidth/2);
+		el.setTop(document.documentElement.clientHeight/2.5);
 	}
 	this.hideSpinner =  function(){
 		Ext.fly('spinner').remove();
@@ -111,9 +114,14 @@ ui.registration = function(conf){
 					params: {user: Ext.fly('email').getValue(),secret: Ext.fly('passwd').getValue()}
 				});
 	}
+
+	this.oo = function(text){
+		AlertBox.show("Внимание", text, 'none', {dock: 'top'});
+	}
 }
 
 Ext.onReady(function(){
-	var registration = new ui.registration();
+	registration = new ui.registration();
 	registration.collectButtons();
+	FRONTLOADER.load('/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
 });
