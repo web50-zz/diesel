@@ -70,6 +70,7 @@ class ui_catalogue extends user_interface
 			'limit' => $limit,
 		));
 		$di->set_args($this->get_args(), true);
+		$di->set_args($this->parse_uri(), true);
 		$data = $di->get_items();
 		$data['page'] = $page;
 		$data['limit'] = $limit;
@@ -78,7 +79,41 @@ class ui_catalogue extends user_interface
 		$data['cart'] = $cart->_list();
 		$pager = user_interface::get_instance('pager');
 		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit));
+		$data['args'] = $di->get_args();
 		return $this->parse_tmpl('default.html',$data);
+	}
+
+	/**
+	*	Обработать SRCH_URI
+	*/
+	private function parse_uri()
+	{
+		$args = array();
+
+		if (preg_match_all('/((\w+)\/(\d+))/', SRCH_URI, $matches))
+		{
+			foreach ($matches[2] as $i => $key)
+			{
+				$value = intval($matches[3][$i]);
+				if ($value > 0)
+				{
+					switch($key)
+					{
+						case 'label':
+							$args['_scollection_id'] = $value;
+						break;
+						case 'type':
+							$args['_stype_id'] = $value;
+						break;
+						case 'group':
+							$args['_sgroup_id'] = $value;
+						break;
+					}
+				}
+			}
+		}
+
+		return $args;
 	}
 	
 	/**
