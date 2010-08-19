@@ -5,11 +5,33 @@
 		<table cellpadding="0" cellspacing="0" id="iteminfo" class="iteminfo">
 			<tr>
 				<th>Тип:</th>
-				<td>{__str_type__}</td>
+				<td>
+				{__(if(/args/_stype_id > 0)__}
+					{__str_type__}
+				{__else__}
+					<a href="type/{__type_id__}/">{__str_type__}</a>
+				{__if)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Гуппа:</th>
+				<td>
+				{__(if(/args/_sgroup_id > 0)__}
+					{__str_group__}
+				{__else__}
+					<a href="group/{__group_id__}/">{__str_group__}</a>
+				{__if)__}
+				</td>
 			</tr>
 			<tr>
 				<th>Коллекция:</th>
-				<td>{__str_collection__}</td>
+				<td>
+				{__(if(/args/_scollection_id > 0)__}
+					{__str_collection__}
+				{__else__}
+					<a href="label/{__collection_id__}/">{__str_collection__}</a>
+				{__if)__}
+				</td>
 			</tr>
 			<tr>
 				<th>Стили:</th>
@@ -28,7 +50,7 @@
 			<tr>
 				<th>Стоимость:</th>
 				<td>
-					<b>{__php::sprintf("%0.2f", $price_cost * ((100 - $discount) * 0.01))__} р. стоимость по предоплате</b><br/>
+					<b>{__php::sprintf("%0.2f", ceil($price_cost * ((100 - $discount) * 0.01)))__} р. стоимость по предоплате</b><br/>
 					{__price_cost__} р.<br/>
 				</td>
 			</tr>

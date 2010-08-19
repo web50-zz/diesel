@@ -32,7 +32,7 @@ class ui_catalogue extends user_interface
 
 	protected function pub_content()
 	{
-		if (preg_match('/^item_(\d+)/', SRCH_URI, $matches))
+		if (preg_match('/item_(\d+)/', SRCH_URI, $matches))
 		{
 			return $this->get_item((int)$matches[1]);
 		}
@@ -52,6 +52,7 @@ class ui_catalogue extends user_interface
 		$data = $di->get_item();
 		$diStyles = data_interface::get_instance('guide_style');
 		$data['styles'] = $diStyles->get_styles_in_item($id);
+		$data['args'] = array_merge($this->get_args(), $this->parse_uri());
 		return $this->parse_tmpl('item.html', $data);
 	}
 

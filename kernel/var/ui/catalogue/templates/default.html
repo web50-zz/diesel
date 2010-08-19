@@ -41,7 +41,7 @@
 			<tr>
 				<th>Стоимость:</th>
 				<td>
-					<b>{__php::sprintf("%0.2f", $price_cost * ((100 - $discount) * 0.01))__} р. стоимость по предоплате</b><br/>
+					<b>{__php::sprintf("%0.2f", ceil($price_cost * ((100 - $discount) * 0.01)))__} р. стоимость по предоплате</b><br/>
 					{__price_cost__} р.<br/>
 				</td>
 			</tr>
