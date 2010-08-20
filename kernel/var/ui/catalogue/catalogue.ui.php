@@ -79,9 +79,20 @@ class ui_catalogue extends user_interface
 		$cart = data_interface::get_instance('cart');
 		$data['cart'] = $cart->_list();
 		$pager = user_interface::get_instance('pager');
-		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit));
+		//dbg::show($_SERVER);
+		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
+		$data['search'] = $this->get_search_form();
 		$data['args'] = $di->get_args();
 		return $this->parse_tmpl('default.html',$data);
+	}
+
+	/**
+	*	Форма поиска по каталогу
+	*/
+	private function get_search_form()
+	{
+		$data = request::get();
+		return $this->parse_tmpl('search_form.html', $data);
 	}
 
 	/**
