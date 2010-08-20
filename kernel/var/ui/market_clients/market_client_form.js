@@ -52,6 +52,7 @@ ui.market_clients.market_client_form = function(config){
 			{xtype: 'tabpanel', activeItem: 0, border: false, anchor: '100% 100%', defferedRender: false,
 			defaults: {hideMode: 'offsets', labelWidth:200, frame: true, layout: 'form'}, items: [
 				{id: 'market-client-form', title: this.tabMain, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
+					{fieldLabel: this.labelId, name: 'id', xtype: 'displayfield'},
 					{fieldLabel: this.labelRegDate, name: 'clnt_created_datetime', xtype: 'displayfield'},
 					{fieldLabel: this.labelLname, name: 'clnt_lname', width: 200, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelName, name: 'clnt_name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
@@ -89,6 +90,7 @@ ui.market_clients.market_client_form = function(config){
 Ext.extend(ui.market_clients.market_client_form, Ext.form.FormPanel, {
 	tabMain: 'Информация',
 	tabOrders: 'Заказы',
+	labelId:'Id',
 	labelRegDate: 'Дата регистрации',
 	labelName: 'Имя',
 	labelLname: 'Фамилия',

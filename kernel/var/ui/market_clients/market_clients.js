@@ -37,11 +37,11 @@ ui.market_clients.main = function(config){
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'clnt_created_datetime', dataIndex: 'clnt_created_datetime', header: 'Дата регистрации', renderer: formatDate, width: 130},
+		{id: 'clnt_lname', dataIndex: 'clnt_lname', header: 'Фамилия', width: 100},
 		{id: 'clnt_name', dataIndex: 'clnt_name', header: 'Имя', width: 100},
 		{id: 'clnt_mname', dataIndex: 'clnt_mname', header: 'Отчество', width: 100},
-		{id: 'clnt_lname', dataIndex: 'clnt_lname', header: 'Фамилия', width: 100},
-		{id: 'clnt_email', dataIndex: 'clnt_email', header: 'E-mail', width: 100}
+		{id: 'clnt_email', dataIndex: 'clnt_email', header: 'E-mail', width: 100},
+		{id: 'clnt_created_datetime', dataIndex: 'clnt_created_datetime', header: 'Дата регистрации', renderer: formatDate, width: 130}
 	];
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
@@ -104,7 +104,7 @@ Ext.extend(ui.market_clients.main, Ext.grid.GridPanel, {
 	labelEMail: 'e-mail',
 	labelLang: 'Язык',
 
-	editTitle: "Просмотр заказа",
+	editTitle: "Просмотр информации по клиенту",
 
 	bttEdit: "Просмотреть",
 	bttDelete: "Удалить",
