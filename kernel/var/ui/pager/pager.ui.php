@@ -20,6 +20,8 @@ class ui_pager extends user_interface
         */
         public function get_pager($data)
         {
+		if (!empty($data['prefix']))
+			$data['prefix'] = preg_replace('/[&]?page=\d+/', '', $data['prefix']);
                 return $this->parse_tmpl('default.html', $data);
         }
 }
