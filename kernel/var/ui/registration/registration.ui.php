@@ -64,7 +64,6 @@ class ui_registration extends user_interface
 			$sys_user_data = $this->create_account($data);
 			if($this->mode == 'extended1')
 			{
-				$this->check_market_input();
 				$this->create_market_client($sys_user_data);
 			}
 		}
