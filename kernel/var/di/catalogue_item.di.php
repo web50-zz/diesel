@@ -86,6 +86,22 @@ class di_catalogue_item extends data_interface
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
+		$where = array();
+		if(($query = request::get('group', false)) != false)
+		{
+			$name = $gg->get_alias();
+			$where[] = "`{$name}`.`name` LIKE \"%{$query}%\"";
+		}
+		if(($query = request::get('title', false)) != false)
+		{
+			$name = $this->get_alias();
+			$where[] = "`{$name}`.`title` LIKE \"%{$query}%\"";
+		}
+		if (!empty($where))
+		{
+			$this->where = join(' OR ', $where);
+		}
+		$this->connector->debug = true;
 		return $this->extjs_grid_json(array(
 			'id', 'on_offer', 'recomended', 'title', 'type_id', 'collection_id', 'group_id', 'price_id',
 			array('di' => $gt, 'name' => 'name'),
