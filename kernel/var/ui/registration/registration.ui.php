@@ -1,8 +1,8 @@
 <?php
 /**
-*	UI Market latest products 
+*	UI registration form 
 *
-* @author	elgarat,9* 	
+* @author	elgarat,9* august 2010	
 * @access	public
 * @package	SBIN Diesel 	
 */
@@ -20,7 +20,7 @@ class ui_registration extends user_interface
 					'clnt_payment_pref'=>'Предпочтительеный способ оплаты',
 					'clnt_payment_curr'=>'Валюта',
 					);
-	public $mode = 'extended1';// currently 2 modes available 'default', 'extended1'
+	public $mode = 'extended1';// currently 2 modes available 'default'(only sys user registration), 'extended1'(also creates market client account)
 
 	public function __construct()
 	{

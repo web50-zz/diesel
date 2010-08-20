@@ -67,7 +67,13 @@ class di_market_clients extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->extjs_grid_json(array('id', 'clnt_created_datetime', 'clnt_name','clnt_email'));
+		$this->extjs_grid_json(array('id', 
+						'clnt_created_datetime', 
+						'clnt_name',
+						'clnt_mname',
+						'clnt_lname',
+						'clnt_email'
+					));
 	}
 	
 	/**
