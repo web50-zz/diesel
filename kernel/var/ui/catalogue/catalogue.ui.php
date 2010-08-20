@@ -82,6 +82,7 @@ class ui_catalogue extends user_interface
 		//dbg::show($_SERVER);
 		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
 		$data['search'] = $this->get_search_form();
+		$data['filters'] = $this->get_filters();
 		$data['args'] = $di->get_args();
 		return $this->parse_tmpl('default.html',$data);
 	}
@@ -126,6 +127,24 @@ class ui_catalogue extends user_interface
 		}
 
 		return $args;
+	}
+
+	/**
+	*	Подготовить список фильтров
+	*/
+	private function get_filters()
+	{
+		$uri = (empty($_SERVER['REDIRECT_URL'])) ? '/' : $_SERVER['REDIRECT_URL'];
+		$filters = array();
+
+		if (preg_match("/label\/(\d+)\//", $uri))
+			$filters[] = array('title' => 'Коллекция', 'uri' => preg_replace('/label\/\d+\//', '', $uri));
+		if (preg_match("/group\/(\d+)\//", $uri))
+			$filters[] = array('title' => 'Группа', 'uri' => preg_replace('/group\/\d+\//', '', $uri));
+		if (preg_match("/type\/(\d+)\//", $uri))
+			$filters[] = array('title' => 'Тип', 'uri' => preg_replace('/type\/\d+\//', '', $uri));
+
+		return $this->parse_tmpl('filters.html', array('filters' => $filters));
 	}
 	
 	/**
