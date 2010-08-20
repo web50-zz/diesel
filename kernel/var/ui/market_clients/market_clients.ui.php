@@ -14,8 +14,11 @@ class ui_market_clients extends user_interface
 			'market_clients.market_client_form'
 		),
 		'market_client_form' => array(
-			'market_clients.market_client_orders'
-		)
+			'order.main',
+			'order.order_form',
+			'order.order_items',
+		),
+
 	);
 	
 	public function __construct()
@@ -39,13 +42,5 @@ class ui_market_clients extends user_interface
 		response::send($tmpl->parse($this), 'js');
 	}
 
-	/**
-	*       Список заказов 
-	*/
-	public function sys_market_client_orders()
-	{
-		$tmpl = new tmpl($this->pwd() . 'market_client_orders.js');
-		response::send($tmpl->parse($this), 'js');
-	}
 }
 ?>

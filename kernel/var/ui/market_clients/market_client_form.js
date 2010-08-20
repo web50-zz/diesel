@@ -1,7 +1,8 @@
 ui.market_clients.market_client_form = function(config){
 	Ext.apply(this, config);
-	var items = new ui.market_clients.market_client_orders({});
-	this.Load = function(id){
+	//var items = new ui.market_clients.market_client_orders({});
+	var items = new ui.order.main({});
+	this.Load = function(id,uid){
 		var f = this.getForm();
 		f.load({
 			url: 'di/market_clients/get.json',
@@ -9,7 +10,7 @@ ui.market_clients.market_client_form = function(config){
 			waitMsg: this.loadText
 		});
 		f.setValues([{id: '_sid', value: id}]);
-		items.applyStore({_soid: id});
+		items.store.baseParams = {_suser_id: uid};
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -50,7 +51,7 @@ ui.market_clients.market_client_form = function(config){
 			{name: '_sid', xtype: 'hidden'},
 			{xtype: 'tabpanel', activeItem: 0, border: false, anchor: '100% 100%', defferedRender: false,
 			defaults: {hideMode: 'offsets', labelWidth:200, frame: true, layout: 'form'}, items: [
-				{id: 'order-form-main', title: this.tabMain, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
+				{id: 'market-client-form', title: this.tabMain, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
 					{fieldLabel: this.labelRegDate, name: 'clnt_created_datetime', xtype: 'displayfield'},
 					{fieldLabel: this.labelLname, name: 'clnt_lname', width: 200, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelName, name: 'clnt_name', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
@@ -65,7 +66,7 @@ ui.market_clients.market_client_form = function(config){
 					{fieldLabel: this.labelPrefPay, name: 'clnt_payment_pref', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelPrefCurr, name: 'clnt_payment_curr', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 				]},
-				{id: 'order-form-items', title: this.tabOrders, frame: false, layout: 'fit', items: [items]}
+				{id: 'market-client-orders', title: this.tabOrders, frame: false, layout: 'fit', items: [items]}
 			]}
 		],
 		buttonAlign: 'right',

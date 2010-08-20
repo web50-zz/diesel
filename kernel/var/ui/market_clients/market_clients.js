@@ -1,6 +1,6 @@
 ui.market_clients.main = function(config){
-	var frmW = 640;
-	var frmH = 480;
+	var frmW = 800;
+	var frmH = 600;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
@@ -18,7 +18,7 @@ ui.market_clients.main = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, {name: 'clnt_created_datetime', type: 'date', dateFormat: 'Y-m-d H:i:s'}, 'clnt_name', 'clnt_mname', 'clnt_lname', 'clnt_email']
+		[{name: 'id', type: 'int'}, {name: 'clnt_created_datetime', type: 'date', dateFormat: 'Y-m-d H:i:s'}, 'clnt_name', 'clnt_mname', 'clnt_lname', 'clnt_email','clnt_sys_uid']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -45,13 +45,14 @@ ui.market_clients.main = function(config){
 	];
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
+		var uid = this.getSelectionModel().getSelected().get('clnt_sys_uid');
 		var f = new ui.market_clients.market_client_form();
 		var w = new Ext.Window({title: this.editTitle, modal: true, layout: 'fit', width: frmW, height: frmH, items: f});
 		f.on({
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
 		});
-		w.show(null, function(){f.Load(id)});
+		w.show(null, function(){f.Load(id,uid)});
 	}.createDelegate(this);
 	var Delete = function(){
 		var record = this.getSelectionModel().getSelections();

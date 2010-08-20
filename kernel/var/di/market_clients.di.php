@@ -72,7 +72,8 @@ class di_market_clients extends data_interface
 						'clnt_name',
 						'clnt_mname',
 						'clnt_lname',
-						'clnt_email'
+						'clnt_email',
+						'clnt_sys_uid'
 					));
 	}
 	
