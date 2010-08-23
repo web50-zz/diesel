@@ -104,6 +104,50 @@ CREATE TABLE `catalogue_style` (
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `country_regions`
+--
+
+DROP TABLE IF EXISTS `country_regions`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `country_regions` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `cr_regions_created_datetime` datetime default NULL,
+  `cr_regions_changed_datetime` datetime default NULL,
+  `cr_regions_deleted_datetime` datetime default NULL,
+  `cr_regions_deleter_uid` int(10) NOT NULL default '0',
+  `cr_regions_creator_uid` int(10) NOT NULL default '0',
+  `cr_regions_changer_uid` int(10) NOT NULL default '0',
+  `cr_regions_title` text NOT NULL,
+  `cr_regions_part_id` int(10) unsigned NOT NULL default '0',
+  `cr_regions_post_zone` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `country_regions_cntry`
+--
+
+DROP TABLE IF EXISTS `country_regions_cntry`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `country_regions_cntry` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `cr_cntry_created_datetime` datetime default NULL,
+  `cr_cntry_changed_datetime` datetime default NULL,
+  `cr_cntry_deleted_datetime` datetime default NULL,
+  `cr_cntry_deleter_uid` int(10) NOT NULL default '0',
+  `cr_cntry_creator_uid` int(10) NOT NULL default '0',
+  `cr_cntry_changer_uid` int(10) NOT NULL default '0',
+  `cr_cntry_title` varchar(100) NOT NULL,
+  `cr_cntry_title_eng` varchar(100) NOT NULL,
+  `cr_cntry_code` varchar(5) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `faq`
 --
 
@@ -366,7 +410,7 @@ CREATE TABLE `interface` (
   `entry_point` varchar(255) NOT NULL COMMENT 'The name of interfaces method',
   `human_entry_point` varchar(255) NOT NULL COMMENT 'The human name of interfaces method',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=313 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=329 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -415,7 +459,7 @@ CREATE TABLE `market_clients` (
   PRIMARY KEY  (`id`),
   KEY `account_id` (`clnt_changed_datetime`,`clnt_deleted_datetime`),
   KEY `hash` (`clnt_nas_punkt`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -623,7 +667,7 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY  (`id`),
   KEY `account_id` (`login`,`passw`),
   KEY `hash` (`hash`)
-) ENGINE=MyISAM AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COMMENT='System user';
+) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COMMENT='System user';
 SET character_set_client = @saved_cs_client;
 
 --
@@ -671,4 +715,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-19 18:20:42
+-- Dump completed on 2010-08-23 17:40:34
