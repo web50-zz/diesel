@@ -1,17 +1,19 @@
 ui.market_clients.market_client_form = function(config){
 	Ext.apply(this, config);
-	//var items = new ui.market_clients.market_client_orders({});
 	var items = new ui.order.main({});
 	this.Load = function(id,uid){
 		var f = this.getForm();
 		f.load({
 			url: 'di/market_clients/get.json',
 			params: {_sid: id},
-			waitMsg: this.loadText
+			waitMsg: this.loadText,
+			success:function(form,action){this.fireEvent('dataready',action,form);},
+			scope:this
 		});
 		f.setValues([{id: '_sid', value: id}]);
 		items.store.baseParams = {_suser_id: uid};
 	}
+
 	var Save = function(){
 		var f = this.getForm();
 		if (f.isValid()){
@@ -39,7 +41,7 @@ ui.market_clients.market_client_form = function(config){
 				},
 				scope: this
 			});
-		}
+	uperclass.constructor.call}
 	}.createDelegate(this);
 	var Cancel = function(){
 		this.fireEvent('cancelled');
@@ -60,13 +62,20 @@ ui.market_clients.market_client_form = function(config){
 					{fieldLabel: this.labelEmail, name: 'clnt_email', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelPhone, name: 'clnt_phone', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelCountry, name: 'clnt_country', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-					{fieldLabel: this.labelRegion, name: 'clnt_region', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
+					{xtype:'combo', fieldLabel: this.labelRegion, hiddenName: 'clnt_region', allowBlank: true,
+						mode:'local',
+						valueField: 'id',
+						displayField: 'name2',
+						triggerAction: 'all',
+						typeAhead: true,
+						forceSelection: true
+					},
 					{fieldLabel: this.labelRegionC, name: 'clnt_region_custom', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelNasPunkt, name: 'clnt_nas_punkt', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{xtype:'textarea', fieldLabel: this.labelAddress, name: 'clnt_address', width: 100, height:50, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelPrefPay, name: 'clnt_payment_pref', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-					{fieldLabel: this.labelPrefCurr, name: 'clnt_payment_curr', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-				]},
+					{fieldLabel: this.labelPrefCurr, name: 'clnt_payment_curr', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText}
+					]},
 				{id: 'market-client-orders', title: this.tabOrders, frame: false, layout: 'fit', items: [items]}
 			]}
 		],
@@ -78,12 +87,22 @@ ui.market_clients.market_client_form = function(config){
 	});
 	this.addEvents(
 		"saved",
-		"cancelled"
+		"cancelled",
+		"dataready"
 	);
 	this.on({
 		saved: function(data){
 			this.getForm().setValues([{id: '_sid', value: data.id}]);
 		},
+		dataready: function(action,form){
+				var cb = this.getForm().findField('clnt_region');
+				cb.store = new Ext.data.JsonStore({
+						id: 0,
+						fields: [ 'id', 'name2' ],
+						data:action.result.data.regs
+					});
+				cb.setValue(action.result.data.clnt_region_selected);
+				},
 		scope: this
 	})
 }

@@ -84,7 +84,7 @@ class di_market_clients extends data_interface
 	protected function sys_get()
 	{
 		$this->_flush();
-		$this->extjs_form_json(array('id',
+		$data = $this->extjs_form_json(array('id',
 					'clnt_created_datetime',
 					'clnt_changed_datetime',
 					'clnt_deleted_datetime',
@@ -105,9 +105,19 @@ class di_market_clients extends data_interface
 					'clnt_phone',
 					'clnt_payment_pref',
 					'clnt_payment_curr',
-					));
+					),false);
+		$data['data']['clnt_region_selected'] = $data['data']['clnt_region'];
+		unset($data['data']['clnt_region']);
+		$data['data']['regs'] = array(
+					array('name2'=>'one','id'=>'15'),
+					array('name2'=>'two','id'=>'16'),
+					array('name2'=>'tree','id'=>'17'),
+					array('name2'=>'ifour','id'=>'18'),
+					array('name2'=>'six','id'=>'19')
+				     );
+		response::send($data, 'json');
 	}
-	
+
 	/**
 	*	Save record
 	* @access protected
