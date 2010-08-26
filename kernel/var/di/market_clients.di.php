@@ -106,15 +106,21 @@ class di_market_clients extends data_interface
 					'clnt_payment_pref',
 					'clnt_payment_curr',
 					),false);
+
+		$reg_di = data_interface::get_instance('country_regions');
+		$reg_di->_flush();
+		$reg_di->set_args(array('_scr_regions_part_id'=>$data['data']['clnt_country']));
+		$regions = $reg_di->extjs_grid_json(array('id','cr_regions_title'),false);
+	
+		$country_di = data_interface::get_instance('country_regions_cntry');
+		$country = $country_di->extjs_grid_json(array('id','cr_cntry_title'),false);
+
+		$data['data']['regs']['records'] = $regions['records'];	
+		$data['data']['cntrys']['records'] = $country['records'];	
 		$data['data']['clnt_region_selected'] = $data['data']['clnt_region'];
+		$data['data']['clnt_country_selected'] = $data['data']['clnt_country'];
 		unset($data['data']['clnt_region']);
-		$data['data']['regs'] = array(
-					array('name2'=>'one','id'=>'15'),
-					array('name2'=>'two','id'=>'16'),
-					array('name2'=>'tree','id'=>'17'),
-					array('name2'=>'ifour','id'=>'18'),
-					array('name2'=>'six','id'=>'19')
-				     );
+		unset($data['data']['clnt_country']);
 		response::send($data, 'json');
 	}
 

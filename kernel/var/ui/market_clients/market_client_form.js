@@ -61,11 +61,24 @@ ui.market_clients.market_client_form = function(config){
 					{fieldLabel: this.labelMname, name: 'clnt_mname', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelEmail, name: 'clnt_email', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelPhone, name: 'clnt_phone', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-					{fieldLabel: this.labelCountry, name: 'clnt_country', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
+					
+					{xtype:'combo', fieldLabel: this.labelCountry, hiddenName: 'clnt_country', allowBlank: true,
+						mode:'local',
+						valueField: 'id',
+						displayField: 'cr_cntry_title',
+						triggerAction: 'all',
+						typeAhead: true,
+						forceSelection: true,
+						listeners:{
+							'change':function(fld,newv,oldv){this.fireEvent('cntrychanged',fld,newv,oldv)},
+							scope:this
+							}
+					},
+
 					{xtype:'combo', fieldLabel: this.labelRegion, hiddenName: 'clnt_region', allowBlank: true,
 						mode:'local',
 						valueField: 'id',
-						displayField: 'name2',
+						displayField: 'cr_regions_title',
 						triggerAction: 'all',
 						typeAhead: true,
 						forceSelection: true
@@ -88,7 +101,8 @@ ui.market_clients.market_client_form = function(config){
 	this.addEvents(
 		"saved",
 		"cancelled",
-		"dataready"
+		"dataready",
+		"cntrychanged"
 	);
 	this.on({
 		saved: function(data){
@@ -98,10 +112,28 @@ ui.market_clients.market_client_form = function(config){
 				var cb = this.getForm().findField('clnt_region');
 				cb.store = new Ext.data.JsonStore({
 						id: 0,
-						fields: [ 'id', 'name2' ],
-						data:action.result.data.regs
+						fields: ['id', 'cr_regions_title'],
+						url:'di/country_regions/list.do',
+						root:'records'
 					});
+				cb.store.loadData(action.result.data.regs);
 				cb.setValue(action.result.data.clnt_region_selected);
+				var cc = this.getForm().findField('clnt_country');
+				cc.store = new Ext.data.JsonStore({
+						id: 0,
+						fields: ['id', 'cr_cntry_title'],
+						url:'di/country_regions_cntry/list.do',
+						root:'records'
+					});
+				cc.store.loadData(action.result.data.cntrys);
+				cc.setValue(action.result.data.clnt_country_selected);
+				},
+
+		cntrychanged:function(fld,newv,oldv){
+					var cb = this.getForm().findField('clnt_region');
+					cb.reset();
+					cb.store.removeAll();
+					cb.store.reload({params:{'_scr_regions_part_id':newv}});
 				},
 		scope: this
 	})
