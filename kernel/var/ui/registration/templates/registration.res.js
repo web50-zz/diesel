@@ -24,7 +24,10 @@ ui.registration = function(conf){
 
 	this.preparations = function()
 	{
-		Ext.EventManager.on('clnt_country', 'change', this.refreshRegs);
+		if(Ext.fly('clnt_country'))
+		{
+			Ext.EventManager.on('clnt_country', 'change', this.refreshRegs);
+		}
 	}
 
 	this.refreshRegs = function(){
@@ -101,6 +104,7 @@ ui.registration = function(conf){
 			success: function(response,opts){
 			Ext.fly('registrwrap').update(response.responseText);
 			this.collectButtons();
+			this.preparations();
 			},
 					failure: function(response,opts){
 							alert('failure');
