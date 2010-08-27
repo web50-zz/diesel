@@ -37,7 +37,11 @@ class di_order extends data_interface
 		'address' => array('type' => 'string'),			// Адрес
 		'method_of_payment' => array('type' => 'integer'),	// Способ оплаты
 		'discount' => array('type' => 'float'),			// Скидка
+		'total_items' => array('type' => 'interger'),		// Общее кол-во товаров в заказе
+		'total_items_cost' => array('type' => 'float'),		// Общая стоимость всех товаров (без учёта доставки)
+		'number_of_parcels' => array('type' => 'integer'),	// Кол-во почтовых отправлений (из расчёта 6-ть в посылке)
 		'delivery_cost' => array('type' => 'float'),		// Стоимость доставки
+		'total_cost' => array('type' => 'float'),		// Общая стоимость заказа с учётом доставки
 		'comments' => array('type' => 'text'),			// Коментарий
 	);
 	
@@ -55,7 +59,7 @@ class di_order extends data_interface
 		$this->_flush(true);
 		$user = $this->join_with_di('user', array('user_id' => 'id'), array('name' => 'str_user_name'));
 		$this->extjs_grid_json(array(
-			'id', 'created_datetime', 'status', 'method_of_payment', 'discount', 'delivery_cost',
+			'id', 'created_datetime', 'status', 'method_of_payment', 'total_items', 'total_items_cost', 'delivery_cost', 'total_cost',
 			array('di' => $user, 'name' => 'name')
 		));
 	}
@@ -92,11 +96,19 @@ class di_order extends data_interface
 	*/
 	public function set($data)
 	{
+		$uiCart = user_interface::get_instance('cart');
+		$cart = $uiCart->get_cart(intval(request::get('method_of_payment', 4)));
+
 		$this->push_args((array)$data);
 		$this->set_args(array(
 			'created_datetime' => date('Y-m-d H:i:s'),
 			'user_id' => (integer)UID,
-			'status' => 0
+			'status' => 0,
+			'total_items' => $cart['total_items'],
+			'total_items_cost' => $cart['total_summ'],
+			'number_of_parcels' => $cart['parcels'],
+			'delivery_cost' => $cart['delivery_cost'],
+			'total_cost' => $cart['total_cost'],
 		), true);
 		$this->_flush();
 		$this->insert_on_empty = true;

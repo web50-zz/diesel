@@ -22,11 +22,14 @@
 		<tr>
 			<td>Способ оплаты:</td>
 			<td>
-				<input type="radio" name="method_of_payment" value="1"> WebMoney<br/>
-				<input type="radio" name="method_of_payment" value="2"> Курьеру наличными (Москва)<br/>
-				<input type="radio" name="method_of_payment" value="3"> Наложенные платёж<br/>
-				<input type="radio" name="method_of_payment" value="4"> Предоплата<br/>
-				<input type="radio" name="method_of_payment" value="5"> Яндекс.Деньги<br/>
+				<select name="method_of_payment" id="method_of_payment">
+					<option value="0"> Выберите способ оплаты</option>
+					<option value="1"> WebMoney</option>
+					<option value="2"> Курьеру наличными (Москва)</option>
+					<option value="3"> Наложенные платёж</option>
+					<option value="4" selected> Предоплата</option>
+					<option value="5"> Яндекс.Деньги</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
@@ -35,21 +38,21 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				<b>Ваш заказ:</b><br/>
-				{__cart__}
+				<b>Ваш заказ:</b>
+				<div id="order-table">{__/cart/html__}</div>
 			</td>
 		</tr>
 		<tr>
 			<td>Кол-во почтовых отправлений:</td>
-			<td>1</td>
+			<td><div id="order-parcels">{__/cart/parcels__}</div></td>
 		</tr>
 		<tr>
 			<td>Стоимость доставки:</td>
-			<td><div id="order-fld-delivery_cost">200</div></td>
+			<td><div id="order-delivery_cost">{__/cart/delivery_cost__}</div></td>
 		</tr>
 		<tr>
 			<td>Общая стоимость заказа:</td>
-			<td><div id="order-fld-total_cost">{__total_summ__}</div></td>
+			<td><div id="order-total_cost">{__/cart/total_cost__}</div></td>
 		</tr>
 		<tr>
 			<td>Комментарий:</td>

@@ -270,7 +270,11 @@ CREATE TABLE `order` (
   `address` text NOT NULL,
   `method_of_payment` tinyint(1) unsigned NOT NULL,
   `discount` decimal(10,2) unsigned NOT NULL,
+  `total_items` smallint(5) unsigned NOT NULL, 
+  `total_items_cost` decimal(10,2) unsigned NOT NULL,
+  `number_of_parcels` tinyint(3) unsigned NOT NULL,
   `delivery_cost` decimal(10,2) unsigned NOT NULL,
+  `total_cost` decimal(10,2) unsigned NOT NULL,
   `comments` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
