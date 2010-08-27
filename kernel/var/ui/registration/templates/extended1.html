@@ -12,15 +12,17 @@
 	<div id="title_clnt_country" class="field_name">Страна:</div>
 	<select fldttlid="title_clnt_country"  class="req field clnt_country" id="clnt_country" type="Text" name="clnt_country" value="" title="clnt_country"> 
 		<option value="">Выбрать</option>
-		<option value="1">Выбрать</option>
+		{__(apply(/cntrys)__}
+		    <option value="{__id__}">{__cr_cntry_title__}</option>
+		{__apply)__}
 	</select>
 	<br>
 	<div id="title_clnt_region" class="field_name">Регион:</div>
+	<div id="reg_wrap">
 	<select fldttlid="title_clnt_region"  class="req field clnt_region" id="clnt_region" name="clnt_region" value="" title="clnt_region"> 
 		<option value="">Выбрать</option>
-		<option value="1">Выбрать</option>
-	</select><br>
-
+	</select></div><br>
+	<div id="ee" class="ee"></div>
 	<div id="title_clnt_region_custom" class="field_name">Другой регион:</div><input fldttlid="title_clnt_region_custom"  class="field clnt_region_custom" id="clnt_region_custom" type="Text" name="clnt_region_custom" value="" title="clnt_region_custom"><br>
 	<div id="title_clnt_nas_punkt" class="field_name">Город/Населенный пункт:</div><input fldttlid="title_clnt_nas_punkt"  class="req field clnt_nas_punkt" id="clnt_nas_punkt" type="Text" name="clnt_nas_punkt" value="" title="clnt_nas_punkt"> <br><br>
 	<div id="title_clnt_address" class="field_name">Адрес:</div><textarea fldttlid="title_clnt_address"  class="req field clnt_address" id="clnt_address"  name="clnt_address"  title="clnt_address"></textarea> <br>
@@ -29,13 +31,17 @@
 	<div id="title_clnt_payment_pref" class="field_name">Предпочтительный <br>способ оплаты:</div> 
 	<select fldttlid="title_clnt_payment_pref"  class="req field clnt_payment_pref" id="clnt_payment_pref" type="Text" name="clnt_payment_pref" value="" title="clnt_payment_pref"> 
 		<option value="">Выбрать</option>
-		<option value="1">Выбрать</option>
+		{__(apply(/payvar)__}
+		<option value="{__id__}">{__pay_var_title__}</option>
+		{__apply)__}
 	</select><br><br>
 
 	<div id="title_clnt_payment_curr" class="field_name">Валюта:</div> 
 	<select fldttlid="title_clnt_payment_curr"  class="req field clnt_payment_curr" id="clnt_payment_curr" type="Text" name="clnt_payment_curr" value="" title="clnt_payment_curr"> 
 		<option value="">Выбрать</option>
-		<option value="1">Выбрать</option>
+		{__(apply(/currencys)__}
+			<option value="{__id__}">{__curr_title__}</option>
+		{__apply)__}
 	</select><br>
 	<div   class="field_name">&nbsp;</div><input type="button" class="submbutt" id="submbutt"   value="Продолжить">
 </form>

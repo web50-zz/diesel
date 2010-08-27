@@ -22,6 +22,28 @@ ui.registration = function(conf){
 
 	}
 
+	this.preparations = function()
+	{
+		Ext.EventManager.on('clnt_country', 'change', this.refreshRegs);
+	}
+
+	this.refreshRegs = function(){
+		Ext.Ajax.request({
+			url: '/ui/registration/get_regs.do',
+			form: 'regform',
+			scope: this,
+			success: function(response, opts) {
+					var obj = Ext.decode(response.responseText);
+					var dh = Ext.DomHelper; 
+					dh.append('reg_wrap',obj);
+					Ext.fly('clnt_region').remove();
+			},
+			 failure: function(response, opts) {
+					 console.log(' Error ' + response.status);
+			}
+		});
+	}
+
 	this.handleSubmit = function(){
 		Ext.each(Ext.query(".req",Ext.fly('.regform')), function(item, index, allItems){
 			var el = Ext.get(item);
@@ -124,4 +146,5 @@ Ext.onReady(function(){
 	registration = new ui.registration();
 	registration.collectButtons();
 	FRONTLOADER.load('/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
+	registration.preparations();
 });

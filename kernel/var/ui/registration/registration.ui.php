@@ -20,7 +20,11 @@ class ui_registration extends user_interface
 					'clnt_payment_pref'=>'Предпочтительеный способ оплаты',
 					'clnt_payment_curr'=>'Валюта',
 					);
-	public $mode = 'extended1';// currently 2 modes available 'default'(only sys user registration), 'extended1'(also creates market client account)
+	public $mode = 'extended1';
+	/*
+	 currently 2 modes available 'default'(only sys user registration), 
+	 'extended1'(also creates market client account)
+	*/
 
 	public function __construct()
 	{
@@ -38,6 +42,8 @@ class ui_registration extends user_interface
 		switch($this->mode)
 		{
 			case 'extended1':
+				$data_m = $this->prepare_ext1_data();
+				$data = array_merge($data,$data_m);
 				return $this->parse_tmpl('extended1.html',$data);
 			break;
 		}
@@ -167,6 +173,37 @@ class ui_registration extends user_interface
 			throw new Exception("$errors");
 		}
 
+	}
+
+	public function prepare_ext1_data()
+	{
+		$data = array();
+	
+		$country_di = data_interface::get_instance('country_regions_cntry');
+		$country = $country_di->extjs_grid_json(array('id','cr_cntry_title'),false);
+
+		$currency_di = data_interface::get_instance('market_currency');
+		$currency = $currency_di->extjs_grid_json(array('id','curr_title'),false);
+
+		$pay_var_di = data_interface::get_instance('market_payment_vars');
+		$pay_var = $pay_var_di->extjs_grid_json(array('id','pay_var_title'),false);
+		
+		$data['cntrys'] = $country['records'];	
+		$data['currencys'] = $currency['records'];	
+		$data['payvar'] = $pay_var['records'];	
+		return $data;
+	}
+
+	public function pub_get_regs()
+	{
+		$reg = $this->args['clnt_country'];
+		$data = array();
+		$reg_di = data_interface::get_instance('country_regions');
+		$reg_di->_flush();
+		$reg_di->set_args(array('_scr_regions_part_id'=>$reg));
+		$regions = $reg_di->extjs_grid_json(array('id','cr_regions_title'),false);
+		$data['records'] = $regions['records'];	
+		response::send($this->parse_tmpl('reg_selector_json.html',$data),'text');
 	}
 
 }
