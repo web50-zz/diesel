@@ -86,8 +86,22 @@ ui.market_clients.market_client_form = function(config){
 					{fieldLabel: this.labelRegionC, name: 'clnt_region_custom', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{fieldLabel: this.labelNasPunkt, name: 'clnt_nas_punkt', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 					{xtype:'textarea', fieldLabel: this.labelAddress, name: 'clnt_address', width: 100, height:50, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-					{fieldLabel: this.labelPrefPay, name: 'clnt_payment_pref', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-					{fieldLabel: this.labelPrefCurr, name: 'clnt_payment_curr', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText}
+					{xtype:'combo', fieldLabel: this.labelPrefPay, hiddenName: 'clnt_payment_pref', allowBlank: true,
+						mode:'local',
+						valueField: 'id',
+						displayField: 'pay_var_title',
+						triggerAction: 'all',
+						typeAhead: true,
+						forceSelection: true
+					},
+					{xtype:'combo', fieldLabel: this.labelPrefCurr, hiddenName: 'clnt_payment_curr', allowBlank: true,
+						mode:'local',
+						valueField: 'id',
+						displayField: 'curr_title',
+						triggerAction: 'all',
+						typeAhead: true,
+						forceSelection: true
+					}
 					]},
 				{id: 'market-client-orders', title: this.tabOrders, frame: false, layout: 'fit', items: [items]}
 			]}
@@ -127,6 +141,24 @@ ui.market_clients.market_client_form = function(config){
 					});
 				cc.store.loadData(action.result.data.cntrys);
 				cc.setValue(action.result.data.clnt_country_selected);
+				var cr = this.getForm().findField('clnt_payment_curr');
+				cr.store = new Ext.data.JsonStore({
+						id: 0,
+						fields: ['id', 'curr_title'],
+						url:'di/market_currency/list.do',
+						root:'records'
+					});
+				cr.store.loadData(action.result.data.currencys);
+				cr.setValue(action.result.data.clnt_payment_curr_selected);
+				var cp = this.getForm().findField('clnt_payment_pref');
+				cp.store = new Ext.data.JsonStore({
+						id: 0,
+						fields: ['id', 'pay_var_title'],
+						url:'di/market_pay_var/list.do',
+						root:'records'
+					});
+				cp.store.loadData(action.result.data.payvar);
+				cp.setValue(action.result.data.clnt_payment_pref_selected);
 				},
 
 		cntrychanged:function(fld,newv,oldv){
