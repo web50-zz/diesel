@@ -16,7 +16,8 @@ class ui_market_recomendations extends user_interface
 			'catalogue.item_list',
 			'catalogue.item_form',
 			'catalogue.filter_form',
-			'market_recomendations.catalogue_list'
+			'market_recomendations.catalogue_list',
+			'market_recomendations.recomend_list'
 		),
 		'item_form' => array(
 			'catalogue.files',
@@ -54,6 +55,11 @@ class ui_market_recomendations extends user_interface
 	protected function sys_catalogue_list()
 	{
 		$tmpl = new tmpl($this->pwd() . 'catalogue_list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	protected function sys_recomend_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'recomend_list.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }
