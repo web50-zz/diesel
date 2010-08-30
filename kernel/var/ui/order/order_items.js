@@ -20,13 +20,18 @@ ui.order.order_items = function(config){
 		proxy: proxy,
 		reader: reader
 	});
+	// The item`s summ renderer
+	var itemSumm = function(value, metaData, record){
+		return Ext.util.Format.number(value * record.get('count'), '0.00');
+	}
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{header: "ID", sortable: true, dataIndex: 'id', id: 'id', width: 50},
-		{header: this.colType, sortable: true, dataIndex: 'str_type', id: 'type', width: 120},
+		{header: "ID", sortable: true, hidden: true, dataIndex: 'id', id: 'id', width: 50},
+		{header: this.colType, sortable: true, dataIndex: 'str_type', id: 'type', width: 120, align: 'center'},
 		{header: this.colTitle, sortable: true, dataIndex: 'str_title', id: 'title', width: 200},
-		{header: this.colCount, sortable: true, dataIndex: 'count', id: 'count', width: 100},
-		{header: this.colCost, sortable: true, dataIndex: 'cost', id: 'cost', width: 100}
+		{header: this.colCount, sortable: true, dataIndex: 'count', id: 'count', width: 50, align: 'right'},
+		{header: this.colCost, sortable: true, dataIndex: 'cost', id: 'cost', width: 100, align: 'right', xtype: 'numbercolumn', format: '0.00'},
+		{header: this.colSumm, sortable: true, dataIndex: 'cost', id: 'summ', width: 100, align: 'right', renderer: itemSumm}
 	];
 	this.applyStore = function(data){
 		Ext.apply(store.baseParams, data);
@@ -58,5 +63,6 @@ Ext.extend(ui.order.order_items, Ext.grid.GridPanel, {
 	colType: "Тип",
 	colTitle: "Наименование",
 	colCount: "Кол-во",
-	colCost: "Стоимость"
+	colCost: "Стоимость",
+	colSumm: "Общая стоим."
 });

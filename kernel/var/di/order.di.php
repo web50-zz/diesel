@@ -73,7 +73,7 @@ class di_order extends data_interface
 		$this->_flush(true);
 		$user = $this->join_with_di('user', array('user_id' => 'id'), array('name' => 'str_user_name'));
 		$this->extjs_form_json(array(
-			'id', 'created_datetime', 'status', 'method_of_payment', 'discount', 'delivery_cost', 'comments',
+			'id', 'created_datetime', 'status', 'method_of_payment', 'discount', 'total_items', 'total_items_cost', 'number_of_parcels', 'delivery_cost', 'total_cost', 'comments',
 			array('di' => $user, 'name' => 'name')
 		));
 	}

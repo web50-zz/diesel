@@ -69,7 +69,11 @@ ui.order.order_form = function(config){
 						submitValue: false, readOnly: true
 					},
 					{fieldLabel: this.labelDiscount, name: 'discount', xtype: 'displayfield'},
+					{fieldLabel: this.labelTtlItems, name: 'total_items', xtype: 'displayfield'},
+					{fieldLabel: this.labelTtlItemsCost, name: 'total_items_cost', xtype: 'displayfield'},
+					{fieldLabel: this.labelNumOfParcels, name: 'number_of_parcels', xtype: 'displayfield'},
 					{fieldLabel: this.labelDelCost, name: 'delivery_cost', xtype: 'displayfield'},
+					{fieldLabel: this.labelTtlCost, name: 'total_cost', xtype: 'displayfield'},
 					{fieldLabel: this.labelComments, name: 'comments', xtype: 'displayfield'}
 				]},
 				{id: 'order-form-items', title: this.tabItems, frame: false, layout: 'fit', items: [items]}
@@ -102,6 +106,10 @@ Ext.extend(ui.order.order_form, Ext.form.FormPanel, {
 	labelMetOfPay: 'Способ оплаты',
 	labelDiscount: 'Скидка',
 	labelDelCost: 'Стоимость доставки',
+	labelTtlItems: 'Кол-во товаров',
+	labelTtlItemsCost: 'Общая стоимость товаров',
+	labelNumOfParcels: 'Кол-во посылок',
+	labelTtlCost: 'Общая стоимость заказа',
 	labelComments: 'Комментарий',
 
 	loadText: 'Загрузка данных формы',
