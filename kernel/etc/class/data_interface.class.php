@@ -324,6 +324,17 @@ class data_interface extends base_interface
 	}
 	
 	/**
+	*	Установить группировку
+	* @param	string	$field	Имя поля
+	* @param	string	$di	Интерфейс данных
+	*/
+	public function set_group($field, $di = false)
+	{
+		if (!$di) $di = $this;
+		$this->connector->set_group($field, $di->get_alias());
+	}
+	
+	/**
 	*	Установить сортировку выборки
 	* @param	string	$field	Имя поля
 	* @param	string	$dir	Направление сортировки ASC или DESC
@@ -536,9 +547,9 @@ class data_interface extends base_interface
 		$this->_flush();
 		$data = array();
 		
-		$this->what = 'COUNT(*) AS `total`';
-		$this->_get();
-		$data['total'] = $this->get_results(0, 'total');
+		//$this->what = 'COUNT(*) AS `total`';
+		//$this->_get();
+		//$data['total'] = $this->get_results(0, 'total');
 		
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
 		$this->what = $fields;
@@ -547,6 +558,7 @@ class data_interface extends base_interface
 		$this->set_limit($this->args['start'], $this->args['limit']);
 		$data['success'] = true;
 		$data['records'] = $this->_get();
+		$data['total'] = $this->connector->_found_rows;
 		
 		if ($with_response)
 			response::send($data, 'json');

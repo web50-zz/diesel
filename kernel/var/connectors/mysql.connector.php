@@ -92,6 +92,12 @@ class connector_mysql
 	* @var	string	$_limit		Ограничение выборки
 	*/
 	private $_limit;
+
+	/**
+	* @access	public
+	* @var	integer	$found_rows	Кол-во записей всего по указанному запросу
+	*/
+	public $_found_rows = 0;
 	
 	/**
 	* @access	public
@@ -267,8 +273,10 @@ class connector_mysql
 		$this->_where = '';
 		$this->_fields = array();
 		$this->_fields_values = array();
+		$this->_group = '';
 		$this->_order = '';
 		$this->_limit = '';
+		$this->i_found_rows = 0;
 	}
 	
 	/**
@@ -297,11 +305,17 @@ class connector_mysql
 		if (!$sql)
 		{
 			$this->_prepare_get();
-			$sql = "SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_order} {$this->_limit}";
+
+			$sql = "SELECT COUNT(*) As `count` FROM (SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group}) AS `total`";
+			$this->exec($sql, $this->_where_values, TRUE, TRUE);
+			$this->_found_rows = $this->di->get_results(0, 'count');
+
+			$sql = "SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_order} {$this->_limit}";
 		}
 
-		$results = $this->exec($sql, $this->_where_values, TRUE, TRUE);
-		$this->di->set_results($results);
+		//$results = $this->exec($sql, $this->_where_values, TRUE, TRUE);
+		//$this->di->set_results($results);
+		$this->exec($sql, $this->_where_values, TRUE, TRUE);
 	}
 	
 	/**
@@ -758,6 +772,16 @@ class connector_mysql
 		else
 			return $str;
 	}
+
+	/**
+	*	Установить группировку для выборки
+	* @param	string	$field	Имя поля
+	* @param	string	$table	Имя таблицы или её alias-name
+	*/
+	public function set_group($field, $table)
+	{
+		$this->_group = "GROUP BY `{$table}`.`{$field}`";
+	}
 	
 	/**
 	*	Установить сортировку выборки
@@ -769,7 +793,7 @@ class connector_mysql
 		$dir = strtoupper($dir);
 		if (!empty($field) && preg_match('/^\w+$/', $field)
 			&& ($dir == 'ASC' OR $dir == 'DESC'))
-			$this->_order = 'ORDER BY '.$this->di->get_name().'.'.$field.' '.$dir;
+			$this->_order = 'ORDER BY '.$this->di->get_alias().'.'.$field.' '.$dir;
 	}
 	
 	/**
