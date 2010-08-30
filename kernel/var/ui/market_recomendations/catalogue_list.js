@@ -1,7 +1,7 @@
 ui.market_recomendations.catalogue_list = function(config, vp){
 	Ext.apply(this, config);
 
-	var shit = function() {// fake sunc cause IE obkect init fails without any func before
+	var shit = function(){
 		var e ='ee';	
 	}.createDelegate(this);
 
