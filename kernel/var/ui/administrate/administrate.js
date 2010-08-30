@@ -52,6 +52,7 @@ ui.administrate = function(config){
 				]},	
 				{text: this.menuApps, iconCls: 'book', menu:[
 					{text: "FAQ", iconCls: 'book_open', appName: 'faq', appFace: 'main', handler: appLauncher},
+					{text: "Рекомендуемое", iconCls: 'book_open', appName: 'market_recomendations', appFace: 'main', handler: appLauncher},
 					{text: "Гостевая", iconCls: 'book_open', appName: 'guestbook', appFace: 'main', handler: appLauncher},
 					{text: "Рассылки", iconCls: 'book_open', appName: 'subscribe', appFace: 'main', handler: appLauncher},
 					{text: "Заказы", iconCls: 'coins', appName: 'order', appFace: 'main', handler: appLauncher},

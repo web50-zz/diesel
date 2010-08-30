@@ -11,7 +11,23 @@ class ui_market_recomendations extends user_interface
 {
 	public $title = 'Магазин рекомендует';
 
-	
+		protected $deps = array(
+		'main' => array(
+			'catalogue.item_list',
+			'catalogue.item_form',
+			'catalogue.filter_form',
+			'market_recomendations.catalogue_list'
+		),
+		'item_form' => array(
+			'catalogue.files',
+			'catalogue.styles'
+		),
+		'files' => array(
+			'catalogue.file_form',
+			'catalogue.resize_form'
+		)
+	);
+
 	public function __construct()
 	{
 		parent::__construct((func_num_args() > 0) ? func_get_arg(0) : __CLASS__);
@@ -28,6 +44,17 @@ class ui_market_recomendations extends user_interface
         {
 		$data = array();
 		return $this->parse_tmpl('short.html',$data);
+	}
+	
+	protected function sys_main()
+	{
+		$tmpl = new tmpl($this->pwd() . 'catalogue.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	protected function sys_catalogue_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'catalogue_list.js');
+		response::send($tmpl->parse($this), 'js');
 	}
 }
 ?>
