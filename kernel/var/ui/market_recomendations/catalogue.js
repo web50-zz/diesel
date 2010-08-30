@@ -4,7 +4,7 @@ ui.market_recomendations.main = function(config, vpu){
 	Ext.apply(this, config);
 	var filter = new ui.catalogue.filter_form({region: 'west', split: true, width: 150});
 	var grid = new ui.market_recomendations.catalogue_list({region: 'center'});
-	var grid2 = new ui.market_recomendations.catalogue_list({region: 'center',title:'Рекомендоанное'});
+	var grid2 = new ui.market_recomendations.recomend_list({region: 'center',title:'Рекомендуемое'});
 		panel1 = new Ext.Panel({
 			title: 'Поиск по каталогу',
 			layout:'border',
@@ -14,11 +14,11 @@ ui.market_recomendations.main = function(config, vpu){
 		});
 
 //	grid.applyStore((vp.ui_configure || {}));
-	grid.setBack(this);
 
+	grid.setBack(this);
 	this.oops = function(id)
 	{
-		alert(id);
+		grid2.Add(id);
 	}
 
 	filter.on({
