@@ -42,24 +42,12 @@ class ui_cart extends user_interface
 	private function prepare_data($method_of_payment)
 	{
 		$cart = data_interface::get_instance('cart');
-		$records = $cart->get_records();
+		$records = $cart->get_records($method_of_payment);
 		$total_items = 0;
 		$total_summ = 0;
 		foreach ($records as $i => $rec)
 		{
-			if ($method_of_payment == 4)
-			{
-				$s = sprintf("%0.2f", ceil($rec['str_cost'] * ((100 - $rec['discount']) / 100)));
-				$records[$i]['str_cost'] = $s;
-			}
-			else
-			{
-				$s = $rec['str_cost'];
-			}
-
-			$records[$i]['total_cost'] = sprintf("%0.2f", $s * $rec['count']);
-
-			$total_summ+= $s;
+			$total_summ+= $rec['summ'];
 			$total_items+= $rec['count'];
 		}
 		$parcels = ceil($total_items / 6);

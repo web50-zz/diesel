@@ -87,7 +87,7 @@ class di_order_item extends data_interface
 	public function remember_cart($order_id)
 	{
 		$cart = data_interface::get_instance('cart');
-		$records = $cart->get_records();
+		$records = $cart->get_records(intval(request::get('method_of_payment', 0)));
 		
 		foreach ($records as $rec)
 		{

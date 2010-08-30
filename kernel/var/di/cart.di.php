@@ -32,7 +32,7 @@ class di_cart extends data_interface
 	    parent::__construct(__CLASS__);
 	}
 	
-	public function get_records()
+	public function get_records($method_of_payment = 0)
 	{
 		$records = array();
 		$ids = array_keys($this->_list());
@@ -58,7 +58,20 @@ class di_cart extends data_interface
 			$i = $this->_list();
 			foreach ($records as $n => $rec)
 			{
-				$records[$n]['count'] = $i[$rec['id']];
+				$count = $i[$rec['id']];
+
+				if ($method_of_payment == 4)
+				{
+					$cost = sprintf("%0.2f", ceil($rec['str_cost'] * ((100 - $rec['discount']) / 100)));
+				}
+				else
+				{
+					$cost = $rec['str_cost'];
+				}
+
+				$records[$n]['count'] = $count;
+				$records[$n]['str_cost'] = $cost;
+				$records[$n]['summ'] = sprintf("%0.2f", $cost * $count);
 			}
 		}
 
