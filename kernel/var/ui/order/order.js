@@ -18,7 +18,16 @@ ui.order.main = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, {name: 'created_datetime', type: 'date', dateFormat: 'Y-m-d H:i:s'}, 'status', 'method_of_payment', 'discount', 'delivery_cost', 'str_user_name']
+		[{name: 'id', type: 'int'},
+			{name: 'created_datetime', type: 'date', dateFormat: 'Y-m-d H:i:s'},
+			'status',
+			'method_of_payment',
+			'discount',
+			'total_items',
+			'total_items_cost',
+			'delivery_cost',
+			'total_cost',
+			'str_user_name']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -38,11 +47,14 @@ ui.order.main = function(config){
 	var columns = [
 		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
 		{id: 'created_datetime', dataIndex: 'created_datetime', header: 'Дата создания', renderer: formatDate, width: 130},
+		{id: 'str_user_name', dataIndex: 'str_user_name', header: 'Пользователь', width: 100},
 		{id: 'status', dataIndex: 'status', header: 'Статус', width: 100},
 		{id: 'method_of_payment', dataIndex: 'method_of_payment', header: 'Способ оплаты', width: 100},
 		{id: 'discount', dataIndex: 'discount', header: 'Скидка', width: 100},
+		{id: 'total_items', dataIndex: 'total_items', header: 'Кол-во элементов', width: 100},
+		{id: 'total_items_cost', dataIndex: 'total_items_cost', header: 'Общая стоимость товаров', width: 100},
 		{id: 'delivery_cost', dataIndex: 'delivery_cost', header: 'Соимость доставки', width: 100},
-		{id: 'str_user_name', dataIndex: 'str_user_name', header: 'Пользователь', width: 100}
+		{id: 'total_cost', dataIndex: 'total_cost', header: 'Общая стоимость заказов', width: 100}
 	];
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');

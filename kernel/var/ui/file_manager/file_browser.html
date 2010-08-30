@@ -3,8 +3,8 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Fluger CMS: File manager</title>
-	{__set(#extjs = '3.1.1')__}	
+	<title>SBIN Diesel: File manager</title>
+	{__set(#extjs = '3.2.1')__}	
 	<link rel="stylesheet" type="text/css" href="/css/cfcms.css">
 	<link rel="stylesheet" type="text/css" href="/js/extjs-{__#extjs__}/css/ext-all.css">
 	<!--link rel="stylesheet" type="text/css" href="/js/extjs-{__#extjs__}/css/xtheme-gray.css"-->
@@ -33,22 +33,22 @@
 
 	<script type="text/javascript">
 		var CKEditorFuncNum = {__php::intval(request::get('CKEditorFuncNum', 1))__};
+		Ext.namespace("ui.file_manager");
 	</script>
 
-	<script type="text/javascript" src="js.js"></script>
+	<script type="text/javascript" src="main.js"></script>
 
 	<script type="text/javascript">
-		Ext.fly('applocale').set({src: 'ui/administrate/app_lang.js?locale={__(if(!empty(/user/lang))__}{__/user/lang__}{__else__}{__LANG__}{__if)__}'});
+		Ext.fly('applocale').set({src: '/xxx/ui/administrate/app_lang.js?locale={__(if(!empty(/user/lang))__}{__/user/lang__}{__else__}{__LANG__}{__if)__}'});
 	</script>
 	
 	<script	type="text/javascript">
-                var app = new App();
 		Ext.onReady(function(){
 			Ext.get('loading').hide();
 			Ext.QuickTips.init();
 			vp = new Ext.Viewport({
 				layout: 'fit',
-				items: new ui.file_manager({fck: true})
+				items: new ui.file_manager.main({fck: true})
 			});
 			vp.render();
 		});

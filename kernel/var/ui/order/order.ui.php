@@ -47,11 +47,23 @@ class ui_order extends user_interface
 			$uiCart = user_interface::get_instance('cart');
 			$diUser = data_interface::get_instance(AUTH_DI);
 			$data = array(
+				'args' => request::get(),
 				'user' => $diUser->get_user(),
-				'cart' => $uiCart->get_html_cart()
+				'cart' => $uiCart->get_cart(intval(request::get('method_of_payment', 4)))
 			);
 			return $this->parse_tmpl('default.html',$data);
 		}
+	}
+
+	/**
+	*	Пересчитать корзину
+	*/
+	public function pub_recalc()
+	{
+		$uiCart = user_interface::get_instance('cart');
+		$cart = $uiCart->get_cart(intval(request::get('method_of_payment', 4)));
+		unset($cart['records']);
+		return response::send($cart, 'json');
 	}
 
 	public function sys_main()

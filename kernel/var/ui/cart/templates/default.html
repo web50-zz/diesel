@@ -10,12 +10,13 @@
 		<td width="120">
 			<input type="text" name="count[{__id__}]" value="{__count__}" size="2" style="text-align: right"> x {__str_cost__}
 		</td>
-		<td width="48"> = {__echo($count * $str_cost)__}</td>
+		{__set(@cost = (/method_of_payment == 4) ? sprintf("%0.2f", ceil($price_cost * ((100 - $discount) * 0.01))) : ($count * $str_cost))__}
+		<td width="48"> = {__@cost__}</td>
 		<td width="24">
 			<a href="javascript:void(0)" title="Remove from cart" class="delCart" cid="{__id__}"><img src="/ico/silk/cart_delete.png" border="0" hspace="2"/></a>
 		</td>
 	</tr>
-	{__set(#cost_total = #cost_total + $count * $str_cost)__}
+	{__set(#cost_total = #cost_total + @cost)__}
 {__apply)__}
 	<tr>
 		<td colspan="2">&nbsp;</td>
