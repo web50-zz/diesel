@@ -254,7 +254,6 @@ CREATE TABLE `catalogue_item` (
   `producer_id` smallint(5) unsigned NOT NULL,
   `collection_id` smallint(5) unsigned NOT NULL,
   `group_id` smallint(5) unsigned NOT NULL,
-  `style_id` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
