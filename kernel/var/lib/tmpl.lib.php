@@ -945,7 +945,7 @@ class tmpl
 		}
 		elseif (is_array($data))
 		{
-			if (is_array($data) AND count($data) == 1 AND isset($data[0]) AND isset($data[0][$var]))
+			if (is_array($data) AND count($data) == 1 AND is_array($data[0]) AND isset($data[0][$var]))
 				return $data[0][$var];
 			elseif (isset($data[$var]))
 				return $data[$var];
