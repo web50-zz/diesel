@@ -287,9 +287,14 @@ CREATE TABLE `order_item` (
   `order_id` smallint(5) unsigned NOT NULL,
   `item_id` smallint(5) unsigned NOT NULL,
   `count` smallint(5) unsigned NOT NULL,
-  `cost` smallint(5) unsigned NOT NULL,
+  `price1` decimal(10,2) unsigned NOT NULL,
+  `price2` decimal(10,2) unsigned NOT NULL,
+  `discbool` tinyint(1) unsigned NOT NULL,
+  `discount` decimal(10,2) unsigned NOT NULL,
+  `access` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `order_id` (`order_id`)
+  KEY `order_id` (`order_id`),
+  KEY `item_id` (`item_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 

@@ -60,17 +60,22 @@ class di_cart extends data_interface
 			{
 				$count = $i[$rec['id']];
 
-				if ($method_of_payment == 4)
+				if ($method_of_payment == 4 && $rec['discount'] > 0)
 				{
 					$cost = sprintf("%0.2f", ceil($rec['str_cost'] * ((100 - $rec['discount']) / 100)));
+					$records[$n]['discbool'] = 1;
+					$records[$n]['discount'] = $rec['discount'];
 				}
 				else
 				{
 					$cost = $rec['str_cost'];
+					$records[$n]['discbool'] = 0;
+					$records[$n]['discount'] = 0;
 				}
 
 				$records[$n]['count'] = $count;
-				$records[$n]['str_cost'] = $cost;
+				$records[$n]['price1'] = $rec['str_cost'];
+				$records[$n]['price2'] = $cost;
 				$records[$n]['summ'] = sprintf("%0.2f", $cost * $count);
 			}
 		}

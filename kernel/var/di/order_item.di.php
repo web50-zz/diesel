@@ -29,10 +29,14 @@ class di_order_item extends data_interface
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'order_id' => array('type' => 'integer', 'alias' => 'oid'),
-		'item_id' => array('type' => 'integer'),
-		'count' => array('type' => 'integer'),
-		'cost' => array('type' => 'integer'),
+		'order_id' => array('type' => 'integer', 'alias' => 'oid'),			// ID Заказа
+		'item_id' => array('type' => 'integer'),					// ID Товара
+		'count' => array('type' => 'integer'),						// Кол-во товаров
+		'price1' => array('type' => 'float'),						// Стоимость товара оригинальная
+		'price2' => array('type' => 'float'),						// Стоимость товара с учётом скидки
+		'discbool' => array('type' => 'integer'),					// Использовалась скидка (0 - Нет, 1 - Да)
+		'discount' => array('type' => 'float'),						// Размер скидки
+		'access' => array('type' => 'int')						// Х.З. чё за поле
 	);
 	
 	public function __construct()
@@ -95,7 +99,10 @@ class di_order_item extends data_interface
 				'order_id' => $order_id,
 				'item_id' => $rec['id'],
 				'count' => $rec['count'],
-				'cost' => $rec['str_cost'],
+				'price1' => $rec['price1'],
+				'price2' => $rec['price2'],
+				'discbool' => $rec['discbool'],
+				'discount' => $rec['discount'],
 			));
 			$this->_flush();
 			$this->insert_on_empty = true;
