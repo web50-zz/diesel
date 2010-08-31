@@ -9,6 +9,8 @@ ui.market_latest.main = function(config, vpu){
 			title: 'Поиск по каталогу',
 			layout:'border',
 			region:'west',
+			collapsible:true,
+			collapsed:true,
 			width: 600,
 			items: [filter,grid]
 		});

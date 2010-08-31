@@ -10,6 +10,8 @@ ui.market_recomendations.main = function(config, vpu){
 			layout:'border',
 			region:'west',
 			width: 600,
+			collapsible:true,
+			collapsed:true,
 			items: [filter,grid]
 		});
 
