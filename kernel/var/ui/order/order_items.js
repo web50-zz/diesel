@@ -13,7 +13,7 @@ ui.order.order_items = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'count', 'cost', 'str_title', 'str_type']
+		[{name: 'id', type: 'int'}, 'count', 'price1', 'price2', 'discbool', 'discount', 'str_title', 'str_type']
 	);
 	// The data store
 	var store = new Ext.data.Store({
@@ -27,11 +27,13 @@ ui.order.order_items = function(config){
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{header: "ID", sortable: true, hidden: true, dataIndex: 'id', id: 'id', width: 50},
-		{header: this.colType, sortable: true, dataIndex: 'str_type', id: 'type', width: 120, align: 'center'},
-		{header: this.colTitle, sortable: true, dataIndex: 'str_title', id: 'title', width: 200},
-		{header: this.colCount, sortable: true, dataIndex: 'count', id: 'count', width: 50, align: 'right'},
-		{header: this.colCost, sortable: true, dataIndex: 'cost', id: 'cost', width: 100, align: 'right', xtype: 'numbercolumn', format: '0.00'},
-		{header: this.colSumm, sortable: true, dataIndex: 'cost', id: 'summ', width: 100, align: 'right', renderer: itemSumm}
+		{header: this.colType, dataIndex: 'str_type', id: 'type', width: 120, align: 'center'},
+		{header: this.colTitle, dataIndex: 'str_title', id: 'title', width: 200},
+		{header: this.colPrice1, dataIndex: 'price1', id: 'price1', width: 100, align: 'right', xtype: 'numbercolumn', format: '0.00'},
+		{header: this.colDisc, dataIndex: 'discount', id: 'discount', width: 50, align: 'right', xtype: 'numbercolumn', format: '0.00 %'},
+		{header: this.colPrice2, dataIndex: 'price2', id: 'price2', width: 100, align: 'right', xtype: 'numbercolumn', format: '0.00'},
+		{header: this.colCount, dataIndex: 'count', id: 'count', width: 50, align: 'right'},
+		{header: this.colSumm, dataIndex: 'price2', id: 'summ', width: 100, align: 'right', renderer: itemSumm}
 	];
 	this.applyStore = function(data){
 		Ext.apply(store.baseParams, data);
@@ -63,6 +65,8 @@ Ext.extend(ui.order.order_items, Ext.grid.GridPanel, {
 	colType: "Тип",
 	colTitle: "Наименование",
 	colCount: "Кол-во",
-	colCost: "Стоимость",
+	colDisc: "Скидка %",
+	colPrice1: "Исх. стоимость",
+	colPrice2: "Стоимость с %",
 	colSumm: "Общая стоим."
 });

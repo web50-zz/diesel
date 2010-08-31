@@ -56,7 +56,7 @@ class di_order_item extends data_interface
 		// Объединяем ДИ Товары с ДИ типы товаров
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'), $ci);
 		$this->extjs_grid_json(array(
-			'id', 'count', 'cost',
+			'id', 'count', 'price1', 'price2', 'discbool', 'discount',
 			array('di' => $ci, 'name' => 'title'),	// Наименование товара
 			array('di' => $gt, 'name' => 'name'),	// Тип товара
 		));

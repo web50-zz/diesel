@@ -335,3 +335,33 @@ CREATE TABLE `ui_view_point` (
 	KEY `page_id` (`page_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `market_latest`;
+CREATE TABLE `market_latest` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `m_latest_created_datetime` DATETIME default NULL,
+  `m_latest_changed_datetime` DATETIME default NULL,
+  `m_latest_deleted_datetime` DATETIME default NULL,
+  `m_latest_deleter_uid` SMALLINT(5) NOT NULL default '0',
+  `m_latest_creator_uid` SMALLINT(5) NOT NULL default '0',
+  `m_latest_changer_uid` SMALLINT(5) NOT NULL default '0',
+  `m_latest_product_id` SMALLINT(5) NOT NULL default '0',
+  `m_latest_deleted_flag` TINYINT(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `market_recomendations`;
+CREATE TABLE `market_recomendations` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `m_recomend_created_datetime` DATETIME default NULL,
+  `m_recomend_changed_datetime` DATETIME default NULL,
+  `m_recomend_deleted_datetime` DATETIME default NULL,
+  `m_recomend_deleter_uid` SMALLINT(5) NOT NULL default '0',
+  `m_recomend_creator_uid` SMALLINT(5) NOT NULL default '0',
+  `m_recomend_changer_uid` SMALLINT(5) NOT NULL default '0',
+  `m_recomend_product_id` SMALLINT(5) NOT NULL default '0',
+  `m_recomend_deleted_flag` TINYINT(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
