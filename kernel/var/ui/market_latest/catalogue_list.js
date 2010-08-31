@@ -1,6 +1,9 @@
 ui.market_latest.catalogue_list = function(config, vp){
 	Ext.apply(this, config);
 
+	var shit = function(){
+		var e ='ee';	
+	}.createDelegate(this);
 
 	ui.market_latest.catalogue_list.superclass.constructor.call(this,{});
 	var addToSelected  = function(){
@@ -20,7 +23,7 @@ ui.market_latest.catalogue_list = function(config, vp){
 	this.setBack = function(fth)
 	{
 		this.father = fth;
-	};
+	}.createDelegate(this);
 	this.purgeListeners();	
 	this.on({
 		rowcontextmenu: this.onCmenu

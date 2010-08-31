@@ -2,14 +2,16 @@ ui.market_recomendations.main = function(config, vpu){
 	var vp = {ui_configure: {}};
 	Ext.apply(vp, vpu);
 	Ext.apply(this, config);
-	var filter = new ui.catalogue.filter_form({region: 'west', split: true, width: 150});
+	var filter = new ui.catalogue.filter_form({region: 'west', split: true, width: 200});
 	var grid = new ui.market_recomendations.catalogue_list({region: 'center'});
 	var grid2 = new ui.market_recomendations.recomend_list({region: 'center',title:'Рекомендуемое'});
 		panel1 = new Ext.Panel({
 			title: 'Поиск по каталогу',
 			layout:'border',
-			region:'west',
-			width: 600,
+			region:'north',
+			height:300,
+			collapsible:true,
+			collapsed:true,
 			items: [filter,grid]
 		});
 
