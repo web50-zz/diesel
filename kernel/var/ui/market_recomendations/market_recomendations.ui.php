@@ -1,12 +1,11 @@
 <?php
 /**
-*	UI Market latest products 
+*	UI Market recomended  products 
 *
 * @author	elgarat 	
 * @access	public
 * @package	SBIN Diesel 	
 */
-// see also guestbook.di.php 
 class ui_market_recomendations extends user_interface
 {
 	public $title = 'Магазин рекомендует';
@@ -14,18 +13,9 @@ class ui_market_recomendations extends user_interface
 		protected $deps = array(
 		'main' => array(
 			'catalogue.item_list',
-			'catalogue.item_form',
 			'catalogue.filter_form',
 			'market_recomendations.catalogue_list',
 			'market_recomendations.recomend_list'
-		),
-		'item_form' => array(
-			'catalogue.files',
-			'catalogue.styles'
-		),
-		'files' => array(
-			'catalogue.file_form',
-			'catalogue.resize_form'
 		)
 	);
 
