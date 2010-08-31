@@ -47,7 +47,6 @@ class di_catalogue_item extends data_interface
 		'producer_id' => array('type' => 'integer'),
 		'collection_id' => array('type' => 'integer'),
 		'group_id' => array('type' => 'integer'),
-		'style_id' => array('type' => 'integer'),
 	);
 	
 	public function __construct()
@@ -88,6 +87,7 @@ class di_catalogue_item extends data_interface
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
 		$cs = $this->join_with_di('catalogue_style', array('id' => 'catalogue_item_id'));
 		$gs = $this->join_with_di('guide_style', array('style_id' => 'id'), array('name' => 'style_name', 'id' => 'style_id'), $cs);
+		$this->set_args(array('_son_offer' => 1), true);
 		$where = array();
 		if(($query = request::get('group', false)) != false)
 		{
@@ -103,7 +103,7 @@ class di_catalogue_item extends data_interface
 		{
 			$this->where = join(' OR ', $where);
 		}
-		$this->connector->debug = true;
+		//$this->connector->debug = true;
 		$this->set_group('id');
 		return $this->extjs_grid_json(array(
 			'id', 'on_offer', 'recomended', 'title', 'type_id', 'collection_id', 'group_id', 'price_id',
