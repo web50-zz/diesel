@@ -86,6 +86,8 @@ class di_catalogue_item extends data_interface
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
+		$cs = $this->join_with_di('catalogue_style', array('id' => 'catalogue_item_id'));
+		$gs = $this->join_with_di('guide_style', array('style_id' => 'id'), array('name' => 'style_name', 'id' => 'style_id'), $cs);
 		$where = array();
 		if(($query = request::get('group', false)) != false)
 		{
@@ -102,12 +104,16 @@ class di_catalogue_item extends data_interface
 			$this->where = join(' OR ', $where);
 		}
 		$this->connector->debug = true;
+		$this->set_group('id');
 		return $this->extjs_grid_json(array(
 			'id', 'on_offer', 'recomended', 'title', 'type_id', 'collection_id', 'group_id', 'price_id',
+			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
+			'CONVERT(GROUP_CONCAT(`'.$gs->get_alias().'`.`id` SEPARATOR ",") USING utf8)' => 'StyleIds',
 			array('di' => $gt, 'name' => 'name'),
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
+			array('di' => $gs, 'name' => 'name'),
 			array('di' => $gc, 'name' => 'discount')
 		), false);
 	}

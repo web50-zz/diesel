@@ -37,6 +37,22 @@
 				</td>
 			</tr>
 			<tr>
+				<th>Стили:</th>
+				<td>
+					{__set(#styles = preg_split('/,/', $Styles))__}
+					{__set(#ids = preg_split('/,/', $StyleIds))__}
+					{__(foreach(#ids AS @n => @id)__}
+						{__set(#title = #styles[@n])__}
+						{__set(#id = @id)__}
+						{__(if(/args/_scollection_id > 0)__}
+							{__#title__}
+						{__else__}
+							<a href="style/{__#id__}/">{__#title__}</a>
+						{__if)__}{__(if(@position < @last)__}<span>, </span>{__if)__}
+					{__foreach)__}
+				</td>
+			</tr>
+			<tr>
 				<th>Год выпуска:</th>
 				<td></td>
 			</tr>

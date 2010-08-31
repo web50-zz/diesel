@@ -121,6 +121,9 @@ class ui_catalogue extends user_interface
 						case 'group':
 							$args['_sgroup_id'] = $value;
 						break;
+						case 'style':
+							$args['_sstyle_id'] = $value;
+						break;
 					}
 				}
 			}
@@ -143,6 +146,8 @@ class ui_catalogue extends user_interface
 			$filters[] = array('title' => 'Группа', 'uri' => preg_replace('/group\/\d+\//', '', $uri));
 		if (preg_match("/type\/(\d+)\//", $uri))
 			$filters[] = array('title' => 'Тип', 'uri' => preg_replace('/type\/\d+\//', '', $uri));
+		if (preg_match("/style\/(\d+)\//", $uri))
+			$filters[] = array('title' => 'Стиль', 'uri' => preg_replace('/style\/\d+\//', '', $uri));
 
 		return $this->parse_tmpl('filters.html', array('filters' => $filters));
 	}
