@@ -8,10 +8,10 @@ ui.market_latest.main = function(config, vpu){
 		panel1 = new Ext.Panel({
 			title: 'Поиск по каталогу',
 			layout:'border',
-			region:'west',
+			region:'north',
+			height: 300,
 			collapsible:true,
 			collapsed:true,
-			width: 600,
 			items: [filter,grid]
 		});
 
