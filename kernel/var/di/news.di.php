@@ -47,8 +47,9 @@ class di_news extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->_flush(true);
-		$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
+		//$this->_flush(true);
+		//$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
+		$this->_flush();
 		$this->extjs_grid_json(array('id', 'release_date', 'title', 'author', 'source'));
 	}
 	
@@ -56,7 +57,7 @@ class di_news extends data_interface
 	*	Получить данные для ExtJS-формы
 	* @access protected
 	*/
-	protected function sys_item()
+	protected function sys_get()
 	{
 		$this->_flush();
 		$this->extjs_form_json();
@@ -77,6 +78,28 @@ class di_news extends data_interface
 			$sc->save_link($this->args['pid'], $data['data']['id'], $this->name);
 		}
 		response::send($data, 'json');
+	}
+
+	/**
+	*	Сохранить данные и вернуть JSON-пакет для ExtJS
+	* @access protected
+	*/
+	protected function sys_mset()
+	{
+		$records = (array)json_decode($this->get_args('records'), true);
+
+		foreach ($records as $record)
+		{
+			$record['_sid'] = $record['id'];
+			unset($record['id']);
+			$this->_flush();
+			$this->push_args($record);
+			$this->insert_on_empty = true;
+			$data = $this->extjs_set_json(false);
+			$this->pop_args();
+		}
+
+		response::send(array('success' => true), 'json');
 	}
 	
 	/**

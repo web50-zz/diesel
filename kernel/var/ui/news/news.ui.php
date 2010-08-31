@@ -2,15 +2,18 @@
 /**
 *	ПИ "Новости"
 *
-* @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
-* @version	1.0
-* @access	public
-* @package	CFsCMS2(PE)
-* @since	2008-12-13
+* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @package	SBIN Diesel
 */
 class ui_news extends user_interface
 {
 	public $title = 'Новости';
+
+	protected $deps = array(
+		'main' => array(
+			'news.item_form',
+		)
+	);
 	
 	public function __construct()
 	{
@@ -41,7 +44,15 @@ class ui_news extends user_interface
 		$tmpl = new tmpl($this->pwd() . 'news.js');
 		response::send($tmpl->parse($this), 'js');
 	}
-
+	
+	/**
+	*       ExtJS - Форма редактирования
+	*/
+	public function sys_item_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'item_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
 
 	public function pub_double()
         {

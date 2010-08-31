@@ -51,6 +51,7 @@ ui.administrate = function(config){
 					{text: "Страны и регионы", iconCls: 'book_open', appName: 'country_regions', appFace: 'main', handler: appLauncher}
 				]},	
 				{text: this.menuApps, iconCls: 'book', menu:[
+					{text: "Новости", iconCls: 'newspaper', appName: 'news', appFace: 'main', handler: appLauncher},
 					{text: "FAQ", iconCls: 'book_open', appName: 'faq', appFace: 'main', handler: appLauncher},
 					{text: "Рекомендуемое", iconCls: 'book_open', appName: 'market_recomendations', appFace: 'main', handler: appLauncher},
 					{text: "Новинки", iconCls: 'book_open', appName: 'market_latest', appFace: 'main', handler: appLauncher},
