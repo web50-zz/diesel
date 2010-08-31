@@ -211,7 +211,7 @@ CREATE TABLE `fm_files` (
   `size` mediumint(8) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `fm_folders_id` (`fm_folders_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -459,7 +459,49 @@ CREATE TABLE `market_clients` (
   PRIMARY KEY  (`id`),
   KEY `account_id` (`clnt_changed_datetime`,`clnt_deleted_datetime`),
   KEY `hash` (`clnt_nas_punkt`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `market_latest`
+--
+
+DROP TABLE IF EXISTS `market_latest`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `market_latest` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `m_latest_created_datetime` datetime default NULL,
+  `m_latest_changed_datetime` datetime default NULL,
+  `m_latest_deleted_datetime` datetime default NULL,
+  `m_latest_deleter_uid` int(10) NOT NULL default '0',
+  `m_latest_creator_uid` int(10) NOT NULL default '0',
+  `m_latest_changer_uid` int(10) NOT NULL default '0',
+  `m_latest_product_id` int(10) NOT NULL default '0',
+  `m_latest_deleted_flag` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `market_recomendations`
+--
+
+DROP TABLE IF EXISTS `market_recomendations`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `market_recomendations` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `m_recomend_created_datetime` datetime default NULL,
+  `m_recomend_changed_datetime` datetime default NULL,
+  `m_recomend_deleted_datetime` datetime default NULL,
+  `m_recomend_deleter_uid` int(10) NOT NULL default '0',
+  `m_recomend_creator_uid` int(10) NOT NULL default '0',
+  `m_recomend_changer_uid` int(10) NOT NULL default '0',
+  `m_recomend_product_id` int(10) NOT NULL default '0',
+  `m_recomend_deleted_flag` tinyint(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5702 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -497,11 +539,15 @@ CREATE TABLE `order` (
   `address` text NOT NULL,
   `method_of_payment` tinyint(1) unsigned NOT NULL,
   `discount` decimal(10,2) unsigned NOT NULL,
+  `total_items` smallint(5) unsigned NOT NULL,
+  `total_items_cost` decimal(10,2) unsigned NOT NULL,
+  `number_of_parcels` tinyint(3) unsigned NOT NULL,
   `delivery_cost` decimal(10,2) unsigned NOT NULL,
+  `total_cost` decimal(10,2) unsigned NOT NULL,
   `comments` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -516,10 +562,15 @@ CREATE TABLE `order_item` (
   `order_id` smallint(5) unsigned NOT NULL,
   `item_id` smallint(5) unsigned NOT NULL,
   `count` smallint(5) unsigned NOT NULL,
-  `cost` smallint(5) unsigned NOT NULL,
+  `price1` decimal(10,2) unsigned NOT NULL,
+  `price2` decimal(10,2) unsigned NOT NULL,
+  `discbool` tinyint(1) unsigned NOT NULL,
+  `discount` decimal(10,2) unsigned NOT NULL,
+  `access` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `order_id` (`order_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `order_id` (`order_id`),
+  KEY `item_id` (`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -703,7 +754,7 @@ CREATE TABLE `ui_view_point` (
   `ui_configure` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `page_id` (`page_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -715,4 +766,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-23 17:40:34
+-- Dump completed on 2010-08-31 10:19:45
