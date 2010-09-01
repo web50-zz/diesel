@@ -92,11 +92,34 @@ class base_interface
 	/**
 	*	Get arguments
 	* @access	public
-	* @param	boolean|string	$ind	Get argument by name
+	* @param	boolean|string	$name	Get argument by name
 	*/
-	public function get_args($ind = false)
+	public function get_args($name = NULL, $default = NULL)
 	{
-		return ($ind !== false) ? $this->args[$ind] : (array)$this->args;
+		//return ($ind !== false) ? $this->args[$ind] : (array)$this->args;
+		$results = array();
+		if (!$name)
+			$results = (array)$this->args;
+		else if (is_array($name))
+		{
+			foreach ($name as $n => $var_name)
+			{
+				if (isset($this->args[$var_name]))
+					$results[$var_name] = $this->args[$var_name];
+				else if (is_array($default) && isset($default[$var_name]))
+					$results[$var_name] = $default[$var_name];
+				else if (is_array($default) && isset($default[$n]))
+					$results[$var_name] = $default[$n];
+				else if ($default)
+					$results[$var_name] = $default;
+			}
+		}
+		else if (isset($this->args[$name]))
+			$results = $this->args[$name];
+		else if (!is_null($default))
+			$results = $default;
+
+		return $results;
 	}
 	
 	/**
