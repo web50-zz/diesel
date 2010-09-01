@@ -50,6 +50,10 @@ class di_news extends data_interface
 		//$this->_flush(true);
 		//$sc = $this->join_with_di('structure_content', array('id' => 'cid'), array('pid' => 'pid'));
 		$this->_flush();
+		if (!empty($this->args['query']) && !empty($this->args['field']))
+		{
+			$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
+		}
 		$this->extjs_grid_json(array('id', 'release_date', 'title', 'author', 'source'));
 	}
 	
