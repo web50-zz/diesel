@@ -60,7 +60,10 @@ ui.market_latest_long.form = function(config){
 							{xtype: 'displayfield', fieldLabel:this.labelChanged , name: 'm_latest_l_changed_datetime'},
 							{fieldLabel: this.labelIssueDate, width:200, name: 'm_latest_l_issue_datetime',format: 'Y-m-d H:i:s', allowBlank: true, xtype: 'datefield'},
 							{fieldLabel: this.labelTitle, name: 'm_latest_l_title', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-							{xtype:'htmleditor', fieldLabel: this.labelText, name: 'm_latest_l_text', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, height:300}
+		//					{xtype:'htmleditor', fieldLabel: this.labelText, name: 'm_latest_l_text', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, height:300}
+							{xtype: 'ckeditor', fieldLabel: this.labelText, name: 'm_latest_l_text', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, height:300, CKConfig: {
+								filebrowserImageBrowseUrl: 'ui/file_manager/browser.html'
+								}}
 						]}
 					]},
 					{id: 'item-files', title: this.labelTab2, frame: false, layout: 'border', items: [itemslist]}

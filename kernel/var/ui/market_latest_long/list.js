@@ -1,6 +1,6 @@
 ui.market_latest_long.list = function(config, vp){
-	var formW = 800;
-	var formH = 600;
+	var formW = 900;
+	var formH = 700;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
