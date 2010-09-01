@@ -13,13 +13,16 @@ class ui_structure extends user_interface
 	protected $deps = array(
 		'main' => array(
 			'structure.site_tree',
-			'structure.page_view',
+			'structure.page_view_points',
 		),
 		'site_tree' => array(
 			'structure.node_form',
 		),
 		'page_view' => array(
 			'structure.page_view_point',
+		),
+		'page_view_points' => array(
+			'structure.page_view_point_form',
 		),
 		'page_view_point' => array(
 			'structure.page_view_point_form',
@@ -127,6 +130,15 @@ class ui_structure extends user_interface
 	protected function sys_node_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'node_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*	ExtJS Grid - Список view points для страницы
+	*/
+	protected function sys_page_view_points()
+	{
+		$tmpl = new tmpl($this->pwd() . 'page_view_points.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 
