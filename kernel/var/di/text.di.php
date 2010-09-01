@@ -72,6 +72,10 @@ class di_text extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
+		if (!empty($this->args['query']) && !empty($this->args['field']))
+		{
+			$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
+		}
 		$this->extjs_grid_json();
 	}
 	
@@ -106,6 +110,28 @@ class di_text extends data_interface
 		$this->_flush();
 		$this->insert_on_empty = true;
 		$this->extjs_set_json();
+	}
+
+	/**
+	*	Сохранить данные и вернуть JSON-пакет для ExtJS
+	* @access protected
+	*/
+	protected function sys_mset()
+	{
+		$records = (array)json_decode($this->get_args('records'), true);
+
+		foreach ($records as $record)
+		{
+			$record['_sid'] = $record['id'];
+			unset($record['id']);
+			$this->_flush();
+			$this->push_args($record);
+			$this->insert_on_empty = true;
+			$data = $this->extjs_set_json(false);
+			$this->pop_args();
+		}
+
+		response::send(array('success' => true), 'json');
 	}
 	
 	/**

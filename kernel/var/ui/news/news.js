@@ -94,12 +94,7 @@ ui.news.main = function(config){
 			['author', 'Автор'],
 			['source', 'Источник']
 		]}), value: 'title',
-		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false,
-		listeners: {
-			change: function(){
-				srchField.setValue('');
-			}
-		}
+		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
 	});
 	var srchBttOk = new Ext.Toolbar.Button({
 		text: 'Найти',

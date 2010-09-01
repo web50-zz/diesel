@@ -44,20 +44,11 @@ ui.text.item_form = function(config){
 	ui.text.item_form.superclass.constructor.call(this, {
 		frame: true, 
 		labelWidth:150, 
-		defaults: {hideLabel: true, xtype: 'textfield', width: 150, anchor: '100%'},
+		defaults: {xtype: 'textfield', width: 150, anchor: '100%'},
 		items: [
 			{name: '_sid', inputType: 'hidden'},
-			{name: 'title', allowBlank: false},
-			{fieldLabel: 'Скрывать заголовок', hiddenName: 'hide_title', value: 0,xtype:'combo',width:50,anchor:null,
-				valueField: 'value',
-				displayField: 'hide_title',
-				mode: 'local',
-				triggerAction: 'all',
-				selectOnFocus: true,
-				editable: false,
-				store: new Ext.data.SimpleStore({ fields: ['value', 'hide_title'], data: [[0, 'Нет'], [1, 'Да']] })
-			},
-			{name: 'content', xtype: 'ckeditor', CKConfig: {
+			{fieldLabel: this.fldTitle, name: 'title', allowBlank: false},
+			{hideLabel: true, name: 'content', xtype: 'ckeditor', CKConfig: {
 				height: 300,
 				filebrowserImageBrowseUrl: 'ui/file_manager/browser.html'
 			}}
@@ -80,6 +71,8 @@ ui.text.item_form = function(config){
 	})
 }
 Ext.extend(ui.text.item_form , Ext.form.FormPanel, {
+	fldTitle: 'Заголовок',
+
 	loadText: 'Загрузка данных формы',
 
 	saveText: 'Сохранение...',
