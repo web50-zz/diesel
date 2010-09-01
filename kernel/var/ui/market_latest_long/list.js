@@ -96,7 +96,16 @@ ui.market_latest_long.list = function(config, vp){
 		]});
 		e.stopEvent();  
 		cmenu.showAt(e.getXY());
-	}.createDelegate(this);
+	}.createDelegate(this);	
+
+	this.applyStore = function(data){
+		Ext.apply(store.baseParams, data);
+		var bb = this.getBottomToolbar();
+		if (bb){
+			bb.changePage(1);
+			bb.doRefresh();
+		}
+	}
 
 	ui.market_latest_long.list.superclass.constructor.call(this, {
 		store: store,
@@ -107,23 +116,15 @@ ui.market_latest_long.list = function(config, vp){
 		],
 		bbar: new Ext.PagingToolbar({pageSize: this.limit, store: store, displayInfo: true})
 	});
-	
+
 	this.addEvents(
 	);
+
 	this.on({
 		rowcontextmenu: onCmenu,
 		render: function(){store.load({params:{start:0, limit: this.limit}})},
 		scope: this
 	})
-
-	this.applyStore = function(data){
-		Ext.apply(store.baseParams, data);
-		var bb = this.getBottomToolbar();
-		if (bb){
-			bb.changePage(1);
-			bb.doRefresh();
-		}
-	}
 
 };
 Ext.extend(ui.market_latest_long.list, Ext.grid.GridPanel, {

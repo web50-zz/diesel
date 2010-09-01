@@ -9,6 +9,8 @@ ui.market_latest_long.form = function(config){
 			waitMsg: this.loadText
 		});
 			f.setValues([{id: '_sid', value: id}]);
+			itemslist.applyStore({'_sm_latest_ls_issue_id':id});
+			itemslist.issueId = id;
 	}
 	var Save = function(){
 		var f = this.getForm();
@@ -42,6 +44,7 @@ ui.market_latest_long.form = function(config){
 	var Cancel = function(){
 		this.fireEvent('cancelled');
 	}.createDelegate(this);
+	
 	ui.market_latest_long.form.superclass.constructor.call(this, {
 		frame: true, 
 		defaults: {xtype: 'textfield'},
@@ -58,7 +61,7 @@ ui.market_latest_long.form = function(config){
 							{fieldLabel: this.labelIssueDate, width:200, name: 'm_latest_l_issue_datetime',format: 'Y-m-d H:i:s', allowBlank: true, xtype: 'datefield'},
 							{fieldLabel: this.labelTitle, name: 'm_latest_l_title', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
 							{xtype:'htmleditor', fieldLabel: this.labelText, name: 'm_latest_l_text', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, height:300}
-						]},
+						]}
 					]},
 					{id: 'item-files', title: this.labelTab2, frame: false, layout: 'border', items: [itemslist]}
 				]}
@@ -76,9 +79,10 @@ ui.market_latest_long.form = function(config){
 	this.on({
 		saved: function(data){
 			this.getForm().setValues([{id: '_sid', value: data.id}]);
+			itemslist.issueId = data.id;	
 		},
 		scope: this
-	})
+	});
 }
 Ext.extend(ui.market_latest_long.form, Ext.form.FormPanel, {
 	labelTitle: 'Заголовок',

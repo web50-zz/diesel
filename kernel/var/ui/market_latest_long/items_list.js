@@ -81,6 +81,13 @@ ui.market_latest_long.items_list = function(config, vp){
 
 	var addForm = function()
 	{
+		if(!this.issueId)
+		{
+			showError(this.errNoid);
+			return;
+		}
+
+		this.applyStore({'_sm_latest_ls_issue_id':this.issueId});
 		var vp = {ui_configure: {}};
 		var grid = new ui.market_latest_long.catalogue_list({region: 'center'});
 		var filter = new ui.catalogue.filter_form({region: 'west', split: true, width: 200});
@@ -106,6 +113,7 @@ ui.market_latest_long.items_list = function(config, vp){
 		this.Add(id);
 	}.createDelegate(this);
 
+
 	ui.market_latest_long.items_list.superclass.constructor.call(this, {
 		store: store,
 		columns: columns,
@@ -115,14 +123,6 @@ ui.market_latest_long.items_list = function(config, vp){
 		],
 		bbar: new Ext.PagingToolbar({pageSize: this.limit, store: store, displayInfo: true})
 	});
-	this.addEvents(
-	);
-	this.on({
-		rowcontextmenu: onCmenu,
-		render: function(){store.load({params:{start:0, limit: this.limit}})},
-		scope: this
-	})
-
 	this.Add = function(id){
 		Ext.Ajax.request({
 			url: 'di/market_latest_long_list/set.do',
@@ -136,10 +136,18 @@ ui.market_latest_long.items_list = function(config, vp){
 			failure: function(response,opts ){
 						showError(this.errText);
 					},
-			params:{ m_latest_ls_product_id: id }
+			params:{ m_latest_ls_product_id: id, m_latest_ls_issue_id: this.issueId }
 			});
 	}.createDelegate(this);
 
+	this.addEvents(
+	);
+
+	this.on({
+		rowcontextmenu: onCmenu,
+		render: function(){store.load({params:{start:0, limit: this.limit}})},
+		scope: this
+	});
 };
 Ext.extend(ui.market_latest_long.items_list, Ext.grid.GridPanel, {
 	limit: 20,
@@ -152,6 +160,7 @@ Ext.extend(ui.market_latest_long.items_list, Ext.grid.GridPanel, {
 	bttAdd:'Добавить',
 	errText:'Ошибка соединения c сервером',
 	bttDelete: "Удалить",
+	errNoid:'Не определено ID новинки, сначала сохраните иформацию введенную ранее',
 
 	cnfrmTitle: "Подтверждение",
 	cnfrmMsg: "Вы действительно хотите удалить эт(и|у) элемент(ы|у)?"
