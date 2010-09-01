@@ -430,6 +430,8 @@ class connector_mysql
 		$this->_prepare_what();
 		$this->_prepare_from();
 		$this->_prepare_where();
+		$this->_prepare_group();
+		$this->_prepare_order();
 	}
 	
 	/**
@@ -774,6 +776,44 @@ class connector_mysql
 	}
 
 	/**
+	*	Подготовить группировку для запроса
+	*/
+	private function _prepare_group()
+	{
+		if (!empty($this->di->__group))
+		{
+			$x = array();
+
+			foreach ($this->di->__group as $rec)
+			{
+				$table = $rec['di']->get_alias();
+				$x[] = "`{$table}`.`{$rec['field']}`";
+			}
+
+			$this->_group = "GROUP BY " . join(', ', $x);
+		}
+	}
+
+	/**
+	*	Подготовить сортировку для запроса
+	*/
+	private function _prepare_order()
+	{
+		if (!empty($this->di->__order))
+		{
+			$x = array();
+
+			foreach ($this->di->__order as $rec)
+			{
+				$table = $rec['di']->get_alias();
+				$x[] = "`{$table}`.`{$rec['field']}` {$rec['dir']}";
+			}
+
+			$this->_order = "ORDER BY " . join(', ', $x);
+		}
+	}
+
+	/**
 	*	Установить группировку для выборки
 	* @param	string	$field	Имя поля
 	* @param	string	$table	Имя таблицы или её alias-name
@@ -788,12 +828,12 @@ class connector_mysql
 	* @param	string	$field	Имя поля
 	* @param	string	$dir	Направление сортировки ASC или DESC
 	*/
-	public function set_order($field, $dir = 'ASC')
+	public function set_order($field, $dir = 'ASC', $di)
 	{
 		$dir = strtoupper($dir);
 		if (!empty($field) && preg_match('/^\w+$/', $field)
 			&& ($dir == 'ASC' OR $dir == 'DESC'))
-			$this->_order = 'ORDER BY '.$this->di->get_alias().'.'.$field.' '.$dir;
+			$this->_order = 'ORDER BY '.$di->get_alias().'.'.$field.' '.$dir;
 	}
 	
 	/**

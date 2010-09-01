@@ -1,10 +1,17 @@
 ui.structure.main = function(config){
 	var self = this;
+	var view = new ui.structure.page_view_points({region: 'center'});
 	var tree = new ui.structure.site_tree({
 		region: 'west',
 		width: 300,
-		split: true
+		split: true,
+		listeners: {
+			changenode: function(id, node){
+				view.applyStore({_spid: id});
+			}
+		}
 	});
+	/*
 	var view = new ui.structure.page_view({region: 'center'});
 	tree.on({
 		changenode: function(pid, node){
@@ -17,6 +24,7 @@ ui.structure.main = function(config){
 			view.delPage(pid);
 		}
 	});
+	*/
 	Ext.apply(this, config, {});
 	ui.structure.main.superclass.constructor.call(this,{
 		title: 'Структура сайта',

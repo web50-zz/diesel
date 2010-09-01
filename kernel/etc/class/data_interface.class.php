@@ -55,6 +55,18 @@ class data_interface extends base_interface
 	* @var	string	$where		Условия выборки
 	*/
 	public	$where;
+
+	/**
+	* @access	public
+	* @var	string	$__order	Массив параметров для сортировки
+	*/
+	public $__order = array();
+
+	/**
+	* @access	public
+	* @var	string	$__group	Массив параметров для группировки
+	*/
+	public $__group = array();
 	
 	/**
 	* @access	public
@@ -331,7 +343,8 @@ class data_interface extends base_interface
 	public function set_group($field, $di = false)
 	{
 		if (!$di) $di = $this;
-		$this->connector->set_group($field, $di->get_alias());
+		$this->__group[] = array('field' => $field, 'di' => $di);
+		//$this->connector->set_group($field, $di->get_alias());
 	}
 	
 	/**
@@ -339,12 +352,15 @@ class data_interface extends base_interface
 	* @param	string	$field	Имя поля
 	* @param	string	$dir	Направление сортировки ASC или DESC
 	*/
-	public function set_order($field, $dir = NULL)
+	public function set_order($field, $dir = false, $di = false)
 	{
-		if (!array_key_exists($field, $this->fields))
-			$field = $this->get_field_name_by_alias($field);
-		if ($field)
-			$this->connector->set_order($field, $dir);
+		if (!$di) $di = $this;
+		$dir = (!in_array(strtoupper($dir), array('ASC', 'DESC'))) ? 'ASC' : strtoupper($dir);
+		$this->__order[] = array('field' => $field, 'dir' => $dir, 'di' => $di);
+		//if (!$di) $di = $this;
+		//if (!$dir) $dir = 'ASC';
+		//if (!array_key_exists($field, $di->fields)) $field = $di->get_field_name_by_alias($field);
+		//if ($field) $this->connector->set_order($field, $dir, $di);
 	}
 	
 	/**
@@ -455,7 +471,11 @@ class data_interface extends base_interface
 	public function _flush($ignore_next = false)
 	{
 		if ($this->__ignore_next_flush === false)
+		{
+			$this->__order = array();
+			$this->__group = array();
 			$this->connector->_flush();
+		}
 		
 		$this->__ignore_next_flush = $ignore_next;
 	}
@@ -554,8 +574,15 @@ class data_interface extends base_interface
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
 		$this->what = $fields;
 		$this->NOT_prepare_where = false;
-		$this->set_order($this->args['sort'], $this->args['dir']);
-		$this->set_limit($this->args['start'], $this->args['limit']);
+
+		$order = $this->get_args(array('sort', 'dir'));
+		if (!empty($order))
+			$this->set_order($order['sort'], $order['dir']);
+
+		$limit = $this->get_args(array('start', 'limit'));
+		if (!empty($limit))
+			$this->set_limit($limit['start'], $limit['limit']);
+
 		$data['success'] = true;
 		$data['records'] = $this->_get();
 		$data['total'] = $this->connector->_found_rows;
@@ -584,7 +611,7 @@ class data_interface extends base_interface
 		else if ($deep_into > 1)
 			$this->where.= $this->name.'_parent.level > '.$this->name.'.level AND '.$this->name.'_parent.level + '.$deep_into.' <= '.$this->name.'.level';
 		$this->NOT_prepare_where = false;
-		$this->connector->set_order('left', 'ASC');
+		$this->set_order('left');
 		$this->_get();
 		$data = array();
 		foreach ($this->results AS $rec)

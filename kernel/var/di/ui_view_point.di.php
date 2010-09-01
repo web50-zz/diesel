@@ -64,8 +64,14 @@ class di_ui_view_point extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->_flush();
-		$this->extjs_grid_json();
+		$this->_flush(true);
+		$in = $this->join_with_di('interface', array('ui_name' => 'name'));
+		$this->set_group('ui_name');
+		$this->set_order('view_point');
+		$this->connector->debug = true;
+		$this->extjs_grid_json(array('id', 'view_point', 'title', 'ui_name', 'ui_call', 'ui_configure',
+			array('di' => $in, 'name' => 'human_name')
+		));
 	}
 
 	/**
@@ -118,6 +124,28 @@ class di_ui_view_point extends data_interface
 			$data['data'] = $this->get_results(0);
 		}
 		response::send($data, 'json');
+	}
+
+	/**
+	*	Сохранить данные и вернуть JSON-пакет для ExtJS
+	* @access protected
+	*/
+	protected function sys_mset()
+	{
+		$records = (array)json_decode($this->get_args('records'), true);
+
+		foreach ($records as $record)
+		{
+			$record['_sid'] = $record['id'];
+			unset($record['id']);
+			$this->_flush();
+			$this->push_args($record);
+			$this->insert_on_empty = true;
+			$data = $this->extjs_set_json(false);
+			$this->pop_args();
+		}
+
+		response::send(array('success' => true), 'json');
 	}
 	
 	/**

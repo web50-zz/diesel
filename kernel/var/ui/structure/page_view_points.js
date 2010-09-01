@@ -1,14 +1,14 @@
-ui.text.main = function(config){
+ui.structure.page_view_points = function(config){
 	var frmW = 800;
 	var frmH = 480;
 	var fm = Ext.form;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
-			read: 'di/text/list.js',
-			create: 'di/text/set.js',
-			update: 'di/text/mset.js',
-			destroy: 'di/text/unset.js'
+			read: 'di/ui_view_point/list.js',
+			create: 'di/ui_view_point/set.js',
+			update: 'di/ui_view_point/mset.js',
+			destroy: 'di/ui_view_point/unset.js'
 		}
 	});
 	// Typical JsonReader.  Notice additional meta-data params for defining the core attributes of your json-response
@@ -19,7 +19,7 @@ ui.text.main = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'title']
+		[{name: 'id', type: 'int'}, {name: 'view_point', type: 'int'}, 'title', 'ui_name', 'human_name', 'ui_call', 'ui_configure']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -33,12 +33,18 @@ ui.text.main = function(config){
 		reader: reader,
 		writer: writer
 	});
+	this.applyStore = function(data){
+		Ext.apply(store.baseParams, data);
+		store.load();
+	}
 	columns = [
 		{id: 'id', dataIndex: 'id', hidden: true},
+		{header: this.clmnVPoint, id: 'view_point', dataIndex: 'view_point', sortable: true, width: 50},
+		{header: this.clmnUIName, id: 'human_name', dataIndex: 'human_name', sortable: true, width: 150},
 		{header: this.clmnTitle, id: 'title', dataIndex: 'title', sortable: true, editor: new fm.TextField({maxLength: 255, maxLengthText: 'Не больше 255 символов'})}
 	];
 	var Add = function(){
-		var f = new ui.text.item_form();
+		var f = new ui.structure.page_view_point_form();
 		var w = new Ext.Window({title: this.addTitle, maximizable: true, modal: true, layout: 'fit', width: frmW, height: frmH, items: f});
 		f.on({
 			saved: function(){store.reload()},
@@ -48,7 +54,7 @@ ui.text.main = function(config){
 	}.createDelegate(this);
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
-		var f = new ui.text.item_form();
+		var f = new ui.structure.page_view_point_form();
 		var w = new Ext.Window({title: this.editTitle, maximizable: true, modal: true, layout: 'fit', width: frmW, height: frmH, items: f});
 		f.on({
 			saved: function(){store.reload()},
@@ -74,8 +80,8 @@ ui.text.main = function(config){
 		var row = grid.getSelectionModel().getSelected();
 		var id = row.get('id');
 		var cmenu = new Ext.menu.Menu({items: [
-			{iconCls: 'page_white_edit', text: 'Редактировать', handler: Edit},
-			{iconCls: 'page_white_delete', text: 'Удалить', handler: Delete}
+			{iconCls: 'layout_edit', text: 'Редактировать', handler: Edit},
+			{iconCls: 'layout_delete', text: 'Удалить', handler: Delete}
 		]});
 		e.stopEvent();  
 		cmenu.showAt(e.getXY());
@@ -83,34 +89,7 @@ ui.text.main = function(config){
 	var reload = function(){
 		store.load({params: {start: 0, limit: this.limit}});
 	}.createDelegate(this);
-	var srchField = new Ext.form.TextField();
-	var srchType = new Ext.form.ComboBox({
-		width: 100,
-		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
-			['title', 'Заголовок'],
-			['content', 'Содержимое']
-		]}), value: 'title',
-		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
-	});
-	var srchBttOk = new Ext.Toolbar.Button({
-		text: 'Найти',
-		iconCls:'find',
-		handler: function search_submit(){
-			Ext.apply(store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
-			reload();
-		}
-	})
-	var srchBttCancel = new Ext.Toolbar.Button({
-		text: 'Сбросить',
-		iconCls:'cancel',
-		handler: function search_submit(){
-			srchType.setValue('title');
-			srchField.setValue('');
-			Ext.apply(store.baseParams, {field: '', query: ''});
-			reload();
-		}
-	})
-	ui.text.main.superclass.constructor.call(this, {
+	ui.structure.page_view_points.superclass.constructor.call(this, {
 		store: store,
 		columns: columns,
 		loadMask: true,
@@ -119,37 +98,29 @@ ui.text.main = function(config){
 		autoScroll: true,
 		selModel: new Ext.grid.RowSelectionModel({singleSelect: true}),
 		tbar: [
-			{iconCls: 'page_white_add', text: 'Добавить', handler: Add},
-			'-', new Ext.Toolbar.TextItem ("Найти:"),
-			srchType, srchField, srchBttOk, srchBttCancel,
-			'->', {iconCls: 'help', handler: function(){showHelp('text')}}
-		],
-		bbar: new Ext.PagingToolbar({
-			pageSize: this.limit,
-			store: store,
-			displayInfo: true,
-			displayMsg: this.pagerDisplayMsg,
-			emptyMsg: this.pagerEmptyMsg
-		})
+			{iconCls: 'layout_add', text: 'Добавить', handler: Add},
+			'->', {iconCls: 'help', handler: function(){showHelp('view-points')}}
+		]
 	});
 	this.addEvents({
 	});
 	this.on({
 		rowcontextmenu: onCmenu,
-		render: function(){store.load({params:{start:0, limit: this.limit}})},
 		scope: this
 	});
 };
-Ext.extend(ui.text.main, Ext.grid.EditorGridPanel, {
+Ext.extend(ui.structure.page_view_points, Ext.grid.EditorGridPanel, {
 	limit: 20,
 
-	addTitle: "Добавление текста",
-	editTitle: "Редактирование текста",
+	addTitle: "Добавление ViewPoint",
+	editTitle: "Редактирование ViewPoint",
 
-	clmnTitle: "Заголовок",
+	clmnVPoint: "VP Num.",
+	clmnTitle: "Наименование",
+	clmnUIName: "Модуль",
 
 	cnfrmTitle: "Подтверждение",
-	cnfrmMsg: "Вы действительно хотите удалить этот текст?",
+	cnfrmMsg: "Вы действительно хотите удалить этот ViewPoint?",
 
 	pagerEmptyMsg: 'Нет записей',
 	pagerDisplayMsg: 'Записи с {0} по {1}. Всего: {2}'

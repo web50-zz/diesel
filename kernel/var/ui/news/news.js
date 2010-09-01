@@ -83,6 +83,37 @@ ui.news.main = function(config){
 		e.stopEvent();  
 		cmenu.showAt(e.getXY());
 	}
+	var reload = function(){
+		store.load({params: {start: 0, limit: this.limit}});
+	}.createDelegate(this);
+	var srchField = new Ext.form.TextField();
+	var srchType = new Ext.form.ComboBox({
+		width: 100,
+		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
+			['title', 'Заголовок'],
+			['author', 'Автор'],
+			['source', 'Источник']
+		]}), value: 'title',
+		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+	});
+	var srchBttOk = new Ext.Toolbar.Button({
+		text: 'Найти',
+		iconCls:'find',
+		handler: function search_submit(){
+			Ext.apply(store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
+			reload();
+		}
+	})
+	var srchBttCancel = new Ext.Toolbar.Button({
+		text: 'Сбросить',
+		iconCls:'cancel',
+		handler: function search_submit(){
+			srchType.setValue('title');
+			srchField.setValue('');
+			Ext.apply(store.baseParams, {field: '', query: ''});
+			reload();
+		}
+	})
 	ui.news.main.superclass.constructor.call(this, {
 		store: store,
 		columns: columns,
@@ -92,8 +123,9 @@ ui.news.main = function(config){
 		autoScroll: true,
 		selModel: new Ext.grid.RowSelectionModel({singleSelect: true}),
 		tbar: [
-			{iconCls: 'add', text: 'Добавить', handler: Add},
-			'-', {id: 'msave', iconCls: 'disk', text: 'Сохранить', disabled: true, handler: multiSave},
+			{iconCls: 'newspaper_add', text: 'Добавить', handler: Add},
+			'-', new Ext.Toolbar.TextItem ("Найти:"),
+			srchType, srchField, srchBttOk, srchBttCancel,
 			'->', {iconCls: 'help', handler: function(){showHelp('news')}}
 		],
 		bbar: new Ext.PagingToolbar({
