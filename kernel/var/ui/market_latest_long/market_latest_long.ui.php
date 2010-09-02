@@ -27,11 +27,27 @@ class ui_market_latest_long extends user_interface
 		parent::__construct((func_num_args() > 0) ? func_get_arg(0) : __CLASS__);
 		$this->files_path = dirname(__FILE__).'/'; 
 	}
-
-        public function pub_long()
+//  Last issue 
+        public function pub_last_issue()
         {
 		$data = array();
-		return $this->parse_tmpl('default.html',$data);
+
+		$di1  = data_interface::get_instance('market_latest_long');
+		$di1->_flush(true);
+		$di1->set_order('id', 'DESC');
+		$di1->set_limit(0,1);
+		$issue = $di1->_get_list_data();
+
+		$di2 = data_interface::get_instance('market_latest_long_list');
+		$di2->_flush(true);
+		$di2->set_args(array('_sm_latest_ls_issue_id' => $issue['records'][0]['id']));
+		$di2->set_order('p_collection', 'ASC');
+		$res = $di2->_get_list_data();
+
+
+		$data = $issue['records'][0];
+		$data['records'] = $res['records'];
+		return $this->parse_tmpl('issue.html',$data);
 	}
 
 	public function pub_short()

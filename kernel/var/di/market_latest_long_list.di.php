@@ -56,13 +56,13 @@ class di_market_latest_long_list extends data_interface
 	*/
 	protected function sys_list()
 	{
+		$this->_flush(true);
 		$data = $this->_get_list_data();
 		response::send($data,'json');
 	}
 
 	public function _get_list_data()
 	{
-		$this->_flush(true);
 		$dd = $this->join_with_di('catalogue_item', array('m_latest_ls_product_id' => 'id'), array('title' => 'p_title'));
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'p_type'),$dd);
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection'),$dd);

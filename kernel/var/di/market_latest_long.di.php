@@ -58,13 +58,13 @@ class di_market_latest_long extends data_interface
 	*/
 	protected function sys_list()
 	{
+		$this->_flush(true);
 		$data = $this->_get_list_data();
 		response::send($data,'json');
 	}
 
 	public function _get_list_data()
 	{
-		$this->_flush();
 		if($this->args['_sm_latest_l_title'] == '')
 		{
 			unset($this->args['_sm_latest_l_title']);
@@ -79,7 +79,8 @@ class di_market_latest_long extends data_interface
 			'm_latest_l_created_datetime', 
 			'm_latest_l_changed_datetime',
 			'm_latest_l_issue_datetime', 
-			'm_latest_l_title'
+			'm_latest_l_title',
+			'm_latest_l_text'
 			),false);
 		return $data;
 	}

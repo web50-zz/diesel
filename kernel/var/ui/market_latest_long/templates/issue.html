@@ -1,0 +1,21 @@
+<div id="market_latest_long" class="market_latest_long">
+<h1>{__m_latest_l_title__}</h1>
+
+<p>{__m_latest_l_text__}</p>
+{__set(#re = 'empty')__}  
+{__(apply(/records)__}
+
+{__(if($p_collection != #re)__}
+{__set(#re = $p_collection)__}  
+<div id="m_latest_long_collection" class="m_latest_long_collection">
+{__echo(#re)__}
+</div>
+{__if)__}
+
+<div id="m_latest_long_product" class="m_latest_long_product">
+<a class="item" id="item"  href="/products/item_{__m_latest_ls_product_id__}.html">{__p_title__}</a><br>
+<a class="group" id="group"  href="/products/group/{__p_group_id__}">{__p_group__}</a><br>
+{__p_type__}<br>
+</div>
+{__apply)__}
+</div>

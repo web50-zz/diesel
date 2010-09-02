@@ -805,11 +805,43 @@ class connector_mysql
 
 			foreach ($this->di->__order as $rec)
 			{
-				$table = $rec['di']->get_alias();
-				$x[] = "`{$table}`.`{$rec['field']}` {$rec['dir']}";
+				if($rec['di']->field_exists($rec['field']))
+				{
+					$table = $rec['di']->get_alias();
+					$x[] = "`{$table}`.`{$rec['field']}` {$rec['dir']}";
+				}
+				elseif($rec['di']->get_field_name_by_alias($rec['field']))
+				{
+					$x[] = "`{$rec['field']}` {$rec['dir']}";
+				}
+				else
+				{
+					// Раз поля такого нет то ищем в  алиасах джойнеых таблиц если они есть
+					if(count($this->_dis)>1)
+					{
+						foreach($this->_dis as $key=>$value)
+						{
+							if($value->field_exists($rec['field']))
+							{
+								$table = $value->get_alias();
+								$x[] = "`{$table}`.`{$rec['field']}` {$rec['dir']}";
+							}
+							elseif($value->get_field_name_by_alias($rec['field']))
+							{
+								$x[] = "`{$rec['field']}` {$rec['dir']}";
+							}
+						}
+					}
+				}
 			}
-
-			$this->_order = "ORDER BY " . join(', ', $x);
+			if(count($x)>0)
+			{
+				$this->_order = "ORDER BY " . join(', ', $x);
+			}
+			else
+			{
+				dbg::write('Warning! Some uniterpreted fields used in ORDER BY at DI: '.$this->di->title);
+			}
 		}
 	}
 
