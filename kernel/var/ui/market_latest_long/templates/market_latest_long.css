@@ -1,0 +1,36 @@
+.market_latest_long{
+font-family:Verdana;
+font-size:11px;
+margin-top:20px;
+border:1px dotted;
+height:100%;
+padding:10px;
+}
+
+#market_latest_long h1{
+font-size:12px;
+}
+
+#market_latest_long .m_latest_long_collection{
+background-color:#CCC;
+padding:3px;
+}
+
+.m_latest_long_product{
+margin-bottom:12px;
+padding:5px;
+border:1px solid #666;
+}
+
+#m_latest_long_product .item{
+font-size:10px;
+font-weight:bold;
+color:#666;
+border-bottom:1px dashed;
+}
+
+#m_latest_long_product .group{
+font-size:9px;
+color:#666;
+border-bottom:1px dashed;
+}
