@@ -165,7 +165,7 @@ class di_interface extends data_interface
 		$this->_flush();
 		$this->push_args(array('_sname' => $name, '_stype' => $type));
 		$this->_get();
-		$record = (object)$this->get_results(0);
+		$record = $this->get_results(0);
 		$this->pop_args();
 
 		if (!empty($record))
