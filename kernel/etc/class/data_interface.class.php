@@ -439,7 +439,7 @@ class data_interface extends base_interface
 	public function get_field_name_by_alias($alias)
 	{
 		foreach ($this->fields as $field_name => $field_params)
-			if ($field_params['alias'] == $alias)
+			if ($field_params['alias'] == $alias||$field_params['join_alias'] == $alias)
 				return $field_name;
 		return false;
 	}
