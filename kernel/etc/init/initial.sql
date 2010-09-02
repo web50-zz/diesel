@@ -143,13 +143,27 @@ DROP TABLE IF EXISTS `interface`;
 CREATE TABLE `interface` (
 	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`reg_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The date of registration',
-	`exist` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'The flag of topicality',
-	`type` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'The type of interface',
+	`exist` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'The flag of topicality',
+	`type` VARCHAR(8) NOT NULL DEFAULT '' COMMENT 'The type of interface',
 	`name` VARCHAR(255) NOT NULL COMMENT "The name of interface",
 	`human_name` VARCHAR(255) NOT NULL COMMENT "The human name of interface",
-	`entry_point` VARCHAR(255) NOT NULL COMMENT "The name of interfaces method",
-	`human_entry_point` VARCHAR(255) NOT NULL COMMENT "The human name of interfaces method",
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	KEY `exist` (`exist`),
+	KEY `type_name` (`type`, `name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `entry_point`;
+CREATE TABLE `entry_point` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`reg_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The date of registration',
+	`exist` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'The flag of topicality',
+	`interface_id` SMALLINT(5) NOT NULL DEFAULT '0' COMMENT 'Foreign key',
+	`name` VARCHAR(255) NOT NULL COMMENT "The name of entry point",
+	`human_name` VARCHAR(255) NOT NULL COMMENT "The human name of entry point",
+	PRIMARY KEY (`id`),
+	KEY `exist` (`exist`),
+	KEY `interface_id` (`interface_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
@@ -166,6 +180,14 @@ CREATE TABLE `interface_group` (
 	`interface_id` SMALLINT(5) UNSIGNED NOT NULL COMMENT 'The interfaces method ID',
 	`group_id` SMALLINT(5) UNSIGNED NOT NULL COMMENT 'The groups ID',
 	UNIQUE `interace_group` (`interface_id`, `group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `entry_point_group`;
+CREATE TABLE `entry_point_group` (
+	`entry_point_id` SMALLINT(5) UNSIGNED NOT NULL COMMENT 'The entry point ID',
+	`group_id` SMALLINT(5) UNSIGNED NOT NULL COMMENT 'The group ID',
+	UNIQUE `entry_point_group` (`entry_point_id`, `group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 

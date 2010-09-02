@@ -1,13 +1,13 @@
 <?php
 /**
-*	Data interface "administrators"
+*	Data interface "Пользователи"
 *
 * @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
 * @package	SBIN Diesel
 */
 class di_user extends data_interface
 {
-	public $title = 'Administrators';
+	public $title = 'Пользователи';
 
 	/**
 	* @var	string	$cfg	DB configuration`s name
@@ -152,13 +152,14 @@ class di_user extends data_interface
 		FROM
 			`sys_user` AS `u`
 			LEFT JOIN `group_user` AS `gu` ON gu.user_id = u.id
-			LEFT JOIN `interface_group` AS `ig` ON ig.group_id = gu.group_id
-			LEFT JOIN `interface` AS `i` ON i.id = ig.interface_id
+			LEFT JOIN `entry_point_group` AS `epg` ON epg.group_id = gu.group_id
+			LEFT JOIN `entry_point` AS `ep` ON ep.id = epg.entry_point_id
+			LEFT JOIN `interface` AS `i` ON i.id = ep.interface_id
 		WHERE
 			u.id = ' . UID . "
 			AND i.type = '{$type}'
 			AND i.name = '{$interface}'
-			AND i.entry_point = '{$entry_point}'
+			AND ep.name = '{$entry_point}'
 			";
 		$records = $this->_get($sql);
 		return ($this->get_rowCount() > 0);

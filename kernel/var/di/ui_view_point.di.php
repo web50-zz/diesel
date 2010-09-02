@@ -66,9 +66,8 @@ class di_ui_view_point extends data_interface
 	{
 		$this->_flush(true);
 		$in = $this->join_with_di('interface', array('ui_name' => 'name'));
-		$this->set_group('ui_name');
 		$this->set_order('view_point');
-		$this->connector->debug = true;
+		$this->set_order('human_name', 'ASC', $in);
 		$this->extjs_grid_json(array('id', 'view_point', 'title', 'ui_name', 'ui_call', 'ui_configure',
 			array('di' => $in, 'name' => 'human_name')
 		));

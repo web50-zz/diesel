@@ -79,12 +79,12 @@ class di_group extends data_interface
 
 		// Remove all links between users and deleted groups
 		$gu = data_interface::get_instance('group_user');
-		$ig = data_interface::get_instance('interface_group');
+		$epg = data_interface::get_instance('entry_point_group');
 		$ids = (array)$this->get_lastChangedId();
 		foreach ($ids as $gid)
 		{
 			$gu->remove_users_from_group($gid);
-			$gu->remove_interfaces_from_group($gid);
+			$gu->remove_entry_points_from_group($gid);
 		}
 
 		response::send($data, 'json');

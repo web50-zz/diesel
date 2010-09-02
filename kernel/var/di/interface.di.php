@@ -29,13 +29,11 @@ class di_interface extends data_interface
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
+		'reg_date' => array('type' => 'datetime'),
 		'exist' => array('type' => 'boolean'),
 		'type' => array('type' => 'string'),
-		'reg_date' => array('type' => 'datetime'),
 		'name' => array('type' => 'string'),
 		'human_name' => array('type' => 'string'),
-		'entry_point' => array('type' => 'string'),
-		'human_entry_point' => array('type' => 'string'),
 	);
 	
 	public function __construct () {
@@ -46,25 +44,15 @@ class di_interface extends data_interface
 	/**
 	*	Get UI that have public entry_points
 	*/
-	protected function sys_get_public()
+	protected function sys_public()
 	{
-		$this->_flush();
-		response::send($this->_get("SELECT DISTINCT `name`, `human_name` FROM `{$this->name}` WHERE `entry_point` LIKE 'pub_%'"), 'json');
-	}
-
-	/**
-	*	Get UI entry point
-	*/
-	protected function sys_pub_entry_points()
-	{
-		$this->_flush();
-		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
-		$data = array(
-			'name' => $this->get_args('name'),
-		);
-		response::send($this->connector->exec(
-			"SELECT SUBSTRING(`entry_point`, 5) AS `name`, IF(`human_entry_point` <> '', `human_entry_point`, SUBSTRING(`entry_point`, 5)) AS `human_name` FROM `{$this->name}` WHERE `name` = :name AND `entry_point` LIKE 'pub_%'",
-			$data, true, true), 'json');
+		$this->_flush(true);
+		$ep = $this->join_with_di('entry_point', array('id' => 'interface_id'), array('name' => 'entry_point'));
+		$this->set_args(array('_sentry_point' => 'pub_%'));
+		$this->what = array('name', 'human_name');
+		$this->set_group('id');
+		$this->set_order('human_name');
+		response::send($this->_get(), 'json');
 	}
 
 	/**
@@ -83,11 +71,12 @@ class di_interface extends data_interface
 		$this->_set();
 		$this->pop_args();
 
-		// Обрабатываем список всех ИД
-		$this->process_entry_points($this->get_di_array(), 'di');
-
-		// Обрабатываем список всех ИП
-		$this->process_entry_points($this->get_ui_array(), 'ui');
+		$ep = data_interface::get_instance('entry_point');
+		$interfaces = array(
+			'ui' => $this->get_di_array(),
+			'di' => $this->get_ui_array(),
+		);
+		$ep->register($interfaces);
 
 		// Удаляем все ТВ, которые в процессе синхронизации не были отмечены как существующие
 		$this->_flush();
@@ -97,86 +86,15 @@ class di_interface extends data_interface
 		));
 		$this->_unset();
 		// Получаем массив ID удалённых записей и удаляем их из таблицы связей с группами
-		$ig = data_interface::get_instance('interface_group');
+		$epg = data_interface::get_instance('entry_point_group');
 		$ids = (array)$this->get_lastChangedId();
 		foreach ($ids as $id)
 		{
-			$ig->remove_interface_from_groups($id);
+			$epg->remove_entry_point_from_groups($id);
 		}
 		$this->pop_args();
 
 		response::send(array('success' => true), 'json');
-	}
-
-	/**
-	*	Process entry points in given interfaces
-	*
-	* @option	array	$interfaces	The array of interfaces
-	* @option	string	$iType		The type of interface
-	*/
-	private function process_entry_points($interfaces, $iType)
-	{
-		foreach ($interfaces as $iName => $iObj)
-		{
-			// Получить список всех точек входа (ТВ)
-			$entry_points = $iObj->get_entry_poins('/^(?:sys|pub)_\w+/');
-
-			// Пребмраем полученные ТВ
-			foreach ($entry_points as $i => $entry_point)
-			{
-				// Проверить наличие в системе указаной ТВ
-				if (($id = $this->check_entry_point_exist($iType, $iName, $entry_point)) > 0)
-				// Если указанная ТВ зарегистрирована, то отмечаем её как существующую
-				{
-					$this->_flush();
-					$this->insert_on_empty = false;
-					$this->push_args(array(
-						'_sid' => $id,
-						'exist' => 1,
-						'human_name' => $iObj->title,
-					));
-					$this->_set();
-					$this->pop_args();
-				}
-				else
-				// Если данная ТВ не зарегистрированна, то регистрируем её
-				{
-					$this->_flush();
-					$this->insert_on_empty = true;
-					$this->push_args(array(
-						'reg_date' => date('Y-m-d H:i:s'),
-						'exist' => 1,
-						'type' => $iType,
-						'name' => $iName,
-						'human_name' => $iObj->title,
-						'entry_point' => $entry_point,
-					));
-					$this->_set();
-					$this->pop_args();
-				}
-			}
-		}
-	}
-
-	/**
-	*	Check if entry point exist
-	* @option	string	$type		The type of interface
-	* @option	string	$name		The name of interface
-	* @option	string	$entry_point	The entry point`s name
-	* @return	integer			ID of record
-	*/
-	private function check_entry_point_exist($type, $name, $entry_point)
-	{
-		$this->connector->exec(
-			"SELECT `id` FROM `{$this->name}` WHERE `type` = :type AND `name` = :name AND `entry_point` = :entry_point", // Query
-			array(					// Array of data
-				'type' => $type,
-				'name' => $name,
-				'entry_point' => $entry_point
-			),
-			true					// memorize results
-		);
-		return intval($this->get_results(0, 'id'));
 	}
 
 	/**
@@ -198,7 +116,10 @@ class di_interface extends data_interface
 
 				if ($iObj = data_interface::get_instance($iName))
 				{
-					$dis[$iName] = $iObj;
+					$dis[$iName] = array(
+						'obj' => $iObj,
+						'rec' => $this->register($iName, 'di', $iObj)
+					);
 				}
 			}
 		}
@@ -224,7 +145,10 @@ class di_interface extends data_interface
 			{
 				if ($iObj = user_interface::get_instance($iName))
 				{
-					$uis[$iName] = $iObj;
+					$uis[$iName] = array(
+						'obj' => $iObj,
+						'rec' => $this->register($iName, 'ui', $iObj)
+					);
 				}
 			}
 		}
@@ -232,15 +156,56 @@ class di_interface extends data_interface
 		$dh->close();
 		return $uis;
 	}
-	
+
 	/**
-	*	Get users in group
+	*	Зарегистрировать интерфейс
 	*/
-	public function sys_intefaces_in_group()
+	private function register($name, $type, $obj)
 	{
-		$this->_flush(true);
-		$gu = $this->join_with_di('interface_group', array('id' => 'interface_id', intval($this->get_args('gid')) => 'group_id'), array('group_id' => 'gid'));
-		return $this->extjs_grid_json(array('id', 'type', 'name', 'human_name', 'entry_point', 'human_entry_point'));
+		$this->_flush();
+		$this->push_args(array('_sname' => $name, '_stype' => $type));
+		$this->_get();
+		$record = (object)$this->get_results(0);
+		$this->pop_args();
+
+		if (!empty($record))
+		{
+			$this->_flush();
+			$this->insert_on_empty = false;
+			$this->push_args(array(
+				'_sid' => $record->id,
+				'exist' => 1,
+				'human_name' => isset($obj->title) ? $obj->title : $name
+			));
+			$this->_set();
+			$this->pop_args();
+		}
+		else
+		{
+			$this->_flush();
+			$this->insert_on_empty = true;
+			$record = array(
+				'reg_date' => date('Y-m-d H:i:s'),
+				'exist' => 1,
+				'type' => $type,
+				'name' => $name,
+				'human_name' => isset($obj->title) ? $obj->title : $name
+			);
+			$this->push_args($record);
+			$this->_set();
+			$this->pop_args();
+			$record['id'] = $this->get_lastChangedId(0);
+		}
+		return (object)$record;
+	}
+
+	/**
+	*	Получить запись из таблицы по указанному интерфейсу
+	* @param	string	$name	Имя интерфейса
+	* @param	string	$type	Тип интерфейса
+	*/
+	private function get($name, $type)
+	{
 	}
 
 	/**
@@ -250,7 +215,7 @@ class di_interface extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
-		$this->extjs_grid_json(array('id', 'type', 'name', 'human_name', 'entry_point', 'human_entry_point'));
+		$this->extjs_grid_json(array('id', 'type', 'name', 'human_name'));
 	}
 	
 	/**

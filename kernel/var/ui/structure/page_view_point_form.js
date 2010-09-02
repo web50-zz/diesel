@@ -8,7 +8,7 @@ ui.structure.page_view_point_form = function(config){
 			waitMsg: this.loadText,
 			success: function(response, result, type){
 				var fld = f.findField('ui_call');
-				fld.store.baseParams = {name: f.findField('ui_name').getValue()};
+				fld.store.baseParams = {_sinterface_name: f.findField('ui_name').getValue()};
 				fld.store.load();
 			}
 		});
@@ -72,7 +72,7 @@ ui.structure.page_view_point_form = function(config){
 		
 	}.createDelegate(this);
 	var diEP = new Ext.form.ComboBox({
-		store: new Ext.data.JsonStore({url: 'di/interface/pub_entry_points.json', fields: ['name', 'human_name']}),
+		store: new Ext.data.JsonStore({url: 'di/entry_point/public.json', fields: ['name', 'human_name']}),
 		fieldLabel: this.labelCalls, hiddenName: 'ui_call',
 		allQuery: true,
 		forceSelection: true,
@@ -89,13 +89,12 @@ ui.structure.page_view_point_form = function(config){
 			{name: 'pid', xtype: 'hidden'},
 			{fieldLabel: this.labelViewPoint, name: 'view_point'},
 			{fieldLabel: this.labelTitle, name: 'title'},
-			new Ext.form.ComboBox({
-				store: new Ext.data.JsonStore({url: 'di/interface/get_public.json', fields: ['name', 'human_name'], autoLoad: true}),
-				fieldLabel: this.labelModule, hiddenName: 'ui_name',
+			new Ext.form.ComboBox({fieldLabel: this.labelModule, hiddenName: 'ui_name',
+				store: new Ext.data.JsonStore({url: 'di/interface/public.json', fields: ['name', 'human_name'], autoLoad: true}),
 				valueField: 'name', displayField: 'human_name', triggerAction: 'all', selectOnFocus: true, editable: false,
 				listeners: {
 					select: function(comdo, record, index){
-						diEP.store.baseParams = {name: record.get('name')};
+						diEP.store.baseParams = {_sinterface_name: record.get('name')};
 						diEP.clearValue();
 						diEP.doQuery('', true);
 					}

@@ -2,7 +2,7 @@ ui.security.interfaces = function(config){
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
-			read: 'di/interface/intefaces_in_group.json'
+			read: 'di/entry_point/in_group.json'
 		}
 	});
 	// Typical JsonReader.  Notice additional meta-data params for defining the core attributes of your json-response
@@ -13,13 +13,19 @@ ui.security.interfaces = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'type', 'name', 'human_name', 'entry_point', 'human_entry_point']
+		[{name: 'id', type: 'int'}, 'type', 'name', 'interface_name']
 	);
 	// The data store
-	this.store = new Ext.data.Store({
+	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader
 	});
+	var columns = [
+		{id: 'id', dataIndex: 'id', hidden: true},
+		{id: 'type', header:  this.labelType, dataIndex: 'type', width: 30},
+		{id: 'name', header:  this.labelName, dataIndex: 'interface_name', width: 200},
+		{id: 'face', header:  this.labelFace, dataIndex: 'name', width: 200}
+	];
 	this.reload = function(full){
 		if (full == true){
 			var bb = this.getBottomToolbar();
@@ -29,30 +35,39 @@ ui.security.interfaces = function(config){
 			bb.doLoad(bb.cursor);
 		}
 	};
-	var getName = function(value, metaData, record){
-		var hn = record.get('human_name');
-		return (hn) ? hn : value;
-	}.createDelegate(this);
-	var getFace = function(value, metaData, record){
-		var hn = record.get('human_entry_point');
-		return (hn) ? hn : value;
-	}.createDelegate(this);
+	var srchField = new Ext.form.TextField();
+	var srchBttOk = new Ext.Toolbar.Button({
+		text: 'Найти',
+		iconCls:'find',
+		handler: function search_submit(){
+			Ext.apply(store.baseParams, {query: srchField.getValue()});
+			this.reload();
+		},
+		scope: this
+	})
+	var srchBttCancel = new Ext.Toolbar.Button({
+		text: 'Сбросить',
+		iconCls:'cancel',
+		handler: function search_submit(){
+			srchField.setValue('');
+			Ext.apply(store.baseParams, {query: ''});
+			this.reload();
+		},
+		scope: this
+	})
 	ui.security.interfaces.superclass.constructor.call(this,{
-		columns: [
-			{id: 'id', dataIndex: 'id', hidden: true},
-			{id: 'type', header:  this.labelType, dataIndex: 'type', width: 30},
-			{id: 'name', header:  this.labelName, renderer: getName, dataIndex: 'name', width: 200},
-			{id: 'face', header:  this.labelFace, renderer: getFace, dataIndex: 'entry_point', width: 200}
-		],
+		store: store,
+		columns: columns,
 		loadMask: true,
 		autoExpandColumn: 'face',
+		tbar: [new Ext.Toolbar.TextItem ("Найти:"), srchField, srchBttOk, srchBttCancel],
 		bbar: new Ext.PagingToolbar({
 			pageSize: this.limit,
-			store: this.store,
+			store: store,
 			displayInfo: true,
 			displayMsg: this.pagerDisplayMsg,
 			emptyMsg: this.pagerEmptyMsg
-		}),
+		})
 	});
 	this.on({
 		render: function(){this.store.load({params:{start:0, limit: this.limit}})},

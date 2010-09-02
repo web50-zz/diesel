@@ -95,15 +95,15 @@ ui.group.main = function(config){
 				ddGroup: 'enabled',
 				notifyDrop: function(ddSource, e, data){
 					var ss = ddSource.dragData.selections;
-					var iids = new Array();
+					var epids = new Array();
 					for (el in ss){
 						var iid = parseInt(ss[el].id);
-						if (iid > 0) iids.push(iid);
+						if (iid > 0) epids.push(iid);
 					}
-					if (iids.length > 0){
+					if (epids.length > 0){
 						Ext.Ajax.request({
-							url: 'di/interface_group/remove_interfaces_from_group.do',
-							params: {gid: gid, iids: iids.join(",")},
+							url: 'di/entry_point_group/remove_entry_points_from_group.do',
+							params: {gid: gid, epids: epids.join(",")},
 							disableCaching: true,
 							callback: function(options, success, response){
 								var d = Ext.util.JSON.decode(response.responseText);
@@ -124,15 +124,15 @@ ui.group.main = function(config){
 				ddGroup: 'available',
 				notifyDrop: function(ddSource, e, data){
 					var ss = ddSource.dragData.selections;
-					var iids = new Array();
+					var epids = new Array();
 					for (el in ss){
 						var iid = parseInt(ss[el].id);
-						if (iid > 0) iids.push(iid);
+						if (iid > 0) epids.push(iid);
 					}
-					if (iids.length > 0){
+					if (epids.length > 0){
 						Ext.Ajax.request({
-							url: 'di/interface_group/add_interfaces_to_group.do',
-							params: {gid: gid, iids: iids.join(",")},
+							url: 'di/entry_point_group/add_entry_points_to_group.do',
+							params: {gid: gid, epids: epids.join(",")},
 							disableCaching: true,
 							callback: function(options, success, response){
 								var d = Ext.util.JSON.decode(response.responseText);

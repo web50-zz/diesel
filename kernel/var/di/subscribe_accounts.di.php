@@ -7,7 +7,7 @@
 */
 class di_subscribe_accounts extends data_interface
 {
-	public $title = 'Administrators';
+	public $title = 'Подписчики';
 
 	/**
 	* @var	string	$cfg	DB configuration`s name
