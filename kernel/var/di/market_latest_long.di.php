@@ -43,7 +43,8 @@ class di_market_latest_long extends data_interface
 			'm_latest_l_deleted_flag' => array('type' => 'integer'),
 			'm_latest_l_text' => array('type' => 'string'),
 			'm_latest_l_title' => array('type' => 'string'),
-			'm_latest_l_issue_datetime' => array('type' => 'datetime')
+			'm_latest_l_issue_datetime' => array('type' => 'datetime'),
+			'm_latest_l_product_id' => array('type' => 'integer')
 
 		);
 	
@@ -80,7 +81,8 @@ class di_market_latest_long extends data_interface
 			'm_latest_l_changed_datetime',
 			'm_latest_l_issue_datetime', 
 			'm_latest_l_title',
-			'm_latest_l_text'
+			'm_latest_l_text',
+			'm_latest_l_product_id'
 			),false);
 		return $data;
 	}
@@ -91,16 +93,35 @@ class di_market_latest_long extends data_interface
 	*/
 	protected function sys_get()
 	{
-		$this->_flush();
+		$this->_flush(true);
+		$data = $this->_get_data();
+		response::send($data, 'json');
+	}
+
+	protected function _get_data()
+	{
+		$dd = $this->join_with_di('catalogue_item', array('m_latest_l_product_id' => 'id'), array('title' => 'p_title'));
+		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'p_type'),$dd);
+		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection'),$dd);
+		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'p_group','id'=>'p_group_id'),$dd);
 		$data = $this->extjs_form_json(array('id',
 					'm_latest_l_created_datetime',
 					'm_latest_l_changed_datetime',
 					'm_latest_l_text',
 					'm_latest_l_title',
+					'm_latest_l_product_id',
 					'm_latest_l_issue_datetime',
+					array('di' => $dd, 'name' => 'title'),
+					array('di' => $gt, 'name' => 'name'),
+					array('di' => $gc, 'name' => 'name'),
+					array('di' => $gg, 'name' => 'name'),
+					array('di' => $gg, 'name' => 'id')
 					),false);
-		response::send($data, 'json');
+		if($data['data']['m_latest_l_product_id']>0)
+		$data['data']['pr_title'] = $data['data']['m_latest_l_product_id'].': '.$data['data']['p_group'].' '.$data['data']['p_title'].' '.$data['data']['p_type'];
+		return $data;
 	}
+
 
 	/**
 	*	Save record
@@ -108,6 +129,7 @@ class di_market_latest_long extends data_interface
 	*/
 	protected function sys_set()
 	{
+		dbg::write($this->args);
 		$this->_flush();
 		$this->insert_on_empty = true;
 		if ($this->get_args('_sid')>0)
