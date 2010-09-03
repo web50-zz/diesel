@@ -213,14 +213,14 @@ class connector_mysql
 	{
 		try
 		{
-			$sth = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-			$sth->execute($values);
-
 			if ($this->debug)
 			{
 				dbg::write($sql);
 				dbg::write($values);
 			}
+
+			$sth = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+			$sth->execute($values);
 
 			$this->di->set_rowCount($sth->rowCount());
 
