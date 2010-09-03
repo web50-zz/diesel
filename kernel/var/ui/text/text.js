@@ -34,7 +34,7 @@ ui.text.main = function(config){
 		writer: writer
 	});
 	columns = [
-		{id: 'id', dataIndex: 'id', hidden: true},
+		{header: 'ID', id: 'id', dataIndex: 'id'},
 		{header: this.clmnTitle, id: 'title', dataIndex: 'title', sortable: true, editor: new fm.TextField({maxLength: 255, maxLengthText: 'Не больше 255 символов'})}
 	];
 	var Add = function(){
