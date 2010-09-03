@@ -11,6 +11,11 @@ padding:10px;
 font-size:12px;
 }
 
+#market_latest_long a{
+border-bottom:1px dashed;
+color:#666;
+}
+
 #market_latest_long .m_latest_long_collection{
 background-color:#CCC;
 padding:3px;
