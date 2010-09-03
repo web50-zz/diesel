@@ -78,14 +78,16 @@ ui.structure.page_view_points = function(config){
 	}.createDelegate(this);
 	var Launch = function(){
 		var record = this.getSelectionModel().getSelected();
-	}
+		adm.Launch(record.get('ui_name'), 'main', record.get('human_name'));
+	}.createDelegate(this);
 	var onCmenu = function(grid, rowIndex, e){
 		grid.getSelectionModel().selectRow(rowIndex);
 		var row = grid.getSelectionModel().getSelected();
 		var id = row.get('id');
 		var cmenu = new Ext.menu.Menu({items: [
 			{iconCls: 'layout_edit', text: 'Редактировать', handler: Edit},
-			{iconCls: 'layout_delete', text: 'Удалить', handler: Delete}
+			{iconCls: 'layout_delete', text: 'Удалить', handler: Delete},
+			'-', {iconCls: 'layout_content', text: 'Запустить', handler: Launch}
 		]});
 		e.stopEvent();  
 		cmenu.showAt(e.getXY());

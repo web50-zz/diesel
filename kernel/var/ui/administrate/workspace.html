@@ -42,10 +42,11 @@
 	
 	<script	type="text/javascript">
                 var app = new App();
+		var adm;
 		Ext.onReady(function(){
 			Ext.get('loading').hide();
 			Ext.QuickTips.init();
-			new ui.administrate();
+			adm = new ui.administrate();
 		});
 	</script>
 </body>

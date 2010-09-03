@@ -12,6 +12,28 @@ ui.administrate = function(config){
 			{id: 'tab-home', title: 'Home', iconCls: 'home', html: ''}
 		]
 	});
+	this.Launch = function(appName, appFace, tabText)
+	{
+		var appId = 'app-'+appName+'-'+appFace;
+                var appClass = 'ui.'+appName+'.'+appFace;
+		var app = new App();
+		app.on('apploaded', function(){
+			var tab = mainWS.getComponent(appId);
+			if (tab != undefined){
+				mainWS.setActiveTab(tab);
+			}else{
+				var cfg = Ext.apply({region: 'center'}, {
+					id: appId,
+					title: tabText,
+					closable: true
+				});
+				tab = eval('new '+appClass+'(cfg)');
+				mainWS.add(tab);
+				mainWS.setActiveTab(tab);
+			}
+		});
+		app.Load(appName, appFace);
+	}
 	var appLauncher = function(config){
 		var appId = 'app-'+config.appName+'-'+config.appFace;
                 var appClass = 'ui.'+config.appName+'.'+config.appFace;
