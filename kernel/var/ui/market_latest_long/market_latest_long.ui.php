@@ -38,6 +38,23 @@ class ui_market_latest_long extends user_interface
 		$di1->set_limit(0,1);
 		$issue = $di1->_get_list_data();
 
+		$di3  = data_interface::get_instance('catalogue_item');
+		$di3->_flush(true);
+		$di3->set_args(array('_sid' => $issue['records'][0]['m_latest_l_product_id']), true);
+		$gt = $di3->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+		$gc = $di3->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
+		$gg = $di3->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
+		$description = $di3->extjs_form_json(array(
+							'description',
+							'title',
+							'group_id',
+							'collection_id',
+							'type_id',
+							array('di' => $gt, 'name' => 'name'),
+							array('di' => $gg, 'name' => 'name'),
+							array('di' => $gc, 'name' => 'name'),
+							),false);
+
 		$di2 = data_interface::get_instance('market_latest_long_list');
 		$di2->_flush(true);
 		$di2->set_args(array('_sm_latest_ls_issue_id' => $issue['records'][0]['id']));
@@ -47,6 +64,7 @@ class ui_market_latest_long extends user_interface
 
 		$data = $issue['records'][0];
 		$data['records'] = $res['records'];
+		$data = array_merge($data,$description['data']);
 		return $this->parse_tmpl('issue.html',$data);
 	}
 

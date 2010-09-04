@@ -1,6 +1,12 @@
 <div id="market_latest_long" class="market_latest_long">
-<h1>{__m_latest_l_title__}</h1>
-
+<h1><a href="/products/item_{__m_latest_l_product_id__}.html">{__m_latest_l_title__}</a></h1>
+<!--
+<a class="group" href="/products/group/{__group_id__}/">{__str_group__}</a><br>
+<a class="title" href="/products/item_{__m_latest_l_product_id__}.html">{__title__}</a><br>
+<a class="type" href="/products/type/{__type_id__}/">{__str_type__}</a><br>
+<a class="label" href="/products/label/{__collection_id__}/">{__str_collection__}</a><br>
+-->
+<p>{__description__}</p>
 <p>{__m_latest_l_text__}</p>
 {__set(#re = 'empty')__}  
 {__(apply(/records)__}
