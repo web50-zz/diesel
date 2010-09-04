@@ -69,7 +69,6 @@ class di_ui_view_point extends data_interface
 		$this->set_order('view_point');
 		$this->set_order('human_name', 'ASC', $in);
 		$this->set_args(array('_stype' => 'ui'), true);
-		$this->connector->debug = true;
 		$this->extjs_grid_json(array('id', 'view_point', 'title', 'ui_name', 'ui_call', 'ui_configure',
 			array('di' => $in, 'name' => 'human_name')
 		));
@@ -116,15 +115,8 @@ class di_ui_view_point extends data_interface
 	protected function sys_set()
 	{
 		$this->_flush();
-		$data = $this->extjs_set_json(false);
-		if ($data['data']['id'] > 0)
-		{
-			$this->push_args(array('_sid' => $data['data']['id']));
-			$this->_get();
-			$this->pop_args();
-			$data['data'] = $this->get_results(0);
-		}
-		response::send($data, 'json');
+		$this->insert_on_empty = true;
+		$this->extjs_set_json();
 	}
 
 	/**
