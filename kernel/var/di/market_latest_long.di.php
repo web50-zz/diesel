@@ -87,6 +87,39 @@ class di_market_latest_long extends data_interface
 		return $data;
 	}
 
+
+// На входе массив с индексами полей в массиве $what которые надо сделать унсет - типа игнорировать поля в выборке
+//9* исходя из вышесказанного порядок полей не менять если добавлять новые то в конец
+	public function _get_extended_data($ignore_flds = array())
+	{
+		$ga = $this->join_with_di('catalogue_item', array('m_latest_l_product_id' => 'id'), array('title' => 'title','group_id'=>'group_id','description'=>'description','type_id'=>'type_id','collection_id'=>'collection_id'),$di1);
+		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type',$qa));
+		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'),$qa);
+		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'),$qa);
+		$what  = array(
+				'id',
+				'm_latest_l_title',
+				'm_latest_l_product_id',
+				'm_latest_l_issue_datetime',
+				array('di' => $ga, 'name' => 'description'),
+				array('di' => $ga, 'name' => 'group_id'),
+				array('di' => $ga, 'name' => 'type_id'),
+				array('di' => $ga, 'name' => 'collection_id'),
+				array('di' => $ga, 'name' => 'title'),
+				array('di' => $gt, 'name' => 'name'),
+				array('di' => $gg, 'name' => 'name'),
+				array('di' => $gc, 'name' => 'name'),
+			);
+		foreach($ignore_flds as $key=>$value)
+		{
+			unset($what[$value]);
+		}
+
+		$list= $this->extjs_grid_json($what,false);
+		return $list;
+	}
+
+
 	/**
 	*	Get record
 	* @access protected

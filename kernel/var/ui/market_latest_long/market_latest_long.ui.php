@@ -27,53 +27,60 @@ class ui_market_latest_long extends user_interface
 		parent::__construct((func_num_args() > 0) ? func_get_arg(0) : __CLASS__);
 		$this->files_path = dirname(__FILE__).'/'; 
 	}
-//  Last issue 
-        public function pub_last_issue()
-        {
-		$data = array();
 
-		$di1  = data_interface::get_instance('market_latest_long');
-		$di1->_flush(true);
-		$di1->set_order('id', 'DESC');
-		$di1->set_limit(0,1);
-		$issue = $di1->_get_list_data();
-
-		$di3  = data_interface::get_instance('catalogue_item');
-		$di3->_flush(true);
-		$di3->set_args(array('_sid' => $issue['records'][0]['m_latest_l_product_id']), true);
-		$gt = $di3->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
-		$gc = $di3->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
-		$gg = $di3->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
-		$description = $di3->extjs_form_json(array(
-							'description',
-							'title',
-							'group_id',
-							'collection_id',
-							'type_id',
-							array('di' => $gt, 'name' => 'name'),
-							array('di' => $gg, 'name' => 'name'),
-							array('di' => $gc, 'name' => 'name'),
-							),false);
-
-		$di2 = data_interface::get_instance('market_latest_long_list');
-		$di2->_flush(true);
-		$di2->set_args(array('_sm_latest_ls_issue_id' => $issue['records'][0]['id']));
-		$di2->set_order('p_collection', 'ASC');
-		$res = $di2->_get_list_data();
-
-
-		$data = $issue['records'][0];
-		$data['records'] = $res['records'];
-		$data = array_merge($data,$description['data']);
-		return $this->parse_tmpl('issue.html',$data);
+	public function pub_default()
+	{
+		if (preg_match('/archive\//', SRCH_URI, $matches))
+		{
+			return $this->get_data(array('mode'=>'archive'));
+		}
+		else
+		{
+			if (preg_match('/issue\/(\d+)\//', SRCH_URI, $matches))
+			{
+				return $this->get_data(array('id'=>$matches[1],'mode'=>'item'));
+			}
+			else
+			{
+				return $this->get_data(array('mode'=>'item','id'=>'0'));
+			}
+		}
 	}
 
-	public function pub_short()
-        {
-		$data = array();
-		$di  = data_interface::get_instance('market_latest');
-		$data = $di->_get_list_data();
-		return $this->parse_tmpl('short.html',$data);
+
+	private function get_data($input)
+	{
+		$di1  = data_interface::get_instance('market_latest_long');
+		$di1->_flush(true);
+		$ignore = array();	
+		if($input['mode'] == 'archive')
+		{
+			$di1->set_limit(0,20);
+			$di1->set_order('id', 'DESC');
+			$ignore = array('4');
+		}
+		elseif($input['mode'] == 'item'&& $input['id'] >0)
+		{
+			$di1->set_args(array('_sid'=>$input['id']));
+		}
+		else
+		{
+			$di1->set_order('id', 'DESC');
+			$di1->set_limit(0,1);
+		}
+		$list= $di1->_get_extended_data($ignore);
+		if($input['mode'] == 'item'&&$list['records'][0]['id']>0)
+		{
+			$di2 = data_interface::get_instance('market_latest_long_list');
+			$di2->_flush(true);
+			$di2->set_args(array('_sm_latest_ls_issue_id' => $list['records'][0]['id']));
+			$di2->set_order('p_collection', 'ASC');
+			$res = $di2->_get_list_data();
+			$data = $list['records'][0];
+			$data['records'] = $res['records'];
+			return $this->parse_tmpl('issue.html',$data);
+		}
+		return $this->parse_tmpl('list.html',$list);
 	}
 	
 	protected function sys_main()
