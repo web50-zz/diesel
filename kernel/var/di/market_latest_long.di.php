@@ -120,6 +120,14 @@ class di_market_latest_long extends data_interface
 	}
 
 
+	public function get_prev_next_ids($id)
+	{
+		if(!$id)
+		return array();
+		$data1 = $this->_get("SELECT id,m_latest_l_issue_datetime FROM ".$this->name." WHERE id < $id ORDER by id  DESC limit 0,1");
+		$data2 = $this->_get("SELECT id,m_latest_l_issue_datetime FROM ".$this->name." WHERE id > $id limit 0,1");
+		return array($data1,$data2);
+	}
 	/**
 	*	Get record
 	* @access protected

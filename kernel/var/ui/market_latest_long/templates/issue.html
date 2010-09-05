@@ -24,4 +24,17 @@
 {__p_type__}<br>
 </div>
 {__apply)__}
+{__(if(/previous)__}
+<div>
+<a href="/incoming/issue/{__/previous/id__}/">Предыдущее</a>
+</div>
+{__if)__}
+<div>
+<a href="/incoming/archive/">Архив</a>
+</div>
+{__(if(/next)__}
+<div>
+<a href="/incoming/issue/{__/next/id__}/">Следующее</a>
+</div>
+{__if)__}
 </div>

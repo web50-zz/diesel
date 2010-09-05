@@ -57,16 +57,17 @@ class ui_market_latest_long extends user_interface
 		{
 			$di1->set_limit(0,20);
 			$di1->set_order('id', 'DESC');
-			$ignore = array('4');
+			//$ignore = array('4'); //оказалось нендо так как  полюбому кусок дексрипшна вытягиваем 
 		}
 		elseif($input['mode'] == 'item'&& $input['id'] >0)
 		{
 			$di1->set_args(array('_sid'=>$input['id']));
+			$prev_next = $di1->get_prev_next_ids($input['id']);
 		}
 		else
 		{
 			$di1->set_order('id', 'DESC');
-			$di1->set_limit(0,1);
+			$di1->set_limit(0,2);
 		}
 		$list= $di1->_get_extended_data($ignore);
 		if($input['mode'] == 'item'&&$list['records'][0]['id']>0)
@@ -78,6 +79,15 @@ class ui_market_latest_long extends user_interface
 			$res = $di2->_get_list_data();
 			$data = $list['records'][0];
 			$data['records'] = $res['records'];
+			if($prev_next)
+			{
+				$data['previous'] = $prev_next[0][0]; 
+				$data['next'] = $prev_next[1][0];
+			}
+			else
+			{
+				$data['previous'] = array('id'=>$list['records'][1]['id'],'issue_date'=>$list['records'][1]['m_latest_l_issue_datetime']);
+			}
 			return $this->parse_tmpl('issue.html',$data);
 		}
 		return $this->parse_tmpl('list.html',$list);
