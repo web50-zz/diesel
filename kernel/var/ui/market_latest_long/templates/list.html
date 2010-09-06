@@ -1,0 +1,11 @@
+<div id="market_latest_long" class="market_latest_long">
+<h1>Архив</a></h1>
+{__(apply(/records)__}
+<div id="m_latest_long_product" class="m_latest_long_product">
+{__php::date('d.m.Y',strtotime($m_latest_l_issue_datetime))__}<br>
+<a class="item" id="item"  href="/incoming/issue/{__id__}/">{__m_latest_l_title__}</a><br>
+<p>{__php::nl2br(substr($description,0,strpos($description,'.',250)))__}..</p>
+</div>
+{__apply)__}
+{__pager__}
+</div>

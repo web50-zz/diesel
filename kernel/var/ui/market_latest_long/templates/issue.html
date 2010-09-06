@@ -1,12 +1,13 @@
 <div id="market_latest_long" class="market_latest_long">
 <h1><a href="/products/item_{__m_latest_l_product_id__}.html">{__m_latest_l_title__}</a></h1>
+{__php::date('d.m.Y',strtotime($m_latest_l_issue_datetime))__}<br>
 <!--
 <a class="group" href="/products/group/{__group_id__}/">{__str_group__}</a><br>
 <a class="title" href="/products/item_{__m_latest_l_product_id__}.html">{__title__}</a><br>
 <a class="type" href="/products/type/{__type_id__}/">{__str_type__}</a><br>
 <a class="label" href="/products/label/{__collection_id__}/">{__str_collection__}</a><br>
 -->
-<p>{__description__}</p>
+<p>{__php::nl2br($description)__}</p>
 <p>{__m_latest_l_text__}</p>
 {__set(#re = 'empty')__}  
 {__(apply(/records)__}
@@ -24,4 +25,20 @@
 {__p_type__}<br>
 </div>
 {__apply)__}
+<div id="market_latest_long_b_wrap" class="market_latest_long_b_wrap">
+{__(if(/previous)__}
+<div class="previous_label">
+<a href="/incoming/issue/{__/previous/id__}/">Предыдущее</a>
+</div>
+{__if)__}
+<div class="archive_label">
+<a href="/incoming/archive/">Архив</a>
+</div>
+{__(if(/next)__}
+<div class="next_label">
+<a href="/incoming/issue/{__/next/id__}/">Следующее</a>
+</div>
+{__if)__}
+</div>
+
 </div>
