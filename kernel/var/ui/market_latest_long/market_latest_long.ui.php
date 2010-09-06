@@ -30,13 +30,13 @@ class ui_market_latest_long extends user_interface
 
 	public function pub_default()
 	{
-		if (preg_match('/archive\//', SRCH_URI, $matches))
+		if (preg_match('/archive/', SRCH_URI, $matches))
 		{
 			return $this->get_data(array('mode'=>'archive'));
 		}
 		else
 		{
-			if (preg_match('/issue\/(\d+)\//', SRCH_URI, $matches))
+			if (preg_match('/issue\/(\d+)/', SRCH_URI, $matches))
 			{
 				return $this->get_data(array('id'=>$matches[1],'mode'=>'item'));
 			}
@@ -55,8 +55,14 @@ class ui_market_latest_long extends user_interface
 		$ignore = array();	
 		if($input['mode'] == 'archive')
 		{
-			$di1->set_limit(0,20);
-			$di1->set_order('id', 'DESC');
+			$limit = 10;
+			$page = request::get('page', 1);
+			$di1->set_args(array(
+				'sort' => 'id',
+				'dir' => 'DESC',
+				'start' => ($page - 1) * $limit,
+				'limit' => $limit,
+			));
 			//$ignore = array('4'); //оказалось нендо так как  полюбому кусок дексрипшна вытягиваем 
 		}
 		elseif($input['mode'] == 'item'&& $input['id'] >0)
@@ -90,6 +96,11 @@ class ui_market_latest_long extends user_interface
 			}
 			return $this->parse_tmpl('issue.html',$data);
 		}
+
+		$pager = user_interface::get_instance('pager');
+		$list['page'] = $page;
+		$list['limit'] = $limit;
+		$list['pager'] = $pager->get_pager(array('page' => $page, 'total' => $list['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
 		return $this->parse_tmpl('list.html',$list);
 	}
 	

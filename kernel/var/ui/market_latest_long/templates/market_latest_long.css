@@ -39,3 +39,22 @@ font-size:9px;
 color:#666;
 border-bottom:1px dashed;
 }
+
+
+.market_latest_long_b_wrap{
+height:30px;
+}
+
+#market_latest_long .next_label{
+float:right;
+}
+
+#market_latest_long .previous_label{
+float:left;
+}
+
+#market_latest_long .archive_label{
+float:left;
+width:70%;
+text-align:center;
+}
