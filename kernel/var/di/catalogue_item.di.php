@@ -106,7 +106,7 @@ class di_catalogue_item extends data_interface
 		//$this->connector->debug = true;
 		$this->set_group('id');
 		return $this->extjs_grid_json(array(
-			'id', 'on_offer', 'recomended', 'title', 'type_id', 'collection_id', 'group_id', 'price_id',
+			'id', 'on_offer', 'recomended', 'title', 'preview', 'picture', 'type_id', 'collection_id', 'group_id', 'price_id',
 			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
 			'CONVERT(GROUP_CONCAT(`'.$gs->get_alias().'`.`id` SEPARATOR ",") USING utf8)' => 'StyleIds',
 			array('di' => $gt, 'name' => 'name'),

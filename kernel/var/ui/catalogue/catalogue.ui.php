@@ -64,6 +64,7 @@ class ui_catalogue extends user_interface
 		$limit = 20;
 		$page = request::get('page', 1);
 		$di = data_interface::get_instance('catalogue_item');
+		$df = data_interface::get_instance('catalogue_file');
 		$di->set_args(array(
 			'sort' => 'id',
 			'dir' => 'DESC',
@@ -83,6 +84,7 @@ class ui_catalogue extends user_interface
 		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
 		$data['search'] = $this->get_search_form();
 		$data['filters'] = $this->get_filters();
+		$data['storage'] = "/{$df->path_to_storage}";
 		$data['args'] = $di->get_args();
 		return $this->parse_tmpl('default.html',$data);
 	}

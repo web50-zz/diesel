@@ -27,7 +27,7 @@ class di_catalogue_file extends data_interface
 	/**
 	* @var	string	$path_to_storage	Путь к хранилищу файлов каталога
 	*/
-	protected $path_to_storage = 'storage/';
+	public $path_to_storage = 'storage/';
 	
 	/**
 	* @var	array	$fields	Конфигурация таблицы
