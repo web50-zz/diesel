@@ -66,7 +66,7 @@ class di_catalogue_item extends data_interface
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
 		return $this->extjs_grid_json(array(
-			'id', 'on_offer', 'recomended', 'title', 'description', 'type_id', 'collection_id', 'group_id', 'price_id', 
+			'id', 'on_offer', 'recomended', 'title', 'description', 'type_id', 'collection_id', 'group_id', 'price_id','picture', 
 			array('di' => $gt, 'name' => 'name'),
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gp, 'name' => 'cost'),
