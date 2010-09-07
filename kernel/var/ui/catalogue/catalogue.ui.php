@@ -49,10 +49,12 @@ class ui_catalogue extends user_interface
 	{
 		$di = data_interface::get_instance('catalogue_item');
 		$di->set_args(array('_sid' => $id));
+		$df = data_interface::get_instance('catalogue_file');
 		$data = $di->get_item();
 		$diStyles = data_interface::get_instance('guide_style');
 		$data['styles'] = $diStyles->get_styles_in_item($id);
 		$data['args'] = array_merge($this->get_args(), $this->parse_uri());
+		$data['storage'] = "/{$df->path_to_storage}";
 		return $this->parse_tmpl('item.html', $data);
 	}
 
