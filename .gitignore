@@ -1,6 +1,7 @@
 tmp/*
 kernel/var/filestorage/*
 storage/*
+storage
 kernel/var/logs/*
 *.swp
 *.gz
