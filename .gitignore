@@ -5,3 +5,4 @@ storage
 kernel/var/logs/*
 *.swp
 *.gz
+sync.php
