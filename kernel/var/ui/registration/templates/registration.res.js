@@ -27,7 +27,12 @@ ui.registration = function(conf){
 		if(Ext.fly('clnt_country'))
 		{
 			Ext.EventManager.on('clnt_country', 'change', this.refreshRegs);
+			Ext.EventManager.on('clnt_region', 'change', this.alarm);
 		}
+	}
+	this.alarm = function()
+	{
+	 alert('eee');
 	}
 
 	this.refreshRegs = function(){
@@ -36,10 +41,11 @@ ui.registration = function(conf){
 			form: 'regform',
 			scope: this,
 			success: function(response, opts) {
+					Ext.DomHelper.useDom = true;
+					Ext.fly('clnt_region').remove();
 					var obj = Ext.decode(response.responseText);
 					var dh = Ext.DomHelper; 
-					dh.append('reg_wrap',obj);
-					Ext.fly('clnt_region').remove();
+					dh.insertAfter('reg_wrap',obj);
 			},
 			 failure: function(response, opts) {
 					 console.log(' Error ' + response.status);
