@@ -73,9 +73,9 @@ ui.country_regions.country_list = function(config){
 		loadMask: true,
 		autoExpandColumn: 'cr_cntry_title',
 		tbar: [
-			{text: this.bttAdd, iconCls: 'book_add', handler: Add},
-			{text: this.bttEdit, iconCls: "book_edit", handler: Edit, id: "bttEdt-ggg", disabled: true},
-			{text: this.bttDelete, iconCls: "book_delete", handler: Delete, id: "bttDel-ggg", disabled: true},
+			{text: this.bttAdd, iconCls: 'world_add', handler: Add},
+			{text: this.bttEdit, iconCls: "world_edit", handler: Edit, id: "bttEdt-ggg", disabled: true},
+			{text: this.bttDelete, iconCls: "world_delete", handler: Delete, id: "bttDel-ggg", disabled: true},
 			'->', {iconCls: 'help', handler: function(){showHelp('faq')}}
 		],
 		bbar: new Ext.PagingToolbar({
@@ -102,15 +102,15 @@ Ext.extend(ui.country_regions.country_list, Ext.grid.GridPanel, {
 
 	labelTitle: 'Страна',
 
-	addTitle: "Добавление раздела",
-	editTitle: "Изменение раздела",
+	addTitle: "Добавление страны",
+	editTitle: "Изменение страны",
 
 	bttAdd: "Добавить",
 	bttEdit: "Изменить",
 	bttDelete: "Удалить",
 
 	cnfrmTitle: "Подтверждение",
-	cnfrmMsg: "Вы действительно хотите удалить эт(у|и) групп(у|ы)?",
+	cnfrmMsg: "Вы действительно хотите удалить эт(у|и) стран(у|ы)?",
 
 	pagerEmptyMsg: 'Нет записей',
 	pagerDisplayMsg: 'Записи с {0} по {1}. Всего: {2}'

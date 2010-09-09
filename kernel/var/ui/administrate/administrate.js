@@ -70,7 +70,7 @@ ui.administrate = function(config){
 					{text: "Стили", iconCls: 'book_open', appName: 'guide', appFace: 'style', handler: appLauncher},
 					{text: "Типы", iconCls: 'book_open', appName: 'guide', appFace: 'type', handler: appLauncher},
 					{text: "Цены", iconCls: 'book_open', appName: 'guide', appFace: 'price', handler: appLauncher},
-					{text: "Страны и регионы", iconCls: 'book_open', appName: 'country_regions', appFace: 'main', handler: appLauncher},
+					{text: "Страны и регионы", iconCls: 'world', appName: 'country_regions', appFace: 'main', handler: appLauncher},
 					{text: "Валюты", iconCls: 'money', appName: 'guide', appFace: 'currency', handler: appLauncher}
 				]},	
 				{text: this.menuApps, iconCls: 'book', menu:[
@@ -86,10 +86,10 @@ ui.administrate = function(config){
 					{text: "Клиенты", iconCls: 'book_open', appName: 'market_clients', appFace: 'main', handler: appLauncher}
 				]},
 
-				{text: this.menuSecurity, iconCls: 'package', menu:[
+				{text: this.menuSecurity, iconCls: 'shield', menu:[
 					{text: this.menuUsers, iconCls: 'user', appName: 'user', appFace: 'main', handler: appLauncher},
 					{text: this.menuGroups, iconCls: 'group', appName: 'group', appFace: 'main', handler: appLauncher},
-					{text: this.menuSecurity, iconCls: 'package', appName: 'security', appFace: 'main', handler: appLauncher}
+					{text: this.menuSecurity, iconCls: 'shield', appName: 'security', appFace: 'main', handler: appLauncher}
 				]},
 				{text: this.menuHelpPages, iconCls: 'help', appName: 'help', appFace: 'main', handler: appLauncher},
 				'->',

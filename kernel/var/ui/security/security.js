@@ -118,8 +118,8 @@ ui.security.main = function(config){
 	ui.security.main.superclass.constructor.call(this, {
 		layout: 'border',
 		tbar: new Ext.Toolbar({items:[
-			{text: this.menuTitleMain, iconCls: 'package', menu:[
-				{text: this.menuTitleSync, iconCls: 'package_go', handler: doSync}
+			{text: this.menuTitleMain, iconCls: 'shield', menu:[
+				{text: this.menuTitleSync, iconCls: 'shield_go', handler: doSync}
 			]}
 		]}),
 		items: [group, user]
