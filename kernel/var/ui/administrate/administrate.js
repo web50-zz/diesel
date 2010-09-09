@@ -71,7 +71,8 @@ ui.administrate = function(config){
 					{text: "Типы", iconCls: 'book_open', appName: 'guide', appFace: 'type', handler: appLauncher},
 					{text: "Цены", iconCls: 'book_open', appName: 'guide', appFace: 'price', handler: appLauncher},
 					{text: "Страны и регионы", iconCls: 'world', appName: 'country_regions', appFace: 'main', handler: appLauncher},
-					{text: "Валюты", iconCls: 'money', appName: 'guide', appFace: 'currency', handler: appLauncher}
+					{text: "Валюты", iconCls: 'money', appName: 'guide', appFace: 'currency', handler: appLauncher},
+					{text: "Почтовые зоны", iconCls: 'map', appName: 'guide', appFace: 'post_zone', handler: appLauncher}
 				]},	
 				{text: this.menuApps, iconCls: 'book', menu:[
 					{text: "Новости", iconCls: 'newspaper', appName: 'news', appFace: 'main', handler: appLauncher},

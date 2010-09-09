@@ -269,6 +269,16 @@ INSERT INTO `guide_currency` (`id`, `name`, `title`) VALUES
 (3, 'EUR', 'Евро');
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `guide_post_zone`;
+CREATE TABLE `guide_post_zone` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255) NOT NULL COMMENT "The post zone title",
+	`cost` DECIMAL(10,2) UNSIGNED NOT NULL COMMENT "The delivery cost",
+	`ccy` TINYINT(1) UNSIGNED NOT NULL COMMENT "The costs currency",
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `catalogue_item`;
 CREATE TABLE `catalogue_item` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,

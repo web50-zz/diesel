@@ -32,6 +32,9 @@ class ui_guide extends user_interface
 		'currency' => array(
 			'guide.currency_form'
 		),
+		'post_zone' => array(
+			'guide.post_zone_form'
+		),
 	);
 	
 	public function __construct ()
@@ -162,6 +165,24 @@ class ui_guide extends user_interface
 	public function sys_currency_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'currency_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Почтовые зоны
+	*/
+	public function sys_post_zone()
+	{
+		$tmpl = new tmpl($this->pwd() . 'post_zone.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Форма редактирования (Почтовые зоны)
+	*/
+	public function sys_post_zone_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'post_zone_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }
