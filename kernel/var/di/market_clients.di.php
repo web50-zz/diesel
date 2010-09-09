@@ -67,6 +67,11 @@ class di_market_clients extends data_interface
 	*/
 	protected function sys_list()
 	{
+		$this->_flush();
+		if (!empty($this->args['query']) && !empty($this->args['field']))
+		{
+			$this->args["_sclnt_{$this->args['field']}"] = "%{$this->args['query']}%";
+		}
 		$this->extjs_grid_json(array('id', 
 						'clnt_created_datetime', 
 						'clnt_name',

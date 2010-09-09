@@ -73,12 +73,44 @@ ui.market_clients.main = function(config){
 		e.stopEvent();  
 		cmenu.showAt(e.getXY());
 	}.createDelegate(this);
+	var srchField = new Ext.form.TextField();
+	var srchType = new Ext.form.ComboBox({
+		width: 100,
+		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
+			['lname', 'Фамилия'],
+			['name', 'Имя'],
+			['mname', 'Отчество'],
+			['email', 'e-mail']
+		]}), value: 'lname',
+		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+	});
+	var srchBttOk = new Ext.Toolbar.Button({
+		text: 'Найти',
+		iconCls:'find',
+		handler: function search_submit(){
+			Ext.apply(store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
+			store.load({params: {start: 0, limit: this.limit}});
+		},
+		scope: this
+	});
+	var srchBttCancel = new Ext.Toolbar.Button({
+		text: 'Сбросить',
+		iconCls:'cancel',
+		handler: function search_submit(){
+			srchField.setValue('');
+			Ext.apply(store.baseParams, {field: '', query: ''});
+			store.load({params: {start: 0, limit: this.limit}});
+		},
+		scope: this
+	});
 	ui.market_clients.main.superclass.constructor.call(this,{
 		store: store,
 		columns: columns,
 		loadMask: true,
 		tbar: [
-			'->', {iconCls: 'help', handler: function(){showHelp('order')}}
+			new Ext.Toolbar.TextItem ("Найти:"),
+			srchType, srchField, srchBttOk, srchBttCancel,
+			'->', {iconCls: 'help', handler: function(){showHelp('clients')}}
 		],
 		bbar: new Ext.PagingToolbar({
 			pageSize: this.limit,
