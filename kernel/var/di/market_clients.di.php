@@ -121,15 +121,15 @@ class di_market_clients extends data_interface
 		$country = $country_di->extjs_grid_json(array('id','cr_cntry_title'),false);
 
 		$currency_di = data_interface::get_instance('guide_currency');
-		$currency = $currency_di->extjs_grid_json(array('id','name'),false);
+		$currency = $currency_di->extjs_grid_json(array('id', 'name'),false);
 
-		$pay_var_di = data_interface::get_instance('market_payment_vars');
-		$pay_var = $pay_var_di->extjs_grid_json(array('id','pay_var_title'),false);
+		$pay_type_di = data_interface::get_instance('guide_pay_type');
+		$pay_type = $pay_type_di->extjs_grid_json(array('id', 'title'), false);
 
 		$data['data']['regs']['records'] = $regions['records'];	
 		$data['data']['cntrys']['records'] = $country['records'];	
 		$data['data']['currencys']['records'] = $currency['records'];	
-		$data['data']['payvar']['records'] = $pay_var['records'];	
+		$data['data']['payvar']['records'] = $pay_type['records'];	
 
 		$data['data']['clnt_region_selected'] = $data['data']['clnt_region'];
 		$data['data']['clnt_country_selected'] = $data['data']['clnt_country'];

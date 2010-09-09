@@ -35,6 +35,9 @@ class ui_guide extends user_interface
 		'post_zone' => array(
 			'guide.post_zone_form'
 		),
+		'pay_type' => array(
+			'guide.pay_type_form'
+		),
 	);
 	
 	public function __construct ()
@@ -183,6 +186,24 @@ class ui_guide extends user_interface
 	public function sys_post_zone_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'post_zone_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Валюты
+	*/
+	public function sys_pay_type()
+	{
+		$tmpl = new tmpl($this->pwd() . 'pay_type.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Форма редактирования (Валюты)
+	*/
+	public function sys_pay_type_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'pay_type_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }

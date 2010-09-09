@@ -1,13 +1,13 @@
 <?php
 /**
-*	Интерфейс данных "Справочник: Почтовые зоны"
+*	Интерфейс данных "Справочник: Типы платежей"
 *
 * @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
 * @package	SBIN Diesel
 */
-class di_guide_post_zone extends data_interface
+class di_guide_pay_type extends data_interface
 {
-	public $title = 'Справочник: Почтовые зоны';
+	public $title = 'Справочник: Типы платежей';
 
 	/**
 	* @var	string	$cfg	Имя конфигурации БД
@@ -22,7 +22,7 @@ class di_guide_post_zone extends data_interface
 	/**
 	* @var	string	$name	Имя таблицы
 	*/
-	protected $name = 'guide_post_zone';
+	protected $name = 'guide_pay_type';
 	
 	/**
 	* @var	array	$fields	Конфигурация таблицы
@@ -30,8 +30,7 @@ class di_guide_post_zone extends data_interface
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
 		'title' => array('type' => 'string'),
-		'cost' => array('type' => 'float'),
-		'ccy' => array('type' => 'integer'),
+		'status' => array('type' => 'integer'),
 	);
 	
 	public function __construct()
@@ -57,12 +56,8 @@ class di_guide_post_zone extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->_flush(true);
-		$ccy = $this->join_with_di('guide_currency', array('ccy' => 'id'), array('name' => 'ccy_string'));
-		$this->extjs_grid_json(array(
-			'id', 'title', 'cost', 'ccy',
-			array('di' => $ccy, 'name' => 'name')
-		));
+		$this->_flush();
+		$this->extjs_grid_json();
 	}
 	
 	/**

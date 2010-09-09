@@ -89,7 +89,7 @@ ui.market_clients.market_client_form = function(config){
 					{xtype:'combo', fieldLabel: this.labelPrefPay, hiddenName: 'clnt_payment_pref', allowBlank: true,
 						mode:'local',
 						valueField: 'id',
-						displayField: 'pay_var_title',
+						displayField: 'title',
 						triggerAction: 'all',
 						typeAhead: true,
 						forceSelection: true
@@ -153,8 +153,8 @@ ui.market_clients.market_client_form = function(config){
 				var cp = this.getForm().findField('clnt_payment_pref');
 				cp.store = new Ext.data.JsonStore({
 						id: 0,
-						fields: ['id', 'pay_var_title'],
-						url:'di/market_pay_var/list.do',
+						fields: ['id', 'title'],
+						url:'di/guide_pay_type/list.do',
 						root:'records'
 					});
 				cp.store.loadData(action.result.data.payvar);
