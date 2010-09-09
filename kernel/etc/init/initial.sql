@@ -255,6 +255,15 @@ CREATE TABLE `guide_price` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `guide_currency`;
+CREATE TABLE `guide_currency` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(4) NOT NULL COMMENT "The currency",
+	`title` VARCHAR(255) NOT NULL COMMENT "The currency title",
+	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `catalogue_item`;
 CREATE TABLE `catalogue_item` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,

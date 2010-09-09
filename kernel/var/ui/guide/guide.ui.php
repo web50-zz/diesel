@@ -29,6 +29,9 @@ class ui_guide extends user_interface
 		'price' => array(
 			'guide.price_form'
 		),
+		'currency' => array(
+			'guide.currency_form'
+		),
 	);
 	
 	public function __construct ()
@@ -141,6 +144,24 @@ class ui_guide extends user_interface
 	public function sys_price_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'price_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Валюты
+	*/
+	public function sys_currency()
+	{
+		$tmpl = new tmpl($this->pwd() . 'currency.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Форма редактирования (Валюты)
+	*/
+	public function sys_currency_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'currency_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }
