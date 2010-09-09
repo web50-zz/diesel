@@ -117,8 +117,8 @@ class di_market_clients extends data_interface
 		$reg_di->set_args(array('_scr_regions_part_id'=>$data['data']['clnt_country']));
 		$regions = $reg_di->extjs_grid_json(array('id','cr_regions_title'),false);
 	
-		$country_di = data_interface::get_instance('country_regions_cntry');
-		$country = $country_di->extjs_grid_json(array('id','cr_cntry_title'),false);
+		$country_di = data_interface::get_instance('guide_country');
+		$country = $country_di->extjs_grid_json(array('id', 'IF (`'.$country_di->get_alias().'`.`title` != "", `'.$country_di->get_alias().'`.`title`, `'.$country_di->get_alias().'`.`title_eng`)' => 'title'),false);
 
 		$currency_di = data_interface::get_instance('guide_currency');
 		$currency = $currency_di->extjs_grid_json(array('id', 'name'),false);

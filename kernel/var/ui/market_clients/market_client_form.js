@@ -65,7 +65,7 @@ ui.market_clients.market_client_form = function(config){
 					{xtype:'combo', fieldLabel: this.labelCountry, hiddenName: 'clnt_country', allowBlank: true,
 						mode:'local',
 						valueField: 'id',
-						displayField: 'cr_cntry_title',
+						displayField: 'title',
 						triggerAction: 'all',
 						typeAhead: true,
 						forceSelection: true,
@@ -135,8 +135,8 @@ ui.market_clients.market_client_form = function(config){
 				var cc = this.getForm().findField('clnt_country');
 				cc.store = new Ext.data.JsonStore({
 						id: 0,
-						fields: ['id', 'cr_cntry_title'],
-						url:'di/country_regions_cntry/list.do',
+						fields: ['id', 'title'],
+						url:'di/guide_country/list.do',
 						root:'records'
 					});
 				cc.store.loadData(action.result.data.cntrys);
