@@ -4,10 +4,10 @@ ui.country_regions.country_list = function(config){
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
-			read: 'di/country_regions_cntry/list.js',
-			create: 'di/country_regions_cntry/set.js',
-			update: 'di/country_regions_cntry/set.js',
-			destroy: 'di/country_regions_cntry/unset.js'
+			read: 'di/guide_country/list.js',
+			create: 'di/guide_country/set.js',
+			update: 'di/guide_country/set.js',
+			destroy: 'di/guide_country/unset.js'
 		}
 	});
 	// Typical JsonReader.  Notice additional meta-data params for defining the core attributes of your json-response
@@ -18,7 +18,7 @@ ui.country_regions.country_list = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'cr_cntry_title']
+		[{name: 'id', type: 'int'}, 'title', 'code', 'cost', 'ccy', 'ccy_string']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -29,12 +29,16 @@ ui.country_regions.country_list = function(config){
 	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		writer: writer
+		writer: writer,
+		remoteSort: true
 	});
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'cr_cntry_title', dataIndex:'cr_cntry_title', header:  this.labelTitle}
+		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50, sortable: true},
+		{id: 'title', dataIndex: 'title', header:  this.labelTitle, sortable: true},
+		{id: 'code', dataIndex: 'code', header:  this.labelCode, width: 50, sortable: true},
+		{id: 'cost', dataIndex: 'cost', header:  this.labelCost, width: 50, align: 'right', sortable: true},
+		{id: 'ccy_string', dataIndex: 'ccy_string', header:  this.labelCCY, width: 50, sortable: true}
 	];
 	var Add = function(){
 		var f = new ui.country_regions.country_form();
@@ -71,7 +75,7 @@ ui.country_regions.country_list = function(config){
 		store: store,
 		columns: columns,
 		loadMask: true,
-		autoExpandColumn: 'cr_cntry_title',
+		autoExpandColumn: 'title',
 		tbar: [
 			{text: this.bttAdd, iconCls: 'world_add', handler: Add},
 			{text: this.bttEdit, iconCls: "world_edit", handler: Edit, id: "bttEdt-ggg", disabled: true},
@@ -101,6 +105,9 @@ Ext.extend(ui.country_regions.country_list, Ext.grid.GridPanel, {
 	limit: 20,
 
 	labelTitle: 'Страна',
+	labelCode: 'Код',
+	labelCost: 'Стоимость',
+	labelCCY: 'Валюта',
 
 	addTitle: "Добавление страны",
 	editTitle: "Изменение страны",

@@ -289,6 +289,24 @@ CREATE TABLE `guide_pay_type` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `guide_country`;
+CREATE TABLE `guide_country` (
+  `id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_datetime` DATETIME DEFAULT NULL,
+  `creator_uid` SMALLINT(5) NOT NULL DEFAULT '0',
+  `changed_datetime` datetime DEFAULT NULL,
+  `changer_uid` SMALLINT(5) NOT NULL DEFAULT '0',
+  `deleted_datetime` DATETIME DEFAULT NULL,
+  `deleter_uid` SMALLINT(5) NOT NULL DEFAULT '0',
+  `title` VARCHAR(64) NOT NULL,
+  `title_eng` VARCHAR(64) NOT NULL,
+  `code` VARCHAR(3) NOT NULL,
+  `cost` DECIMAL(10,2) UNSIGNED NOT NULL,
+  `ccy` TINYINT(1) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `catalogue_item`;
 CREATE TABLE `catalogue_item` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,

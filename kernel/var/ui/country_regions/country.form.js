@@ -3,7 +3,7 @@ ui.country_regions.country_form = function(config){
 	this.Load = function(id){
 		var f = this.getForm();
 		f.load({
-			url: 'di/country_regions_cntry/get.json',
+			url: 'di/guide_country/get.json',
 			params: {_sid: id},
 			waitMsg: this.loadText
 		});
@@ -13,7 +13,7 @@ ui.country_regions.country_form = function(config){
 		var f = this.getForm();
 		if (f.isValid()){
 			f.submit({
-				url: 'di/country_regions_cntry/set.do',
+				url: 'di/guide_country/set.do',
 				waitMsg: this.saveText,
 				success: function(form, action){
 					var d = Ext.util.JSON.decode(action.response.responseText);
@@ -43,12 +43,20 @@ ui.country_regions.country_form = function(config){
 	}.createDelegate(this);
 	ui.country_regions.country_form.superclass.constructor.call(this, {
 		frame: true, 
-		defaults: {xtype: 'textfield'},
+		labelWidth: 120,
+		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
-			{fieldLabel: this.labelTitle, name: 'cr_cntry_title', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelTitleEng, name: 'cr_cntry_title_eng', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText},
-			{fieldLabel: this.labelCode, name: 'cr_cntry_code', width: 100, anchor: '100%', allowBlank: false, blankText: this.blankText, maxLength: 255, maxLengthText: this.maxLengthText}
+			{fieldLabel: this.labelTitle, name: 'title', maxLength: 64, maxLengthText: this.maxLengthText64},
+			{fieldLabel: this.labelTitleEng, name: 'title_eng', maxLength: 64, maxLengthText: this.maxLengthText64},
+			{fieldLabel: this.labelCode, name: 'code', maxLength: 3, maxLengthText: this.maxLengthText3},
+			{fieldLabel: this.labelCost, xtype: 'compositefield', items: [
+				{name: 'cost', width: 70, xtype: 'numberfield', decimalPrecision: 2},
+				{hiddenName: 'ccy', xtype: 'combo', width: 70,
+					store: new Ext.data.JsonStore({url: 'di/guide_currency/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+					valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
+				}
+			]}
 
 		],
 		buttonAlign: 'right',
@@ -72,11 +80,13 @@ Ext.extend(ui.country_regions.country_form, Ext.form.FormPanel, {
 	labelTitle: 'Название страны',
 	labelTitleEng: 'Название eng',
 	labelCode: 'Код',
+	labelCost: 'Стоимость',
 
 	loadText: 'Загрузка данных формы',
 	saveText: 'Сохранение...',
 	blankText: 'Необходимо заполнить',
-	maxLengthText: 'Не больше 256 символов',
+	maxLengthText64: 'Не больше 64 символов',
+	maxLengthText3: 'Не больше 3 символов',
 
 	bttSave: 'Сохранить',
 	bttCancel: 'Отмена',

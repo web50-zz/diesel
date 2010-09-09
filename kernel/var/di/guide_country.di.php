@@ -1,13 +1,13 @@
 <?php
 /**
-*  DI countrys Regions страны
+*	Интерфейс данных "Справочник: Страны"
 *
-* @author       9*	
+* @author       9*, Anthon S. Litvinenko <a.litvinenko@web50.ru>
 * @package	SBIN Diesel
 */
-class di_country_regions_cntry extends data_interface
+class di_guide_country extends data_interface
 {
-	public $title = 'Country regions - country list';
+	public $title = 'Справочник: Страны';
 
 	/**
 	* @var	string	$cfg	Имя конфигурации БД
@@ -22,22 +22,24 @@ class di_country_regions_cntry extends data_interface
 	/**
 	* @var	string	$name	Имя таблицы
 	*/
-	protected $name = 'country_regions_cntry';
+	protected $name = 'guide_country';
 
 	/**
 	* @var	array	$fields	Конфигурация таблицы
 	*/
 	public $fields = array(
 		'id' => array('type' => 'integer', 'serial' => TRUE, 'readonly' => TRUE),
-		'cr_cntry_title' => array('type' => 'string'),
-		'cr_cntry_title_eng' => array('type' => 'string'),
-		'cr_cntry_code' => array('type' => 'string'),
-		'cr_cntry_created_datetime'=>array('type'=>'string'),
-		'cr_cntry_changed_datetime'=>array('type'=>'string'),
-		'cr_cntry_deleted_datetime'=>array('type'=>'string'),
-		'cr_cntry_deleter_uid'=>array('type'=>'integer'),
-		'cr_cntry_creator_uid'=>array('type'=>'integer'),
-		'cr_cntry_changer_uid'=>array('type'=>'integer'),
+		'created_datetime' => array('type' => 'datetime'),
+		'creator_uid' => array('type' => 'integer'),
+		'changed_datetime' => array('type'=>'datetime'),
+		'changer_uid' => array('type'=>'integer'),
+		'deleted_datetime' => array('type'=>'datetime'),
+		'deleter_uid' => array('type'=>'integer'),
+		'title' => array('type' => 'string'),
+		'title_eng' => array('type' => 'string'),
+		'code' => array('type' => 'string'),
+		'cost' => array('type' => 'float'),
+		'ccy' => array('type' => 'float'),
 	);
 	
 	public function __construct ()
@@ -62,8 +64,14 @@ class di_country_regions_cntry extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->_flush();
-		$this->extjs_grid_json(array('id','cr_cntry_title','cr_cntry_title_eng','cr_cntry_code'));
+		$this->_flush(true);
+		$ccy = $this->join_with_di('guide_currency', array('ccy' => 'id'), array('name' => 'ccy_string'));
+		$this->extjs_grid_json(array(
+			'id',
+			'IF (`'.$this->get_alias().'`.`title` != "", `'.$this->get_alias().'`.`title`, `'.$this->get_alias().'`.`title_eng`)' => 'title',
+			'code', 'cost', 'ccy',
+			array('di' => $ccy, 'name' => 'name')
+		));
 	}
 	
 	/**
@@ -94,17 +102,18 @@ class di_country_regions_cntry extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;	
-		if ($this->get_args('_sid')>0)
+
+		if ($this->get_args('_sid') > 0)
 		{
-			$this->set_args(array('cr_cntry_changed_datetime' => date('Y-m-d H:i:S')), true);
-			$this->set_args(array('cr_cntry_changer_uid' => UID), true);
+			$this->set_args(array('changed_datetime' => date('Y-m-d H:i:s')), true);
+			$this->set_args(array('changer_uid' => UID), true);
 		}
 		else
 		{
-			$this->set_args(array('cr_cntry_created_datetime' => date('Y-m-d H:i:S')), true);
-			$this->set_args(array('cr_cntry_changed_datetime' => date('Y-m-d H:i:S')), true);
-			$this->set_args(array('cr_cntry_changer_uid' => UID), true);
-			$this->set_args(array('cr_cntry_creator_uid' => UID), true);
+			$this->set_args(array('changed_datetime' => date('Y-m-d H:i:s')), true);
+			$this->set_args(array('creator_uid' => UID), true);
+			$this->set_args(array('created_datetime' => date('Y-m-d H:i:s')), true);
+			$this->set_args(array('changer_uid' => UID), true);
 		}
 
 		$this->extjs_set_json();
