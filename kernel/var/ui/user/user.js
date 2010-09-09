@@ -29,7 +29,8 @@ ui.user.main = function(config){
 	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		writer: writer
+		writer: writer,
+		remoteSort: true
 	});
 	var strLang = new Ext.data.SimpleStore({
 		fields: ['value', 'title'],
@@ -43,11 +44,11 @@ ui.user.main = function(config){
 	}.createDelegate(this);
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'login', dataIndex: 'login', header: this.labelLogin, width: 150},
-		{id: 'email', dataIndex: 'email', header: this.labelEMail, width: 100},
-		{id: 'lang', dataIndex: 'lang', header: this.labelLang, renderer: setLang, width: 100},
-		{id: 'name', dataIndex: 'name', header:  this.labelName}
+		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50, sortable: true},
+		{id: 'login', dataIndex: 'login', header: this.labelLogin, width: 150, sortable: true},
+		{id: 'email', dataIndex: 'email', header: this.labelEMail, width: 100, sortable: true},
+		{id: 'lang', dataIndex: 'lang', header: this.labelLang, renderer: setLang, width: 100, sortable: true},
+		{id: 'name', dataIndex: 'name', header:  this.labelName, sortable: true}
 	];
 	var Add = function(){
 		var f = new ui.user.editForm({strLang: strLang});

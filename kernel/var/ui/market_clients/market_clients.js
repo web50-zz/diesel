@@ -29,19 +29,20 @@ ui.market_clients.main = function(config){
 	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		writer: writer
+		writer: writer,
+		remoteSort: true
 	});
 	function formatDate(value){
 		return value ? value.dateFormat('d M Y H:i:s') : '';
 	}
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'clnt_lname', dataIndex: 'clnt_lname', header: 'Фамилия', width: 100},
-		{id: 'clnt_name', dataIndex: 'clnt_name', header: 'Имя', width: 100},
-		{id: 'clnt_mname', dataIndex: 'clnt_mname', header: 'Отчество', width: 100},
-		{id: 'clnt_email', dataIndex: 'clnt_email', header: 'E-mail', width: 100},
-		{id: 'clnt_created_datetime', dataIndex: 'clnt_created_datetime', header: 'Дата регистрации', renderer: formatDate, width: 130}
+		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50, sortable: true},
+		{id: 'clnt_lname', dataIndex: 'clnt_lname', header: 'Фамилия', width: 100, sortable: true},
+		{id: 'clnt_name', dataIndex: 'clnt_name', header: 'Имя', width: 100, sortable: true},
+		{id: 'clnt_mname', dataIndex: 'clnt_mname', header: 'Отчество', width: 100, sortable: true},
+		{id: 'clnt_email', dataIndex: 'clnt_email', header: 'E-mail', width: 100, sortable: true},
+		{id: 'clnt_created_datetime', dataIndex: 'clnt_created_datetime', header: 'Дата регистрации', renderer: formatDate, width: 130, sortable: true}
 	];
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
