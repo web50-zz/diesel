@@ -97,7 +97,7 @@ ui.market_clients.market_client_form = function(config){
 					{xtype:'combo', fieldLabel: this.labelPrefCurr, hiddenName: 'clnt_payment_curr', allowBlank: true,
 						mode:'local',
 						valueField: 'id',
-						displayField: 'curr_title',
+						displayField: 'name',
 						triggerAction: 'all',
 						typeAhead: true,
 						forceSelection: true
@@ -144,8 +144,8 @@ ui.market_clients.market_client_form = function(config){
 				var cr = this.getForm().findField('clnt_payment_curr');
 				cr.store = new Ext.data.JsonStore({
 						id: 0,
-						fields: ['id', 'curr_title'],
-						url:'di/market_currency/list.do',
+						fields: ['id', 'name'],
+						url:'di/guide_currency/combolist.json',
 						root:'records'
 					});
 				cr.store.loadData(action.result.data.currencys);

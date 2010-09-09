@@ -262,6 +262,11 @@ CREATE TABLE `guide_currency` (
 	`title` VARCHAR(255) NOT NULL COMMENT "The currency title",
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `guide_currency` (`id`, `name`, `title`) VALUES
+(1, 'RUR', 'Рубли'),
+(2, 'USD', 'Доллары'),
+(3, 'EUR', 'Евро');
 -- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `catalogue_item`;

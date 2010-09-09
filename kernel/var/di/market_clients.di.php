@@ -115,8 +115,8 @@ class di_market_clients extends data_interface
 		$country_di = data_interface::get_instance('country_regions_cntry');
 		$country = $country_di->extjs_grid_json(array('id','cr_cntry_title'),false);
 
-		$currency_di = data_interface::get_instance('market_currency');
-		$currency = $currency_di->extjs_grid_json(array('id','curr_title'),false);
+		$currency_di = data_interface::get_instance('guide_currency');
+		$currency = $currency_di->extjs_grid_json(array('id','name'),false);
 
 		$pay_var_di = data_interface::get_instance('market_payment_vars');
 		$pay_var = $pay_var_di->extjs_grid_json(array('id','pay_var_title'),false);
