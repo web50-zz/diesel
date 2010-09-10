@@ -292,11 +292,11 @@ CREATE TABLE `guide_pay_type` (
 DROP TABLE IF EXISTS `guide_country`;
 CREATE TABLE `guide_country` (
   `id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `created_datetime` DATETIME DEFAULT NULL,
+  `created_datetime` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `creator_uid` SMALLINT(5) NOT NULL DEFAULT '0',
-  `changed_datetime` datetime DEFAULT NULL,
+  `changed_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changer_uid` SMALLINT(5) NOT NULL DEFAULT '0',
-  `deleted_datetime` DATETIME DEFAULT NULL,
+  `deleted_datetime` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `deleter_uid` SMALLINT(5) NOT NULL DEFAULT '0',
   `title` VARCHAR(64) NOT NULL,
   `title_eng` VARCHAR(64) NOT NULL,
@@ -304,7 +304,24 @@ CREATE TABLE `guide_country` (
   `cost` DECIMAL(10,2) UNSIGNED NOT NULL,
   `ccy` TINYINT(1) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `guide_region`;
+CREATE TABLE `guide_region` (
+  `id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_datetime` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creator_uid` SMALLINT(5) NOT NULL DEFAULT '0',
+  `changed_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `changer_uid` SMALLINT(5) NOT NULL DEFAULT '0',
+  `deleted_datetime` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `deleter_uid` SMALLINT(5) NOT NULL DEFAULT '0',
+  `country_id` SMALLINT(5) NOT NULL COMMENT 'The country`s id',
+  `title` VARCHAR(64) NOT NULL,
+  `post_zone_id` SMALLINT(5) NOT NULL COMMENT 'The post_zone`s id',
+  PRIMARY KEY (`id`),
+  INDEX `country_id` (`country_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `catalogue_item`;

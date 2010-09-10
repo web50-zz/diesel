@@ -1,13 +1,13 @@
 ui.country_regions.region_list = function(config){
-	var frmW = 400;
-	var frmH = 300;
+	var frmW = 300;
+	var frmH = 150;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
-			read: 'di/country_regions/list.js',
-			create: 'di/country_regions/set.js',
-			update: 'di/country_regions/set.js',
-			destroy: 'di/country_regions/unset.js'
+			read: 'di/guide_region/list.js',
+			create: 'di/guide_region/set.js',
+			update: 'di/guide_region/set.js',
+			destroy: 'di/guide_region/unset.js'
 		}
 	});
 	// Typical JsonReader.  Notice additional meta-data params for defining the core attributes of your json-response
@@ -18,7 +18,7 @@ ui.country_regions.region_list = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'cr_regions_title','cr_regions_post_zone']
+		[{name: 'id', type: 'int'}, 'title','post_zone_id', 'pz_string']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -29,13 +29,14 @@ ui.country_regions.region_list = function(config){
 	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		writer: writer
+		writer: writer,
+		remoteSort: true
 	});
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'cr_regions_title', dataIndex:'cr_regions_title', header:  this.labelRegion},
-		{id: 'cr_regions_post_zone', dataIndex:'cr_regions_post_zone', header:  this.labelPostZone}
+		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50, sortable: true},
+		{id: 'pz_string', dataIndex: 'pz_string', header:  this.labelPostZone, width: 100, sortable: true},
+		{id: 'title', dataIndex: 'title', header:  this.labelRegion, sortable: true}
 	];
 	var Add = function(){
 		var f = new ui.country_regions.region_form();
@@ -44,7 +45,7 @@ ui.country_regions.region_list = function(config){
 			saved: function(){store.reload()},
 			cancelled: function(){w.destroy()}
 		});
-		w.show(null, function(){f.Load(0,this.store.baseParams._scr_regions_part_id)},this);
+		w.show(null, function(){f.Load(0,this.store.baseParams._scid)},this);
 	}.createDelegate(this);
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
@@ -72,7 +73,7 @@ ui.country_regions.region_list = function(config){
 		store: store,
 		columns: columns,
 		loadMask: true,
-		autoExpandColumn: 'cr_regions_title',
+		autoExpandColumn: 'title',
 		tbar: [
 			{text: this.bttAdd, iconCls: 'book_add', handler: Add},
 			{text: this.bttEdit, iconCls: "book_edit", handler: Edit, id: "bttEdt-gg", disabled: true},
@@ -87,6 +88,9 @@ ui.country_regions.region_list = function(config){
 			emptyMsg: this.pagerEmptyMsg
 		}),
 	});
+	this.reload = function(){
+		store.load({params:{start:0, limit: this.limit}});
+	}
 	this.addEvents(
 	);
 	this.on({

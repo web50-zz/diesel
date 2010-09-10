@@ -194,14 +194,15 @@ class ui_registration extends user_interface
 
 	public function pub_get_regs()
 	{
-		$reg = $this->args['clnt_country'];
-		$data = array();
-		$reg_di = data_interface::get_instance('country_regions');
+		$reg = (int)$this->get_args('clnt_country');
+		$reg_di = data_interface::get_instance('guide_region');
 		$reg_di->_flush();
-		$reg_di->set_args(array('_scr_regions_part_id'=>$reg));
-		$regions = $reg_di->extjs_grid_json(array('id','cr_regions_title'),false);
-		$data['records'] = $regions['records'];	
-		response::send($this->parse_tmpl('reg_selector_json.html',$data),'text');
+		$reg_di->what = array('id', 'title');
+		$reg_di->set_order('title');
+		$reg_di->set_args(array('_scid' => $reg));
+		$reg_di->_get();
+		$data = array('records' => $reg_di->get_results());
+		response::send($this->parse_tmpl('reg_selector_json.html', $data), 'text');
 	}
 
 }

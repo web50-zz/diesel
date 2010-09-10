@@ -112,21 +112,26 @@ class di_market_clients extends data_interface
 					'clnt_payment_curr',
 					),false);
 
-		$reg_di = data_interface::get_instance('country_regions');
+		$reg_di = data_interface::get_instance('guide_region');
 		$reg_di->_flush();
-		$reg_di->set_args(array('_scr_regions_part_id'=>$data['data']['clnt_country']));
-		$regions = $reg_di->extjs_grid_json(array('id','cr_regions_title'),false);
+		$reg_di->what = array('id', 'title');
+		$reg_di->set_args(array('_scid' => $data['data']['clnt_country']));
+		$reg_di->set_order('title');
+		$reg_di->_get();
 	
 		$country_di = data_interface::get_instance('guide_country');
+		$country_di->_flush();
 		$country = $country_di->extjs_grid_json(array('id', 'IF (`'.$country_di->get_alias().'`.`title` != "", `'.$country_di->get_alias().'`.`title`, `'.$country_di->get_alias().'`.`title_eng`)' => 'title'),false);
 
 		$currency_di = data_interface::get_instance('guide_currency');
+		$currency_di->_flush();
 		$currency = $currency_di->extjs_grid_json(array('id', 'name'),false);
 
 		$pay_type_di = data_interface::get_instance('guide_pay_type');
+		$pay_type_di->_flush();
 		$pay_type = $pay_type_di->extjs_grid_json(array('id', 'title'), false);
 
-		$data['data']['regs']['records'] = $regions['records'];	
+		$data['data']['regs']['records'] = $reg_di->get_results();	
 		$data['data']['cntrys']['records'] = $country['records'];	
 		$data['data']['currencys']['records'] = $currency['records'];	
 		$data['data']['payvar']['records'] = $pay_type['records'];	

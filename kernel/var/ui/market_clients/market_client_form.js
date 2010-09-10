@@ -78,7 +78,7 @@ ui.market_clients.market_client_form = function(config){
 					{xtype:'combo', fieldLabel: this.labelRegion, hiddenName: 'clnt_region', allowBlank: true,
 						mode:'local',
 						valueField: 'id',
-						displayField: 'cr_regions_title',
+						displayField: 'title',
 						triggerAction: 'all',
 						typeAhead: true,
 						forceSelection: true
@@ -126,8 +126,8 @@ ui.market_clients.market_client_form = function(config){
 				var cb = this.getForm().findField('clnt_region');
 				cb.store = new Ext.data.JsonStore({
 						id: 0,
-						fields: ['id', 'cr_regions_title'],
-						url:'di/country_regions/list.do',
+						fields: ['id', 'title'],
+						url:'di/guide_region/list.do',
 						root:'records'
 					});
 				cb.store.loadData(action.result.data.regs);
@@ -161,11 +161,11 @@ ui.market_clients.market_client_form = function(config){
 				cp.setValue(action.result.data.clnt_payment_pref_selected);
 				},
 
-		cntrychanged:function(fld,newv,oldv){
+		cntrychanged:function(fld, newv, oldv){
 					var cb = this.getForm().findField('clnt_region');
 					cb.reset();
 					cb.store.removeAll();
-					cb.store.reload({params:{'_scr_regions_part_id':newv}});
+					cb.store.reload({params:{'_scid': newv}});
 				},
 		scope: this
 	})
