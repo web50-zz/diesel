@@ -63,7 +63,7 @@ class di_market_latest_long_list extends data_interface
 
 	public function _get_list_data()
 	{
-		$dd = $this->join_with_di('catalogue_item', array('m_latest_ls_product_id' => 'id'), array('title' => 'p_title'));
+		$dd = $this->join_with_di('catalogue_item', array('m_latest_ls_product_id' => 'id'), array('title' => 'p_title','preview'=>'preview','picture'=>'picture'));
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'p_type'),$dd);
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection'),$dd);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'p_group','id'=>'p_group_id'),$dd);
@@ -73,6 +73,8 @@ class di_market_latest_long_list extends data_interface
 			'm_latest_ls_product_id',
 			'm_latest_ls_issue_id',
 			array('di' => $dd, 'name' => 'title'),
+			array('di' => $dd, 'name' => 'preview'),
+			array('di' => $dd, 'name' => 'picture'),
 			array('di' => $gt, 'name' => 'name'),
 			array('di' => $gc, 'name' => 'name'),
 			array('di' => $gg, 'name' => 'name'),

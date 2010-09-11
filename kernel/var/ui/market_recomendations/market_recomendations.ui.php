@@ -36,6 +36,7 @@ class ui_market_recomendations extends user_interface
 		$data = array();
 		$di  = data_interface::get_instance('market_recomendations');
 		$data = $di->_get_list_data();
+		$data['storage'] = '/storage/';
 		return $this->parse_tmpl('short.html',$data);
 	}
 	

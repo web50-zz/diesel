@@ -43,3 +43,18 @@ font-size:9px;
 color:#666;
 border-bottom:1px dashed;
 }
+
+
+#m_latest_product .item_preview{
+border:1px solid #666;
+width:100px;
+margin-top:25px;
+padding:0px;
+}
+
+#item_preview img{
+padding:0px;
+margin:0px;
+border:0px;
+display:block;
+}

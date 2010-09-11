@@ -92,7 +92,7 @@ class di_market_latest_long extends data_interface
 //9* исходя из вышесказанного порядок полей не менять если добавлять новые то в конец
 	public function _get_extended_data($ignore_flds = array())
 	{
-		$ga = $this->join_with_di('catalogue_item', array('m_latest_l_product_id' => 'id'), array('title' => 'title','group_id'=>'group_id','description'=>'description','type_id'=>'type_id','collection_id'=>'collection_id'),$di1);
+		$ga = $this->join_with_di('catalogue_item', array('m_latest_l_product_id' => 'id'), array('title' => 'title','group_id'=>'group_id','description'=>'description','type_id'=>'type_id','collection_id'=>'collection_id','picture'=>'picture','preview'=>'preview'),$di1);
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type',$qa));
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'),$qa);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'),$qa);
@@ -106,6 +106,8 @@ class di_market_latest_long extends data_interface
 				array('di' => $ga, 'name' => 'type_id'),
 				array('di' => $ga, 'name' => 'collection_id'),
 				array('di' => $ga, 'name' => 'title'),
+				array('di' => $ga, 'name' => 'picture'),
+				array('di' => $ga, 'name' => 'preview'),
 				array('di' => $gt, 'name' => 'name'),
 				array('di' => $gg, 'name' => 'name'),
 				array('di' => $gc, 'name' => 'name'),

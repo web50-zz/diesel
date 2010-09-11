@@ -85,6 +85,7 @@ class ui_market_latest_long extends user_interface
 			$res = $di2->_get_list_data();
 			$data = $list['records'][0];
 			$data['records'] = $res['records'];
+			$data['storage'] = '/storage/';
 			if($prev_next)
 			{
 				$data['previous'] = $prev_next[0][0]; 
@@ -94,7 +95,7 @@ class ui_market_latest_long extends user_interface
 			{
 				$data['previous'] = array('id'=>$list['records'][1]['id'],'issue_date'=>$list['records'][1]['m_latest_l_issue_datetime']);
 			}
-			return $this->parse_tmpl('issue.html',$data);
+		return $this->parse_tmpl('issue.html',$data);
 		}
 
 		$pager = user_interface::get_instance('pager');
