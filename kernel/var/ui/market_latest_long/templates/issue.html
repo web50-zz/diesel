@@ -4,7 +4,7 @@
 <div class="top_block_wrap">
 {__(if($picture)__}
 <div class="item_picture" id="item_picture">
-		<img src="{__/storage__}{__picture__}" hspace="0" vspace="0" border="0" title="{__title__}"/>
+<a href="/products/item_{__m_latest_l_product_id__}.html"><img src="{__/storage__}{__picture__}" hspace="0" vspace="0" border="0" title="{__title__}"/></a>
 </div>
 {__if)__}
 <p>{__php::nl2br($description)__}</p>
@@ -21,10 +21,10 @@
 </div>
 {__if)__}
 <div id="m_latest_long_product" class="m_latest_long_product">
+		{__(if($preview)__}
+		<div class="item_preview" id="item_preview"><a href="/products/item_{__m_latest_ls_product_id__}.html"><img src="{__/storage__}{__preview__}" title="{__p_title__}"/></a></div>
+		{__if)__}
 
-		<div class="item_preview" id="item_preview">
-		{__(if($preview)__}<img src="{__/storage__}{__preview__}" title="{__title__}"/>{__if)__}
-		</div>
 
 <a class="group" id="group"  href="/products/group/{__p_group_id__}">{__p_group__}</a><br>
 <a class="item" id="item"  href="/products/item_{__m_latest_ls_product_id__}.html">{__p_title__}</a><br>
@@ -47,5 +47,4 @@
 </div>
 {__if)__}
 </div>
-<div onClick="r.got();">rrrr</div>
 </div>
