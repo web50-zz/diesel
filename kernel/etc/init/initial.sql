@@ -373,7 +373,7 @@ CREATE TABLE `order` (
 
 DROP TABLE IF EXISTS `order_item`;
 CREATE TABLE `order_item` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `order_id` smallint(5) unsigned NOT NULL,
   `item_id` smallint(5) unsigned NOT NULL,
   `count` smallint(5) unsigned NOT NULL,
