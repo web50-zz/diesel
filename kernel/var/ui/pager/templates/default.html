@@ -2,9 +2,9 @@
 {__(template pager(page, total, limit, prefix, range)__}
 	{__set(@page = (@page == 0) ? 1 : @page)__}
 	{__set(@prefix = (!empty(@prefix)) ? @prefix . '&' : '')__}
-	{__set(@total_pages = round(@total / @limit))__}
+	{__set(@total_pages = ceil(@total / @limit))__}
 	{__set(@range = (@range == 0) ? 9 : @range)__}
-	<div class="paginator">
+<div class="paginator">
 		<p>Total records: <b>{__@total__}</b></p>
 		<ul>
 			{__(if(@page > 1)__}

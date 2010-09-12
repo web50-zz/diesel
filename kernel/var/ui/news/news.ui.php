@@ -26,13 +26,21 @@ class ui_news extends user_interface
         */
         public function pub_content()
         {
-		/*$tmpl = new tmpl($this->pwd() . 'content.html');*/
+		$limit = 10;
+		$page = request::get('page', 1);
                 $di = data_interface::get_instance('news');
 		$di->set_args($this->args);
-//                return $tmpl->parse($di->_get());
-//		$data = array();
-		$data['news'] = $di->_get();
-//		dbg::show($data);
+			$di->set_args(array(
+				'sort' => 'release_date',
+				'dir' => 'DESC',
+				'start' => ($page - 1) * $limit,
+				'limit' => $limit,
+			));
+		$data = $di->extjs_grid_json(false,false);
+		$pager = user_interface::get_instance('pager');
+		$data['page'] = $page;
+		$data['limit'] = $limit;
+		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
 		return $this->parse_tmpl('default.html',$data);
         }
 	

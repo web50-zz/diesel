@@ -1,11 +1,36 @@
- {__(apply(/guestbook)__}
+<div id="guestbook" class="guestbook">
+<h1>Гостевая</h1>
+{__(apply(/records)__}
 	 <div class="guestbook_item">
-		<div class="guestbook_item_header">
-		{__gb_author_name__}<br/>
-		{__gb_created_datetime__}
-		</div>
+		<div class="guestbook_item_header">{__php::date('d.m.Y h:s',strtotime($gb_created_datetime))__} : {__gb_author_name__}</div>
 		<div class="guestbook_item_body">
 		{__gb_record__}
 		</div>
 	</div>
  {__apply)__}
+ {__pager__}
+ </div>
+ 
+<div id="guestbook_form" class="guestbook_form">
+<form method="POST" name="guestbook_form" id="guestbook_form" enctype="multipart/form-data" action="/ui/guestbook/save_record.html">
+<div>
+	<div class="">
+		Ваше имя<br/>
+		<input type="text" id="gb_author_name" title="Ваше имя" value="" name="gb_author_name" class="req input">
+	</div>
+	<div>
+		Ваш имайл<br/>
+		<input type="text" id="gb_author_email" title="Ваше имя" value="" name="gb_author_email" class="input">
+	</div> 
+	<div class="">
+		Ваш город<br/>
+		<input type="text" id="gb_author_location" title="Ваше имя" value="" name="gb_author_location" class="req input">
+	</div>
+	<div class="">
+		Ваше мнение<br/>
+		<textarea rows="15" cols="30" id="gb_record" title="Ваше имя" value="" name="gb_record" class="req guestbook_form_record textarea"></textarea>
+	</div>
+	<input type="button" id="guestbook_btn" class="submit" value="Отправить">
+</div>
+</form>
+</div>
