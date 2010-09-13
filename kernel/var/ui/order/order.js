@@ -38,23 +38,25 @@ ui.order.main = function(config){
 	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		writer: writer
+		writer: writer,
+		remoteSort: true,
+		sortInfo: {field: 'id', direction: 'DESC'}
 	});
 	function formatDate(value){
 		return value ? value.dateFormat('d M Y H:i:s') : '';
 	}
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'created_datetime', dataIndex: 'created_datetime', header: 'Дата создания', renderer: formatDate, width: 130},
-		{id: 'str_user_name', dataIndex: 'str_user_name', header: 'Пользователь', width: 100},
-		{id: 'status', dataIndex: 'status', header: 'Статус', width: 100},
-		{id: 'pt_string', dataIndex: 'pt_string', header: 'Способ оплаты', width: 100},
-		{id: 'discount', dataIndex: 'discount', header: 'Скидка', width: 100},
-		{id: 'total_items', dataIndex: 'total_items', header: 'Кол-во элементов', width: 100},
-		{id: 'total_items_cost', dataIndex: 'total_items_cost', header: 'Общая стоимость товаров', width: 100},
-		{id: 'delivery_cost', dataIndex: 'delivery_cost', header: 'Соимость доставки', width: 100},
-		{id: 'total_cost', dataIndex: 'total_cost', header: 'Общая стоимость заказов', width: 100}
+		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50, sortable: true},
+		{id: 'created_datetime', dataIndex: 'created_datetime', header: 'Дата создания', renderer: formatDate, width: 130, sortable: true},
+		{id: 'str_user_name', dataIndex: 'str_user_name', header: 'Пользователь', width: 100, sortable: true},
+		{id: 'status', dataIndex: 'status', header: 'Статус', width: 100, sortable: true},
+		{id: 'pt_string', dataIndex: 'pt_string', header: 'Способ оплаты', width: 100, sortable: true},
+		{id: 'discount', dataIndex: 'discount', header: 'Скидка', width: 100, sortable: true},
+		{id: 'total_items', dataIndex: 'total_items', header: 'Кол-во элементов', width: 100, sortable: true},
+		{id: 'total_items_cost', dataIndex: 'total_items_cost', header: 'Общая стоимость товаров', width: 100, sortable: true},
+		{id: 'delivery_cost', dataIndex: 'delivery_cost', header: 'Соимость доставки', width: 100, sortable: true},
+		{id: 'total_cost', dataIndex: 'total_cost', header: 'Общая стоимость заказов', width: 100, sortable: true}
 	];
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
@@ -85,11 +87,40 @@ ui.order.main = function(config){
 		e.stopEvent();  
 		cmenu.showAt(e.getXY());
 	}.createDelegate(this);
+	var srchField = new Ext.form.TextField();
+	var srchType = new Ext.form.ComboBox({
+		width: 100,
+		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
+			['str_user_name', 'Пользователь']
+		]}), value: 'str_user_name',
+		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+	});
+	var srchBttOk = new Ext.Toolbar.Button({
+		text: 'Найти',
+		iconCls:'find',
+		handler: function search_submit(){
+			Ext.apply(store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
+			store.load({params: {start: 0, limit: this.limit}});
+		},
+		scope: this
+	})
+	var srchBttCancel = new Ext.Toolbar.Button({
+		text: 'Сбросить',
+		iconCls:'cancel',
+		handler: function search_submit(){
+			srchField.setValue('');
+			Ext.apply(store.baseParams, {field: '', query: ''});
+			store.load({params: {start: 0, limit: this.limit}});
+		},
+		scope: this
+	})
 	ui.order.main.superclass.constructor.call(this,{
 		store: store,
 		columns: columns,
 		loadMask: true,
 		tbar: [
+			new Ext.Toolbar.TextItem ("Найти:"),
+			srchType, srchField, srchBttOk, srchBttCancel,
 			'->', {iconCls: 'help', handler: function(){showHelp('order')}}
 		],
 		bbar: new Ext.PagingToolbar({

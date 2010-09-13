@@ -31,14 +31,15 @@ ui.news.main = function(config){
 	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		writer: writer
+		writer: writer,
+		remoteSort: true
 	});
 	columns = [
-		{id: 'id', dataIndex: 'id', hidden: true},
-		{header: this.clmnDate, id: 'release_date', dataIndex: 'release_date', width: 150, sortable: true, renderer: formatDate, editor: new fm.DateField({allowBlank: false, format: 'Y-m-d'})},
-		{header: this.clmnAuthor, id: 'author', dataIndex: 'author', width: 150, sortable: true, editor: new fm.TextField({maxLength: 255, maxLengthText: 'Не больше 255 символов'})},
-		{header: this.clmnTitle, id: 'title', dataIndex: 'title', sortable: true, editor: new fm.TextField({maxLength: 255, maxLengthText: 'Не больше 255 символов'})},
-		{header: this.clmnSource, id: 'source', dataIndex: 'source', width: 150, sortable: true, editor: new fm.TextField({maxLength: 64, maxLengthText: 'Не больше 64 символов'})}
+		{id: 'id', dataIndex: 'id', hidden: true, sortable: true},
+		{header: this.clmnDate, id: 'release_date', dataIndex: 'release_date', width: 150, sortable: true, renderer: formatDate, editor: new fm.DateField({allowBlank: false, format: 'Y-m-d'}), sortable: true},
+		{header: this.clmnAuthor, id: 'author', dataIndex: 'author', width: 150, sortable: true, editor: new fm.TextField({maxLength: 255, maxLengthText: 'Не больше 255 символов'}), sortable: true},
+		{header: this.clmnTitle, id: 'title', dataIndex: 'title', sortable: true, editor: new fm.TextField({maxLength: 255, maxLengthText: 'Не больше 255 символов'}), sortable: true},
+		{header: this.clmnSource, id: 'source', dataIndex: 'source', width: 150, sortable: true, editor: new fm.TextField({maxLength: 64, maxLengthText: 'Не больше 64 символов'}), sortable: true}
 	];
 	var Add = function(){
 		var f = new ui.news.item_form();
@@ -101,18 +102,19 @@ ui.news.main = function(config){
 		iconCls:'find',
 		handler: function search_submit(){
 			Ext.apply(store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
-			reload();
-		}
+			store.load({params: {start: 0, limit: this.limit}});
+		},
+		scope: this
 	})
 	var srchBttCancel = new Ext.Toolbar.Button({
 		text: 'Сбросить',
 		iconCls:'cancel',
 		handler: function search_submit(){
-			srchType.setValue('title');
 			srchField.setValue('');
 			Ext.apply(store.baseParams, {field: '', query: ''});
-			reload();
-		}
+			store.load({params: {start: 0, limit: this.limit}});
+		},
+		scope: this
 	})
 	ui.news.main.superclass.constructor.call(this, {
 		store: store,

@@ -57,9 +57,13 @@ class di_order extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush(true);
+		if (!empty($this->args['query']) && !empty($this->args['field']))
+		{
+			$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
+		}
 		$user = $this->join_with_di('user', array('user_id' => 'id'), array('name' => 'str_user_name'));
 		$pt = $this->join_with_di('guide_pay_type', array('method_of_payment' => 'id'), array('title' => 'pt_string'));
-		$this->set_order('id', 'DESC');
+		//$this->set_order('id', 'DESC');
 		$this->extjs_grid_json(array(
 			'id', 'created_datetime', 'status', 'discount', 'total_items', 'total_items_cost', 'delivery_cost', 'total_cost',
 			array('di' => $user, 'name' => 'name'),
