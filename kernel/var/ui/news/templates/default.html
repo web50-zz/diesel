@@ -2,8 +2,7 @@
 <h1>Новости</h1>
 {__(apply(/records)__}
 <div class="news_div">
-<h1>{__title__}</h1>
-<h3>{__php::date('d.m.Y',strtotime($release_date))__}</h3>
+<h1>{__php::date('d.m.Y',strtotime($release_date))__} : {__title__}</h1>
 {__content__}
 </div>
 {__apply)__}

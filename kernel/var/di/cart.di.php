@@ -104,7 +104,7 @@ class di_cart extends data_interface
 	*	Сохранить данные и вернуть JSON-пакет для ExtJS
 	* @access protected
 	*/
-	public function _set($id, $count)
+	public function _set($id, $count = 0)
 	{
 		$count = (!$count) ? $this->_get($id) + 1 : $count;
 		return session::set($id, $count, $this->name);

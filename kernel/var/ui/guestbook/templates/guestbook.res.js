@@ -52,7 +52,7 @@ ui.guestbook = function(conf){
 
 
 Ext.onReady(function(){
-	guestbook = new ui.guestbook();
+	var guestbook = new ui.guestbook();
 	guestbook.collectButtons();
 });
 

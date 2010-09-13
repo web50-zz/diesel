@@ -14,9 +14,11 @@ ui.catalogue = function(conf){
 		Ext.Ajax.request({
 			url: '/ui/cart/add.do',
 			params: {id: id},
+			scope: this,
 			success: function(resp, opts){
 				var obj = Ext.decode(resp.responseText);
-				alert("Товар добавлен в корзину")
+				var text = 'Товар добавлен в корзину';
+				AlertBox.show("Внимание", text, 'none', {dock: 'top'});
 			},
 			failure: function(resp, opts){
 				alert(resp.status);
@@ -25,6 +27,7 @@ ui.catalogue = function(conf){
 	}
 }
 Ext.onReady(function(){
+	FRONTLOADER.load('/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
 	var c = new ui.catalogue();
 	c.collectButtons();
 });
