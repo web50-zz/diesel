@@ -87,7 +87,12 @@ ui.structure.page_view_point_form = function(config){
 		items: [
 			{name: '_sid', xtype: 'hidden'},
 			{name: 'pid', xtype: 'hidden'},
-			{fieldLabel: this.labelViewPoint, name: 'view_point'},
+			{fieldLabel: this.labelViewPoint, name: 'view_point', xtype: 'numberfield', width: 50, anchor: null},
+			{fieldLabel: this.labelDeepHide, hiddenName: 'deep_hide', value: 0, xtype: 'combo', width: 50, anchor: null,
+				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
+				valueField: 'value', displayField: 'title', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+			},
+			{fieldLabel: this.labelOrder, name: 'order', xtype: 'numberfield', width: 50, anchor: null},
 			{fieldLabel: this.labelTitle, name: 'title'},
 			new Ext.form.ComboBox({fieldLabel: this.labelModule, hiddenName: 'ui_name',
 				store: new Ext.data.JsonStore({url: 'di/interface/public.json', fields: ['name', 'human_name'], autoLoad: true}),

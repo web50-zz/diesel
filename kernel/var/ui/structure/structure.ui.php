@@ -55,8 +55,11 @@ class ui_structure extends user_interface
                         );
 
 		$divp = data_interface::get_instance('ui_view_point');
-		$divp->set_args(array('_spid' => $page['id']));
 		$divp->_flush();
+		$divp->set_args(array('_spid' => $page['id']));
+		$divp->set_order('view_point');
+		$divp->set_order('order');
+		$divp->connector->debug = true;
 		$vps = $divp->_get();
 		$css_resources = array();
 		foreach ($vps as $vp)

@@ -68,7 +68,7 @@ ui.structure.node_form = function(config){
 	}.createDelegate(this);
 	ui.structure.node_form.superclass.constructor.call(this,{
 		frame: true, 
-		labelWidth: 170,
+		labelWidth: 120,
 		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
 			{name: '_sid', xtype: 'hidden'},
@@ -83,25 +83,6 @@ ui.structure.node_form = function(config){
 			{fieldLabel: 'URI', name: 'uri', disabled: true},
 			{fieldLabel: 'Перенаправить', name: 'redirect'},
 			new Ext.form.ComboBox({
-				store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
-					['text', 'Текст'],
-					['news', 'Новости'],
-					['article', 'Статьи'],
-					['catalogue', 'Каталог']
-				]}),
-				fieldLabel: 'Модуль',
-				hiddenName: 'module',
-				valueField: 'value',
-				displayField: 'title',
-				mode: 'local',
-				triggerAction: 'all',
-				selectOnFocus: true,
-				editable: false,
-				value: 'text'
-			}),
-			new Ext.form.TriggerField({fieldLabel: 'Параметры', name: 'params', triggerClass: 'x-form-edit-trigger', onTriggerClick: moduleCfg}),
-			//{fieldLabel: 'Параметры', name: 'params', readOnly: true},
-			new Ext.form.ComboBox({
 				store: new Ext.data.JsonStore({
 					url: 'ui/structure/templates.do',
 					fields: ['template']
@@ -115,20 +96,20 @@ ui.structure.node_form = function(config){
 				triggerAction: 'all',
 				selectOnFocus: true,
 				editable: false
-			}),
-			new Ext.form.ComboBox({
-				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']]}),
-				fieldLabel: 'Требует авторизацию',
-				hiddenName: 'private',
-				valueField: 'value',
-				displayField: 'title',
-				mode: 'local',
-				triggerAction: 'all',
-				selectOnFocus: true,
-				editable: false,
-				value: 0
-			}),
-			{fieldLabel: 'Модуль авторизации', name: 'auth_module'}
+			})
+			//new Ext.form.ComboBox({
+			//	store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']]}),
+			//	fieldLabel: 'Требует авторизацию',
+			//	hiddenName: 'private',
+			//	valueField: 'value',
+			//	displayField: 'title',
+			//	mode: 'local',
+			//	triggerAction: 'all',
+			//	selectOnFocus: true,
+			//	editable: false,
+			//	value: 0
+			//}),
+			//{fieldLabel: 'Модуль авторизации', name: 'auth_module'}
 		],
 		buttonAlign: 'right',
 		buttons: [
