@@ -1,6 +1,6 @@
 ui.structure.page_view_points = function(config){
-	var frmW = 800;
-	var frmH = 480;
+	var frmW = 500;
+	var frmH = 300;
 	var fm = Ext.form;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({

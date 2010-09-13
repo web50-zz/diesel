@@ -128,6 +128,8 @@ ui.structure.page_view_point_form = function(config){
 Ext.extend(ui.structure.page_view_point_form, Ext.form.FormPanel, {
 	labelViewPoint: 'Место вывода',
 	labelTitle: 'Наименование',
+	labelDeepHide: 'Скрывать на подстраницах',
+	labelOrder: 'Порядок отображения',
 	labelModule: 'Модуль',
 	labelCalls: 'Вызов',
 	labelParams: 'Параметры',
