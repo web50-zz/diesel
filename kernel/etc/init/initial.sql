@@ -351,7 +351,7 @@ CREATE TABLE `catalogue_item` (
 
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `user_id` smallint(5) unsigned NOT NULL,
   `status` tinyint(1) unsigned NOT NULL,
@@ -374,7 +374,7 @@ CREATE TABLE `order` (
 DROP TABLE IF EXISTS `order_item`;
 CREATE TABLE `order_item` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `order_id` smallint(5) unsigned NOT NULL,
+  `order_id` mediumint(8) unsigned NOT NULL,
   `item_id` smallint(5) unsigned NOT NULL,
   `count` smallint(5) unsigned NOT NULL,
   `price1` decimal(10,2) unsigned NOT NULL,
