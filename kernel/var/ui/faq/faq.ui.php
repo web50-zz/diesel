@@ -81,6 +81,7 @@ class ui_faq extends user_interface
 			$this->check_input();
 			$di = data_interface::get_instance('faq');
 			$di->set_args($this->args);
+			$di->prepare_extras();
 			$di->_set();
 		}
 		catch(Exception $e)

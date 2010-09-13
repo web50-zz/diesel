@@ -1,4 +1,8 @@
 <div id="guestbook" class="guestbook">
+<div class="nwrecwrp" id="nwrecwrp">
+<span id="newrecord" class="newrecord">Оставить запись</span>
+</div>
+
 <h1>Гостевая</h1>
 {__(apply(/records)__}
 	 <div class="guestbook_item">
@@ -10,27 +14,3 @@
  {__apply)__}
  {__pager__}
  </div>
- 
-<div id="guestbook_form" class="guestbook_form">
-<form method="POST" name="guestbook_form" id="guestbook_form" enctype="multipart/form-data" action="/ui/guestbook/save_record.html">
-<div>
-	<div class="">
-		Ваше имя<br/>
-		<input type="text" id="gb_author_name" title="Ваше имя" value="" name="gb_author_name" class="req input">
-	</div>
-	<div>
-		Ваш имайл<br/>
-		<input type="text" id="gb_author_email" title="Ваше имя" value="" name="gb_author_email" class="input">
-	</div> 
-	<div class="">
-		Ваш город<br/>
-		<input type="text" id="gb_author_location" title="Ваше имя" value="" name="gb_author_location" class="req input">
-	</div>
-	<div class="">
-		Ваше мнение<br/>
-		<textarea rows="15" cols="30" id="gb_record" title="Ваше имя" value="" name="gb_record" class="req guestbook_form_record textarea"></textarea>
-	</div>
-	<input type="button" id="guestbook_btn" class="submit" value="Отправить">
-</div>
-</form>
-</div>

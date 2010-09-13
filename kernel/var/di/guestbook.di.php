@@ -66,6 +66,11 @@ class di_guestbook extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
+		$this->set_args(array(
+					'sort'=>'id',
+					'dir'=>'DESC',
+				)
+			);
 		$this->extjs_grid_json(array('id','gb_creator_uid','gb_changer_uid','gb_deleter_uid','gb_created_datetime','gb_author_name','gb_author_location','gb_author_email','gb_record','gb_answer'));
 	}
 	
@@ -97,7 +102,14 @@ class di_guestbook extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
-		if ($this->get_args('_sid')>0)
+		$this->prepare_extras();
+		$this->extjs_set_json();
+	}
+
+	public function prepare_extras()
+	{
+	
+		if ($this->args['_sid']>0)
 		{
 			$this->set_args(array('gb_changed_datetime' => date('Y-m-d H:i:S')), true);
 			$this->set_args(array('gb_changer_uid' => UID), true);
@@ -109,9 +121,8 @@ class di_guestbook extends data_interface
 			$this->set_args(array('gb_changer_uid' => UID), true);
 			$this->set_args(array('gb_creator_uid' => UID), true);
 		}
-		$this->extjs_set_json();
 	}
-	
+
 	/**
 	*	Удалить данные и вернуть JSON-пакет для ExtJS
 	* @access protected

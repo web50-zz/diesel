@@ -3,61 +3,137 @@ Ext.namespace("ui.guestbook");
 ui.guestbook = function(conf){
 
 	this.collectButtons = function(){
-		var el = Ext.get('guestbook_btn');
-		el.on('click', function(e,t) {
-		if (Ext.get('gb_author_name').getValue() != '' && Ext.get('gb_author_location').getValue() != '' && Ext.get('gb_record').getValue() != ''){
-				var req = 'gb_author_email=' + Ext.get('gb_author_email').getValue() + '&gb_author_name=' + Ext.get('gb_author_name').getValue() + '&gb_author_location=' + Ext.get('gb_author_location').getValue() + '&gb_record=' + Ext.get('gb_record').getValue();
-				Ext.Ajax.request({
-					url: '/ui/guestbook/save_record.html?' + req,
-					form: 'guestbook_form',
-					success: function(response, opts) {
-						reset_fields();
-					},
-					failure: function(response, opts) {
-						console.log('server-side failure with status code ' + response.status);
-					}
-				});
-		}else{
-			var els = Ext.select('.req');
-			els.each(function(el){
-				var prt = el.parent();
-				if(el.getValue() == ''){
-					prt.addClass('error');
-					//	alert(el.getvalue());
-					error = true;
-				}else{
-					prt.removeClass('error');
-				}
-			});
-		}
-		// e is a normalized event object (Ext.EventObject)
-		// t the target that was clicked, this is an Ext.Element.
-		// this also points to t.			
-		});
-
+		Ext.each(Ext.query(".newrecord"), function(item, index, allItems){
+			Ext.get(item).on({
+				click: function(ev, el, opt){
+					this.getFrm();
+				},
+				scope: this
+			})
+		}, this);
 	}
 
-	var reset_fields  = function reset_fields(){
-		var els = Ext.select('.input');
-		els.each(function(el){
-			el.dom.value='';
+	this.getFrm = function(cid)
+	{
+		Ext.Ajax.request({
+			url: '/ui/guestbook/getfrm.do',
+			scope: this,
+			params:{cid:cid},
+			success: function(response, opts) {
+				var obj = Ext.decode(response.responseText);
+				if(obj.code == '400')
+				{
+					AlertBox.show("Внимание", obj.error, 'none', {dock: 'top'});
+				}
+				if(obj.code == '200')
+				{
+					this.makeFrmWindow(obj.form);
+				}
+			},
+			 failure: function(response, opts) {
+					 console.log(' Error ' + response.status);
+			}
 		});
+	};
 
-		var els = Ext.select('.textarea');
-		els.each(function(el){
-			el.dom.value='';
+	this.handleSubmit = function(){
+		Ext.each(Ext.query(".req",Ext.fly('.guestbook_form')), function(item, index, allItems){
+			var el = Ext.get(item);
+			if(el.getValue() == '')
+			{
+				var elt = Ext.fly(el.getAttribute('fldttlid'));
+				el.replaceClass('field','field_error');
+				elt.replaceClass('field_name','field_name_error');
+			}
+			else
+			{
+				var elt = Ext.fly(el.getAttribute('fldttlid'));
+				el.replaceClass('field_error','field');
+				elt.replaceClass('field_name_error','field_name');
+			}
+		}, this);
+		Ext.Ajax.on('beforerequest', this.showSpinner, this);
+		Ext.Ajax.on('requestcomplete', this.hideSpinner, this);
+		Ext.Ajax.on('requestexception', this.hideSpinner, this);
+		Ext.Ajax.request({
+			url: '/ui/guestbook/save_form.do',
+			form: 'guestbook_form',
+			scope: this,
+			success: function(response, opts) {
+				var obj = Ext.decode(response.responseText);
+				if(obj.code == '400')
+				{
+					AlertBox.show("Внимание", obj.error, 'none', {dock: 'top'});
+				}
+				if(obj.code == '200')
+				{
+					this.authism();
+				}
+			},
+			 failure: function(response, opts) {
+					 console.log(' Error ' + response.status);
+			}
 		});
+	};
+
+	this.showSpinner =  function(){
+		el = Ext.fly('guestbook').insertFirst({
+		tag: 'div',
+		cls: 'spinner',
+		id:  'spinner',
+		html: 'cоединение'
+		});
+		el.setLeft(document.documentElement.clientWidth/2);
+		el.setTop(document.documentElement.clientHeight/2.5);
+	};
+	this.hideSpinner =  function(){
+		Ext.fly('spinner').remove();
+	};
+
+	this.makeFrmWindow = function(resp)
+	{	
+		if(this.frm == true){
+			return;
+		}
+		var dh = Ext.DomHelper; 
+		var spec ={
+		id:'frmwrap',
+		tag:'div',
+		cls:'frmwrap'
+		};
+		var newel = dh.append(document.body,spec);
+
+		newel.innerHTML = resp;
+		this.frm = true;	
+		Ext.each(Ext.query(".closebt"), function(item, index, allItems){
+			Ext.get(item).on({
+				click: function(ev, el, opt){
+				  var el1 = Ext.fly('frmwrap');
+				  el1.remove();
+				  this.frm = false;
+				},
+				scope: this
+			})
+		},this);
+		
+		Ext.each(Ext.query(".sbbt"), function(item, index, allItems){
+			Ext.get(item).on({
+				click: function(ev, el, opt){
+					this.handleSubmit();
+				},
+				scope: this
+			})
+		}, this);
+	};
+
+	this.authism = function()
+	{
+		window.location="";
 	}
 }
 
-
 Ext.onReady(function(){
+	FRONTLOADER.load('/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
 	var guestbook = new ui.guestbook();
 	guestbook.collectButtons();
 });
-
-
-
-
-
-

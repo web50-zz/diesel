@@ -80,21 +80,6 @@ ui.faq = function(conf){
 		});
 	};
 
-	this.initReg = function(){
-		Ext.Ajax.request({
-			url: '/ui/registration/registration_form.do',
-			scope:this,
-			success: function(response,opts){
-			Ext.fly('registrwrap').update(response.responseText);
-			this.collectButtons();
-			this.preparations();
-			},
-					failure: function(response,opts){
-							alert('failure');
-						}
-				});
-	};
-
 	this.showSpinner =  function(){
 		el = Ext.fly('faq').insertFirst({
 		tag: 'div',

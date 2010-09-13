@@ -11,6 +11,8 @@ class ui_guestbook extends user_interface
 {
 	public $title = 'Гостевая';
 
+	public $req_fields = array('gb_author_name'=>'Имя','gb_author_email'=>'e-mail','gb_record'=>'Сообщение','gb_author_location'=>'Местоположение');
+
 	protected $deps = array(
 		'main' => array(
 			'guestbook.guestbook_form'
@@ -57,26 +59,55 @@ class ui_guestbook extends user_interface
 		return $this->parse_tmpl('default_form.html',$data);
 	}
 
-	public function pub_save_record()
+	public function pub_save_form()
 	{
-                $di = data_interface::get_instance('guestbook');
+		try
+		{
+			$this->check_input();
+			$di = data_interface::get_instance('guestbook');
+			$di->set_args($this->args);
+			$di->prepare_extras();
+			$di->_set();
+		}
+		catch(Exception $e)
+		{
+			$resp['code'] = '400';	
+			$resp['error'] = $e->getMessage();
+		}
 
-		$di->push_args(array(
-		'gb_author_email' => $this->get_args('gb_author_email'),
-		'gb_author_name' => $this->get_args('gb_author_name'),
-		'gb_author_location' => $this->get_args('gb_author_location'),
-		'gb_record' => $this->get_args('gb_record'),
-		'gb_created_datetime' => date('Y-m-d h:m:s'),
-		));
-		$di->_set();
-		$data = array('success' => true);
-		response::send($data, 'json');	
-
+		if($resp['code'] != '400')
+		{
+			$resp['code'] = '200';
+			$resp['report']  = 'success';
+		}
+		response::send($resp,'json');
 	}
 
-	public function pub_double()
+	public function pub_getfrm()
         {
-		return 'guest book here';
+	
+		$data = array();
+		$resp['code'] = '200';
+		$resp['form'] = $this->parse_tmpl('default_form.html',$data);
+		response::send($resp,'json');
+	}
+
+	public function check_input()
+	{
+		$flds = array();
+		$flds = $this->req_fields;
+		foreach($flds as $key=>$value)
+		{
+			if(!$this->args[$key])
+			{
+				$errors.= "Незаполнено обязательное поле \"$value\" <br>";
+				$error = true;
+			}
+		}
+		if($error == true)
+		{
+			throw new Exception("$errors");
+		}
 	}
 
 	public function sys_main()

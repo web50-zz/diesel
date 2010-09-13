@@ -92,7 +92,14 @@ class di_faq extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
-		if ($this->get_args('_sid')>0)
+		$this->prepare_extras();
+		$this->extjs_set_json();
+	}
+	
+
+	public function prepare_extras()
+	{
+		if ($this->args['_sid']>0)
 		{
 			$this->set_args(array('faq_changed_datetime' => date('Y-m-d H:i:S')), true);
 			$this->set_args(array('faq_changer_uid' => UID), true);
@@ -104,9 +111,9 @@ class di_faq extends data_interface
 			$this->set_args(array('faq_changer_uid' => UID), true);
 			$this->set_args(array('faq_creator_uid' => UID), true);
 		}
-		$this->extjs_set_json();
 	}
-	
+
+
 	/**
 	*	Удалить данные и вернуть JSON-пакет для ExtJS
 	* @access protected
