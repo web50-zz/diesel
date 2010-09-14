@@ -38,7 +38,8 @@ ui.catalogue.item_list = function(config, vp){
 	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		writer: writer
+		writer: writer,
+		remoteSort: true
 	});
 	this.applyStore = function(data){
 		Ext.apply(store.baseParams, data);
@@ -56,15 +57,15 @@ ui.catalogue.item_list = function(config, vp){
 	}
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{header: "ID", width: 50, sortable: true, dataIndex: 'id', id: 'id'},
-		{header: this.colType, width: 100, sortable: true, dataIndex: 'str_type', id: 'str_type'},
-		{header: this.colExist, width: 50, sortable: true, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: ynFormat},
-		{header: this.colRecom, width: 50, sortable: true, dataIndex: 'recomended', id:'decomended', align: 'center', renderer: ynFormat},
-		{header: this.colPrice, width: 200, sortable: true, dataIndex: 'str_price', id:'str_price'},
-		{header: this.colGroup, width: 200, sortable: true, dataIndex: 'str_group', id:'str_group'},
-		{header: this.colTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title'},
-		{header: this.colPrepay, width: 100, sortable: true, dataIndex: 'prepayment', id: 'prepayment', align: 'right', renderer: priceFormat},
-		{header: this.colPayfwd, width: 100, sortable: true, dataIndex: 'payment_forward', id: 'payment_forward', align: 'right', renderer: priceFormat}
+		{header: "ID", width: 50, sortable: true, dataIndex: 'id', id: 'id', sortable: true},
+		{header: this.colType, width: 100, sortable: true, dataIndex: 'str_type', id: 'str_type', sortable: true},
+		{header: this.colExist, width: 50, sortable: true, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: ynFormat, sortable: true},
+		//{header: this.colRecom, width: 50, sortable: true, dataIndex: 'recomended', id:'decomended', align: 'center', renderer: ynFormat, sortable: true},
+		{header: this.colPrice, width: 200, sortable: true, dataIndex: 'str_price', id:'str_price', sortable: true},
+		{header: this.colGroup, width: 200, sortable: true, dataIndex: 'str_group', id:'str_group', sortable: true},
+		{header: this.colTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title', sortable: true},
+		//{header: this.colPrepay, width: 100, sortable: true, dataIndex: 'prepayment', id: 'prepayment', align: 'right', renderer: priceFormat, sortable: true},
+		//{header: this.colPayfwd, width: 100, sortable: true, dataIndex: 'payment_forward', id: 'payment_forward', align: 'right', renderer: priceFormat, sortable: true}
 	];
 	var Add = function(){
 		var f = new ui.catalogue.item_form();
