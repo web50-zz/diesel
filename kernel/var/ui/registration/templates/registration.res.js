@@ -153,8 +153,8 @@ ui.registration = function(conf){
 }
 
 Ext.onReady(function(){
+	FRONTLOADER.load('/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
 	registration = new ui.registration();
 	registration.collectButtons();
-	FRONTLOADER.load('/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
 	registration.preparations();
 });

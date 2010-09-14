@@ -134,16 +134,25 @@ class di_subscribe_messages extends data_interface
 		response::send($data, 'json');
 	}
 
-	protected function _send_message_now($id)
+	public function _send_message_now($id,$extras = array())
 	{
-		dbg::write('start spam'.$id);
-		$data = $this->_get('SELECT * FROM '.$this->name." WHERE id = $id");
-		$sl = data_interface::get_instance('subscribe_accounts');
-		$slist = $sl->_users_in_group($data[0]['subscr_id']);
+		if($id>0)
+		{
+			$data = $this->_get('SELECT * FROM '.$this->name." WHERE id = $id");
+			$sl = data_interface::get_instance('subscribe_accounts');
+			$slist = $sl->_users_in_group($data[0]['subscr_id']);
+
+		}
+		else
+		{
+			$data[0] = array();
+			$data[0]['subscr_message_body'] = $extras['body'];
+			$data[0]['subscr_title'] = $extras['title'];
+			$slist = $extras['recipients'];
+		}
 		foreach($slist as $key=>$value)
 		{
 			mail($value['email'],$data[0]['subscr_title'],$data[0]['subscr_message_body']);
-			dbg::write($value['email']);
 		}
 	}
 }
