@@ -289,6 +289,16 @@ CREATE TABLE `guide_pay_type` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `guide_order_status`;
+CREATE TABLE `guide_order_status` (
+	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255) NOT NULL COMMENT "Title",
+	`status` TINYINT(1) UNSIGNED NOT NULL COMMENT "Status",
+	PRIMARY KEY (`id`),
+	INDEX `status` (`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
+
 DROP TABLE IF EXISTS `guide_country`;
 CREATE TABLE `guide_country` (
   `id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,

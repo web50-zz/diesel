@@ -71,7 +71,7 @@ class di_catalogue_item extends data_interface
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
-			array('di' => $gc, 'name' => 'discount')
+			array('di' => $gc, 'name' => 'discount'),
 		), false);
 	}
 

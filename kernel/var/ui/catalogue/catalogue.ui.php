@@ -82,7 +82,6 @@ class ui_catalogue extends user_interface
 		$cart = data_interface::get_instance('cart');
 		$data['cart'] = $cart->_list();
 		$pager = user_interface::get_instance('pager');
-		//dbg::show($_SERVER);
 		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
 		$data['search'] = $this->get_search_form();
 		$data['filters'] = $this->get_filters();

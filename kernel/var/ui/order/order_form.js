@@ -53,20 +53,13 @@ ui.order.order_form = function(config){
 				{id: 'order-form-main', title: this.tabMain, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
 					{fieldLabel: this.labelUserName, name: 'str_user_name', xtype: 'displayfield'},
 					{fieldLabel: this.labelCrtdDate, name: 'created_datetime', xtype: 'displayfield'},
-					{fieldLabel: this.labelStatus, hiddenName: 'status', xtype: 'combo', value: 0,
-						store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Не принят'], [1, 'В работе'], [2, 'Обработано']] }),
-						valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+					{fieldLabel: this.labelStatus, hiddenName: 'status', xtype: 'combo',
+						store: new Ext.data.JsonStore({url: 'di/guide_order_status/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
+						valueField: 'id', displayField: 'title', triggerAction: 'all', editable: false
 					},
 					{fieldLabel: this.labelMetOfPay, hiddenName: 'method_of_payment', xtype: 'combo',
-						store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [
-							[1, 'WebMoney'],
-							[2, 'Курьеру наличными (Москва)'],
-							[3, 'Наложенные платёж'],
-							[4, 'Предоплата'],
-							[5, 'Яндекс.Деньги']
-						]}),
-						valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false,
-						submitValue: false, readOnly: true
+						store: new Ext.data.JsonStore({url: 'di/guide_pay_type/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
+						valueField: 'id', displayField: 'title', triggerAction: 'all', editable: false
 					},
 					{fieldLabel: this.labelDiscount, name: 'discount', xtype: 'displayfield'},
 					{fieldLabel: this.labelTtlItems, name: 'total_items', xtype: 'displayfield'},

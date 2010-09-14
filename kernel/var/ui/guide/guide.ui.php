@@ -38,6 +38,9 @@ class ui_guide extends user_interface
 		'pay_type' => array(
 			'guide.pay_type_form'
 		),
+		'order_status' => array(
+			'guide.order_status_form'
+		),
 	);
 	
 	public function __construct ()
@@ -190,7 +193,7 @@ class ui_guide extends user_interface
 	}
 	
 	/**
-	*       Валюты
+	*       Способы оплаты
 	*/
 	public function sys_pay_type()
 	{
@@ -199,11 +202,29 @@ class ui_guide extends user_interface
 	}
 	
 	/**
-	*       Форма редактирования (Валюты)
+	*       Форма редактирования (Способы оплаты)
 	*/
 	public function sys_pay_type_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'pay_type_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Статусы заказов
+	*/
+	public function sys_order_status()
+	{
+		$tmpl = new tmpl($this->pwd() . 'order_status.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Форма редактирования (Статусы заказов)
+	*/
+	public function sys_order_status_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'order_status_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }
