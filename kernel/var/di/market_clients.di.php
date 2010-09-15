@@ -41,7 +41,7 @@ class di_market_clients extends data_interface
 			'clnt_changer_uid' => array('type' => 'integer'),
 			'clnt_deleter_uid' => array('type' => 'integer'),
 			'clnt_deleted_flag' => array('type' => 'integer'),
-			'clnt_sys_uid' => array('type' => 'integer'),
+			'clnt_sys_uid' => array('type' => 'integer', 'alias' => 'uid'),
 			'clnt_name' => array('type' => 'string'),
 			'clnt_lname' => array('type' => 'string'),
 			'clnt_mname' => array('type' => 'string'),
@@ -62,6 +62,31 @@ class di_market_clients extends data_interface
 	}
 
 	/**
+	*	Получить данные по пользователю
+	*/
+	public function get_data($uid = UID)
+	{
+		$this->_flush(true);
+		$this->push_args(array('_suid' => $uid));
+		$gc = $this->join_with_di('guide_country', array('clnt_country' => 'id'), array('title' => 'country'));
+		$gr = $this->join_with_di('guide_region', array('clnt_region' => 'id'), array('title' => 'region'));
+		$this->what = array(
+			'id',
+			'CONCAT_WS(" ", `clnt_lname`, `clnt_name`, `clnt_mname`)' => 'name',
+			'clnt_address' => 'address',
+			'clnt_country' => 'country_id',
+			'clnt_region' => 'region_id',
+			'clnt_payment_pref',
+			array('di' => $gc, 'name' => 'title'),
+			array('di' => $gr, 'name' => 'title'),
+		);
+		$this->connector->debug = true;
+		$this->_get();
+		$this->pop_args();
+		return $this->get_results(0);
+	}
+
+	/**
 	*	Get records
 	* @access protected
 	*/
@@ -73,13 +98,13 @@ class di_market_clients extends data_interface
 			$this->args["_sclnt_{$this->args['field']}"] = "%{$this->args['query']}%";
 		}
 		$this->extjs_grid_json(array('id', 
-						'clnt_created_datetime', 
-						'clnt_name',
-						'clnt_mname',
-						'clnt_lname',
-						'clnt_email',
-						'clnt_sys_uid'
-					));
+			'clnt_created_datetime', 
+			'clnt_name',
+			'clnt_mname',
+			'clnt_lname',
+			'clnt_email',
+			'clnt_sys_uid'
+		));
 	}
 	
 	/**

@@ -46,14 +46,24 @@ class ui_order extends user_interface
 		}
 		else
 		{
+			$diClient = data_interface::get_instance('market_clients');
 			$uiCart = user_interface::get_instance('cart');
-			$diUser = data_interface::get_instance(AUTH_DI);
-			$data = array(
-				'args' => request::get(),
-				'user' => $diUser->get_user(),
-				'cart' => $uiCart->get_cart(intval(request::get('method_of_payment', 4)))
-			);
-			return $this->parse_tmpl('default.html',$data);
+			$user = $diClient->get_data();
+			$cart = $uiCart->get_cart(intval(request::get('method_of_payment', $user->clnt_payment_pref)));
+
+			if ($cart['total_items'] > 0)
+			{
+				$data = array(
+					'args' => request::get(),
+					'user' => $user,
+					'cart' => $cart
+				);
+				return $this->parse_tmpl('default.html',$data);
+			}
+			else
+			{
+				response::redirect('/');
+			}
 		}
 	}
 

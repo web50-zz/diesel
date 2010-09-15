@@ -57,9 +57,12 @@ ui.order.order_form = function(config){
 					},
 					{fieldLabel: this.labelAdmComments, name: 'admin_comments', xtype: 'htmleditor'}
 				]},
-				{id: 'order-form-client', title: this.tabClient, layout: 'form', defaults: {xtype: 'displayfield'}, items: [
+				{id: 'order-form-client', title: this.tabClient, autoScroll: true, layout: 'form', defaults: {xtype: 'displayfield'}, items: [
 					{fieldLabel: this.labelUserName, name: 'str_user_name'},
 					{fieldLabel: this.labelCrtdDate, name: 'created_datetime'},
+					{fieldLabel: this.labelCountry, name: 'country_str'},
+					{fieldLabel: this.labelRegion, name: 'region_str'},
+					{fieldLabel: this.labelAddress, name: 'address'},
 					{fieldLabel: this.labelMetOfPay, name: 'pt_string'},
 					{fieldLabel: this.labelDiscount, name: 'discount'},
 					{fieldLabel: this.labelTtlItems, name: 'total_items'},
@@ -98,6 +101,9 @@ Ext.extend(ui.order.order_form, Ext.form.FormPanel, {
 	labelUserName: 'Пользователь',
 	labelCrtdDate: 'Дата заказа',
 	labelStatus: 'Статус',
+	labelCountry: 'Страна',
+	labelRegion: 'Регион',
+	labelAddress: 'Адрес',
 	labelMetOfPay: 'Способ оплаты',
 	labelDiscount: 'Скидка',
 	labelDelCost: 'Стоимость доставки',

@@ -4,7 +4,7 @@
 	Спасибо, что воспользовались услугами нашего магазина.<br/>
 	<br/>
 	<b>Данные для доставки заказа:</b>
-	<form id="order_form">
+	<form id="order_form" method="POST">
 		<input type="hidden" name="order-confirm" value="yes"/>
 		<table>
 		<tr>
@@ -23,12 +23,12 @@
 			<td>Способ оплаты:</td>
 			<td>
 				<select name="method_of_payment" id="method_of_payment">
-					<option value="0"> Выберите способ оплаты</option>
-					<option value="1"> WebMoney</option>
-					<option value="2"> Курьеру наличными (Москва)</option>
-					<option value="3"> Наложенные платёж</option>
-					<option value="4" selected> Предоплата</option>
-					<option value="5"> Яндекс.Деньги</option>
+					<option value="0" {__(if(/user/clnt_payment_pref == 0)__}selected{__if)__}> Выберите способ оплаты</option>
+					<option value="1" {__(if(/user/clnt_payment_pref == 1)__}selected{__if)__}> WebMoney</option>
+					<option value="2" {__(if(/user/clnt_payment_pref == 2)__}selected{__if)__}> Курьеру наличными (Москва)</option>
+					<option value="3" {__(if(/user/clnt_payment_pref == 3)__}selected{__if)__}> Наложенные платёж</option>
+					<option value="4" {__(if(/user/clnt_payment_pref == 4)__}selected{__if)__}> Предоплата</option>
+					<option value="5" {__(if(/user/clnt_payment_pref == 5)__}selected{__if)__}> Яндекс.Деньги</option>
 				</select>
 			</td>
 		</tr>

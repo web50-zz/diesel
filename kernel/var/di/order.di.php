@@ -110,10 +110,14 @@ class di_order extends data_interface
 		$this->_flush(true);
 		$user = $this->join_with_di('user', array('creator_uid' => 'id'), array('name' => 'str_user_name'));
 		$pt = $this->join_with_di('guide_pay_type', array('method_of_payment' => 'id'), array('title' => 'pt_string'));
+		$gc = $this->join_with_di('guide_country', array('country_id' => 'id'), array('title' => 'country_str'));
+		$gr = $this->join_with_di('guide_region', array('region_id' => 'id'), array('title' => 'region_str'));
 		$this->extjs_form_json(array(
-			'id', 'created_datetime', 'status', 'method_of_payment', 'discount', 'total_items', 'total_items_cost', 'number_of_parcels', 'delivery_cost', 'total_cost', 'comments', 'admin_comments',
+			'id', 'created_datetime', 'status', 'address', 'method_of_payment', 'discount', 'total_items', 'total_items_cost', 'number_of_parcels', 'delivery_cost', 'total_cost', 'comments', 'admin_comments',
 			array('di' => $user, 'name' => 'name'),
 			array('di' => $pt, 'name' => 'title'),
+			array('di' => $gc, 'name' => 'title'),
+			array('di' => $gr, 'name' => 'title'),
 		));
 	}
 	
@@ -135,24 +139,39 @@ class di_order extends data_interface
 	*/
 	public function set($data)
 	{
+		$diClient = data_interface::get_instance('market_clients');
+		$user = $diClient->get_data();
 		$uiCart = user_interface::get_instance('cart');
-		$cart = $uiCart->get_cart(intval(request::get('method_of_payment', 4)));
+		$cart = $uiCart->get_cart(intval(request::get('method_of_payment', $user->clnt_payment_pref)));
 
-		$this->push_args((array)$data);
-		$this->set_args(array(
-			'created_datetime' => date('Y-m-d H:i:s'),
-			'creator_uid' => (integer)UID,
-			'status' => 0,
-			'total_items' => $cart['total_items'],
-			'total_items_cost' => $cart['total_summ'],
-			'number_of_parcels' => $cart['parcels'],
-			'delivery_cost' => $cart['delivery_cost'],
-			'total_cost' => $cart['total_cost'],
-		), true);
-		$this->_flush();
-		$this->insert_on_empty = true;
-		$results = $this->extjs_set_json(false);
-		$this->pop_args();
+		if ($cart['total_items'] > 0)
+		{
+			$this->push_args((array)$data);
+			$this->set_args(array(
+				'created_datetime' => date('Y-m-d H:i:s'),
+				'creator_uid' => (integer)UID,
+				'changed_datetime' => date('Y-m-d H:i:s'),
+				'changer_uid' => (integer)UID,
+				'status' => 1,
+				'country_id' => $user->country_id,
+				'region_id' => $user->region_id,
+				'address' => $user->address,
+				'total_items' => $cart['total_items'],
+				'total_items_cost' => $cart['total_summ'],
+				'number_of_parcels' => $cart['parcels'],
+				'delivery_cost' => $cart['delivery_cost'],
+				'total_cost' => $cart['total_cost'],
+			), true);
+			$this->_flush();
+			$this->insert_on_empty = true;
+			$results = $this->extjs_set_json(false);
+			$this->pop_args();
+		}
+		else
+		{
+			$results['success'] = false;
+		}
+
 		return $results;
 	}
 	
