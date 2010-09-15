@@ -11,7 +11,7 @@ ui.market_clients.market_client_form = function(config){
 			scope:this
 		});
 		f.setValues([{id: '_sid', value: id}]);
-		items.store.baseParams = {_suser_id: uid};
+		items.store.baseParams = {_screator_uid: uid};
 	}
 
 	var Save = function(){

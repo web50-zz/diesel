@@ -21,6 +21,7 @@ ui.order.filter_form = function(config){
 		labelAlign: 'top',
 		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
+			{fieldLabel: this.labelId, name: '_sid'},
 			{fieldLabel: this.labelTitle, name: '_sstr_user_name'},
 			{fieldLabel: this.labelStatus, hiddenName: '_sstatus', xtype: 'combo', value: '',
 				store: new Ext.data.JsonStore({url: 'di/guide_order_status/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'title'], autoLoad: true}),
@@ -51,6 +52,7 @@ ui.order.filter_form = function(config){
 	);
 }
 Ext.extend(ui.order.filter_form , Ext.form.FormPanel, {
+	labelId: 'ID заказа',
 	labelTitle: 'Пользователь',
 	labelStatus: 'Статус',
 	labelMoP: 'Способ оплаты',

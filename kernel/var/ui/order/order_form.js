@@ -50,24 +50,24 @@ ui.order.order_form = function(config){
 			{name: '_sid', xtype: 'hidden'},
 			{xtype: 'tabpanel', activeItem: 0, border: false, anchor: '100% 100%', defferedRender: false,
 			defaults: {hideMode: 'offsets', frame: true, layout: 'form'}, items: [
-				{id: 'order-form-main', title: this.tabMain, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
-					{fieldLabel: this.labelUserName, name: 'str_user_name', xtype: 'displayfield'},
-					{fieldLabel: this.labelCrtdDate, name: 'created_datetime', xtype: 'displayfield'},
+				{id: 'order-form-main', title: this.tabMain, layout: 'form', defaults: {width: '100', anchor: '100%'}, items: [
 					{fieldLabel: this.labelStatus, hiddenName: 'status', xtype: 'combo',
 						store: new Ext.data.JsonStore({url: 'di/guide_order_status/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
 						valueField: 'id', displayField: 'title', triggerAction: 'all', editable: false
 					},
-					{fieldLabel: this.labelMetOfPay, hiddenName: 'method_of_payment', xtype: 'combo',
-						store: new Ext.data.JsonStore({url: 'di/guide_pay_type/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
-						valueField: 'id', displayField: 'title', triggerAction: 'all', editable: false
-					},
-					{fieldLabel: this.labelDiscount, name: 'discount', xtype: 'displayfield'},
-					{fieldLabel: this.labelTtlItems, name: 'total_items', xtype: 'displayfield'},
-					{fieldLabel: this.labelTtlItemsCost, name: 'total_items_cost', xtype: 'displayfield'},
-					{fieldLabel: this.labelNumOfParcels, name: 'number_of_parcels', xtype: 'displayfield'},
-					{fieldLabel: this.labelDelCost, name: 'delivery_cost', xtype: 'displayfield'},
-					{fieldLabel: this.labelTtlCost, name: 'total_cost', xtype: 'displayfield'},
-					{fieldLabel: this.labelComments, name: 'comments', xtype: 'displayfield'}
+					{fieldLabel: this.labelAdmComments, name: 'admin_comments', xtype: 'htmleditor'}
+				]},
+				{id: 'order-form-client', title: this.tabClient, layout: 'form', defaults: {xtype: 'displayfield'}, items: [
+					{fieldLabel: this.labelUserName, name: 'str_user_name'},
+					{fieldLabel: this.labelCrtdDate, name: 'created_datetime'},
+					{fieldLabel: this.labelMetOfPay, name: 'pt_string'},
+					{fieldLabel: this.labelDiscount, name: 'discount'},
+					{fieldLabel: this.labelTtlItems, name: 'total_items'},
+					{fieldLabel: this.labelTtlItemsCost, name: 'total_items_cost'},
+					{fieldLabel: this.labelNumOfParcels, name: 'number_of_parcels'},
+					{fieldLabel: this.labelDelCost, name: 'delivery_cost'},
+					{fieldLabel: this.labelTtlCost, name: 'total_cost'},
+					{fieldLabel: this.labelComments, name: 'comments'}
 				]},
 				{id: 'order-form-items', title: this.tabItems, frame: false, layout: 'fit', items: [items]}
 			]}
@@ -90,9 +90,11 @@ ui.order.order_form = function(config){
 	})
 }
 Ext.extend(ui.order.order_form, Ext.form.FormPanel, {
-	tabMain: 'Информация',
-	tabItems: 'Товары',
+	tabMain: 'Состояние',
+	tabClient: 'Описание заказа',
+	tabItems: 'Список товаров',
 
+	labelAdmComments: 'Комментарий',
 	labelUserName: 'Пользователь',
 	labelCrtdDate: 'Дата заказа',
 	labelStatus: 'Статус',
@@ -103,7 +105,7 @@ Ext.extend(ui.order.order_form, Ext.form.FormPanel, {
 	labelTtlItemsCost: 'Общая стоимость товаров',
 	labelNumOfParcels: 'Кол-во посылок',
 	labelTtlCost: 'Общая стоимость заказа',
-	labelComments: 'Комментарий',
+	labelComments: 'Доп. инфо',
 
 	loadText: 'Загрузка данных формы',
 	saveText: 'Сохранение...',

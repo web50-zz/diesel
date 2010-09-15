@@ -7,7 +7,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   `release_date` date NOT NULL DEFAULT '0000-00-00',
   `title` varchar(255) NOT NULL DEFAULT '',
   `author` varchar(255) NOT NULL DEFAULT '',
@@ -19,8 +19,8 @@ CREATE TABLE `article` (
 
 DROP TABLE IF EXISTS `fm_files`;
 CREATE TABLE `fm_files` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `fm_folders_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `fm_folders_id` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changed_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -28,7 +28,7 @@ CREATE TABLE `fm_files` (
   `real_name` varchar(64) NOT NULL DEFAULT '',
   `comment` text NOT NULL,
   `type` varchar(32) NOT NULL DEFAULT '',
-  `size` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `size` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fm_folders_id` (`fm_folders_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -36,11 +36,11 @@ CREATE TABLE `fm_files` (
 
 DROP TABLE IF EXISTS `fm_folders`;
 CREATE TABLE `fm_folders` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
-  `left` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `right` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `level` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `left` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  `right` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  `level` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `left` (`left`,`right`,`level`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
@@ -51,7 +51,7 @@ INSERT INTO `fm_folders` (`id`, `title`, `left`, `right`, `level`) VALUES
 
 DROP TABLE IF EXISTS `help`;
 CREATE TABLE `help` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE `help` (
 
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   `release_date` date NOT NULL,
   `title` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `source` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -74,8 +74,8 @@ CREATE TABLE `news` (
 
 DROP TABLE IF EXISTS `structure`;
 CREATE TABLE `structure` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `hidden` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'скрыть',
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'скрыть',
   `title` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(16) NOT NULL DEFAULT '',
   `uri` varchar(255) NOT NULL DEFAULT '',
@@ -83,11 +83,11 @@ CREATE TABLE `structure` (
   `module` varchar(100) NOT NULL DEFAULT '',
   `params` varchar(255) NOT NULL DEFAULT '',
   `template` varchar(64) NOT NULL DEFAULT 'default',
-  `private` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `private` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   `auth_module` varchar(32) NOT NULL DEFAULT '',
-  `left` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `right` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `level` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `left` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  `right` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  `level` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
   `mtitle` varchar(255) NOT NULL DEFAULT '',
   `mkeywords` varchar(255) NOT NULL DEFAULT '',
   `mdescr` varchar(255) NOT NULL DEFAULT '',
@@ -102,8 +102,8 @@ INSERT INTO `structure` (`id`, `hidden`, `title`, `name`, `uri`, `redirect`, `mo
 
 DROP TABLE IF EXISTS `structure_content`;
 CREATE TABLE `structure_content` (
-  `pid` mediumint(8) unsigned NOT NULL COMMENT 'Page ID',
-  `cid` mediumint(8) unsigned NOT NULL COMMENT 'Content ID',
+  `pid` mediumint(8) UNSIGNED NOT NULL COMMENT 'Page ID',
+  `cid` mediumint(8) UNSIGNED NOT NULL COMMENT 'Content ID',
   `ui_name` varchar(32) NOT NULL COMMENT 'UI name',
   UNIQUE KEY `pid` (`pid`,`cid`,`ui_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Page Content Link';
@@ -111,7 +111,7 @@ CREATE TABLE `structure_content` (
 
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   `login` varchar(32) NOT NULL COMMENT 'Login',
   `multi_login` tinyint(1) UNSIGNED NOT NULL COMMENT 'Multi-Login',
   `passw` varchar(64) NOT NULL COMMENT 'Password',
@@ -132,7 +132,7 @@ INSERT INTO `sys_user` (`id`, `login`, `passw`, `name`, `email`, `hash`, `login_
 
 DROP TABLE IF EXISTS `text`;
 CREATE TABLE `text` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -213,7 +213,7 @@ CREATE TABLE `guide_collection` (
 	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL COMMENT "The collection`s name",
 	`name_eng` VARCHAR(255) NOT NULL COMMENT "The collection`s name in English",
-	`discount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT "The collection`s discount",
+	`discount` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT "The collection`s discount",
 	`description` TEXT NOT NULL COMMENT "The collection`s description",
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -250,7 +250,7 @@ DROP TABLE IF EXISTS `guide_price`;
 CREATE TABLE `guide_price` (
 	`id` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`title` VARCHAR(255) NOT NULL COMMENT "The type`s name",
-	`cost` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT "Cost",
+	`cost` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT "Cost",
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
@@ -336,62 +336,69 @@ CREATE TABLE `guide_region` (
 
 DROP TABLE IF EXISTS `catalogue_item`;
 CREATE TABLE `catalogue_item` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `creator_uid` smallint(5) unsigned NOT NULL,
+  `creator_uid` smallint(5) UNSIGNED NOT NULL,
   `changed_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `changer_uid` smallint(5) unsigned NOT NULL,
-  `on_offer` tinyint(1) unsigned NOT NULL,
-  `recomended` tinyint(1) unsigned NOT NULL,
+  `changer_uid` smallint(5) UNSIGNED NOT NULL,
+  `on_offer` tinyint(1) UNSIGNED NOT NULL,
+  `recomended` tinyint(1) UNSIGNED NOT NULL,
   `income_date` date NOT NULL DEFAULT '0000-00-00',
   `title` varchar(255) NOT NULL DEFAULT '',
   `preview` varchar(255) NOT NULL DEFAULT '',
   `picture` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
-  `price_id` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `prepayment` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
-  `payment_forward` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
-  `type_id` smallint(5) unsigned NOT NULL,
-  `producer_id` smallint(5) unsigned NOT NULL,
-  `collection_id` smallint(5) unsigned NOT NULL,
-  `group_id` smallint(5) unsigned NOT NULL,
+  `price_id` smallint(5) UNSIGNED NOT NULL DEFAULT '0',
+  `prepayment` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00',
+  `payment_forward` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00',
+  `type_id` smallint(5) UNSIGNED NOT NULL,
+  `producer_id` smallint(5) UNSIGNED NOT NULL,
+  `collection_id` smallint(5) UNSIGNED NOT NULL,
+  `group_id` smallint(5) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `user_id` smallint(5) unsigned NOT NULL,
-  `status` tinyint(1) unsigned NOT NULL,
-  `country_id` smallint(5) unsigned NOT NULL,
-  `region_id` smallint(5) unsigned NOT NULL,
-  `address` text NOT NULL,
-  `method_of_payment` tinyint(1) unsigned NOT NULL,
-  `discount` decimal(10,2) unsigned NOT NULL,
-  `total_items` smallint(5) unsigned NOT NULL, 
-  `total_items_cost` decimal(10,2) unsigned NOT NULL,
-  `number_of_parcels` tinyint(3) unsigned NOT NULL,
-  `delivery_cost` decimal(10,2) unsigned NOT NULL,
-  `total_cost` decimal(10,2) unsigned NOT NULL,
-  `comments` text NOT NULL,
+  `id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_datetime` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creator_uid` SMALLINT(5) UNSIGNED NOT NULL,
+  `changed_datetime` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `changer_uid` SMALLINT(5) UNSIGNED NOT NULL,
+  `deleted_datetime` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `deleter_uid` SMALLINT(5) UNSIGNED NOT NULL,
+  `status` TINYINT(1) UNSIGNED NOT NULL,
+  `country_id` SMALLINT(5) UNSIGNED NOT NULL,
+  `region_id` SMALLINT(5) UNSIGNED NOT NULL,
+  `address` TEXT NOT NULL,
+  `method_of_payment` TINYINT(1) UNSIGNED NOT NULL,
+  `discount` DECIMAL(10,2) UNSIGNED NOT NULL,
+  `total_items` SMALLINT(5) UNSIGNED NOT NULL, 
+  `total_items_cost` DECIMAL(10,2) UNSIGNED NOT NULL,
+  `number_of_parcels` TINYINT(3) UNSIGNED NOT NULL,
+  `delivery_cost` DECIMAL(10,2) UNSIGNED NOT NULL,
+  `total_cost` DECIMAL(10,2) UNSIGNED NOT NULL,
+  `comments` TEXT NOT NULL,
+  `admin_comments` TEXT NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `creator_uid` (`creator_uid`),
+  KEY `status` (`status`),
+  KEY `method_of_payment` (`method_of_payment`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `order_item`;
 CREATE TABLE `order_item` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `order_id` mediumint(8) unsigned NOT NULL,
-  `item_id` smallint(5) unsigned NOT NULL,
-  `count` smallint(5) unsigned NOT NULL,
-  `price1` decimal(10,2) unsigned NOT NULL,
-  `price2` decimal(10,2) unsigned NOT NULL,
-  `discbool` tinyint(1) unsigned NOT NULL,
-  `discount` decimal(10,2) unsigned NOT NULL,
-  `access` tinyint(1) unsigned NOT NULL,
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id` mediumint(8) UNSIGNED NOT NULL,
+  `item_id` smallint(5) UNSIGNED NOT NULL,
+  `count` smallint(5) UNSIGNED NOT NULL,
+  `price1` decimal(10,2) UNSIGNED NOT NULL,
+  `price2` decimal(10,2) UNSIGNED NOT NULL,
+  `discbool` tinyint(1) UNSIGNED NOT NULL,
+  `discount` decimal(10,2) UNSIGNED NOT NULL,
+  `access` tinyint(1) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
   KEY `item_id` (`item_id`)
@@ -400,17 +407,17 @@ CREATE TABLE `order_item` (
 
 DROP TABLE IF EXISTS `catalogue_file`;
 CREATE TABLE `catalogue_file` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `catalogue_item_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `catalogue_item_id` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
   `created_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `changed_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `title` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(128) NOT NULL DEFAULT '',
   `real_name` varchar(64) NOT NULL DEFAULT '',
   `comment` text NOT NULL,
-  `item_type` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `item_type` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
   `type` varchar(32) NOT NULL DEFAULT '',
-  `size` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `size` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `catalogue_item_id` (`catalogue_item_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -441,7 +448,7 @@ CREATE TABLE `ui_view_point` (
 
 DROP TABLE IF EXISTS `market_latest`;
 CREATE TABLE `market_latest` (
-  `id` int(10) unsigned NOT NULL auto_increment,
+  `id` int(10) UNSIGNED NOT NULL auto_increment,
   `m_latest_created_datetime` DATETIME default NULL,
   `m_latest_changed_datetime` DATETIME default NULL,
   `m_latest_deleted_datetime` DATETIME default NULL,
@@ -449,14 +456,14 @@ CREATE TABLE `market_latest` (
   `m_latest_creator_uid` SMALLINT(5) NOT NULL default '0',
   `m_latest_changer_uid` SMALLINT(5) NOT NULL default '0',
   `m_latest_product_id` SMALLINT(5) NOT NULL default '0',
-  `m_latest_deleted_flag` TINYINT(1) unsigned NOT NULL default '0',
+  `m_latest_deleted_flag` TINYINT(1) UNSIGNED NOT NULL default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `market_recomendations`;
 CREATE TABLE `market_recomendations` (
-  `id` int(10) unsigned NOT NULL auto_increment,
+  `id` int(10) UNSIGNED NOT NULL auto_increment,
   `m_recomend_created_datetime` DATETIME default NULL,
   `m_recomend_changed_datetime` DATETIME default NULL,
   `m_recomend_deleted_datetime` DATETIME default NULL,
@@ -464,7 +471,7 @@ CREATE TABLE `market_recomendations` (
   `m_recomend_creator_uid` SMALLINT(5) NOT NULL default '0',
   `m_recomend_changer_uid` SMALLINT(5) NOT NULL default '0',
   `m_recomend_product_id` SMALLINT(5) NOT NULL default '0',
-  `m_recomend_deleted_flag` TINYINT(1) unsigned NOT NULL default '0',
+  `m_recomend_deleted_flag` TINYINT(1) UNSIGNED NOT NULL default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
