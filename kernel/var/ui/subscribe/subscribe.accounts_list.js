@@ -34,8 +34,8 @@ ui.subscribe.accounts_list = function(config){
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
 		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'name', dataIndex:'name', header:  this.labelName, width:150},
-		{id: 'email', dataIndex:'email', header:  this.labelEmail, width: 200}
+		{id: 'email', dataIndex:'email', header:  this.labelEmail, width: 200},
+		{id: 'name', dataIndex:'name', header:  this.labelName, width:150}
 	];
 	var Add = function(){
 		var f = new ui.subscribe.account_form();

@@ -50,6 +50,110 @@ class ui_subscribe extends user_interface
 		response::send($resp,'json');
 	}
 
+	public function pub_confirm()
+	{
+		$di = data_interface::get_instance('subscribe_req');
+		$di->set_args(array('_shash'=>$this->args['d'],
+					'_sdone'=>0
+				));
+		$data = $di->extjs_grid_json(false,false);
+		if($data['total'] != 1)
+		{
+			//'Запрошенная операция уже завершена, либо отсутствует';
+			return 'Спасибо за обращение';
+		}
+		
+		$req = unserialize($data['records'][0]['req']);
+		foreach($req['operations'] as $key=>$value)
+		{
+			if($value['operation'] == 1)
+			{
+				$to_subscribe = true;
+			}
+			if($value['operation'] == 2)
+			{
+				$unsubscribe = true;
+			}
+		}
+		$di1 = data_interface::get_instance('subscribe_accounts');
+		$di1->set_args(array('_semail'=>$req['email']));
+		$data1 = $di1->extjs_grid_json(false,false);
+		if($data1['total'] > 1)
+		{
+			return 'Больше одного e-mail обратиться к админу';
+		}
+		if($data1['total'] == 0 && !$to_subscribe)
+		{
+			// 'Не отчего отписывать';
+		}
+
+		if($data1['total'] == 0 && $to_subscribe == true)
+		{
+			// 'Будем только подписывать';
+			$di1->_flush();
+			$di1 -> set_args(array(
+					'email'=>$req['email']
+					));
+			$di1->_set();
+			$new_id = $di1->args['id'];
+			$di2 = data_interface::get_instance('subscribe_user');
+			foreach($req['operations'] as $key=>$value)
+			{
+				if($value['operation'] == 1)
+				{
+					$di2->set_args(array(
+							uids => $new_id,
+							gid => $value['id']
+							));
+					$di2->_add_users_to_group();
+				}
+			}
+		}
+
+		if($data1['total'] == 1)
+		{
+		// 'Будем и то и другое если есть';
+			$uid = $data1['records'][0]['id'];
+			$di2 = data_interface::get_instance('subscribe_user');
+			$di2->connector->debug = true;
+			foreach($req['operations'] as $key=>$value)
+			{
+				if($value['operation'] == 1)
+				{
+					$di2->set_args(array(
+							uids => $uid,
+							gid => $value['id']
+							));
+					$di2->_remove_users_from_group();
+					$di2->set_args(array(
+							uids => $uid,
+							gid => $value['id']
+							));
+					$di2->_add_users_to_group();
+				}
+				if($value['operation'] == 2)
+				{
+					$di2->set_args(array(
+							uids => $uid,
+							gid => $value['id']
+							));
+					$di2->_remove_users_from_group();
+
+				}
+			}
+			$di2->connector->debug = false;
+			$di3 = data_interface::get_instance('subscribe_req');
+		}
+
+		// ставим флаг что запрос отработан
+		$di->set_args(array(
+				'_sid'=>$data['records'][0]['id'],
+				'done'=>'1',
+				));
+		$di->prepare_extras();
+		$di->_set();
+		return 'Операция подтверждена';
+	}
 
 	public function pub_save_form()
 	{
@@ -67,8 +171,9 @@ class ui_subscribe extends user_interface
 			$di1 = data_interface::get_instance('subscribe_messages');
 			$data = array();
 			$data['recipients'] = array(array('email'=>$req['email']));
-			$data['body'] = $di->args['hash'];
 			$data['title'] = 'подписка рассылка';
+			$data['link'] = 'http://'.$_SERVER['SERVER_NAME'].'/ui/subscribe/confirm.do?d='.$di->args['hash']; 
+			$data['body'] = $this->parse_tmpl('subscribe_mail.html',$data);	
 			$di1->_send_message_now('',$data);
 		}
 		catch(Exception $e)

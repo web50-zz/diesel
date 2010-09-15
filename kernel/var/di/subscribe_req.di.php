@@ -32,6 +32,7 @@ class di_subscribe_req extends data_interface
 		'hash' => array('type' => 'string'),
 		'done' => array('type' => 'integer'),
 		'done_datetime' => array('type' => 'datetime'),
+		'done_ip' => array('type' => 'string'),
 		'req' => array('type' => 'string'),
 		'req_datetime' => array('type' => 'datetime'),
 		'req_ip' => array('type' => 'string'),
@@ -81,6 +82,14 @@ class di_subscribe_req extends data_interface
 			$this->set_args(array('req_datetime' => date('Y-m-d H:i:S')), true);
 			$this->set_args(array('req_ip' => $_SERVER['REMOTE_ADDR']), true);
 			$this->set_args(array('hash' => md5($this->args['req'].date('Y-m-d H:i:S'))), true);
+		}
+		else
+		{
+			if($this->args['done'] == '1')
+			{
+				$this->set_args(array('done_datetime' => date('Y-m-d H:i:S')), true);
+				$this->set_args(array('done_ip' => $_SERVER['REMOTE_ADDR']), true);
+			}
 		}
 	}
 	/**

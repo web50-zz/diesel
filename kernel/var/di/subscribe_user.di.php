@@ -66,7 +66,11 @@ class di_subscribe_user extends data_interface
 	*/
 	protected function sys_add_users_to_group()
 	{
-		//dbg::write($this->get_args());
+		$this->_add_users_to_group();
+		response::send(array('success' => $success), 'json');
+	}
+	public function _add_users_to_group()
+	{
 		$success = true;
 		$gid = $this->get_args('gid');
 		$uids = split(',', $this->get_args('uids'));
@@ -87,16 +91,20 @@ class di_subscribe_user extends data_interface
 		{
 			$success = false;
 		}
-		response::send(array('success' => $success), 'json');
 	}
-
 	/**
 	*	Remove users from group
 	* @access protected
 	*/
 	protected function sys_remove_users_from_group()
 	{
-		//dbg::write($this->get_args());
+
+		$this->_remove_users_from_group();
+		response::send(array('success' => $success), 'json');
+	}
+
+	public function _remove_users_from_group()
+	{
 		$success = true;
 		$gid = $this->get_args('gid');
 		$uids = split(',', $this->get_args('uids'));
@@ -116,7 +124,7 @@ class di_subscribe_user extends data_interface
 		{
 			$success = false;
 		}
-		response::send(array('success' => $success), 'json');
+
 	}
 }
 ?>
