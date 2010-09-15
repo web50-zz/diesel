@@ -152,7 +152,8 @@ class di_subscribe_messages extends data_interface
 		}
 		foreach($slist as $key=>$value)
 		{
-			mail($value['email'],$data[0]['subscr_title'],$data[0]['subscr_message_body']);
+			$headers = "From:<some@mail.ru>\r\nContent-Type: text/html;charset=\"windows-1251\"\r\nContent-Transfer-Encoding: 8bit"; 
+			mail($value['email'],$data[0]['subscr_title'],$data[0]['subscr_message_body'],$headers);
 		}
 	}
 }

@@ -13,7 +13,7 @@ ui.subscribe.subscriber_list = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, 'login', 'name']
+		[{name: 'id', type: 'int'}, 'email', 'name']
 	);
 	// The data store
 	this.store = new Ext.data.Store({
@@ -32,7 +32,7 @@ ui.subscribe.subscriber_list = function(config){
 	ui.subscribe.subscriber_list.superclass.constructor.call(this,{
 		columns: columns = [
 			{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-			{id: 'login', dataIndex: 'login', header: this.labelLogin, width: 150},
+			{id: 'email', dataIndex: 'email', header: this.labelEmail, width: 150},
 			{id: 'name', dataIndex: 'name', header:  this.labelName}
 		],
 		loadMask: true,
@@ -54,7 +54,7 @@ Ext.extend(ui.subscribe.subscriber_list, Ext.grid.GridPanel, {
 	limit: 20,
 
 	labelName: 'Имя',
-	labelLogin: 'Login',
+	labelEmail: 'email',
 
 	pagerEmptyMsg: 'Нет пользователей',
 	pagerDisplayMsg: 'Записи с {0} по {1}. Всего: {2}'
