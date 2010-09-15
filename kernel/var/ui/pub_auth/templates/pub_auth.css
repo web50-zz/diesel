@@ -32,3 +32,7 @@ color:#000;
 margin:0px;
 padding:0px;
 }
+#pub_auth .pswremind{
+border-bottom: 1px dashed;
+cursor:pointer
+}
