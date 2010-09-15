@@ -218,6 +218,12 @@ class di_user extends data_interface
 	*/
 	protected function sys_passwd()
 	{
+		$data = $this->_set_passwd();
+		response::send($data, 'json');
+	}
+
+	public function _set_passwd()
+	{	
 		if ($this->args['_sid'] > 0)
 		{
 			$this->_flush();
@@ -232,9 +238,9 @@ class di_user extends data_interface
 				'error' => 'Не указан пользователь'
 				);
 		}
-		response::send($data, 'json');
+		return $data;
 	}
-	
+
 	/**
 	*	Delete user
 	* @access protected
