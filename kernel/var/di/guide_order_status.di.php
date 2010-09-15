@@ -46,6 +46,8 @@ class di_guide_order_status extends data_interface
 	{
 		$this->_flush();
 		$data = $this->extjs_grid_json(array('id', 'title'), false);
+		if ($this->get_args('with_empty') == 'yes')
+			array_unshift($data['records'], array('id' => '', 'title' => 'Все'));
 		response::send($data, 'json');
 	}
 	

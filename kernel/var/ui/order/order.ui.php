@@ -11,7 +11,9 @@ class ui_order extends user_interface
 
 	protected $deps = array(
 		'main' => array(
-			'order.order_form'
+			'order.order_form',
+			'order.order_list',
+			'order.filter_form',
 		),
 		'order_form' => array(
 			'order.order_items'
@@ -69,6 +71,24 @@ class ui_order extends user_interface
 	public function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'order.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*       Список заказов 
+	*/
+	public function sys_order_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'order_list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
+	/**
+	*       Форма поиска 
+	*/
+	public function sys_filter_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'filter_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 

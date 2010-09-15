@@ -14,7 +14,7 @@ class ui_market_clients extends user_interface
 			'market_clients.market_client_form'
 		),
 		'market_client_form' => array(
-			'order.main'
+			'order.order_list'
 		),
 
 	);

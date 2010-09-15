@@ -1,6 +1,6 @@
 ui.market_clients.market_client_form = function(config){
 	Ext.apply(this, config);
-	var items = new ui.order.main({});
+	var items = new ui.order.order_list({});
 	this.Load = function(id,uid){
 		var f = this.getForm();
 		f.load({

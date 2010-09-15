@@ -57,14 +57,32 @@ class di_order extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush(true);
-		if (!empty($this->args['query']) && !empty($this->args['field']))
-		{
-			$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
-		}
+		if ($this->args['_sstr_user_name'] == '')
+			unset($this->args["_sstr_user_name"]);
+		else
+			$this->args['_sstr_user_name'] = "%{$this->args['_sstr_user_name']}%";
+
+		if ($this->args['_sstatus'] == '')
+			unset($this->args["_sstatus"]);
+
+		if ($this->args['_smethod_of_payment'] == '')
+			unset($this->args["_smethod_of_payment"]);
+
+		$table = $this->get_alias();
+		$oDateFr = $this->get_args("oDateFr", "");
+		$oDateTo = $this->get_args("oDateTo", "");
+		if (!in_array($oDateFr, array('', '0000-00-00')) && !in_array($oDateTo, array('', '0000-00-00')))
+			$this->where = "`{$table}`.`created_datetime` >= \"{$oDateFr} 00:00:00\" AND `{$table}`.`created_datetime` <= \"{$oDateTo} 23:59:59\"";
+		else if (!in_array($oDateFr, array('', '0000-00-00')))
+			$this->where = "`{$table}`.`created_datetime` >= \"{$oDateFr} 00:00:00\"";
+		else if (!in_array($oDateTo, array('', '0000-00-00')))
+			$this->where = "`{$table}`.`created_datetime` <= \"{$oDateTo} 23:59:59\"";
+
 		$user = $this->join_with_di('user', array('user_id' => 'id'), array('name' => 'str_user_name'));
 		$pt = $this->join_with_di('guide_pay_type', array('method_of_payment' => 'id'), array('title' => 'pt_string'));
 		$gos = $this->join_with_di('guide_order_status', array('status' => 'id'), array('title' => 'status_str'));
 		//$this->set_order('id', 'DESC');
+		$this->connector->debug = true;
 		$this->extjs_grid_json(array(
 			'id', 'created_datetime', 'status', 'discount', 'total_items', 'total_items_cost', 'delivery_cost', 'total_cost',
 			array('di' => $user, 'name' => 'name'),
