@@ -67,7 +67,8 @@ class ui_pub_auth extends user_interface
 			{
 				throw new Exception("Спасибо, запрос принят");
 			}
-			$new_passwd = '654321';
+			$out = user_interface::get_instance('action_page');
+					$new_passwd = '654321';
 			$nargs = array(
 					'_sid'=>$u_data['records'][0]['id'],
 					'passw'=>$new_passwd,
@@ -85,7 +86,8 @@ class ui_pub_auth extends user_interface
 		}
 		catch(Exception $e)
 		{
-			return $e->getMessage();
+			$to_say['msg'] = $e->getMessage();
+			return $this->_do_out($to_say);
 		}
 		// ставим флаг что запрос отработан
 		$di->set_args(array(
@@ -94,7 +96,21 @@ class ui_pub_auth extends user_interface
 				));
 		$di->prepare_extras();
 		$di->_set();
-		return 'Операция подтверждена';
+		
+		$to_say['msg'] = 'Операция прошла успешно. Дальнейшие инструкции отправлены на ваш e-mail.';
+		return $this->_do_out($to_say);
+	}
+
+	private function _do_out($input)
+	{
+		$out = user_interface::get_instance('action_page');
+			$msg = $input['msg'];
+			$redir_url = '/';
+			$out->set_args(array(
+					'action_msg'=>$msg,
+					'action_redirect'=>$redir_url,
+					));
+			return $out->render();
 	}
 
 	public function pub_save_form()
