@@ -33,7 +33,6 @@ class ui_market_top_sales extends user_interface
 		$oi->set_group('item_id');
 		$oi->set_order('item_count', 'DESC', null);
 		$oi->set_limit(0, 10);
-		$oi->connector->debug = true;
 		$oi->set_args(array('_son_offer' => 1));
 		$oi->_get();
 		$df = data_interface::get_instance('catalogue_file');
