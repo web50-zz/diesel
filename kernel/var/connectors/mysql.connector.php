@@ -805,28 +805,32 @@ class connector_mysql
 
 			foreach ($this->di->__order as $rec)
 			{
-				if($rec['di']->field_exists($rec['field']))
+				if ($rec['di'] === null)
+				{
+					$x[] = "`{$rec['field']}` {$rec['dir']}";
+				}
+				else if ($rec['di']->field_exists($rec['field']))
 				{
 					$table = $rec['di']->get_alias();
 					$x[] = "`{$table}`.`{$rec['field']}` {$rec['dir']}";
 				}
-				elseif($rec['di']->get_field_name_by_alias($rec['field']))
+				else if ($rec['di']->get_field_name_by_alias($rec['field']))
 				{
 					$x[] = "`{$rec['field']}` {$rec['dir']}";
 				}
 				else
 				{
 					// Раз поля такого нет то ищем в  алиасах джойнеых таблиц если они есть
-					if(count($this->_dis)>1)
+					if (count($this->_dis) > 1)
 					{
-						foreach($this->_dis as $key=>$value)
+						foreach ($this->_dis as $key => $value)
 						{
-							if($value->field_exists($rec['field']))
+							if ($value->field_exists($rec['field']))
 							{
 								$table = $value->get_alias();
 								$x[] = "`{$table}`.`{$rec['field']}` {$rec['dir']}";
 							}
-							elseif($value->get_field_name_by_alias($rec['field']))
+							elseif ($value->get_field_name_by_alias($rec['field']))
 							{
 								$x[] = "`{$rec['field']}` {$rec['dir']}";
 							}

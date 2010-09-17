@@ -344,7 +344,6 @@ class data_interface extends base_interface
 	{
 		if (!$di) $di = $this;
 		$this->__group[] = array('field' => $field, 'di' => $di);
-		//$this->connector->set_group($field, $di->get_alias());
 	}
 	
 	/**
@@ -354,13 +353,9 @@ class data_interface extends base_interface
 	*/
 	public function set_order($field, $dir = false, $di = false)
 	{
-		if (!$di) $di = $this;
+		if ($di === false) $di = $this;
 		$dir = (!in_array(strtoupper($dir), array('ASC', 'DESC'))) ? 'ASC' : strtoupper($dir);
 		$this->__order[] = array('field' => $field, 'dir' => $dir, 'di' => $di);
-		//if (!$di) $di = $this;
-		//if (!$dir) $dir = 'ASC';
-		//if (!array_key_exists($field, $di->fields)) $field = $di->get_field_name_by_alias($field);
-		//if ($field) $this->connector->set_order($field, $dir, $di);
 	}
 	
 	/**
