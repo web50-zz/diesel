@@ -28,7 +28,7 @@ class ui_market_latest_long extends user_interface
 		$this->files_path = dirname(__FILE__).'/'; 
 	}
 
-	public function pub_default()
+	public function pub_content()
 	{
 		if (preg_match('/archive/', SRCH_URI, $matches))
 		{

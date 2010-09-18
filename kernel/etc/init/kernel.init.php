@@ -65,6 +65,9 @@ include_once(CONF_PATH . 'instance' . CONF_FEXT);
 // NOTE:9* 05072010 Include current instance  configuration
 include_once(CONF_PATH . 'site' . CONF_FEXT);
 
+// NOTE:9* 18102010 Include cache configurations
+include_once(CONF_PATH . 'cache' . CONF_FEXT);
+
 // NOTE: Include default localization file
 include_once(LOCALES_PATH . 'default.php');
 

@@ -62,15 +62,44 @@ class ui_structure extends user_interface
 		$divp->set_order('order');
 		$vps = $divp->_get();
 		$css_resources = array();
-
 		foreach ($vps as $vp)
 		{
 			try
 			{
 				$ui = user_interface::get_instance($vp->ui_name);
 				$call = !empty($vp->ui_call) ? $vp->ui_call : 'content';
-				$data["view_point_{$vp->view_point}"][] = $ui->call($call, json_decode($vp->ui_configure, true));
-				// 9*  css output
+					
+		/* 9* some cache procs */
+				if($vp->cache_enabled == 1)
+				{
+					$di = data_interface::get_instance('cache');
+					$e = array();
+					$i = array(
+							'ui' => $vp->ui_name,
+							'call' => $call,
+							'timeout' => $vp->cache_timeout
+						);
+					$e = json_decode($vp->ui_configure, true);
+					if(is_array($e))
+						$i = array_merge($i,$e);
+					$di->set_args($i);
+					if($di->cached() == true)
+					{
+						$data["view_point_{$vp->view_point}"][] = $di->get_cached();
+					}
+					else
+					{
+						$data["view_point_{$vp->view_point}"][] = $ui->call($call, json_decode($vp->ui_configure, true));
+						$di->cache_it($data["view_point_{$vp->view_point}"][count($data["view_point_{$vp->view_point}"])-1]);
+					}
+				}
+				else
+				{
+					$data["view_point_{$vp->view_point}"][] = $ui->call($call, json_decode($vp->ui_configure, true));
+				}
+		/* end of cache shit */
+
+			// 9*  css output
 				if(!$css_resource[$vp->ui_name])
 				{
 					if($path = $ui->get_resource_path($vp->ui_name.'.css'))
@@ -93,6 +122,7 @@ class ui_structure extends user_interface
 			catch(exception $e)
 			{
 				dbg::write('error: '.$e->getmessage());
+				dbg::write($vp->ui_name);
 			}
 		}
 		// 9* adding structure css resource to css output

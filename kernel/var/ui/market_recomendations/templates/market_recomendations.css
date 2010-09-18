@@ -1,7 +1,7 @@
 .market_recomendations{
 font-family:Verdana;
 font-size:11px;
-margin-top:20px;
+margin-bottom:20px;
 border:1px dotted;
 height:100%;
 padding:10px;
@@ -17,6 +17,7 @@ font-size:11px;
 border:1px dotted;
 height:100%;
 padding:10px;
+margin-bottom:10px;
 }
 
 #market_recomendations_short h1{

@@ -1,5 +1,6 @@
 tmp/*
 kernel/var/filestorage/*
+kernel/var/cache/*
 storage/*
 storage
 kernel/var/logs/*
