@@ -57,7 +57,7 @@ class ui_action_page extends user_interface
 		{
 			$data['js_resources'][] = $path;
 		}
-		return $this->parse_tmpl('default.html',$data);
+		response::send($this->parse_tmpl('default.html',$data),'html');
 	}
 }
 ?>

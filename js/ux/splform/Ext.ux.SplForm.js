@@ -21,6 +21,8 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 	params:{},
 	path:'/js/ux/splform/',
 	theme:'splform',
+	dwidth:400,
+	dheight:250,
 	/**
      * @constructor
      */
@@ -87,6 +89,20 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 		var newel = dh.append(document.body,spec);
 
 		newel.innerHTML = resp;
+		var el = Ext.fly(this.wrapcls);
+		if(this.width){
+			el.setWidth(this.width);
+		}
+		else {
+			el.setWidth(this.dwidth);
+		}
+		if(this.height){
+			el.setHeight(this.height);
+		}
+		else {
+			el.setHeight(this.dheight);
+		}
+
 		this.frm = true;	
 		Ext.each(Ext.query(this.button_close_cls), function(item, index, allItems){
 			Ext.get(item).on({
@@ -94,6 +110,8 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 				  var el1 = Ext.fly(this.wrapid);
 				  el1.remove();
 				  this.frm = false;
+				  this.height = false;
+				  this.width = false;
 				},
 				scope: this
 			})

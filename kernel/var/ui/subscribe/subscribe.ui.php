@@ -62,7 +62,8 @@ class ui_subscribe extends user_interface
 			if($data['total'] != 1)
 			{
 				//'Запрошенная операция уже завершена, либо отсутствует';
-				throw new Exception("Спасибо, запрос принят");
+				response::redirect('/');
+			//	throw new Exception("Спасибо, запрос принят");
 			}
 		
 			$req = unserialize($data['records'][0]['req']);

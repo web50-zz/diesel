@@ -50,18 +50,33 @@ class di_order_item extends data_interface
 	*/
 	protected function sys_list()
 	{
+		$data = $this->get_list_data();
+		response::send($data,'json');
+	}
+
+
+
+	public function get_list_data()
+	{
+	
 		$this->_flush(true);
 		// Объединяем с ДИ Товары
-		$ci = $this->join_with_di('catalogue_item', array('item_id' => 'id'), array('title' => 'str_title'));
+		$ci = $this->join_with_di('catalogue_item', array('item_id' => 'id'), array('title' => 'str_title','id'=>'item_id'));
 		// Объединяем ДИ Товары с ДИ типы товаров
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'), $ci);
-		$this->extjs_grid_json(array(
+		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group','id'=>'group_id'), $ci);
+		$data = $this->extjs_grid_json(array(
 			'id', 'count', 'price1', 'price2', 'discbool', 'discount',
 			array('di' => $ci, 'name' => 'title'),	// Наименование товара
+			array('di' => $gg, 'name' => 'name'),	// Название группы
+			array('di' => $gg, 'name' => 'id'),	// Ид группы
 			array('di' => $gt, 'name' => 'name'),	// Тип товара
-		));
+			array('di' => $ci, 'name' => 'id'),	// Ид  товара
+		),false);
+		return $data;
 	}
-	
+
+
 	/**
 	*	Получить данные элемента в виде JSON
 	* @access protected

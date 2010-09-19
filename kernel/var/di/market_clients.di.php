@@ -70,6 +70,8 @@ class di_market_clients extends data_interface
 		$this->push_args(array('_suid' => $uid));
 		$gc = $this->join_with_di('guide_country', array('clnt_country' => 'id'), array('title' => 'country'));
 		$gr = $this->join_with_di('guide_region', array('clnt_region' => 'id'), array('title' => 'region'));
+		$gcr= $this->join_with_di('guide_currency', array('clnt_payment_curr' => 'id'), array('title' => 'pcurr'));
+		$gp= $this->join_with_di('guide_pay_type', array('clnt_payment_pref' => 'id'), array('title' => 'ppref'));
 		$this->what = array(
 			'id',
 			'CONCAT_WS(" ", `clnt_lname`, `clnt_name`, `clnt_mname`)' => 'name',
@@ -77,10 +79,16 @@ class di_market_clients extends data_interface
 			'clnt_country' => 'country_id',
 			'clnt_region' => 'region_id',
 			'clnt_payment_pref',
+			'clnt_created_datetime',
+			'clnt_email',
+			'clnt_phone',
+			'clnt_nas_punkt',
+			'clnt_region_custom',
 			array('di' => $gc, 'name' => 'title'),
 			array('di' => $gr, 'name' => 'title'),
+			array('di' => $gp, 'name' => 'title'),
+			array('di' => $gcr, 'name' => 'title'),
 		);
-		$this->connector->debug = true;
 		$this->_get();
 		$this->pop_args();
 		return $this->get_results(0);

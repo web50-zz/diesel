@@ -61,6 +61,13 @@ class di_order extends data_interface
 	*/
 	protected function sys_list()
 	{
+		$data = $this->get_list_data();
+		response::send($data,'json');
+	}
+
+
+	public function get_list_data()
+	{
 		$this->_flush(true);
 		if ($this->args['_sid'] == '')
 			unset($this->args["_sid"]);
@@ -93,14 +100,14 @@ class di_order extends data_interface
 		$gos = $this->join_with_di('guide_order_status', array('status' => 'id'), array('title' => 'status_str'));
 		//$this->set_order('id', 'DESC');
 		$this->connector->debug = true;
-		$this->extjs_grid_json(array(
+		$data = $this->extjs_grid_json(array(
 			'id', 'created_datetime', 'status', 'discount', 'total_items', 'total_items_cost', 'delivery_cost', 'total_cost',
 			array('di' => $user, 'name' => 'name'),
 			array('di' => $pt, 'name' => 'title'),
 			array('di' => $gos, 'name' => 'title'),
-		));
+		),false);
+		return $data;
 	}
-	
 	/**
 	*	Получить данные элемента в виде JSON
 	* @access protected
