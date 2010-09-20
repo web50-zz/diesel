@@ -36,7 +36,7 @@ ui.order.filter_form = function(config){
 				defaults: {width: 100, anchor: '100%', format: 'Y-m-d', allowBlank: true},
 				items :[
 					{fieldLabel: this.labelDateFrom, name: 'oDateFr'},
-					{fieldLabel: this.labelDateTo, name: 'oDateTo'},
+					{fieldLabel: this.labelDateTo, name: 'oDateTo'}
 				]
 			}
 		],

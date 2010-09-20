@@ -110,8 +110,6 @@ ui.order.order_list = function(config){
 			emptyMsg: this.pagerEmptyMsg
 		})
 	});
-	this.addEvents(
-	);
 	this.on({
 		rowcontextmenu: onCmenu,
 		render: function(){store.load({params:{start:0, limit: this.limit}})},
