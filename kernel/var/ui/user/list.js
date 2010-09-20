@@ -43,7 +43,7 @@ ui.user.list = function(config){
 			displayInfo: true,
 			displayMsg: this.pagerDisplayMsg,
 			emptyMsg: this.pagerEmptyMsg
-		}),
+		})
 	});
 	this.on({
 		render: function(){this.store.load({params:{start:0, limit: this.limit}})},
