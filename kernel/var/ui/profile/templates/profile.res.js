@@ -67,11 +67,11 @@ ui.profile = function(conf){
 
 
 	this.getPinfo = function(){
-			this.getData({url:'/ui/profile/client_info_part.get',callb:this.getPinfoAfter,current:'od'});	
+			this.getData({url:'/ui/profile/client_info_part.get',current:'od'});	
 		}
 
 	this.getZinfo = function(){
-			this.getData({url:'/ui/profile/client_orders_part.get',callb:this.getZinfoAfter,current:'pd'});	
+			this.getData({url:'/ui/profile/client_orders_part.get',current:'pd'});	
 		}
 
 	this.getData = function(u)

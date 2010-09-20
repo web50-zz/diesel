@@ -11,6 +11,17 @@ class ui_profile extends user_interface
 	public $title = 'Профиль';
 
 	public $req_fields_passw = array('oldp'=>'Старый пароль','newp'=>'Новый пароль','newp2'=>'Подтверждение нового пароля');
+	public $req_p_fields = array('name'=>'Имя','email'=>'e-mail');
+	public $market_req_fields = array(
+					'lname'=>'Фамилия',
+					'clnt_country'=>'Страна',	
+					'clnt_region'=>'Регион',
+					'clnt_address'=>'Адрес',
+					'clnt_nas_punkt'=>'Город/Населенный пункт',
+					'clnt_phone'=>'Телефон',
+					'clnt_payment_pref'=>'Предпочтительеный способ оплаты',
+					'clnt_payment_curr'=>'Валюта',
+					);
 
 	public function __construct()
 	{
@@ -93,17 +104,84 @@ class ui_profile extends user_interface
 	public function pub_get_pform()
 	{
 		$this->_check_auth();
-		$resp['code'] = '200';
-		$data =  array();
-		$resp['form'] = $this->parse_tmpl('pform.html',$data);
+			
+		$d = $this->get_client_info();
+		if($d)
+		{
+			$cl = data_interface::get_instance('market_clients');
+			$cl ->set_args(array(
+					'_suid'=>UID,	
+					));
+			$dt = $cl->get_client_data_extended();
+			$resp['form'] = $this->parse_tmpl('pform.html',$dt['data']);
+			$resp['code'] = '200';
+		}
+		else
+		{
+			$resp['code'] = '400';
+			$resp['report'] = 'Не является клиентом магазина';
+
+		}
 		response::send($resp,'json');	
 	}
 
 	public function pub_save_pform()
 	{
 		$this->_check_auth();
-		$resp['code'] = '200';
-		$data =  array();
+		try
+		{
+			$t = array_merge($this->req_p_fields,$this->market_req_fields);
+			$this->check_input($t);
+			$di = data_interface::get_instance('user');
+			$di->set_args(array(
+					'_sid' => UID,
+					'name' => $this->args['lname'].' '.$this->args['name'].' '.$this->args['mname'],
+		//			'email'=> $this->args['email'],
+					));
+			$data = $di->extjs_set_json(false);
+			if($data['success'] != true)
+			{
+				throw new Exception("Ошибка обновления учетных данных");
+			}
+			
+			$d = $this->get_client_info();
+			if($d)
+			{
+				$di2 = data_interface::get_instance('market_clients');
+				$di2->connector->debug = true;
+				$di2->set_args(array(
+						'clnt_address'=>$this->args['clnt_address'],	
+						'clnt_country'=>$this->args['clnt_country'],	
+						'clnt_nas_punkt	'=>$this->args['clnt_nas_punkt'],	
+						'clnt_payment_curr'=>$this->args['clnt_payment_curr'],	
+						'clnt_payment_pref'=>$this->args['clnt_payment_pref'],	
+						'clnt_phone'=>$this->args['clnt_phone'],	
+						'clnt_region'=>$this->args['clnt_region'],	
+						'clnt_region_custom'=>$this->args['clnt_region_custom'],	
+						'clnt_email'=>$this->args['clnt_email'],	
+						'clnt_lname'=>$this->args['lname'],	
+						'clnt_mname'=>$this->args['mname'],	
+						'clnt_name'=>$this->args['name'],	
+						'_sid' => $d->id,
+						));
+				$data2 = $di2->extjs_set_json(false);
+				$di2->connector->debug = false;
+				if($data2['success'] != true)
+				{
+					throw new Exception("Ошибка обновления учетных данных клиента");
+				}
+			}
+		}
+		catch(Exception $e)
+		{
+			$resp['code'] = '400';	
+			$resp['error'] = $e->getMessage();
+		}
+		if($resp['code'] != 400)
+		{
+			$resp['code'] = '200';
+			$resp['report']  = 'success';
+		}
 		response::send($resp,'json');	
 	}
 

@@ -68,8 +68,8 @@ class di_market_clients extends data_interface
 	{
 		$this->_flush(true);
 		$this->push_args(array('_suid' => $uid));
-		$gc = $this->join_with_di('guide_country', array('clnt_country' => 'id'), array('title' => 'country'));
-		$gr = $this->join_with_di('guide_region', array('clnt_region' => 'id'), array('title' => 'region'));
+		$gc = $this->join_with_di('guide_country', array('clnt_country' => 'id'), array('title' => 'country','title_eng'=>'country_eng'));
+		$gr = $this->join_with_di('guide_region', array('clnt_region' => 'id'), array('title' => 'region','title_eng'=>'region_eng')); 
 		$gcr= $this->join_with_di('guide_currency', array('clnt_payment_curr' => 'id'), array('title' => 'pcurr'));
 		$gp= $this->join_with_di('guide_pay_type', array('clnt_payment_pref' => 'id'), array('title' => 'ppref'));
 		$this->what = array(
@@ -85,9 +85,11 @@ class di_market_clients extends data_interface
 			'clnt_nas_punkt',
 			'clnt_region_custom',
 			array('di' => $gc, 'name' => 'title'),
+			array('di' => $gc, 'name' => 'title_eng'),
 			array('di' => $gr, 'name' => 'title'),
 			array('di' => $gp, 'name' => 'title'),
 			array('di' => $gcr, 'name' => 'title'),
+			array('di' => $gr, 'name' => 'title_eng'),
 		);
 		$this->_get();
 		$this->pop_args();
@@ -120,6 +122,12 @@ class di_market_clients extends data_interface
 	* @access protected
 	*/
 	protected function sys_get()
+	{
+		$data = $this->get_client_data_extended();
+		response::send($data, 'json');
+	}
+
+	public function get_client_data_extended()
 	{
 		$this->_flush();
 		$data = $this->extjs_form_json(array('id',
@@ -178,8 +186,7 @@ class di_market_clients extends data_interface
 		unset($data['data']['clnt_country']);
 		unset($data['data']['clnt_payment_curr']);
 		unset($data['data']['clnt_payment_pref']);
-
-		response::send($data, 'json');
+		return $data;
 	}
 
 	/**
