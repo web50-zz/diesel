@@ -5,17 +5,23 @@ var App = function(config){
 	App.superclass.constructor.call(this, {});
 	var loadDependencies = function(deps){
 		for (var i in deps){
-			if (typeof deps[i] == "string"){
+			var x = deps[i];
+			if (typeof x == "string"){
 				var app = new App();
 				app.on('apploaded', function(){
 					var loaded = true;
-					for (var j in deps)
-						if (typeof deps[j] == "string" && !classExists("ui."+deps[j]))
-							loaded = false;
+					for (var j in deps){
+						var a = deps[j];
+						if (typeof a == "string"){
+							var b = a.split('.');
+							Ext.namespace("ui."+b[0]);
+							if (!classExists("ui."+a))
+								loaded = false;
+						}
+					}
 					if (loaded == true)
 						this.fireEvent('deploaded');
 				}, this);
-				var x = deps[i];
 				var y = x.split('.');
 				app.Load(y[0], y[1]);
 			}
