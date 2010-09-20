@@ -76,7 +76,7 @@ ui.subscribe.group = function(config){
 						layout: 'fit', 
 						width: 800, 
 						height: 600,
-						items: [msglist],
+						items: [msglist]
 			});
 			msglist.applyStore({_ssubscr_id: record});
 			w.show();
