@@ -168,7 +168,7 @@ CREATE TABLE `entry_point` (
   PRIMARY KEY  (`id`),
   KEY `exist` (`exist`),
   KEY `interface_id` (`interface_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=361 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=423 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -281,7 +281,7 @@ CREATE TABLE `group` (
   `id` smallint(5) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL COMMENT 'The name of group',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -391,7 +391,7 @@ CREATE TABLE `guide_group` (
   `description` text NOT NULL COMMENT 'The group`s description',
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=7650 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7651 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -489,6 +489,7 @@ CREATE TABLE `guide_region` (
   `deleter_uid` smallint(5) NOT NULL default '0',
   `country_id` smallint(5) NOT NULL COMMENT 'The country`s id',
   `title` varchar(64) NOT NULL,
+  `title_eng` varchar(64) default NULL,
   `post_zone_id` smallint(5) NOT NULL COMMENT 'The post_zone`s id',
   PRIMARY KEY  (`id`),
   KEY `country_id` (`country_id`)
@@ -559,7 +560,7 @@ CREATE TABLE `interface` (
   PRIMARY KEY  (`id`),
   KEY `exist` (`exist`),
   KEY `type_name` (`type`,`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -608,7 +609,7 @@ CREATE TABLE `market_clients` (
   PRIMARY KEY  (`id`),
   KEY `account_id` (`clnt_changed_datetime`,`clnt_deleted_datetime`),
   KEY `hash` (`clnt_nas_punkt`)
-) ENGINE=MyISAM AUTO_INCREMENT=17924 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=17925 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -696,7 +697,7 @@ CREATE TABLE `market_recomendations` (
   `m_recomend_product_id` int(10) NOT NULL default '0',
   `m_recomend_deleted_flag` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5702 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5703 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -749,7 +750,7 @@ CREATE TABLE `order` (
   KEY `creator_uid` (`creator_uid`),
   KEY `status` (`status`),
   KEY `method_of_payment` (`method_of_payment`)
-) ENGINE=MyISAM AUTO_INCREMENT=44214 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=44217 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -773,7 +774,7 @@ CREATE TABLE `order_item` (
   KEY `order_id` (`order_id`),
   KEY `item_id` (`item_id`),
   KEY `count` (`count`)
-) ENGINE=MyISAM AUTO_INCREMENT=284656 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=284661 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -824,7 +825,7 @@ CREATE TABLE `structure` (
   PRIMARY KEY  (`id`),
   KEY `site_part_id` (`left`,`right`,`level`),
   KEY `uri` (`uri`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -922,7 +923,7 @@ CREATE TABLE `subscribe_req` (
   `done_datetime` datetime default NULL,
   `done_ip` varchar(15) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -961,7 +962,7 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY  (`id`),
   KEY `account_id` (`login`,`passw`),
   KEY `hash` (`hash`)
-) ENGINE=MyISAM AUTO_INCREMENT=20694 DEFAULT CHARSET=utf8 COMMENT='System user';
+) ENGINE=MyISAM AUTO_INCREMENT=20711 DEFAULT CHARSET=utf8 COMMENT='System user';
 SET character_set_client = @saved_cs_client;
 
 --
@@ -977,7 +978,7 @@ CREATE TABLE `text` (
   `content` text NOT NULL,
   `hide_title` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -1001,7 +1002,7 @@ CREATE TABLE `ui_view_point` (
   `cache_timeout` varchar(6) default NULL,
   PRIMARY KEY  (`id`),
   KEY `page_id` (`page_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=123 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=130 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1013,4 +1014,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-09-18 17:55:58
+-- Dump completed on 2010-09-20 20:32:10
