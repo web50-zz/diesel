@@ -36,7 +36,7 @@ ui.guide.post_zone = function(config){
 		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
 		{id: 'cost', dataIndex: 'cost', header:  this.labelCost, align: 'right',  width: 100},
 		{id: 'ccy_string', dataIndex: 'ccy_string', header:  this.labelCCY, width: 50},
-		{id: 'title', dataIndex: 'title', header:  this.labelTitle},
+		{id: 'title', dataIndex: 'title', header:  this.labelTitle}
 	];
 	var Add = function(){
 		var f = new ui.guide.post_zone_form();
@@ -91,7 +91,7 @@ ui.guide.post_zone = function(config){
 			displayInfo: true,
 			displayMsg: this.pagerDisplayMsg,
 			emptyMsg: this.pagerEmptyMsg
-		}),
+		})
 	});
 	this.addEvents(
 	);

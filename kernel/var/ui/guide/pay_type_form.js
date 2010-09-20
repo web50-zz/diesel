@@ -50,7 +50,7 @@ ui.guide.pay_type_form = function(config){
 			{fieldLabel: this.labelStatus, hiddenName: 'status', xtype: 'combo', value: 1,
 				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Не актуален'], [1, 'Актуален']] }),
 				valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
-			},
+			}
 		],
 		buttonAlign: 'right',
 		buttons: [
