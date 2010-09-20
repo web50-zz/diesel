@@ -87,13 +87,7 @@ ui.structure.page_view_point_form = function(config){
 		items: [
 			{name: '_sid', xtype: 'hidden'},
 			{name: 'pid', xtype: 'hidden'},
-			{fieldLabel: this.labelViewPoint, name: 'view_point', xtype: 'numberfield', width: 50, anchor: null},
-			{fieldLabel: this.labelDeepHide, hiddenName: 'deep_hide', value: 0, xtype: 'combo', width: 50, anchor: null,
-				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
-				valueField: 'value', displayField: 'title', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
-			},
-			{fieldLabel: this.labelOrder, name: 'order', xtype: 'numberfield', width: 50, anchor: null},
-			{fieldLabel: this.labelTitle, name: 'title'},
+			{fieldLabel: this.labelTitle, name: 'title', maxLength: 255},
 			new Ext.form.ComboBox({fieldLabel: this.labelModule, hiddenName: 'ui_name',
 				store: new Ext.data.JsonStore({url: 'di/interface/public.json', fields: ['name', 'human_name'], autoLoad: true}),
 				valueField: 'name', displayField: 'human_name', triggerAction: 'all', selectOnFocus: true, editable: false,
@@ -106,7 +100,18 @@ ui.structure.page_view_point_form = function(config){
 				}
 			}),
 			diEP,
-			new Ext.form.TriggerField({fieldLabel: this.labelParams, name: 'ui_configure', triggerClass: 'x-form-edit-trigger', onTriggerClick: moduleCfg})
+			new Ext.form.TriggerField({fieldLabel: this.labelParams, name: 'ui_configure', triggerClass: 'x-form-edit-trigger', onTriggerClick: moduleCfg}),
+			{fieldLabel: this.labelViewPoint, name: 'view_point', xtype: 'numberfield', width: 50, anchor: null},
+			{fieldLabel: this.labelDeepHide, hiddenName: 'deep_hide', value: 0, xtype: 'combo', width: 50, anchor: null,
+				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
+				valueField: 'value', displayField: 'title', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+			},
+			{fieldLabel: this.labelOrder, name: 'order', xtype: 'numberfield', width: 50, anchor: null},
+			{fieldLabel: this.labelCache, hiddenName: 'cache_enabled', value: 0, xtype: 'combo', width: 50, anchor: null,
+				store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
+				valueField: 'value', displayField: 'title', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+			},
+			{fieldLabel: this.labelCacheTime, name: 'cache_timeout', xtype: 'numberfield', decimalPrecision: 0, maxLength: 6, width: 50, anchor: null}
 		],
 		buttonAlign: 'right',
 		buttons: [
@@ -126,9 +131,11 @@ ui.structure.page_view_point_form = function(config){
 	});
 }
 Ext.extend(ui.structure.page_view_point_form, Ext.form.FormPanel, {
-	labelViewPoint: 'Место вывода',
+	labelViewPoint: 'Точка вывода',
 	labelTitle: 'Наименование',
 	labelDeepHide: 'Скрывать на подстраницах',
+	labelCache: 'Кэшировать',
+	labelCacheTime: 'Хранить кэш (сек)',
 	labelOrder: 'Порядок отображения',
 	labelModule: 'Модуль',
 	labelCalls: 'Вызов',

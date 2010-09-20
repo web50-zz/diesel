@@ -37,22 +37,9 @@ class ui_structure extends user_interface
 
         public function process_page($page)
         {
-		#if ($page['module'])
-		#{
-		#	try
-		#	{
-		#		$ui = user_interface::get_instance($page['module']);
-		#		$content = $ui->call('content', json_decode($page['params'], true));
-		#	}
-		#	catch(exception $e)
-		#	{
-		#		dbg::write('error: '.$e->getmessage());
-		#	}
-		#}
-
                 $data = array(
                         'args' => request::get(),
-                        );
+		);
 
 		$divp = data_interface::get_instance('ui_view_point');
 		$divp->_flush();
@@ -62,6 +49,7 @@ class ui_structure extends user_interface
 		$divp->set_order('order');
 		$vps = $divp->_get();
 		$css_resources = array();
+
 		foreach ($vps as $vp)
 		{
 			try
@@ -69,21 +57,23 @@ class ui_structure extends user_interface
 				$ui = user_interface::get_instance($vp->ui_name);
 				$call = !empty($vp->ui_call) ? $vp->ui_call : 'content';
 					
-		/* 9* some cache procs */
-				if($vp->cache_enabled == 1)
+				/* 9* some cache procs */
+				if ($vp->cache_enabled == 1)
 				{
 					$di = data_interface::get_instance('cache');
-					$e = array();
 					$i = array(
-							'ui' => $vp->ui_name,
-							'call' => $call,
-							'timeout' => $vp->cache_timeout
-						);
+						'ui' => $vp->ui_name,
+						'call' => $call,
+						'timeout' => $vp->cache_timeout
+					);
 					$e = json_decode($vp->ui_configure, true);
-					if(is_array($e))
-						$i = array_merge($i,$e);
+
+					if (is_array($e))
+						$i = array_merge($i, $e);
+
 					$di->set_args($i);
-					if($di->cached() == true)
+
+					if ($di->cached() == true)
 					{
 						$data["view_point_{$vp->view_point}"][] = $di->get_cached();
 					}
@@ -97,24 +87,23 @@ class ui_structure extends user_interface
 				{
 					$data["view_point_{$vp->view_point}"][] = $ui->call($call, json_decode($vp->ui_configure, true));
 				}
-		/* end of cache shit */
+				/* end of cache shit */
 
-			// 9*  css output
+				// 9*  css output
 				if(!$css_resource[$vp->ui_name])
 				{
 					if($path = $ui->get_resource_path($vp->ui_name.'.css'))
-					{
 						$data['css_resources'][] = $path;
-					}
+
 					$css_resource[$vp->ui_name] = true;
 				}
+
 				//9* js output
 				if(!$js_resource[$vp->ui_name])
 				{
 					if($path = $ui->get_resource_path($vp->ui_name.'.res.js'))
-					{
 						$data['js_resources'][] = $path;
-					}
+
 					$js_resource[$vp->ui_name] = true;
 				}
 
@@ -127,13 +116,10 @@ class ui_structure extends user_interface
 		}
 		// 9* adding structure css resource to css output
 		if($path = $this->get_resource_path($this->interfaceName.'.css'))
-		{
 			$data['css_resources'][] = $path;
-		}
-        		if($path = $this->get_resource_path($this->interfaceName.'.res.js'))
-		{
+
+		if($path = $this->get_resource_path($this->interfaceName.'.res.js'))
 			$data['js_resources'][] = $path;
-		}
         
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
 		$html = $this->parse_tmpl('main/'.$template, $data);

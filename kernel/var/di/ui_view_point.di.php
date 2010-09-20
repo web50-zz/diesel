@@ -73,8 +73,7 @@ class di_ui_view_point extends data_interface
 		$this->set_order('view_point');
 		$this->set_order('human_name', 'ASC', $in);
 		$this->set_args(array('_stype' => 'ui'), true);
-		$this->extjs_grid_json(array('id', 'view_point', 'title', 'ui_name', 'ui_call', 'ui_configure', 'order','cache_enabled','cache_timeout',
-			'IF(`deep_hide` = 1, "Да", "Нет")' => 'deep_hide_str',
+		$this->extjs_grid_json(array('id', 'view_point', 'title', 'ui_name', 'ui_call', 'ui_configure', 'order', 'deep_hide', 'cache_enabled', 'cache_timeout',
 			array('di' => $in, 'name' => 'human_name')
 		));
 	}
@@ -130,7 +129,7 @@ class di_ui_view_point extends data_interface
 	*/
 	protected function sys_mset()
 	{
-		$records = (array)json_decode($this->get_args('records'), true);
+		$records = (array)json_decode(stripslashes($this->get_args('records')), true);
 
 		foreach ($records as $record)
 		{
@@ -138,8 +137,9 @@ class di_ui_view_point extends data_interface
 			unset($record['id']);
 			$this->_flush();
 			$this->push_args($record);
-			$this->insert_on_empty = true;
+			$this->insert_on_empty = false;
 			$data = $this->extjs_set_json(false);
+			if ($data['success'] == false) response::send($data, 'json');
 			$this->pop_args();
 		}
 

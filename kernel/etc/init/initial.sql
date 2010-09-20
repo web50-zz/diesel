@@ -401,7 +401,8 @@ CREATE TABLE `order_item` (
   `access` tinyint(1) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
-  KEY `item_id` (`item_id`)
+  KEY `item_id` (`item_id`),
+  KEY `count` (`count`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
@@ -441,6 +442,8 @@ CREATE TABLE `ui_view_point` (
 	`ui_name` VARCHAR(255) NOT NULL,
 	`ui_call` VARCHAR(255) NOT NULL,
 	`ui_configure` TEXT NOT NULL,
+	`cache_enabled` TINYINT(1) UNSIGNED NOT NULL,
+	`cache_timeout` VARCHAR(6) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	KEY `page_id` (`page_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

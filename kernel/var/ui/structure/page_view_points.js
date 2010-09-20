@@ -1,6 +1,6 @@
 ui.structure.page_view_points = function(config){
-	var frmW = 500;
-	var frmH = 300;
+	var frmW = 450;
+	var frmH = 350;
 	var fm = Ext.form;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
@@ -19,7 +19,7 @@ ui.structure.page_view_points = function(config){
 			root: 'records',
 			messageProperty: 'errors'
 		},
-		[{name: 'id', type: 'int'}, {name: 'view_point', type: 'int'}, 'title', 'ui_name', 'human_name', 'ui_call', 'ui_configure', 'order', 'deep_hide_str']
+		[{name: 'id', type: 'int'}, {name: 'view_point', type: 'int'}, 'title', 'cache_enabled', 'cache_timeout', 'ui_name', 'human_name', 'ui_call', 'ui_configure', 'order', 'deep_hide']
 	);
 	// Typical JsonWriter
 	var writer = new Ext.data.JsonWriter({
@@ -37,14 +37,19 @@ ui.structure.page_view_points = function(config){
 		Ext.apply(store.baseParams, data);
 		store.load();
 	}
+	strYN = new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] });
+	var fldYN = new fm.ComboBox({valueField: 'value', displayField: 'title', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false, store: strYN});
+	var clmnYN = function(value){return (value == 1) ? 'Да' : 'Нет'}
 	columns = [
 		{id: 'id', dataIndex: 'id', hidden: true},
-		{header: this.clmnVPoint, id: 'view_point', dataIndex: 'view_point', sortable: true, width: 50},
-		{header: this.clmnOrder, id: 'order', dataIndex: 'order', sortable: true, width: 50},
-		{header: this.clmnDHide, id: 'deep_hide_str', dataIndex: 'deep_hide_str', sortable: true, width: 50},
+		{header: this.clmnVPoint, id: 'view_point', dataIndex: 'view_point', sortable: true, width: 50, editor: new fm.NumberField({minValue: 0, maxValue: 255})},
+		{header: this.clmnTitle, id: 'title', dataIndex: 'title', sortable: true, editor: new fm.TextField({maxLength: 255})},
+		{header: this.clmnOrder, id: 'order', dataIndex: 'order', sortable: true, width: 50, editor: new fm.NumberField({minValue: 0, maxValue: 255})},
+		{header: this.clmnDHide, id: 'deep_hide', dataIndex: 'deep_hide', sortable: true, width: 50, editor: fldYN, renderer: clmnYN},
 		{header: this.clmnUIName, id: 'human_name', dataIndex: 'human_name', sortable: true, width: 150},
 		{header: this.clmnUICall, id: 'ui_call', dataIndex: 'ui_call', sortable: true, width: 100},
-		{header: this.clmnTitle, id: 'title', dataIndex: 'title', sortable: true, editor: new fm.TextField({maxLength: 255, maxLengthText: 'Не больше 255 символов'})}
+		{header: this.clmnCache, id: 'cache_enabled', dataIndex: 'cache_enabled', sortable: true, width: 50, editor: fldYN, renderer: clmnYN},
+		{header: this.clmnCacheTime, id: 'cache_timeout', dataIndex: 'cache_timeout', sortable: true, width: 50, editor: new fm.NumberField({minValue: 0, maxValue: 999999})}
 	];
 	var Add = function(){
 		var f = new ui.structure.page_view_point_form();
@@ -129,6 +134,8 @@ Ext.extend(ui.structure.page_view_points, Ext.grid.EditorGridPanel, {
 	clmnTitle: "Наименование",
 	clmnUIName: "Модуль",
 	clmnUICall: "Вызов",
+	clmnCache: "Исп. кэш",
+	clmnCacheTime: "Кэш время",
 
 	cnfrmTitle: "Подтверждение",
 	cnfrmMsg: "Вы действительно хотите удалить этот ViewPoint?",
