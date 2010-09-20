@@ -5,12 +5,10 @@ ui.market_latest.catalogue_list = function(config, vp){
 		var e ='ee';	
 	}.createDelegate(this);
 
-	ui.market_latest.catalogue_list.superclass.constructor.call(this,{});
 	var addToSelected  = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
 		this.father.oops(id);
 	}.createDelegate(this);
-
 	this.onCmenu = function(grid, rowIndex, e){
 		this.getSelectionModel().selectRow(rowIndex);
 		var cmenu = new Ext.menu.Menu({items: [
@@ -24,6 +22,7 @@ ui.market_latest.catalogue_list = function(config, vp){
 	{
 		this.father = fth;
 	}.createDelegate(this);
+	ui.market_latest.catalogue_list.superclass.constructor.call(this,config,vp);
 	this.purgeListeners();	
 	this.on({
 		rowcontextmenu: this.onCmenu
