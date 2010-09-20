@@ -84,7 +84,7 @@ ui.faq.list = function(config){
 			displayInfo: true,
 			displayMsg: this.pagerDisplayMsg,
 			emptyMsg: this.pagerEmptyMsg
-		}),
+		})
 	});
 	this.addEvents(
 	);
