@@ -107,12 +107,13 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 		Ext.each(Ext.query(this.button_close_cls), function(item, index, allItems){
 			Ext.get(item).on({
 				click: function(ev, el, opt){
-				  var el1 = Ext.fly(this.wrapid);
-				  el1.remove();
-				  this.frm = false;
-				  this.height = false;
-				  this.width = false;
-				  this.afterMakeFrm = false;
+				var el1 = Ext.fly(this.wrapid);
+				if(el1){
+					el1.remove();
+				}
+				this.frm = false;
+				this.height = false;
+				this.width = false;
 				},
 				scope: this
 			})
