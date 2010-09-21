@@ -15,7 +15,7 @@ class ui_profile extends user_interface
 	public $market_req_fields = array(
 					'lname'=>'Фамилия',
 					'clnt_country'=>'Страна',	
-					'clnt_region'=>'Регион',
+//				'clnt_region'=>'Регион',
 					'clnt_address'=>'Адрес',
 					'clnt_nas_punkt'=>'Город/Населенный пункт',
 					'clnt_phone'=>'Телефон',
@@ -133,6 +133,8 @@ class ui_profile extends user_interface
 			$t = array_merge($this->req_p_fields,$this->market_req_fields);
 			$this->check_input($t);
 			$di = data_interface::get_instance('user');
+			$di->_flush();
+			$di->insert_on_empty = true;
 			$di->set_args(array(
 					'_sid' => UID,
 					'name' => $this->args['lname'].' '.$this->args['name'].' '.$this->args['mname'],
