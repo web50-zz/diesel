@@ -154,7 +154,7 @@ class ui_profile extends user_interface
 				$di2->set_args(array(
 						'clnt_address'=>$this->args['clnt_address'],	
 						'clnt_country'=>$this->args['clnt_country'],	
-						'clnt_nas_punkt	'=>$this->args['clnt_nas_punkt'],	
+						'clnt_nas_punkt'=>$this->args['clnt_nas_punkt'],	
 						'clnt_payment_curr'=>$this->args['clnt_payment_curr'],	
 						'clnt_payment_pref'=>$this->args['clnt_payment_pref'],	
 						'clnt_phone'=>$this->args['clnt_phone'],	
