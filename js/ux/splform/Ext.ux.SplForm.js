@@ -112,6 +112,7 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 				  this.frm = false;
 				  this.height = false;
 				  this.width = false;
+				  this.afterMakeFrm = false;
 				},
 				scope: this
 			})
