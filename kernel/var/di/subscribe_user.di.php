@@ -66,7 +66,7 @@ class di_subscribe_user extends data_interface
 	*/
 	protected function sys_add_users_to_group()
 	{
-		$this->_add_users_to_group();
+		$success = $this->_add_users_to_group();
 		response::send(array('success' => $success), 'json');
 	}
 	public function _add_users_to_group()
@@ -91,6 +91,7 @@ class di_subscribe_user extends data_interface
 		{
 			$success = false;
 		}
+		return $success;
 	}
 	/**
 	*	Remove users from group
@@ -99,7 +100,7 @@ class di_subscribe_user extends data_interface
 	protected function sys_remove_users_from_group()
 	{
 
-		$this->_remove_users_from_group();
+		$success = $this->_remove_users_from_group();
 		response::send(array('success' => $success), 'json');
 	}
 
@@ -125,6 +126,7 @@ class di_subscribe_user extends data_interface
 			$success = false;
 		}
 
+		return $success;
 	}
 }
 ?>
