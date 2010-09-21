@@ -15,7 +15,7 @@ class ui_profile extends user_interface
 	public $market_req_fields = array(
 					'lname'=>'Фамилия',
 					'clnt_country'=>'Страна',	
-//				'clnt_region'=>'Регион',
+					'clnt_region'=>'Регион',
 					'clnt_address'=>'Адрес',
 					'clnt_nas_punkt'=>'Город/Населенный пункт',
 					'clnt_phone'=>'Телефон',
@@ -242,10 +242,30 @@ class ui_profile extends user_interface
 		response::send($resp,'json');	
 	}
 
+	public function pub_get_regs()
+	{
+		$reg = (int)$this->get_args('clnt_country');
+		$reg_di = data_interface::get_instance('guide_region');
+		$reg_di->_flush();
+		$reg_di->what = array('id', 'title');
+		$reg_di->set_order('title');
+		$reg_di->set_args(array('_scid' => $reg));
+		$reg_di->_get();
+		$data = array('records' => $reg_di->get_results());
+		response::send($this->parse_tmpl('reg_selector_json.html', $data), 'text');
+	}
+
 	public function check_input($flds = array(),$type = 0)
 	{
 		foreach($flds as $key=>$value)
 		{
+			if($key == 'clnt_region') /* 9* хак регионы обязательны только для россии */
+			{
+				if($this->args['clnt_country']  != 1)
+				{
+					continue;
+				}
+			}
 			if(!$this->args[$key])
 			{
 				$errors.= "Незаполнено обязательное поле \"$value\" <br>";

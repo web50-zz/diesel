@@ -125,6 +125,10 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 				scope: this
 			})
 		}, this);
+		this.afterMakeFrm();
+	},
+	afterMakeFrm: function()
+	{
 	},
 
 	authism : function()

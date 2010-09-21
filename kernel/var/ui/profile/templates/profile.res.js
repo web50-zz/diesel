@@ -57,9 +57,39 @@ ui.profile = function(conf){
 	};
 
 	this.getPform = function(){
-		SplForm.show({formUrl:'/ui/profile/get_pform.do',saveUrl:'/ui/profile/save_pform.do',width:500,height:600});
+		SplForm.show({formUrl:'/ui/profile/get_pform.do',saveUrl:'/ui/profile/save_pform.do',width:500,
+				height:600,
+				afterMakeFrm: this.afterLoadPform
+		});
 	}
 
+	this.afterLoadPform = function()
+	{
+		if(Ext.fly('clnt_country'))
+		{
+			Ext.EventManager.on('clnt_country', 'change', refreshRegs);
+		}
+		
+	}
+
+	var refreshRegs = function()
+	{
+		Ext.Ajax.request({
+			url: '/ui/profile/get_regs.do',
+			form: 'ffqf',
+			scope: this,
+			success: function(response, opts) {
+					Ext.DomHelper.useDom = true;
+					Ext.fly('clnt_region').remove();
+					var obj = Ext.decode(response.responseText);
+					var dh = Ext.DomHelper; 
+					dh.insertAfter('reg_wrap',obj);
+			},
+			 failure: function(response, opts) {
+					 console.log(' Error ' + response.status);
+			}
+		});
+	}
 
 	this.getOrder = function(id){
 		SplForm.show({formUrl:'/ui/profile/get_order.do',saveUrl:'',params:{_sid:id},width:500,height:500});
