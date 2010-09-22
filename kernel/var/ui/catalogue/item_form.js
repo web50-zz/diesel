@@ -1,7 +1,7 @@
 ui.catalogue.item_form = function(config){
 	Ext.apply(this, config);
 	var tpl = new Ext.XTemplate(
-		'<center><img src="/storage/{real_name}" title="{name}" width="200"/></center>'
+		'<center><img src="/storage/{real_name}" title="{name}" width="100"/></center>'
 	);
 	var pnlPrvw = new Ext.Panel({html: '<center>No preview</center>'});
 	var files = new ui.catalogue.files({});
@@ -120,7 +120,7 @@ ui.catalogue.item_form = function(config){
 			{xtype: 'tabpanel', activeItem: 0, border: false, anchor: '100% 100%', defferedRender: false,
 			defaults: {hideMode: 'offsets', frame: true, layout: 'form'}, items: [
 				{id: 'item-main', title: this.tabMain, autoScroll: true, layout: 'column', items: [
-					{columnWidth: .6, layout: 'form', labelAlign: 'top', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
+					{columnWidth: .7, layout: 'form', labelWidth: 150, defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
 						{fieldLabel: this.labelType, hiddenName: 'type_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
 							store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
 							valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
@@ -128,30 +128,34 @@ ui.catalogue.item_form = function(config){
 						{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
 						{fieldLabel: this.labelDate, name: 'income_date', xtype: 'datefield', format: 'Y-m-d'},
 						preview, picture,
-						{hideLabel: true, xtype: 'compositefield', items: [
-							{xtype: 'displayfield', value: this.labelRecomended},
-							{hiddenName: 'recomended', xtype: 'combo', width: 50, value: 0,
-								store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
-								valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
-							},
-							{xtype: 'displayfield', value: this.labelExist},
-							{hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0,
-								store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
-								valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
-							}
-						]},
 						{fieldLabel: this.labelPrice, hiddenName: 'price_id', xtype: 'combo', width: 200,
 							store: new Ext.data.JsonStore({url: 'di/guide_price/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
 							valueField: 'id', displayField: 'title', triggerAction: 'all', editable: false
 						},
-						{hideLabel: true, xtype: 'compositefield', items: [
-							{xtype: 'displayfield', value: this.labelPrepay},
-							{name: 'prepayment', width: 70, xtype: 'numberfield', decimalPrecision: 2},
-							{xtype: 'displayfield', value: this.labelPayfwd},
-							{name: 'payment_forward', width: 70, xtype: 'numberfield', decimalPrecision: 2}
-						]}
+						{fieldLabel: this.labelExist, hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0,
+							store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
+							valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+						}
+						//,{hideLabel: true, xtype: 'compositefield', items: [
+						//	{xtype: 'displayfield', value: this.labelRecomended},
+						//	{hiddenName: 'recomended', xtype: 'combo', width: 50, value: 0,
+						//		store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
+						//		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+						//	},
+						//	{xtype: 'displayfield', value: this.labelExist},
+						//	{hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0,
+						//		store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
+						//		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+						//	}
+						//]}
+						//,{hideLabel: true, xtype: 'compositefield', items: [
+						//	{xtype: 'displayfield', value: this.labelPrepay},
+						//	{name: 'prepayment', width: 70, xtype: 'numberfield', decimalPrecision: 2},
+						//	{xtype: 'displayfield', value: this.labelPayfwd},
+						//	{name: 'payment_forward', width: 70, xtype: 'numberfield', decimalPrecision: 2}
+						//]}
 					]},
-					{columnWidth: .4, bodyStyle: 'margin: 0 0 0 5px', items: [pnlPrvw]}
+					{columnWidth: .3, bodyStyle: 'margin: 0 0 0 5px', items: [pnlPrvw]}
 				]},
 				{id: 'item-style', title: this.tabStyle, frame: false, layout: 'border', items: [
 					style_in,
