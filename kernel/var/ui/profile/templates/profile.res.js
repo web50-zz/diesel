@@ -144,8 +144,8 @@ Ext.onReady(function(){
 	FRONTLOADER.loadCss('/js/ux/alertbox/alertbox.css','alertboxcss');
 	FRONTLOADER.load('/js/ux/splform/Ext.ux.SplForm.js','splform');
 	FRONTLOADER.loadCss('/js/ux/splform/splform.css','splformcss');
-	var ui_profile = new ui.profile();
-	ui_profile.init();
+	this.ui_profile = new ui.profile();
+	this.ui_profile.init();
 });
 
 
