@@ -133,6 +133,8 @@ class ui_profile extends user_interface
 			$t = array_merge($this->req_p_fields,$this->market_req_fields);
 			$this->check_input($t);
 			$di = data_interface::get_instance('user');
+			$di->_flush();
+			$di->insert_on_empty = true;
 			$di->set_args(array(
 					'_sid' => UID,
 					'name' => $this->args['lname'].' '.$this->args['name'].' '.$this->args['mname'],
@@ -152,7 +154,7 @@ class ui_profile extends user_interface
 				$di2->set_args(array(
 						'clnt_address'=>$this->args['clnt_address'],	
 						'clnt_country'=>$this->args['clnt_country'],	
-						'clnt_nas_punkt	'=>$this->args['clnt_nas_punkt'],	
+						'clnt_nas_punkt'=>$this->args['clnt_nas_punkt'],	
 						'clnt_payment_curr'=>$this->args['clnt_payment_curr'],	
 						'clnt_payment_pref'=>$this->args['clnt_payment_pref'],	
 						'clnt_phone'=>$this->args['clnt_phone'],	
@@ -240,10 +242,30 @@ class ui_profile extends user_interface
 		response::send($resp,'json');	
 	}
 
+	public function pub_get_regs()
+	{
+		$reg = (int)$this->get_args('clnt_country');
+		$reg_di = data_interface::get_instance('guide_region');
+		$reg_di->_flush();
+		$reg_di->what = array('id', 'title');
+		$reg_di->set_order('title');
+		$reg_di->set_args(array('_scid' => $reg));
+		$reg_di->_get();
+		$data = array('records' => $reg_di->get_results());
+		response::send($this->parse_tmpl('reg_selector_json.html', $data), 'text');
+	}
+
 	public function check_input($flds = array(),$type = 0)
 	{
 		foreach($flds as $key=>$value)
 		{
+			if($key == 'clnt_region') /* 9* хак регионы обязательны только для россии */
+			{
+				if($this->args['clnt_country']  != 1)
+				{
+					continue;
+				}
+			}
 			if(!$this->args[$key])
 			{
 				$errors.= "Незаполнено обязательное поле \"$value\" <br>";

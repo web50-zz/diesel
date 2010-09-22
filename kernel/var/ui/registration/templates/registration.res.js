@@ -32,7 +32,7 @@ ui.registration = function(conf){
 	}
 	this.alarm = function()
 	{
-	 alert('eee');
+//	 alert('eee');
 	}
 
 	this.refreshRegs = function(){

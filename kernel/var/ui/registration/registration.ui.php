@@ -153,6 +153,13 @@ class ui_registration extends user_interface
 		}
 		foreach($flds as $key=>$value)
 		{
+			if($key == 'clnt_region') /* 9* хак регионы обязательны только для россии */
+			{
+				if($this->args['clnt_country']  != 1)
+				{
+					continue;
+				}
+			}
 			if(!$this->args[$key])
 			{
 				$errors.= "Незаполнено обязательное поле \"$value\" <br>";
