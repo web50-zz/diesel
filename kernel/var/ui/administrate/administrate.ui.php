@@ -13,6 +13,10 @@ class ui_administrate extends user_interface
 	protected $deps = array(
 		'main' => array(
 			'administrate.menu',
+			'administrate.home',
+		),
+		'home' => array(
+			'order.order_list',
 		)
 	);
 	
@@ -35,7 +39,7 @@ class ui_administrate extends user_interface
 	}
 	
 	/**
-	*       ExtJS module
+	*       Main administrate interface 
 	*/
 	protected function sys_main()
 	{
@@ -44,11 +48,20 @@ class ui_administrate extends user_interface
 	}
 	
 	/**
-	*       ExtJS module
+	*       Main menu
 	*/
 	protected function sys_menu()
 	{
 		$tmpl = new tmpl($this->pwd() . 'menu.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Main Home Tab
+	*/
+	protected function sys_home()
+	{
+		$tmpl = new tmpl($this->pwd() . 'home.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 

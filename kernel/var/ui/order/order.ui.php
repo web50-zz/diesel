@@ -10,14 +10,25 @@ class ui_order extends user_interface
 	public $title = 'Заказы';
 
 	protected $deps = array(
+		//'main' => array(
+		//	'order.order_form',
+		//	'order.order_list',
+		//	'order.filter_form',
+		//),
+		//'order_form' => array(
+		//	'order.order_items'
+		//)
+
 		'main' => array(
-			'order.order_form',
 			'order.order_list',
 			'order.filter_form',
 		),
+		'order_list' => array(
+			'order.order_form',
+		),
 		'order_form' => array(
 			'order.order_items'
-		)
+		),
 	);
 	
 	public function __construct()

@@ -99,7 +99,7 @@ class di_order extends data_interface
 		$pt = $this->join_with_di('guide_pay_type', array('method_of_payment' => 'id'), array('title' => 'pt_string'));
 		$gos = $this->join_with_di('guide_order_status', array('status' => 'id'), array('title' => 'status_str'));
 		//$this->set_order('id', 'DESC');
-		$this->connector->debug = true;
+		//$this->connector->debug = true;
 		$data = $this->extjs_grid_json(array(
 			'id', 'created_datetime', 'status', 'discount', 'total_items', 'total_items_cost', 'delivery_cost', 'total_cost',
 			array('di' => $user, 'name' => 'name'),

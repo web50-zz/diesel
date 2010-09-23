@@ -3,7 +3,8 @@ ui.administrate.main = function(config){
 	var LogOut = function(){
 		document.location = '/xxx/login/?cll=logout';
 	}
-	var ws = new Ext.TabPanel({region: 'center', items: []});
+	var home = new ui.administrate.home({iconCls: 'home', title: this.tabHome});
+	var ws = new Ext.TabPanel({region: 'center', activeTab: 0, items: [home]});
 	var menu = new ui.administrate.menu({region: 'north', xtype: 'toolbar', height: 27});
 	this.Launch = function(appName, appFace, tabText)
 	{
@@ -62,15 +63,5 @@ ui.administrate.main = function(config){
 	});
 };
 Ext.extend(ui.administrate.main, Ext.Viewport, {
-	menuStructure: 'Structure',
-	menuFileManager: 'File manager',
-	menuUsers: 'Users',
-	menuGuide: 'Reference Books',
-	menuApps: 'Applications',
-	menuCatalogue: 'Catalogue',
-	menuGroups: 'Groups',
-	menuSecurity: 'Security',
-	menuHelpPages: 'Help pages',
-	menuLogout: 'Logout',
-	errUILoad: 'Can`t load UI'
+	tabHome: 'Home'
 });
