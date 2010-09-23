@@ -1,6 +1,4 @@
-ui.administrate = function(config){
-	var self = this;
-        var appLoaded = false;
+ui.administrate.main = function(config){
 	Ext.apply(this, config);
 	var LogOut = function(){
 		document.location = '/xxx/login/?cll=logout';
@@ -33,9 +31,7 @@ ui.administrate = function(config){
 					mainWS.setActiveTab(tab);
 				}
 			},
-			apperror: function(error){
-				showError(error);
-			}
+			apperror: showError
 		});
 		app.Load(appName, appFace);
 	}
@@ -60,13 +56,11 @@ ui.administrate = function(config){
 					mainWS.setActiveTab(tab);
 				}
 			},
-			apperror: function(error){
-				showError(error);
-			}
+			apperror: showError
 		});
 		app.Load(config.appName, config.appFace);
 	}.createDelegate(this);
-	ui.administrate.superclass.constructor.call(this, {
+	ui.administrate.main.superclass.constructor.call(this, {
 		layout: 'border',
 		items: [
 			{region: 'north', xtype: 'toolbar', height: 27, items: [
@@ -108,11 +102,11 @@ ui.administrate = function(config){
 				{text: this.menuLogout, iconCls: 'logout', handler: LogOut, scope: this}
 			]},
 			mainWS,
-			{region: 'south', baseCls: 'x-panel-header', html: '<div style="text-align: right">SBIN Diesel 8==></div>'}
+			{region: 'south', baseCls: 'x-panel-header', html: '<div style="text-align: right">SBIN Diesel</div>'}
 		]
 	});
 };
-Ext.extend(ui.administrate, Ext.Viewport, {
+Ext.extend(ui.administrate.main, Ext.Viewport, {
 	menuStructure: 'Structure',
 	menuFileManager: 'File manager',
 	menuUsers: 'Users',

@@ -38,12 +38,11 @@ define ('LIB_FEXT', '.lib.php');
 // NOTE: Path to store log and error files
 define ('LOG_PATH', KERNEL_PATH . 'var/logs/');
 
-// NOTE: 9* 0507201 Path to store THEMES template css js images
+// NOTE: 9* 05072010 Path to store THEMES template css js images
 define ('THEMES_PATH', 'themes/');
 
 // NOTE: 9* 05072010 Path to store Instance code
-define ('INSTANCES_PATH',BASE_PATH.'instances/' );
-
+define ('INSTANCES_PATH', BASE_PATH . 'instances/' );
 
 // NOTE: Path to connector files
 define ('CONNECTOR_PATH', KERNEL_PATH . 'var/connectors/');
@@ -52,7 +51,7 @@ define ('CONNECTOR_CLASS_PREFIX', 'connector_');
 
 // NOTE: Path to user interaface files
 define ('UI_PATH', KERNEL_PATH . 'var/ui/');
-define ('RELATIVE_UI_PATH','kernel/var/ui/');
+define ('RELATIVE_UI_PATH', 'kernel/var/ui/');
 define ('UI_FEXT', '.ui.php');
 define ('UI_CLASS_PREFIX', 'ui_');
 

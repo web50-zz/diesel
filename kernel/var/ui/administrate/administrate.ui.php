@@ -19,20 +19,19 @@ class ui_administrate extends user_interface
 	*	Main workspace
 	* @access	protected
 	*/
-	public function sys_main()
+	public function sys_workspace()
 	{
 		$tmpl = new tmpl($this->pwd() . 'workspace.html');
 		$su = data_interface::get_instance(AUTH_DI);
-		$data = array(
+		response::send($tmpl->parse(array(
 			'user' => $su->get_user()
-		);
-		response::send($tmpl->parse($data), 'html');
+		)), 'html');
 	}
 	
 	/**
 	*       ExtJS module
 	*/
-	public function sys_js()
+	protected function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'administrate.js');
 		response::send($tmpl->parse($this), 'text', false);
@@ -41,7 +40,7 @@ class ui_administrate extends user_interface
 	/**
 	*	JS locale file
 	*/
-	public function sys_app_lang()
+	protected function sys_app_lang()
 	{
 		$locale = $this->args['locale'];
 

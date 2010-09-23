@@ -1,6 +1,5 @@
 var App = function(config){
         var self = this;
-	var loadMask = new Ext.LoadMask(Ext.getBody());
 	Ext.apply(this, config);
 	App.superclass.constructor.call(this, {});
 	var loadDependencies = function(ui){
@@ -67,6 +66,7 @@ var App = function(config){
 				var id = 'ui-'+appName+'-'+appFace;
 				var el = Ext.fly(id);
 				if (undefined == el){
+					var loadMask = new Ext.LoadMask(Ext.getBody(), {msg: 'Загрузка приложения "'+appName+'.'+appFace+'"'});
 					loadMask.show();
 					// append script to the head
 					var h = Ext.fly(document.getElementsByTagName('head')[0]);
@@ -92,13 +92,20 @@ var App = function(config){
 					
 					this.on({
 						scriptloaded: function(){
-							if (classExists("ui."+appName+"."+appFace))
+							if (classExists("ui."+appName+"."+appFace)){
+								if (ApplyLocale) ApplyLocale();
 								this.fireEvent('apploaded', [appName, appFace])
-							else
+							}else
 								this.fireEvent('apperror', this.appErrorMsg);
 						},
 						deperror: function(errMsg){
 							this.fireEvent('apperror', errMsg);
+						},
+						apploaded: function(appName, appFace){
+							loadMask.hide();
+						},
+						apperror: function(){
+							loadMask.hide();
 						},
 						scope: this
 					});
@@ -116,15 +123,6 @@ var App = function(config){
 		deploaded: true,
 		deperror: true
 	});
-	this.on({
-		apploaded: function(appName, appFace){
-			loadMask.hide();
-			if (ApplyLocale) ApplyLocale();
-		},
-		apperror: function(){
-			loadMask.hide();
-		}
-	})
 }
 Ext.extend(App, Ext.util.Observable, {
 	appErrorMsg: 'Не удалось загрузить приложение.'

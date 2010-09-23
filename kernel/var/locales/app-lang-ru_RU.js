@@ -1,6 +1,6 @@
 var ApplyLocale = function(){
-	if (ui.administrate){
-		Ext.override(ui.administrate, {
+	if (ui.administrate && ui.administrate.main){
+		Ext.override(ui.administrate.main, {
 			menuStructure: 'Структура',
 			menuFileManager: 'Файл-менеджер',
 			menuGuide: 'Справочники',
