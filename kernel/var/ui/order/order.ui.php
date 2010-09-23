@@ -28,6 +28,11 @@ class ui_order extends user_interface
 
         public function pub_content()
         {
+		
+		if (!authenticate::is_logged())
+		{
+			response::redirect('/cart/');
+		}
 		if (request::get('order-confirm') == 'yes')
 		{
 			$diOrder = data_interface::get_instance('order');
@@ -62,7 +67,7 @@ class ui_order extends user_interface
 			}
 			else
 			{
-				response::redirect('/');
+				response::redirect('/cart/');
 			}
 		}
 	}
