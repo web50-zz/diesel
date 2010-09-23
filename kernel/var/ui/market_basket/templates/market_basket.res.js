@@ -7,11 +7,38 @@ ui.market_basket = Ext.extend(Ext.util.Observable, {
 		config = config || {};
 		Ext.apply(this, config);
 		ui.market_basket.superclass.constructor.call(this, config);
+		this.collectButtons();
 		this.on('brefresh',this.refresh,this);
 	},
 
-	init: function(){
+	collectButtons:function(){
+		Ext.each(Ext.query(".iremove"), function(item, index, allItems){
+			Ext.get(item).on({
+				click: function(ev, el, opt){
+					this.delCart(item.getAttribute('cid'));
+				},
+				scope: this
+			})
+		}, this);
+	
 	},
+
+	delCart:function(id){
+		Ext.Ajax.request({
+			url: '/ui/cart/del.do',
+			params: {id: id},
+			success: function(resp, opts){
+				var obj = Ext.decode(resp.responseText);
+				this.fireEvent('brefresh');
+			},
+			failure: function(resp, opts){
+				alert(resp.status);
+			},
+			scope:this
+		});
+
+	},
+
 
 	refresh: function(){
 		Ext.Ajax.request({
@@ -28,10 +55,12 @@ ui.market_basket = Ext.extend(Ext.util.Observable, {
 					el.remove();
 					Ext.DomHelper.insertFirst('basket_wrap',obj.payload);
 				}
+				this.collectButtons();
 			},
 			 failure: function(response, opts) {
 					 console.log(' Error ' + response.status);
-			}
+			},
+			scope:this
 		});
 	},
 
@@ -39,6 +68,5 @@ ui.market_basket = Ext.extend(Ext.util.Observable, {
 
 Ext.onReady(function(){
 	this.ui_market_basket = new ui.market_basket();
-	this.ui_market_basket.init();
 });
 

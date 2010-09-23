@@ -37,3 +37,24 @@ font-weight:bold;
 font-size:9px;
 text-align:right;
 }
+
+.iremove{
+background:url("/ico/list_remove_btn.gif") no-repeat scroll left;
+cursor:pointer;
+margin-top:3px;
+padding-right:10px;
+}
+.irem{
+text-align:left;
+vertical-align:top;
+width:10px;
+}
+
+.olinks{
+text-align:center;
+}
+#olinks a{
+border-bottom:1px dashed #CCC;
+font-color:#000;
+color:#000;
+}
