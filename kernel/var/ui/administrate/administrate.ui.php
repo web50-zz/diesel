@@ -9,6 +9,12 @@
 class ui_administrate extends user_interface
 {
 	public $title = 'Administrate';
+
+	protected $deps = array(
+		'main' => array(
+			'administrate.menu',
+		)
+	);
 	
 	public function __construct ()
 	{
@@ -34,7 +40,16 @@ class ui_administrate extends user_interface
 	protected function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'administrate.js');
-		response::send($tmpl->parse($this), 'text', false);
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       ExtJS module
+	*/
+	protected function sys_menu()
+	{
+		$tmpl = new tmpl($this->pwd() . 'menu.js');
+		response::send($tmpl->parse($this), 'js');
 	}
 
 	/**
@@ -49,7 +64,7 @@ class ui_administrate extends user_interface
 		else
 			$file = LOCALES_PATH . "app-lang-default.js";
 
-		response::send(file_get_contents($file), 'text', false);
+		response::send(file_get_contents($file), 'js');
 	}
 }
 ?>
