@@ -19,6 +19,9 @@ ui.catalogue = function(conf){
 				var obj = Ext.decode(resp.responseText);
 				var text = 'Товар добавлен в корзину';
 				AlertBox.show("Внимание", text, 'none', {dock: 'top'});
+				if(typeof(window['ui_market_basket']) != 'undefined'){
+					ui_market_basket.fireEvent('brefresh');
+				}
 			},
 			failure: function(resp, opts){
 				alert(resp.status);
@@ -28,6 +31,6 @@ ui.catalogue = function(conf){
 }
 Ext.onReady(function(){
 	FRONTLOADER.load('/min/?f=/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
-	var c = new ui.catalogue();
-	c.collectButtons();
+	this.c = new ui.catalogue();
+	this.c.collectButtons();
 });

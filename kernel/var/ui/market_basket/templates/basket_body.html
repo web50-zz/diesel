@@ -1,0 +1,23 @@
+<div class="basket_body" id="basket_body">
+<h1>Корзина:</h1>
+<table border="0" cellpadding="2" cellspacing="0" width="100%">
+{__(if(!empty(/records))__}
+{__set(#cost_total = 0)__}
+{__(apply(/records)__}
+<tr class="bitem" id="bitem">
+<td id="icount" class="icount">{__count__}</td>
+<td id="ix" class="ix">x</td>
+<td id="ititle" class="ititle"> <a href="">{__str_type__} {__title__}</a></td>
+{__set(#cost_total = #cost_total + $summ)__}
+</tr>	
+{__apply)__}
+<tr>
+<td colspan="3">
+<div id="ctotal" class="ctotal">Всего: {__#cost_total__}</div>
+</td>
+</tr>
+{__else__}
+Корзина пуста
+{__if)__}
+</table>
+</div>
