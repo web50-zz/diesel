@@ -213,13 +213,19 @@ class user_interface extends base_interface
 			if (!in_array(UI_CALL_PREFIX . $face, $faces))
 				throw new Exception("Приложение {$this->interfaceName}.{$face} не существует.");
 
-			$dependencies = (array)$this->deps[$face];
+			$dependencies  = array();
+			$deps = (array)$this->deps[$face];
 
-			foreach ($dependencies as $app)
+			while(!empty($deps))
 			{
+				$app = array_shift($deps);
 				list($ui_name, $call) = preg_split('/\./', $app);
 				$ui = user_interface::get_instance($ui_name);
-				$dependencies = array_merge($dependencies, $ui->get_dependencies($call));
+				$sub_deps = $ui->get_dependencies($call);
+				foreach ($sub_deps as $dep)
+					array_push($deps, $dep);
+
+				array_push($dependencies, $app);
 			}
 			
 			$dependencies = array_reverse($dependencies);
