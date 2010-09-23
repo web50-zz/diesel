@@ -12,10 +12,10 @@ class ui_market_recomendations extends user_interface
 
 		protected $deps = array(
 		'main' => array(
+			'market_recomendations.catalogue_list',
+			'market_recomendations.recomend_list',
 			'catalogue.item_list',
 			'catalogue.filter_form',
-			'market_recomendations.catalogue_list',
-			'market_recomendations.recomend_list'
 		)
 	);
 
