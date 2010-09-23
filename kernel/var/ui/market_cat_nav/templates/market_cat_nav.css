@@ -1,0 +1,15 @@
+.market_cat_nav{
+}
+#market_cat_nav .top_types{
+font-weight:bold;
+font-size:10px;
+color:#CCC;
+}
+#market_cat_nav #top_types a{
+color:#666;
+}
+
+#market_cat_nav #top_types a.active{
+color:#000;
+border-bottom:1px dashed #666;
+}
