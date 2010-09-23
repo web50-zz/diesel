@@ -89,7 +89,7 @@ class di_market_clients extends data_interface
 			array('di' => $gr, 'name' => 'title'),
 			array('di' => $gp, 'name' => 'title'),
 			array('di' => $gcr, 'name' => 'title'),
-			array('di' => $gr, 'name' => 'title_eng'),
+			//array('di' => $gr, 'name' => 'title_eng'),
 		);
 		$this->_get();
 		$this->pop_args();

@@ -37,7 +37,7 @@ class di_guide_region extends data_interface
 		'deleter_uid' => array('type'=>'integer'),
 		'country_id' => array('type' => 'integer', 'alias' => 'cid'),
 		'title' => array('type' => 'text'),
-		'title_eng' => array('type' => 'text'),
+		//'title_eng' => array('type' => 'text'),
 		'post_zone_id' => array('type' => 'integer'),
 	);
 	
