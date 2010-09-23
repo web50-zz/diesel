@@ -6,7 +6,7 @@ ui.administrate.home = function(config){
 		items: [
 			{columnWidth: .6,
 			items: [
-				new ui.order.order_list({iconCls: 'coins', title: 'Заказы', height: 300})
+				//new ui.order.order_list({iconCls: 'coins', title: 'Заказы', height: 300})
 			]},
 			{columnWidth: .2,
 			items: [
