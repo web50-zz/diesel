@@ -48,10 +48,10 @@ class user_interface extends base_interface
 			class_exists($class);
 			$object = new $class();
 			$object->interfaceName = $name;
-			if(!$object->files_path)//9* if have no overloads of files_path we set default UI_PATH. IF UI in INSTANCE path this property is required
-			{
+
+			if (!$object->files_path)//9* if have no overloads of files_path we set default UI_PATH. IF UI in INSTANCE path this property is required
 				$object->files_path = UI_PATH . $name . '/';
-			}
+
 			self::$registry[$name] = $object;
 		}
 		catch(Exception $e)
@@ -155,21 +155,17 @@ class user_interface extends base_interface
 
 	public function get_resource_dir_path($mode = '')
 	{
-		if($mode != 'default')
+		if ($mode != 'default')
 		{
 			$tmpl_path = BASE_PATH.CURRENT_THEME_PATH.'tmpl/'.$this->interfaceName; 
-			if(is_dir($tmpl_path))
-			{
-				return $tmpl_path.'/';
-			}
+			if (is_dir($tmpl_path)) return "{$tmpl_path}/";
 		}
-		$tmpl_path2 = $this->pwd().'templates';	
+
+		$tmpl_path2 = $this->pwd() . 'templates';	
+
 		if(is_dir($tmpl_path2))
-		{
 			return $tmpl_path2.'/';
-		}
-	//	$dbgs = array_shift(debug_backtrace());
-	//	dbg::write(" RESOURCE PATH WAS NOT FOUND at user_interface::iget_resource_dir_path() \nCall from:.....  ". $dbgs['file']."\nline:..........  ".$dbgs['line']. "\npath1: $tmpl_path \npath2: $tmpl_path2");
+
 		return false;
 	}
 	
@@ -177,7 +173,8 @@ class user_interface extends base_interface
 	{
 		$res_path = $this->get_resource_dir_path().$res_name;
 		$res_path2 = $this->get_resource_dir_path('default').$res_name;
-		if(file_exists($res_path))
+
+		if (file_exists($res_path))
 		{
 			if($mode == 'relative')
 			{
@@ -185,7 +182,7 @@ class user_interface extends base_interface
 			}
 			return $res_path;
 		}
-		else if(file_exists($res_path2))
+		else if (file_exists($res_path2))
 		{
 			if($mode == 'relative')
 			{
@@ -195,8 +192,8 @@ class user_interface extends base_interface
 		}
 		else
 		{
-	//		$dbgs = array_shift(debug_backtrace());
-	//		dbg::write("RESOURCE FILE WAS NOT FOUND at user_interface::get_resource_path() $res_name");
+			//$dbgs = array_shift(debug_backtrace());
+			//dbg::write("RESOURCE FILE WAS NOT FOUND at user_interface::get_resource_path() $res_name");
 		}
 		return false;
 	}
@@ -210,20 +207,50 @@ class user_interface extends base_interface
 	{
 		$face = $this->get_args('face');
 		$faces = $this->get_entry_poins('/^' . UI_CALL_PREFIX . '\w+/');
-		if (in_array(UI_CALL_PREFIX . $face, $faces))
+		
+		try
 		{
+			if (!in_array(UI_CALL_PREFIX . $face, $faces))
+				throw new Exception("Приложение {$this->interfaceName}.{$face} не существует.");
+
+			$dependencies = (array)$this->deps[$face];
+
+			foreach ($dependencies as $app)
+			{
+				list($ui_name, $call) = preg_split('/\./', $app);
+				$ui = user_interface::get_instance($ui_name);
+				$dependencies = array_merge($dependencies, $ui->get_dependencies($call));
+			}
+			
+			$dependencies = array_reverse($dependencies);
+			$dependencies = array_unique($dependencies);
+			$dependencies = array_reverse($dependencies);
+
 			response::send(array(
 				'success' => true,
-				'dependencies' => (array)$this->deps[$face]
+				'dependencies' => $dependencies
 			), 'json');
 		}
-		else
+		catch (Exception $e)
 		{
 			response::send(array(
 				'success' => false,
-				'errors' => 'Данный вызов не описан'
+				'errors' => $e->getMessage()
 			), 'json');
 		}
+	}
+
+	/**
+	*	Get neccessary UI for application
+	*/
+	public function get_dependencies($name)
+	{
+		$faces = $this->get_entry_poins('/^' . UI_CALL_PREFIX . '\w+/');
+
+		if (!in_array(UI_CALL_PREFIX . $name, $faces))
+			throw new Exception("Приложение {$this->interfaceName}.{$name} не существует.");
+
+		return (array)$this->deps[$name];
 	}
 }
 ?>

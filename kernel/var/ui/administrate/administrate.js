@@ -17,19 +17,24 @@ ui.administrate = function(config){
 		var appId = 'app-'+appName+'-'+appFace;
                 var appClass = 'ui.'+appName+'.'+appFace;
 		var app = new App();
-		app.on('apploaded', function(){
-			var tab = mainWS.getComponent(appId);
-			if (tab != undefined){
-				mainWS.setActiveTab(tab);
-			}else{
-				var cfg = Ext.apply({region: 'center'}, {
-					id: appId,
-					title: tabText,
-					closable: true
-				});
-				tab = eval('new '+appClass+'(cfg)');
-				mainWS.add(tab);
-				mainWS.setActiveTab(tab);
+		app.on({
+			apploaded: function(){
+				var tab = mainWS.getComponent(appId);
+				if (tab != undefined){
+					mainWS.setActiveTab(tab);
+				}else{
+					var cfg = Ext.apply({region: 'center'}, {
+						id: appId,
+						title: tabText,
+						closable: true
+					});
+					tab = eval('new '+appClass+'(cfg)');
+					mainWS.add(tab);
+					mainWS.setActiveTab(tab);
+				}
+			},
+			apperror: function(error){
+				showError(error);
 			}
 		});
 		app.Load(appName, appFace);
@@ -38,20 +43,25 @@ ui.administrate = function(config){
 		var appId = 'app-'+config.appName+'-'+config.appFace;
                 var appClass = 'ui.'+config.appName+'.'+config.appFace;
 		var app = new App();
-		app.on('apploaded', function(){
-			var tab = mainWS.getComponent(appId);
-			if (tab != undefined){
-				mainWS.setActiveTab(tab);
-			}else{
-				var cfg = Ext.apply({region: 'center'}, {
-					id: appId,
-					title: config.text,
-					iconCls: config.iconCls,
-					closable: true
-				});
-				tab = eval('new '+appClass+'(cfg)');
-				mainWS.add(tab);
-				mainWS.setActiveTab(tab);
+		app.on({
+			apploaded: function(){
+				var tab = mainWS.getComponent(appId);
+				if (tab != undefined){
+					mainWS.setActiveTab(tab);
+				}else{
+					var cfg = Ext.apply({region: 'center'}, {
+						id: appId,
+						title: config.text,
+						iconCls: config.iconCls,
+						closable: true
+					});
+					tab = eval('new '+appClass+'(cfg)');
+					mainWS.add(tab);
+					mainWS.setActiveTab(tab);
+				}
+			},
+			apperror: function(error){
+				showError(error);
 			}
 		});
 		app.Load(config.appName, config.appFace);
@@ -61,8 +71,8 @@ ui.administrate = function(config){
 		items: [
 			{region: 'north', xtype: 'toolbar', height: 27, items: [
 				{text: this.menuStructure, iconCls: 'chart_organisation', appName: 'structure', appFace: 'main', handler: appLauncher},
-				{text: this.menuFileManager, iconCls: 'application_view_tile', appName: 'file_manager', appFace: 'main', handler: appLauncher},
 				{text: this.menuCatalogue, iconCls: 'layout', appName: 'catalogue', appFace: 'main', handler: appLauncher},
+				{text: "Заказы", iconCls: 'coins', appName: 'order', appFace: 'main', handler: appLauncher},
 				{text: this.menuGuide, iconCls: 'book', menu:[
 					{text: "Производители", iconCls: 'book_open', appName: 'guide', appFace: 'producer', handler: appLauncher},
 					{text: "Коллекции", iconCls: 'book_open', appName: 'guide', appFace: 'collection', handler: appLauncher},
@@ -76,6 +86,7 @@ ui.administrate = function(config){
 					{text: "Способы оплаты", iconCls: 'book_open', appName: 'guide', appFace: 'pay_type', handler: appLauncher}
 				]},	
 				{text: this.menuApps, iconCls: 'book', menu:[
+					{text: this.menuFileManager, iconCls: 'application_view_tile', appName: 'file_manager', appFace: 'main', handler: appLauncher},
 					{text: "Новости", iconCls: 'newspaper', appName: 'news', appFace: 'main', handler: appLauncher},
 					{text: "Текст", iconCls: 'page_white', appName: 'text', appFace: 'main', handler: appLauncher},
 					{text: "FAQ", iconCls: 'book_open', appName: 'faq', appFace: 'main', handler: appLauncher},
@@ -84,7 +95,6 @@ ui.administrate = function(config){
 					{text: "Новинки", iconCls: 'book_open', appName: 'market_latest', appFace: 'main', handler: appLauncher},
 					{text: "Гостевая", iconCls: 'book_open', appName: 'guestbook', appFace: 'main', handler: appLauncher},
 					{text: "Рассылки", iconCls: 'book_open', appName: 'subscribe', appFace: 'main', handler: appLauncher},
-					{text: "Заказы", iconCls: 'coins', appName: 'order', appFace: 'main', handler: appLauncher},
 					{text: "Клиенты", iconCls: 'book_open', appName: 'market_clients', appFace: 'main', handler: appLauncher}
 				]},
 

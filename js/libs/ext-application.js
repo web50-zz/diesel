@@ -3,29 +3,19 @@ var App = function(config){
 	var loadMask = new Ext.LoadMask(Ext.getBody());
 	Ext.apply(this, config);
 	App.superclass.constructor.call(this, {});
-	var loadDependencies = function(deps){
-		for (var i in deps){
-			var x = deps[i];
-			if (typeof x == "string"){
-				var app = new App();
-				app.on('apploaded', function(){
-					var loaded = true;
-					for (var j in deps){
-						var a = deps[j];
-						if (typeof a == "string"){
-							var b = a.split('.');
-							Ext.namespace("ui."+b[0]);
-							if (!classExists("ui."+a))
-								loaded = false;
-						}
-					}
-					if (loaded == true)
-						this.fireEvent('deploaded');
-				}, this);
-				var y = x.split('.');
-				app.Load(y[0], y[1]);
-			}
-		}
+	var loadDependencies = function(ui){
+		var ab = ui.split('.');
+		var app = new App();
+		app.on({
+			apploaded: function(){
+				this.fireEvent('deploaded');
+			},
+			apperror: function(errMsg){
+				this.fireEvent('deperror', errMsg);
+			},
+			scope: this
+		});
+		app.Load(ab[0], ab[1], true);
 	}.createDelegate(this);
 	var checkForDependencies = function(appName, appFace){
 		Ext.Ajax.request({
@@ -35,13 +25,19 @@ var App = function(config){
 				var d = Ext.util.JSON.decode(response.responseText);
 				if (success && d.success){
 					if (!Ext.isEmpty(d.dependencies)){
+						var deps = d.dependencies;
+						var ui = deps.pop();
 						this.on({
 							deploaded: function(){
-								this.Load(appName, appFace, true);
+								var ui = deps.pop();
+								if (typeof ui == 'string')
+									loadDependencies(ui);
+								else	
+									this.Load(appName, appFace, true);
 							},
 							scope: this
-						})
-						loadDependencies(d.dependencies);
+						});
+						loadDependencies(ui);
 					}else
 						this.Load(appName, appFace, true);
 				}else{
@@ -82,18 +78,30 @@ var App = function(config){
 					if (typeof(j.onreadystatechange) == 'object'){
 						j.onreadystatechange = function(e){
 							if (this.readyState == 'loaded'){
-								self.fireEvent('apploaded', [appName, appFace]);
+								self.fireEvent('scriptloaded');
 							}
 						};
 					}else{
 						Ext.get(j).on({
 							load: function(){
-								this.fireEvent('apploaded', [appName, appFace]);
+								this.fireEvent('scriptloaded');
 							},
 							scope: this
 						});
 					}
-
+					
+					this.on({
+						scriptloaded: function(){
+							if (classExists("ui."+appName+"."+appFace))
+								this.fireEvent('apploaded', [appName, appFace])
+							else
+								this.fireEvent('apperror', this.appErrorMsg);
+						},
+						deperror: function(errMsg){
+							this.fireEvent('apperror', errMsg);
+						},
+						scope: this
+					});
 					document.getElementsByTagName('head')[0].appendChild(j);
 				}
 			}
@@ -102,6 +110,7 @@ var App = function(config){
 		}
 	}
 	this.addEvents({
+		scriptloaded: true,
 		apploaded: true,
 		apperror: true,
 		deploaded: true,
@@ -111,7 +120,12 @@ var App = function(config){
 		apploaded: function(appName, appFace){
 			loadMask.hide();
 			if (ApplyLocale) ApplyLocale();
+		},
+		apperror: function(){
+			loadMask.hide();
 		}
 	})
 }
-Ext.extend(App, Ext.util.Observable, {});
+Ext.extend(App, Ext.util.Observable, {
+	appErrorMsg: 'Не удалось загрузить приложение.'
+});
