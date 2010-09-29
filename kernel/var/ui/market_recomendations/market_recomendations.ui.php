@@ -14,8 +14,10 @@ class ui_market_recomendations extends user_interface
 		'main' => array(
 			'market_recomendations.catalogue_list',
 			'market_recomendations.recomend_list',
-			'catalogue.item_list',
 			'catalogue.filter_form',
+		),
+		'catalogue_list' => array(
+			'catalogue.item_list',
 		)
 	);
 
