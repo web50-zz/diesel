@@ -18,10 +18,13 @@ ui.catalogue = function(conf){
 			success: function(resp, opts){
 				var obj = Ext.decode(resp.responseText);
 				var text = 'Товар добавлен в корзину';
-				AlertBox.show("Внимание", text, 'none', {dock: 'top'});
-				if(typeof(window['ui_market_basket']) != 'undefined'){
-					ui_market_basket.fireEvent('brefresh');
-				}
+				AlertBox.show("Внимание", text, 'none', {dock: 'top',timeout:2});
+					try{
+						Diesel.market_basket.fireEvent('brefresh');
+					}
+					catch(err){
+						//shut up
+					}
 			},
 			failure: function(resp, opts){
 				alert(resp.status);

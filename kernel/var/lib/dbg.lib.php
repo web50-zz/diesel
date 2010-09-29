@@ -56,6 +56,16 @@ class dbg
 		echo '</div>';
 	}
 	
+	public static function fire($value)
+	{
+		$dbgs = array_shift(debug_backtrace());
+		$msg =  date('[ Y-m-d H:i:s ]' . "\n");
+		$msg.= 'file: '.$dbgs['file']. "\n";
+		$msg.= 'line: '.$dbgs['line'] . "\n\n";
+		$msg.=  $value."\n\n";
+		$firephp = FirePHP::getInstance(true);
+		$firephp->log($value, $msg);
+	}
 	/**
 	*	Отобразить значение переменной / объекта
 	*

@@ -1,5 +1,4 @@
-Ext.namespace("ui.market_basket");
-
+Ext.namespace("ui","Diesel");
 
 ui.market_basket = Ext.extend(Ext.util.Observable, {
 	constructor: function(config)
@@ -39,7 +38,6 @@ ui.market_basket = Ext.extend(Ext.util.Observable, {
 
 	},
 
-
 	refresh: function(){
 		Ext.Ajax.request({
 			url: '/ui/market_basket/basket_json.do',
@@ -62,11 +60,11 @@ ui.market_basket = Ext.extend(Ext.util.Observable, {
 			},
 			scope:this
 		});
-	},
+	}
 
 });
 
 Ext.onReady(function(){
-	this.ui_market_basket = new ui.market_basket();
+	Diesel.market_basket = new ui.market_basket();
 });
 
