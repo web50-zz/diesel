@@ -116,7 +116,7 @@ ui.catalogue.item_list = function(config, vp){
 	);
 	this.on({
 		rowcontextmenu: onCmenu,
-		render: function(){store.load({params:{start:0, limit: this.limit}})},
+		//render: function(){store.load({params:{start:0, limit: this.limit}})},
 		scope: this
 	})
 };

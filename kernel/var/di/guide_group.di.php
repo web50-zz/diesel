@@ -50,6 +50,8 @@ class di_guide_group extends data_interface
 			unset($this->args['_sname']);
 
 		$this->_flush();
+		$this->_flush(true);	// Это не баг - это что бы "extjs_grid_json" не обнулял сортировку
+		$this->set_order('name');
 		$this->extjs_grid_json(array('id', 'name'));
 	}
 	

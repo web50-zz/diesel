@@ -45,6 +45,8 @@ class di_guide_producer extends data_interface
 	protected function sys_combolist()
 	{
 		$this->_flush();
+		$this->_flush(true);
+		$this->set_order('name');
 		$this->extjs_grid_json(array('id', 'name'));
 	}
 	

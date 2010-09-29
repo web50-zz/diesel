@@ -21,18 +21,31 @@ ui.catalogue.filter_form = function(config){
 		labelAlign: 'top',
 		defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 		items: [
-			{fieldLabel: this.labelTitle, name: '_stitle'},
+			{fieldLabel: this.labelTitle, name: 'query'},
 			{fieldLabel: this.labelExist, hiddenName: '_son_offer', xtype: 'combo', width: 50, value: '',
-				store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [['', 'Все'], [1, 'Да'], [0, 'Нет']] }),
-				valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+				store: [['', 'Все'], [1, 'Да'], [0, 'Нет']],
+				triggerAction: 'all', mode: 'local', editable: false
 			},
 			{fieldLabel: this.labelType, hiddenName: '_stype_id', xtype: 'combo', value: '',
-				store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'name'], autoLoad: true}),
-				valueField: 'id', displayField: 'name', triggerAction: 'all', editable: false
+				store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'name'], autoLoad: true
+					,listeners: {
+						load: function(){this.getForm().findField('_stype_id').setValue('')},
+						scope: this
+					}
+				}),
+				valueField: 'id', displayField: 'name', triggerAction: 'all', mode: 'local',
+				editable: false
 			},
 			{fieldLabel: this.labelGroup, hiddenName: '_sgroup_id', xtype: 'combo',
 				store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'name']}),
-				valueField: 'id', displayField: 'name', triggerAction: 'all', queryParam: '_sname'
+				valueField: 'id', displayField: 'name',
+				loadingText: 'Загрузка...',
+				triggerAction: 'query',
+				forceSelection: true,
+				hideTrigger: true,
+				minChars: 1,
+				mode: 'remote',
+				queryParam: '_sname'
 			}
 		],
 		buttonAlign: 'right',
