@@ -22,7 +22,7 @@ ui.administrate.menu = function(config){
 			{text: "Почтовые зоны", iconCls: 'map', appName: 'guide', appFace: 'post_zone', handler: onMenuClick},
 			{text: "Способы оплаты", iconCls: 'book_open', appName: 'guide', appFace: 'pay_type', handler: onMenuClick}
 		]},	
-		{text: this.menuApps, iconCls: 'book', menu:[
+		{text: this.menuApps, iconCls: 'application_double', menu:[
 			{text: this.menuFileManager, iconCls: 'application_view_tile', appName: 'file_manager', appFace: 'main', handler: onMenuClick},
 			{text: "Новости", iconCls: 'newspaper', appName: 'news', appFace: 'main', handler: onMenuClick},
 			{text: "Текст", iconCls: 'page_white', appName: 'text', appFace: 'main', handler: onMenuClick},
