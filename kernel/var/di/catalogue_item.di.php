@@ -123,6 +123,12 @@ class di_catalogue_item extends data_interface
 	*/
 	protected function sys_list()
 	{
+		$this->_flush(true);
+		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
+		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('title' => 'str_price'));
+		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('title' => 'str_collection'));
+
 		if (!empty($this->args['_stitle']))
 			$this->args['_stitle'] = "%{$this->args['_stitle']}%";
 		else
@@ -132,11 +138,20 @@ class di_catalogue_item extends data_interface
 		if ($this->args['_stype_id'] == '') unset($this->args['_stype_id']);
 		if ($this->args['_sgroup_id'] == '') unset($this->args['_sgroup_id']);
 
-		$this->_flush(true);
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
-		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
-		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('title' => 'str_price'));
-		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('title' => 'str_collection'));
+		if(($query = request::get('query', false)) != false)
+		{
+			$name = $this->get_alias();
+			$where[] = "`{$name}`.`title` LIKE \"%{$query}%\"";
+			$name = $gg->get_alias();
+			$where[] = "`{$name}`.`name` LIKE \"%{$query}%\"";
+		}
+
+		if (!empty($where))
+		{
+			$this->where = join(' OR ', $where);
+		}
+
+		$this->connector->debug = true;
 		$this->extjs_grid_json(array(
 			'id',
 			'on_offer',
