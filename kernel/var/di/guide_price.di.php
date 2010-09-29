@@ -45,6 +45,7 @@ class di_guide_price extends data_interface
 	protected function sys_combolist()
 	{
 		$this->_flush();
+		$this->_flush(true);
 		$this->set_order('title', 'ASC');
 		$this->extjs_grid_json(array('id', 'title'));
 	}

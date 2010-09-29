@@ -45,6 +45,8 @@ class di_guide_type extends data_interface
 	protected function sys_combolist()
 	{
 		$this->_flush();
+		$this->_flush(true);	// Это не баг - это что бы "extjs_grid_json" не обнулял сортировку
+		$this->set_order('name');
 		$data = $this->extjs_grid_json(array('id', 'name'), false);
 		if ($this->get_args('with_empty') == 'yes')
 			array_unshift($data['records'], array('id' => '', 'name' => 'Все'));
