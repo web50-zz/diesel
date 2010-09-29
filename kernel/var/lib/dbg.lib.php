@@ -62,9 +62,8 @@ class dbg
 		$msg =  date('[ Y-m-d H:i:s ]' . "\n");
 		$msg.= 'file: '.$dbgs['file']. "\n";
 		$msg.= 'line: '.$dbgs['line'] . "\n\n";
-		$msg.=  $value."\n\n";
-		$firephp = FirePHP::getInstance(true);
-		$firephp->log($value, $msg);
+		FB::warn($msg);
+		FB::error($value);
 	}
 	/**
 	*	Отобразить значение переменной / объекта
