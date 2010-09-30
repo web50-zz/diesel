@@ -449,42 +449,56 @@ class connector_mysql
 		{
 			foreach ($fields as $key => $field)
 			{
-				if (!preg_match('/^\d+$/', $key))
+				if ($field == '*')
+				// Добавить все имеющиеся поля в DI
 				{
-					$alias = $field;
-					$field = $key;
+					foreach (array_keys($this->di->fields) as $sFld)
+						$set[] = "`{$name}`.`{$sFld}`";
+				}
+				elseif (preg_match('/^[!](\w+)$/', $field, $matches) && ($n = array_search("`{$name}`.`{$matches[1]}`", $set)) !== FALSE)
+				// Удалить поле из списка имеющихся полей
+				{
+					unset($set[$n]);
 				}
 				else
 				{
-					$alias = false;
-				}
-				
-				if (is_array($field))
-				{
-					if ($field['alias'])
-						$field['di']->set_fields_join_alias($field['name'], $field['alias']);
+					if (!preg_match('/^\d+$/', $key))
+					{
+						$alias = $field;
+						$field = $key;
+					}
+					else
+					{
+						$alias = false;
+					}
 					
-					$di_name = $field['di']->get_alias();
-					$alias = $field['di']->get_fields_join_alias($field['name']);
-					$field = "`{$di_name}`.`{$field['name']}`";
+					if (is_array($field))
+					{
+						if ($field['alias'])
+							$field['di']->set_fields_join_alias($field['name'], $field['alias']);
+						
+						$di_name = $field['di']->get_alias();
+						$alias = $field['di']->get_fields_join_alias($field['name']);
+						$field = "`{$di_name}`.`{$field['name']}`";
+					}
+					else if (preg_match('/^\w+$/', $field))
+					{
+						$field = "`{$name}`.`{$field}`";
+					}
+					else if ($field == '*')
+					{
+						$field = "`{$name}`.*";
+					}
+					
+					$set[] = $field;
+					
+					if ($alias !== false && !empty($alias))
+						$set[] = array_pop($set) . " AS `{$alias}`";
 				}
-				else if (preg_match('/^\w+$/', $field))
-				{
-					$field = "`{$name}`.`{$field}`";
-				}
-				else if ($field == '*')
-				{
-					$field = "`{$name}`.*";
-				}
-				
-				$set[] = $field;
-				
-				if ($alias !== false && !empty($alias))
-					$set[] = array_pop($set) . " AS `{$alias}`";
 			}
 			
 			if (count($set) > 0)
-				$this->_what  = join(', ', $set);
+				$this->_what = join(', ', $set);
 			else
 				throw new Exception('Не указаны поля для выборки.');
 		}
