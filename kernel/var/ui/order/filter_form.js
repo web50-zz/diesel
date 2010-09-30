@@ -53,7 +53,7 @@ ui.order.filter_form = function(config){
 }
 Ext.extend(ui.order.filter_form , Ext.form.FormPanel, {
 	labelId: 'ID заказа',
-	labelTitle: 'Пользователь',
+	labelTitle: 'Клиент',
 	labelStatus: 'Статус',
 	labelMoP: 'Способ оплаты',
 	labelDate: 'Дата заказа',
