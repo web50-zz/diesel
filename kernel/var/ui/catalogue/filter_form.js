@@ -52,6 +52,9 @@ ui.catalogue.filter_form = function(config){
 		buttons: [
 			{iconCls: 'disk', text: this.bttSubmit, handler: Submit},
 			{iconCls: 'cancel', text: this.bttReset, handler: Reset}
+		],
+		keys: [
+			{key: [Ext.EventObject.ENTER], handler: Submit}
 		]
 	});
 	this.addEvents(
