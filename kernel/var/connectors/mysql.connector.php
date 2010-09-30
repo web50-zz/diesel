@@ -455,7 +455,7 @@ class connector_mysql
 					foreach (array_keys($this->di->fields) as $sFld)
 						$set[] = "`{$name}`.`{$sFld}`";
 				}
-				elseif (preg_match('/^[!](\w+)$/', $field, $matches) && ($n = array_search("`{$name}`.`{$matches[1]}`", $set)) !== FALSE)
+				elseif (is_string($field) && preg_match('/^[!](\w+)$/', $field, $matches) && ($n = array_search("`{$name}`.`{$matches[1]}`", $set)) !== FALSE)
 				// Удалить поле из списка имеющихся полей
 				{
 					unset($set[$n]);
