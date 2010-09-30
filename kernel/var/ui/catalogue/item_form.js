@@ -27,7 +27,7 @@ ui.catalogue.item_form = function(config){
 			picture.store.reload();
 		}
 	});
-	var style_out = new ui.catalogue.styles({title: 'Доступные', region: 'east', width: 300, split: true,
+	var style_out = new ui.catalogue.styles({title: 'Доступные', region: 'east', width: 400, split: true,
 		ddGroup: 'style_out',
 		enableDragDrop: true});
 	style_out.store.baseParams = {iid: 0, _siid: 'null'};
@@ -159,7 +159,7 @@ ui.catalogue.item_form = function(config){
 							valueField: 'id', displayField: 'title', mode: 'local', triggerAction: 'all', editable: false
 						},
 						{fieldLabel: this.labelExist, hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0, store: [[0, 'Нет'], [1, 'Да']], triggerAction: 'all', editable: false},
-						{hideLabel: true, name: 'description', xtype: 'htmleditor'}
+						{hideLabel: true, name: 'description', xtype: 'htmleditor', value: 'Состав: <br/><br/><br/>Номер по каталогу: <br/>Год выхода: <br/>Стиль: <br/>Производитель:'}
 						//,{hideLabel: true, xtype: 'compositefield', items: [
 						//	{xtype: 'displayfield', value: this.labelRecomended},
 						//	{hiddenName: 'recomended', xtype: 'combo', width: 50, value: 0,

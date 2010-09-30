@@ -21,16 +21,18 @@ ui.catalogue.styles = function(config){
 	// The data store
 	this.store = new Ext.data.Store({
 		proxy: proxy,
-		reader: reader
+		reader: reader,
+		autoLoad: true
 	});
 	this.reload = function(full){
-		if (full == true){
-			var bb = this.getBottomToolbar();
-			bb.doLoad(0);
-		}else{
-			var bb = this.getBottomToolbar();
-			bb.doLoad(bb.cursor);
-		}
+		this.store.load();
+		//if (full == true){
+		//	var bb = this.getBottomToolbar();
+		//	bb.doLoad(0);
+		//}else{
+		//	var bb = this.getBottomToolbar();
+		//	bb.doLoad(bb.cursor);
+		//}
 	};
 	this.addStyles = function(ddSource, e, data){
 		var iid = getItemID();
@@ -92,27 +94,17 @@ ui.catalogue.styles = function(config){
 			{id: 'name', header:  this.labelName, dataIndex: 'name', width: 200}
 		],
 		loadMask: true,
-		autoExpandColumn: 'name',
-		bbar: new Ext.PagingToolbar({
-			pageSize: this.limit,
-			store: this.store,
-			displayInfo: true,
-			displayMsg: this.pagerDisplayMsg,
-			emptyMsg: this.pagerEmptyMsg
-		})
+		autoExpandColumn: 'name'
 	});
 	this.addEvents(
 		"styles_added",
 		"styles_removed"
 	);
 	this.on({
-		render: function(){this.store.load({params:{start:0, limit: this.limit}})},
 		scope: this
 	})
 };
 Ext.extend(ui.catalogue.styles, Ext.grid.GridPanel, {
-	limit: 50,
-
 	labelName: 'Стиль',
 
 	pagerEmptyMsg: 'Нет записей',

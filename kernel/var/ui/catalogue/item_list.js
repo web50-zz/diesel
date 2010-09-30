@@ -1,6 +1,6 @@
 ui.catalogue.item_list = function(config, vp){
 	var formW = 800;
-	var formH = 600;
+	var formH = 620;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
@@ -42,7 +42,8 @@ ui.catalogue.item_list = function(config, vp){
 		proxy: proxy,
 		reader: reader,
 		writer: writer,
-		remoteSort: true
+		remoteSort: true,
+		sortInfo: {field: 'id', direction: 'DESC'}
 	});
 	this.applyStore = function(data){
 		Ext.apply(store.baseParams, data);
