@@ -18,15 +18,18 @@ ui.catalogue.item_list = function(config, vp){
 			root: 'records',
 			messageProperty: 'errors'
 		}, [
-			{name: 'prepayment', type: 'float'},
-			{name: 'payment_forward', type: 'float'},
+			//{name: 'prepayment', type: 'float'},
+			//{name: 'payment_forward', type: 'float'},
+			{name: 'cost', type: 'float'},
+			{name: 'discount', type: 'float'},
 			{name: 'on_offer', type: 'int'},
 			{name: 'recomended', type: 'int'},
 			{name: 'id', type: 'int'},
 			'title',
 			'str_type',
 			'str_group',
-			'str_price'
+			'str_price',
+			'str_collection'
 		]
 	);
 	// Typical JsonWriter
@@ -57,12 +60,14 @@ ui.catalogue.item_list = function(config, vp){
 	}
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{header: "ID", width: 50, sortable: true, dataIndex: 'id', id: 'id', sortable: true},
-		{header: this.colType, width: 100, sortable: true, dataIndex: 'str_type', id: 'str_type', sortable: true},
-		{header: this.colExist, width: 50, sortable: true, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: ynFormat, sortable: true},
-		{header: this.colPrice, width: 200, sortable: true, dataIndex: 'str_price', id:'str_price', sortable: true},
-		{header: this.colGroup, width: 200, sortable: true, dataIndex: 'str_group', id:'str_group', sortable: true},
-		{header: this.colTitle, width: 200, sortable: true, dataIndex: 'title', id: 'title', sortable: true}
+		{header: "ID", dataIndex: 'id', id: 'id', sortable: true, width: 50},
+		{header: this.colType, dataIndex: 'str_type', id: 'str_type', width: 100, sortable: true},
+		{header: this.colExist, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: ynFormat, width: 50, sortable: true},
+		{header: this.colPrice, dataIndex: 'str_price', id:'str_price', width: 150, sortable: true},
+		{header: this.colCost, dataIndex: 'cost', id:'cost', width: 70, align: 'right', sortable: true},
+		{header: this.colCollection, dataIndex: 'str_collection', id:'str_collection', width: 200, sortable: true},
+		{header: this.colGroup, dataIndex: 'str_group', id:'str_group', width: 200, sortable: true},
+		{header: this.colTitle, dataIndex: 'title', id: 'title', width: 200, sortable: true}
 	];
 	var Add = function(){
 		var f = new ui.catalogue.item_form();
@@ -125,7 +130,9 @@ Ext.extend(ui.catalogue.item_list, Ext.grid.GridPanel, {
 	colExist: "В продаже",
 	colRecom: "Рекомендовано",
 	colGroup: "Группа",
+	colCollection: "Коллекция",
 	colPrice: "Прайс",
+	colCost: "Цена",
 	colPrepay: "Предоплата",
 	colPayfwd: "Нал. плат.",
 	colType: "Тип",
