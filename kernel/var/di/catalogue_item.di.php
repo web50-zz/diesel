@@ -36,7 +36,9 @@ class di_catalogue_item extends data_interface
 		'income_date' => array('type' => 'date'),
 		'on_offer' => array('type' => 'integer'),
 		'recomended' => array('type' => 'integer'),
+		'number' => array('type' => 'string'),		// Номер по каталогу
 		'title' => array('type' => 'string'),
+		'year' => array('type' => 'string'),		// Год выхода
 		'preview' => array('type' => 'string'),
 		'picture' => array('type' => 'string'),
 		'description' => array('type' => 'text'),

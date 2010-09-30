@@ -121,14 +121,24 @@ ui.catalogue.item_form = function(config){
 			defaults: {hideMode: 'offsets', frame: true, layout: 'form'}, items: [
 				{id: 'item-main', title: this.tabMain, autoScroll: true, layout: 'column', items: [
 					{columnWidth: .7, layout: 'form', labelWidth: 150, defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
-						{fieldLabel: this.labelProducer, hiddenName: 'producer_id', xtype: 'combo', emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText,
-							store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+						{fieldLabel: this.labelType, hiddenName: 'type_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
+							store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', editable: false
+						},
+						{fieldLabel: this.labelProducer, hiddenName: 'producer_id', value: '33', xtype: 'combo', emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText,
+							store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true,
+								listeners: {load: function(){
+									var f = this.getForm().findField('producer_id');
+									f.setValue(f.getValue());
+								}, scope: this}
+							}),
 							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
 						},
 						{fieldLabel: this.labelCollection, hiddenName: 'collection_id', xtype: 'combo', emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText,
 							store: new Ext.data.JsonStore({url: 'di/guide_collection/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
 							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
 						},
+						{fieldLabel: this.labelNumber, name: 'number', maxLength: 256, maxLengthText: this.maxLengthText},
 						{fieldLabel: this.labelGroup, hiddenName: 'group_id', xtype: 'combo',
 							store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name']}),
 							valueField: 'id', displayField: 'name',
@@ -140,11 +150,8 @@ ui.catalogue.item_form = function(config){
 							mode: 'remote',
 							queryParam: '_sname'
 						},
-						{fieldLabel: this.labelType, hiddenName: 'type_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
-							store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', editable: false
-						},
 						{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
+						{fieldLabel: this.labelYear, name: 'year', xtype: 'numberfield', maxLength: 4},
 						{fieldLabel: this.labelDate, name: 'income_date', xtype: 'datefield', format: 'Y-m-d'},
 						preview, picture,
 						{fieldLabel: this.labelPrice, hiddenName: 'price_id', xtype: 'combo', width: 200,
@@ -214,6 +221,8 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 	tabFiles: 'Файлы',
 
 	labelName: 'Наименование',
+	labelNumber: 'Номер по каталогу',
+	labelYear: 'Год выхода',
 	labelDate: 'Дата поступления',
 	labelExist: 'В продаже',
 	labelRecomended: 'Рекомендовано',
