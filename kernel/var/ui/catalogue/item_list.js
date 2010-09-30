@@ -1,6 +1,6 @@
 ui.catalogue.item_list = function(config, vp){
-	var formW = 700;
-	var formH = 480;
+	var formW = 800;
+	var formH = 600;
 	Ext.apply(this, config);
 	var proxy = new Ext.data.HttpProxy({
 		api: {
