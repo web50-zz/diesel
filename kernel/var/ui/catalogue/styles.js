@@ -88,10 +88,33 @@ ui.catalogue.styles = function(config){
 		}
 		return true
 	}.createDelegate(this);
+	var srchField = new Ext.form.TextField();
+	var srchBttOk = new Ext.Toolbar.Button({
+		text: 'Найти',
+		iconCls:'find',
+		handler: function search_submit(){
+			Ext.apply(this.store.baseParams, {_sname: '%'+srchField.getValue()+'%'});
+			this.reload();
+		},
+		scope: this
+	});
+	var srchBttCancel = new Ext.Toolbar.Button({
+		text: 'Сбросить',
+		iconCls:'cancel',
+		handler: function search_submit(){
+			srchField.setValue('');
+			Ext.apply(this.store.baseParams, {_sname: ''});
+			this.reload();
+		},
+		scope: this
+	});
 	ui.catalogue.styles.superclass.constructor.call(this,{
 		columns: [
 			{id: 'id', dataIndex: 'id', hidden: true},
 			{id: 'name', header:  this.labelName, dataIndex: 'name', width: 200}
+		],
+		tbar: [
+			new Ext.Toolbar.TextItem ("Найти:"), srchField, srchBttOk, srchBttCancel
 		],
 		loadMask: true,
 		autoExpandColumn: 'name'
