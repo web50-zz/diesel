@@ -36,7 +36,9 @@ class di_catalogue_item extends data_interface
 		'income_date' => array('type' => 'date'),
 		'on_offer' => array('type' => 'integer'),
 		'recomended' => array('type' => 'integer'),
+		'number' => array('type' => 'string'),		// Номер по каталогу
 		'title' => array('type' => 'string'),
+		'year' => array('type' => 'string'),		// Год выхода
 		'preview' => array('type' => 'string'),
 		'picture' => array('type' => 'string'),
 		'description' => array('type' => 'text'),
@@ -127,7 +129,7 @@ class di_catalogue_item extends data_interface
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('title' => 'str_price'));
-		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('title' => 'str_collection'));
+		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 
 		if (!empty($this->args['_stitle']))
 			$this->args['_stitle'] = "%{$this->args['_stitle']}%";
@@ -157,13 +159,14 @@ class di_catalogue_item extends data_interface
 			'on_offer',
 			'recomended',
 			'title',
-			'prepayment',
-			'payment_forward',
-			array('di' => $gt, 'name' => 'name'),
-			array('di' => $gg, 'name' => 'name'),
-			array('di' => $gp, 'name' => 'title'),
-			array('di' => $gc, 'name' => 'name'),
-			array('di' => $gc, 'name' => 'discount'),
+			//'prepayment',
+			//'payment_forward',
+			array('di' => $gt, 'name' => 'name'),		// Тип
+			array('di' => $gg, 'name' => 'name'),		// Группа
+			array('di' => $gp, 'name' => 'title'),		// Прайс
+			array('di' => $gp, 'name' => 'cost'),		// Цена
+			array('di' => $gc, 'name' => 'name'),		// Колеекция
+			array('di' => $gc, 'name' => 'discount'),	// Скидка
 		));
 	}
 	

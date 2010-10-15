@@ -27,7 +27,7 @@ ui.catalogue.item_form = function(config){
 			picture.store.reload();
 		}
 	});
-	var style_out = new ui.catalogue.styles({title: 'Доступные', region: 'east', width: 300, split: true,
+	var style_out = new ui.catalogue.styles({title: 'Доступные', region: 'east', width: 400, split: true,
 		ddGroup: 'style_out',
 		enableDragDrop: true});
 	style_out.store.baseParams = {iid: 0, _siid: 'null'};
@@ -125,14 +125,41 @@ ui.catalogue.item_form = function(config){
 							store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
 							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', editable: false
 						},
+						{fieldLabel: this.labelProducer, hiddenName: 'producer_id', value: '33', xtype: 'combo', emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText,
+							store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true,
+								listeners: {load: function(){
+									var f = this.getForm().findField('producer_id');
+									f.setValue(f.getValue());
+								}, scope: this}
+							}),
+							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+						},
+						{fieldLabel: this.labelCollection, hiddenName: 'collection_id', xtype: 'combo', emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText,
+							store: new Ext.data.JsonStore({url: 'di/guide_collection/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+						},
+						{fieldLabel: this.labelNumber, name: 'number', maxLength: 256, maxLengthText: this.maxLengthText},
+						{fieldLabel: this.labelGroup, hiddenName: 'group_id', xtype: 'combo',
+							store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name']}),
+							valueField: 'id', displayField: 'name',
+							loadingText: 'Загрузка...',
+							triggerAction: 'query',
+							forceSelection: true,
+							hideTrigger: true,
+							minChars: 1,
+							mode: 'remote',
+							queryParam: '_sname'
+						},
 						{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
+						{fieldLabel: this.labelYear, name: 'year', xtype: 'numberfield', maxLength: 4},
 						{fieldLabel: this.labelDate, name: 'income_date', xtype: 'datefield', format: 'Y-m-d'},
 						preview, picture,
 						{fieldLabel: this.labelPrice, hiddenName: 'price_id', xtype: 'combo', width: 200,
 							store: new Ext.data.JsonStore({url: 'di/guide_price/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
 							valueField: 'id', displayField: 'title', mode: 'local', triggerAction: 'all', editable: false
 						},
-						{fieldLabel: this.labelExist, hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0, store: [[0, 'Нет'], [1, 'Да']], triggerAction: 'all', editable: false}
+						{fieldLabel: this.labelExist, hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0, store: [[0, 'Нет'], [1, 'Да']], triggerAction: 'all', editable: false},
+						{hideLabel: true, name: 'description', xtype: 'htmleditor', value: 'Состав: <br/><br/><br/>Номер по каталогу: <br/>Год выхода: <br/>Стиль: <br/>Производитель:'}
 						//,{hideLabel: true, xtype: 'compositefield', items: [
 						//	{xtype: 'displayfield', value: this.labelRecomended},
 						//	{hiddenName: 'recomended', xtype: 'combo', width: 50, value: 0,
@@ -154,34 +181,7 @@ ui.catalogue.item_form = function(config){
 					]},
 					{columnWidth: .3, bodyStyle: 'margin: 0 0 0 5px', items: [pnlPrvw]}
 				]},
-				{id: 'item-style', title: this.tabStyle, frame: false, layout: 'border', items: [
-					style_in,
-					style_out
-				]},
-				{id: 'item-extend', title: this.tabExtend, layout: 'form', defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
-						{fieldLabel: this.labelProducer, hiddenName: 'producer_id', xtype: 'combo', emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText,
-							store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
-						},
-						{fieldLabel: this.labelCollection, hiddenName: 'collection_id', xtype: 'combo', emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText,
-							store: new Ext.data.JsonStore({url: 'di/guide_collection/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
-						},
-						{fieldLabel: this.labelGroup, hiddenName: 'group_id', xtype: 'combo',
-							store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name']}),
-							valueField: 'id', displayField: 'name',
-							loadingText: 'Загрузка...',
-							triggerAction: 'query',
-							forceSelection: true,
-							hideTrigger: true,
-							minChars: 1,
-							mode: 'remote',
-							queryParam: '_sname'
-						}
-				]},
-				{id: 'item-descr', title: this.tabDescr, frame: false, defaults: {width: '200', anchor: '100% 100%'}, items: [
-					{hideLabel: true, name: 'description', xtype: 'htmleditor'}
-				]},
+				{id: 'item-style', title: this.tabStyle, frame: false, layout: 'border', items: [style_in, style_out]},
 				{id: 'item-files', title: this.tabFiles, frame: false, layout: 'fit', items: [files]}
 			]}
 		],
@@ -218,11 +218,11 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 
 	tabMain: 'Общая информация',
 	tabStyle: 'Стили',
-	tabExtend: 'Дополнительно',
-	tabDescr: 'Описание',
 	tabFiles: 'Файлы',
 
 	labelName: 'Наименование',
+	labelNumber: 'Номер по каталогу',
+	labelYear: 'Год выхода',
 	labelDate: 'Дата поступления',
 	labelExist: 'В продаже',
 	labelRecomended: 'Рекомендовано',

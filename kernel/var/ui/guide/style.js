@@ -29,12 +29,14 @@ ui.guide.style = function(config){
 	var store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		writer: writer
+		writer: writer,
+		remoteSort: true,
+		sortInfo: {field: 'id', direction: 'ASC'}
 	});
 	// Let's pretend we rendered our grid-columns with meta-data from our ORM framework.
 	var columns = [
-		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50},
-		{id: 'name', dataIndex: 'name', header:  this.labelName}
+		{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', width: 50, sortable: true},
+		{id: 'name', dataIndex: 'name', header:  this.labelName, sortable: true}
 	];
 	var Add = function(){
 		var f = new ui.guide.style_form();

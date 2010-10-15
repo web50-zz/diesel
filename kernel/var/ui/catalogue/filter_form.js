@@ -23,7 +23,7 @@ ui.catalogue.filter_form = function(config){
 		items: [
 			{fieldLabel: this.labelTitle, name: 'query'},
 			{fieldLabel: this.labelExist, hiddenName: '_son_offer', xtype: 'combo', width: 50, value: '',
-				store: [['', 'Все'], [1, 'Да'], [0, 'Нет']],
+				store: [['', 'Все'], ['1', 'Да'], ['0', 'Нет']],
 				triggerAction: 'all', mode: 'local', editable: false
 			},
 			{fieldLabel: this.labelType, hiddenName: '_stype_id', xtype: 'combo', value: '',
@@ -52,6 +52,9 @@ ui.catalogue.filter_form = function(config){
 		buttons: [
 			{iconCls: 'disk', text: this.bttSubmit, handler: Submit},
 			{iconCls: 'cancel', text: this.bttReset, handler: Reset}
+		],
+		keys: [
+			{key: [Ext.EventObject.ENTER], handler: Submit}
 		]
 	});
 	this.addEvents(
