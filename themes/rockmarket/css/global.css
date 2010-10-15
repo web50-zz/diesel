@@ -96,7 +96,7 @@ fieldset { border: none; margin: 0; padding: 0; }
 #menu_top li.active span.left { display: block; width: 6px; height: 40px; background: url('/themes/rockmarket/images/top_menu_left.gif') no-repeat; padding: 0; }
 #menu_top li.active span.right { display: block; width: 6px; height: 40px; background: url('/themes/rockmarket/images/top_menu_right.gif') no-repeat; padding: 0; }
 #menu_top li ul { /*display: none;*/left: 10px; position: absolute; background: url('/themes/rockmarket/images/top_podmenu_bg.gif') repeat-x; width: 500px; top: 45px; }
-#menu_top_submenu { /*display: none;*/left: 10px; position: absolute; background: url('/themes/rockmarket/images/top_podmenu_bg.gif') repeat-x; /*width: 500px;*/ top: 45px; }
+#menu_top_submenu { /*display: none;*/left: 10px; position: absolute; background: url('/themes/rockmarket/images/top_podmenu_bg.gif') repeat-x; width: 1050px; top: 45px; }
 /*#menu_top li:hover ul { display: block; }*/
 #menu_top_submenu  span.left,
 #menu_top_submenu  span.left,
