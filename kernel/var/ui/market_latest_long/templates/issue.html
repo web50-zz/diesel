@@ -5,8 +5,8 @@
 {__(if($picture)__}
 <div class="item_picture" id="item_picture"><a href="/products/item_{__m_latest_l_product_id__}.html"><img src="{__/storage__}{__picture__}"  title="{__title__}"></a></div>
 {__if)__}
+{__(if(/m_latest_l_text)__} <p>{__m_latest_l_text__}</p> {__if)__}
 <p>{__php::nl2br($description)__}</p>
-<p>{__m_latest_l_text__}</p>
 </div>
 
 {__set(#re = 'empty')__}  

@@ -1,0 +1,94 @@
+<h2 class="blue">
+	Новинки
+	<div class="right_positioned">
+	<!-- 	<a href="http://rockmarket.ppd.spb.ru/incoming/rss/" title="Подписка на RSS. Новинки"><img src="/themes/rockmarket/images/rss.gif" alt="Подписка на RSS. Новинки" height="16" width="38"></a> -->
+	</div>
+</h2>
+<div style=""><div class="frame">
+	<div class="frame_bg"></div>
+</div>
+<div class="space"></div>
+<div class="frame">
+	<div class="frame_bg">
+		<img src="{__/storage__}{__picture__}" id="incoming_3_photo" height="250" width="250" align="left">
+		<div class="name"><b><a href="/products/item_{__m_latest_l_product_id__}.html">{__m_latest_l_title__}</a></b></div>
+		<div class="text_short">{__(if(/m_latest_l_text)__}{__m_latest_l_text__} <br> {__if)__} {__php::nl2br($description)__}</div>
+
+	</div>
+</div>
+{__set(#re = 'empty')__}  
+{__(apply(/records)__}
+{__(if($p_collection != #re)__}
+	{__(if(@position >1)__}
+	</tbody>
+	</table>
+	{__if)__}
+{__set(#re = $p_collection)__}  
+<h2 style="margin: 15px 0pt 0pt; height: 31px;">
+Новинки {__echo(#re)__}
+</h2>
+	<table class="products_list" cellspacing="0">
+		<tbody>
+{__if)__}
+
+<tr>
+	<td>
+		<table cellspacing="0">
+			<tbody><tr>
+				<td width="150">
+					<a href="/products/item_{__m_latest_ls_product_id__}.html"><img src="{__/storage__}{__preview__}"  title="{__p_title__}" height="100" width="100"></a>
+				</td>
+				<td>
+					<div class="relpos">
+						<div class="author"><b><a href="/products/group/{__p_group_id__}/">{__p_group__}</a></b></div>
+						<div class="name"><a href="/products/item_{__m_latest_ls_product_id__}.html">{__p_title__}</a></div>
+						<div class="style"> Тип: {__p_type__}</div>
+						<div class="style">Стиль: <a href="">Gothic Metal</a></div>
+						<div class="device"><a href="">{__p_collection__}</a></div>
+						<div class="style"></div>
+						<div class="price_field">
+							<div>
+								Цена: <b>189&nbsp;руб. (<a>предоплата</a>)</b>
+								<br><span class="span_price_imitate">&nbsp;</span>210&nbsp;руб. (<a>наложенный платеж</a>)
+							</div>
+							<div class="cart_icon">
+									<div>
+										<input class="cart_button add2cart"  id="add2cart" cid="{__m_latest_ls_product_id__}" value="купить" src="/themes/rockmarket/images/cart_icon.gif" type="image">
+									</div>
+							</div>
+						</div>
+								
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</td>
+</tr>
+{__apply)__}
+
+{__(if(@position == @last)__}
+</tbody>
+</table>
+{__if)__}
+
+<div class="space"></div>
+	<table width="100%">
+	<tbody><tr>
+		{__(if(/previous)__}
+		<td width="33%">
+			<a href="/incoming/issue/{__/previous/id__}/" class="prev">Новинки от {__php::date('d.m.Y',strtotime(/previous/m_latest_l_issue_datetime))__}</a>
+		</td>
+		{__if)__}
+		<td>
+			<a href="/incoming/archive/" class="archive">Архив</a>
+		</td>
+		{__(if(/next)__}
+		<td width="33%">
+			<a href="/incoming/issue/{__/next/id__}/" class="next">Новинки от {__php::date('d.m.Y',strtotime(/next/m_latest_l_issue_datetime))__}</a>
+		</td>
+		{__if)__}
+		</tr>
+	</tbody>
+	</table>
+</div>

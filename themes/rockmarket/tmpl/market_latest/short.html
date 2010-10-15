@@ -1,0 +1,27 @@
+<h2>
+	Новинки
+	<div id="rss" class="right_positioned">
+<!--		<a href="#"><img src="/themes/rockmarket/images/rss.gif" alt="Новинки сайта" height="16" width="38"></a> -->
+	</div>
+</h2>
+<div style="position: relative; height: 700px; max-height: 700px;">
+	<div id="novelties_block" style="overflow: hidden; height: 700px; max-height: 700px; width: 200px; clip: rect(0pt, 200px, 700px, 0pt); position: absolute; top: 0pt; left: 0pt;">
+		<table class="clear" style="width: 100%; position: relative; top: 0px; left: 0px;">
+		<tbody>
+			<tr>
+				<td style="text-align: center;">
+				{__(apply(/records)__}
+					<a href="/products/item_{__m_latest_product_id__}.html">
+						<img src="{__/storage__}{__preview__}" title="{__p_title__}" height="100" width="100">
+					</a><br>
+					<a class="item" href="/products/item_{__m_latest_product_id__}.html">{__p_title__}</a><br>
+					<a class="group" href="/products/group/{__p_group_id__}/">{__p_group__}</a>
+					<br><br>
+				{__apply)__}
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+

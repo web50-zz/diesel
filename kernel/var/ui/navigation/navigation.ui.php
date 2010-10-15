@@ -23,7 +23,9 @@ class ui_navigation extends user_interface
 	protected function pub_top_menu()
 	{
 		$st = data_interface::get_instance('structure');
-		return $this->parse_tmpl('main_menu.html',$st->get_main_menu());
+		$data = $st->get_main_menu();
+		$data['page_id'] = PAGE_ID;
+		return $this->parse_tmpl('main_menu.html',$data);
 	}
 	
 	/**

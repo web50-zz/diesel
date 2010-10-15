@@ -1,0 +1,93 @@
+<h2 class="blue">
+Корзина
+</h2>
+{__(if(!empty(/records))__}
+<div style="_float: left;"><div><font color ="Red"><strong>Внимание!</strong><br />
+Одно почтовое отправление вмещает в себя не более 6 предметов. Поэтому в случае превышения 6 наименований стоимость доставки будет автоматически пересчитана.</font><br />
+<BR></div>
+<div id="cart_content">
+<form id="cart_form" onsubmit="return false">
+	<table class="tabl" cellspacing="0">
+		<tr>
+			<th>Товар</th>
+			<th>Цена, &nbsp;руб.</th>
+			<th>Кол-во</th>
+			<th>Сумма, &nbsp;руб.</th>
+			<th>&nbsp;</th>
+		 </tr>
+{__set(#cost_total = 0)__}
+{__set(#cnt_total = 0)__}
+{__(apply(/records)__}
+		<tr class="odd" id="cart_record_{__id__}">
+			<td class="left">
+				{__title__} 
+			</td>
+			<td>
+				<div >{__price2__}</div> 
+			</td>
+			<td>
+				<input type="text" name="count[{__id__}]" value="{__count__}" size="2" style="text-align: right">
+			</td>
+			<td>
+				 <div >{__summ__}</div> 
+			</td>
+			<td>
+				<a href="javascript:void(0)" title="Remove from cart" class="delCart submit" cid="{__id__}">удалить</a>
+			</td>
+		</tr>
+		{__set(#cost_total = #cost_total + $summ)__}
+		{__set(#cnt_total = #cnt_total + $count)__}
+{__apply)__}
+<tr>
+			<td colspan="4"></td>
+			<td class="left">
+				<input style="cursor:pointer" type="button" value="пересчитать" class="cart_btt_recalc shortsubmit"/>
+			</td>
+		 </tr>
+		 <tr>
+			<td colspan="1" style="border-right: 0px;"></td>
+			<td colspan="3" align="right" style="border-left: 0px;">
+				 <strong>Итого: <span id="cart_form_total">{__#cost_total__}</span> руб</strong>
+			</td>
+			<td align="center"><!-- <a href="/cart/drop/" class="submit"></a> --></td>
+		 </tr>
+ </table>
+<!-- 
+ <table class="clear_padded">
+ <tr>
+ <th>Общее количество заказанных предметов</th>
+ <td>{__echo(#cnt_total)__}</td>
+ </tr>
+ <tr>
+
+ <th>Количество почтовых отправлений</th>
+ <td>{__echo(#cnt_total/6)__}</td>
+ </tr>
+ </table>
+-->
+</form>
+ </div><br><br>
+
+{__(if(/is_logged)__}
+
+<table class="clear" style="width: 100%">
+ <tr>
+ <td>
+ <form action="/order/">
+ <input type="submit" style="cursor:pointer" value="Оформить заказ" class="submit">
+ </form>
+ </td>
+ <td style="text-align: right;">
+ </td>
+ </tr>
+ </table>
+{__else__}
+Для продолжения, Вам необходимо зарегистрироваться
+{__if)__}
+ <br><br><br><br>
+
+{__else__}
+<center>Корзина пуста</center>
+{__if)__}
+
+</div>

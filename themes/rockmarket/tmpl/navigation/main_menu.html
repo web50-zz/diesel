@@ -1,0 +1,14 @@
+<ul>
+{__(if(/page_id == 1)__}
+<li class="active"><span class="left"></span><a href="{__uri__}" >Главная</a>{__id__} <span class="right"></span></li>
+{__else__}
+<li><a href="/">Главная</a></li>
+{__if)__}
+{__(apply($.)__}
+{__(if($id == /page_id)__}
+<li class="active"><span class="left"></span><a href="{__uri__}" >{__php::strtoupper($title)__}</a><span class="right"></span></li>
+{__else__}
+	<li><a href="{__uri__}" >{__php::strtoupper($title)__}</a></li>
+{__if)__}
+{__apply)__}
+</ul>

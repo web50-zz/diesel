@@ -78,4 +78,10 @@ var noveltiesBlockRight = {
 	}
 
 };
-document.observe('dom:loaded', function() { noveltiesBlockRight.init(); } );
+
+
+
+Ext.onReady(function(){
+noveltiesBlockRight.init(); 
+});
+

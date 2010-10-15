@@ -1,0 +1,62 @@
+	<h2 class="blue">Оформить заказ</h2>
+	<b>Уважаемый(ая), {__/user/name__}!</b><br/>
+	Спасибо, что воспользовались услугами нашего магазина.<br/>
+	<br/>
+	<b>Данные для доставки заказа:</b>
+	<form id="order_form" method="POST">
+		<input type="hidden" name="order-confirm" value="yes"/>
+		<table width="100%"> 
+		<tr>
+			<td>Страна:</td>
+			<td>{__/user/country__}</td>
+		</tr>
+		<tr>
+			<td>Регион:</td>
+			<td>{__/user/region__}</td>
+		</tr>
+		<tr>
+			<td>Почтовый адрес:</td>
+			<td>{__/user/address__}</td>
+		</tr>
+		<tr>
+			<td>Способ оплаты:</td>
+			<td>
+				<select name="method_of_payment" id="method_of_payment">
+					<option value="0" {__(if(/user/clnt_payment_pref == 0)__}selected{__if)__}> Выберите способ оплаты</option>
+					<option value="1" {__(if(/user/clnt_payment_pref == 1)__}selected{__if)__}> WebMoney</option>
+					<option value="2" {__(if(/user/clnt_payment_pref == 2)__}selected{__if)__}> Курьеру наличными (Москва)</option>
+					<option value="3" {__(if(/user/clnt_payment_pref == 3)__}selected{__if)__}> Наложенные платёж</option>
+					<option value="4" {__(if(/user/clnt_payment_pref == 4)__}selected{__if)__}> Предоплата</option>
+					<option value="5" {__(if(/user/clnt_payment_pref == 5)__}selected{__if)__}> Яндекс.Деньги</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><b>Ваша скидка:</b></td>
+			<td>{__php::sprintf('%0.2f %%', /user/discount)__}</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<b>Ваш заказ:</b>
+				<div id="order-table">{__/cart/html__}</div>
+			</td>
+		</tr>
+		<tr>
+			<td>Кол-во почтовых отправлений:</td>
+			<td><div id="order-parcels">{__/cart/parcels__}</div></td>
+		</tr>
+		<tr>
+			<td>Стоимость доставки:</td>
+			<td><div id="order-delivery_cost">{__/cart/delivery_cost__}</div></td>
+		</tr>
+		<tr>
+			<td>Общая стоимость заказа:</td>
+			<td><div id="order-total_cost">{__/cart/total_cost__}</div></td>
+		</tr>
+		<tr>
+			<td>Комментарий:</td>
+			<td><textarea name="comments" style="width: 100%"></textarea></td>
+		</tr>
+		</table>
+		<center><input type="submit" class="order-btt-submit submit" value="Отправить заказ"/></center>
+	</form>

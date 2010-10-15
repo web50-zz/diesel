@@ -1,0 +1,31 @@
+<h2 class="blue">
+	Архив
+</h2>
+<div style="_float: left;">
+	<table class="products_list">
+
+{__(apply(/records)__}
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td width="120px">
+							{__(if($preview)__}
+							<a href="/incoming/issue/{__id__}/">
+								<img src="{__/storage__}{__preview__}"  width="120" height="120">
+							</a>
+							{__if)__}
+						</td>
+						<td >
+							<div class="author"><b><a href="/incoming/issue/{__id__}/">{__m_latest_l_title__}</a></b></div>
+							<div class="name">{__php::date('d.m.Y',strtotime($m_latest_l_issue_datetime))__}</div>
+							<div class="padd">{__php::nl2br(substr($description,0,strpos($description,'.',250)))__}..</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+{__apply)__}
+	</table>
+</div>
+{__pager__}

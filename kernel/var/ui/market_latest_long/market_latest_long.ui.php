@@ -99,6 +99,7 @@ class ui_market_latest_long extends user_interface
 		}
 
 		$pager = user_interface::get_instance('pager');
+		$list['storage'] = '/storage/';
 		$list['page'] = $page;
 		$list['limit'] = $limit;
 		$list['pager'] = $pager->get_pager(array('page' => $page, 'total' => $list['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
