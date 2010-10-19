@@ -61,12 +61,12 @@ fieldset { border: none; margin: 0; padding: 0; }
 #footer .content a img { margin: 0px; padding: 0px; }
 #copyright, #copyright a { color: #fff; font-size: 11px; }
 
-#search { /*width: 323px;*/ padding-top: 22px; margin-left: 15px; }
+#search { /*width: 323px;*/ padding-top: 40px; margin-left: 15px; }
 #search div { font-size: 11px; color: #7c0d0d; font-weight: bold; text-transform: uppercase;}
 #search div label { font-size: 12px; color: #000000; font-weight: normal; text-transform: lowercase; }
 #search input, #search select { margin-top: 3px; }
 .ok, input.ok { background: url('/themes/rockmarket/images/ok.gif') no-repeat; width: 26px; height: 27px; border: none; color: #fff; margin-bottom: -3px; }
-#cart { width: 262px; height: 70px; background: url('/themes/rockmarket/images/cart_block.gif') no-repeat; position: absolute; right: 0; margin-top: -40px; }
+#cart { width: 262px; height: 70px; background: url('/themes/rockmarket/images/cart_block.gif') no-repeat; position: absolute; right: 0; margin-top: -50px; }
 #cart span { color: #fff; font-weight: bold; line-height: 25px; padding: 0 20px; }
 #cart span a { color: #fff; font-weight: bold; line-height: 25px; display: block; width: 120px; position: absolute; margin-top: -25px; *margin-top: -7px; margin-left: 20px; }
 #cart div { padding: 5px 30px 0px 30px; }
@@ -96,7 +96,7 @@ fieldset { border: none; margin: 0; padding: 0; }
 #menu_top li.active span.left { display: block; width: 6px; height: 40px; background: url('/themes/rockmarket/images/top_menu_left.gif') no-repeat; padding: 0; }
 #menu_top li.active span.right { display: block; width: 6px; height: 40px; background: url('/themes/rockmarket/images/top_menu_right.gif') no-repeat; padding: 0; }
 #menu_top li ul { /*display: none;*/left: 10px; position: absolute; background: url('/themes/rockmarket/images/top_podmenu_bg.gif') repeat-x; width: 500px; top: 45px; }
-#menu_top_submenu { /*display: none;*/left: 10px; position: absolute; background: url('/themes/rockmarket/images/top_podmenu_bg.gif') repeat-x; width: 1050px; top: 45px; }
+#menu_top_submenu { /*display: none;*/left: 10px; position: absolute; background: url('/themes/rockmarket/images/top_podmenu_bg.gif') repeat-x; width: 1080px; top: 45px; min-width:1080px}
 /*#menu_top li:hover ul { display: block; }*/
 #menu_top_submenu  span.left,
 #menu_top_submenu  span.left,
