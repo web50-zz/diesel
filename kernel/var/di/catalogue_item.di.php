@@ -101,6 +101,14 @@ class di_catalogue_item extends data_interface
 			$name = $this->get_alias();
 			$where[] = "`{$name}`.`title` LIKE \"%{$query}%\"";
 		}
+//9*  single line search through catalogue based on title an group name field contents
+		if(($query = request::get('q',false)) != false)
+		{
+			$group_tbl  = $gg->get_alias();
+			$item_tbl = $this->get_alias();
+			$where[] = "`{$group_tbl}`.`name` LIKE \"%{$query}%\" OR `{$item_tbl}`.`title` LIKE \"%{$query}%\""; 
+		}
+
 		if (!empty($where))
 		{
 			$this->where = join(' OR ', $where);
