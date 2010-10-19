@@ -55,7 +55,7 @@ if (isset($_GET['g'])) {
 }
 if (isset($_GET['f']) || isset($_GET['g'])) {
     // serve!   
-    Minify::serve('MinApp', $min_serveOptions);
+	Minify::serve('MinApp', $min_serveOptions);
         
 } elseif ($min_enableBuilder) {
     header('Location: builder/');

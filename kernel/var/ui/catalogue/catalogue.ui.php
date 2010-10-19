@@ -42,6 +42,13 @@ class ui_catalogue extends user_interface
 		}
 	}
 
+
+	protected function pub_search_single()
+	{
+		$data = array();
+		return $this->parse_tmpl('search_form_single.html',$data);
+	}
+
 	/**
 	*	Вывести описание товара
 	*/
