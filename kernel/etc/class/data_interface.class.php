@@ -467,6 +467,7 @@ class data_interface extends base_interface
 	{
 		if ($this->__ignore_next_flush === false)
 		{
+			$this->where = null;
 			$this->__order = array();
 			$this->__group = array();
 			$this->connector->_flush();
