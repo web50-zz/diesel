@@ -2,7 +2,6 @@ tmp/*
 kernel/var/filestorage/*
 kernel/var/cache/*.cache
 storage/*
-storage
 kernel/var/logs/*
 *.swp
 *.gz
