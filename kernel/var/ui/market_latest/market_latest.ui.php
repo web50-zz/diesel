@@ -10,10 +10,10 @@ class ui_market_latest extends user_interface
 {
 	public $title = 'Новинки магазина';
 	public $deps = array('main' => array(
+			'market_latest.catalogue_list',
+			'market_latest.latest_list',
 			'catalogue.item_list',
 			'catalogue.filter_form',
-			'market_latest.catalogue_list',
-			'market_latest.latest_list'
 			)
 		);
 	
