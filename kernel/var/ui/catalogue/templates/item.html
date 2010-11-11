@@ -54,6 +54,8 @@
 				<th>Год выпуска:</th>
 				<td></td>
 			</tr>
+
+		{__(if($m_soon_id == '')__}
 			<tr>
 				<th>Стоимость:</th>
 				<td>
@@ -61,8 +63,13 @@
 					{__price_cost__} р.<br/>
 				</td>
 			</tr>
+		{__if)__}
 		</table>
-		<div id="add2cartwrap" class="add2cartwrap"><div title="Add to cart" is="add2cart" class="add2cart" cid="{__id__}">Заказать: <img src="/ico/silk/cart_add.png" border="0"  hspace="5"/></div></div>
+		{__(if($m_soon_id>0)__}
+			Скоро в продаже
+		{__else__}
+		<div id="add2cartwrap" class="add2cartwrap"><div title="Add to cart" is="add2cart" class="add2cart" cid="{__id__}">Заказать: <img src="/ico/silk/cart_add.png" border="0" hspace="5"/></div></div>
+		{__if)__}
 	</div>
 	<a href="javascript:history.back()">&laquo;назад</a>
 {__apply)__}

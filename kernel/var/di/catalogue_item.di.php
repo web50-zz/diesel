@@ -67,6 +67,7 @@ class di_catalogue_item extends data_interface
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
+		$csn = $this->join_with_di('market_soon', array('id' => 'm_soon_product_id'),array('id'=>'m_soon_id'));
 		return $this->extjs_grid_json(array(
 			'id', 'on_offer', 'recomended', 'title', 'description', 'type_id', 'collection_id', 'group_id', 'price_id','picture', 
 			array('di' => $gt, 'name' => 'name'),
@@ -74,6 +75,7 @@ class di_catalogue_item extends data_interface
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
 			array('di' => $gc, 'name' => 'discount'),
+			array('di' => $csn, 'name' => 'id')
 		), false);
 	}
 
@@ -89,6 +91,7 @@ class di_catalogue_item extends data_interface
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
 		$cs = $this->join_with_di('catalogue_style', array('id' => 'catalogue_item_id'));
 		$gs = $this->join_with_di('guide_style', array('style_id' => 'id'), array('name' => 'style_name', 'id' => 'style_id'), $cs);
+		$csn = $this->join_with_di('market_soon', array('id' => 'm_soon_product_id'),array('id'=>'m_soon_id'));
 		$this->set_args(array('_son_offer' => 1), true);
 		$where = array();
 		if(($query = request::get('group', false)) != false)
@@ -124,7 +127,8 @@ class di_catalogue_item extends data_interface
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
 			array('di' => $gs, 'name' => 'name'),
-			array('di' => $gc, 'name' => 'discount')
+			array('di' => $gc, 'name' => 'discount'),
+			array('di' => $csn, 'name' => 'id')
 		), false);
 	}
 	
