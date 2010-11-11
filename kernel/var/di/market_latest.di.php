@@ -103,7 +103,7 @@ class di_market_latest extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
-		if ($this->get_args('_sid')>0)
+		if ($this->args['_sid']>0)
 		{
 			$this->set_args(array('m_latest_changed_datetime' => date('Y-m-d H:i:S')), true);
 			$this->set_args(array('m_latest_changer_uid' => UID), true);

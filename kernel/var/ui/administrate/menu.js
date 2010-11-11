@@ -30,6 +30,7 @@ ui.administrate.menu = function(config){
 			{text: "Рекомендуемое", iconCls: 'book_open', appName: 'market_recomendations', appFace: 'main', handler: onMenuClick},
 			{text: "Новинки расширенно", iconCls: 'book_open', appName: 'market_latest_long', appFace: 'main', handler: onMenuClick},
 			{text: "Новинки", iconCls: 'book_open', appName: 'market_latest', appFace: 'main', handler: onMenuClick},
+			{text: "Скоро в продаже", iconCls: 'book_open', appName: 'market_soon', appFace: 'main', handler: onMenuClick},
 			{text: "Гостевая", iconCls: 'book_open', appName: 'guestbook', appFace: 'main', handler: onMenuClick},
 			{text: "Рассылки", iconCls: 'book_open', appName: 'subscribe', appFace: 'main', handler: onMenuClick},
 			{text: "Клиенты", iconCls: 'book_open', appName: 'market_clients', appFace: 'main', handler: onMenuClick}
