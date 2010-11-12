@@ -1,7 +1,14 @@
-.catalogue_ui{
+.delSel{
+cursor:pointer;
 }
 
-#catalogue_ui .item{
+.market_selected_table{
+}
+.market_selected_table td{
+}
+
+
+.item{
 border:1px dotted #CCC;
 margin-bottom:10px;
 padding:5px;
@@ -113,56 +120,11 @@ border:0px;
 display:block;
 }
 
-.search{
-margin-bottom:15px;
-border:1px dotted #000;
+#add2selwrap .delSel{
+float:right;
+border:1px dotted #CCC;
+cursor:pointer;
 padding:5px;
 }
 
-.srchtxt{
-width:100px;
-}
 
-#AlertBox{
-    background:#F5F5DC;
-    padding: 20px;
-    width:500px;
-    border:1px dotted #000;
-    color:#494848;
-    font-family:Verdana;
-    position: fixed;
-    z-index: 1000000;
-}
-
-#AlertBox p{
-    font-size:11px;
-    margin: 0;
-}
-
-#AlertBox p.icon{
-    padding-left:90px;
-    background-position: 10px center;
-    background-repeat:  no-repeat;
-    min-height: 48px;
-}
-
-
-#AlertBox p b{
-    font-size:15px;
-    display:block;
-}
-
-
-#AlertBox .closeBox{
-    cursor:pointer;
-    font-size:14px;
-    font-weight:bold;
-    padding:2px 5px;
-    position:absolute;
-    right:6px;
-    top:5px;
-}
-
-#AlertBox .closeBox:hover {
-    background-color: #eee;
-}
