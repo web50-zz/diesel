@@ -1,3 +1,9 @@
+.market_selected{
+border:1px dotted #CCC;
+margin-bottom:15px;
+padding:5px;
+}
+
 .delSel{
 cursor:pointer;
 }
@@ -7,8 +13,12 @@ cursor:pointer;
 .market_selected_table td{
 }
 
+.market_selected a{
+color:#000;
+border-bottom:1px dotted #CCC;
+}
 
-.item{
+#market_selected_cell .item{
 border:1px dotted #CCC;
 margin-bottom:10px;
 padding:5px;
@@ -83,6 +93,8 @@ border:1px dotted #CCC;
 cursor:pointer;
 padding:5px;
 }
+
+
 #add2cart img{
 padding:0px;
 margin:0px;

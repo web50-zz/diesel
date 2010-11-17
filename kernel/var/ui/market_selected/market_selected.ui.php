@@ -27,9 +27,14 @@ class ui_market_selected extends user_interface
 		);
                 return $this->parse_tmpl('default.html', $data);
         }
+	
+	protected function pub_pref_link()
+	{
+                return $this->parse_tmpl('front_link.html',array('path_to_fav'=>'/favorites/'));
+	}
 
 	/**
-	*	Получить корзину в виде HTML
+	*	Получить избранное  в виде HTML
 	*/
 	public function get_html_cart($method_of_payment)
 	{
@@ -37,7 +42,7 @@ class ui_market_selected extends user_interface
 	}
 
 	/**
-	*	Подготовить данные корзины
+	*	Подготовить данные избранного
 	*/
 	private function prepare_data($method_of_payment)
 	{
@@ -55,7 +60,7 @@ class ui_market_selected extends user_interface
 	}
 
 	/**
-	*	Получить корзину с описанием и HTML
+	*	Получить  избранное с описанием и HTML
 	*/
 	public function get_cart($method_of_payment)
 	{
@@ -65,7 +70,7 @@ class ui_market_selected extends user_interface
 	}
 
 	/**
-	*	Добавить элемент в корзину
+	*	Добавить элемент в избранное
 	*/
 	protected function pub_add()
 	{
@@ -79,7 +84,7 @@ class ui_market_selected extends user_interface
 	}
 
 	/**
-	*	Добавить элемент в корзину
+	*	удалить  элемент 
 	*/
 	protected function pub_del()
 	{
