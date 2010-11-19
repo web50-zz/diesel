@@ -1,11 +1,33 @@
-.catalogue_ui{
+.market_viewed{
+border:1px dotted #CCC;
+margin-bottom:15px;
+padding:5px;
 }
 
-#catalogue_ui .item{
+#market_viewed h1{
+font-size:11px;
+}
+
+.delSel{
+cursor:pointer;
+}
+
+.market_viewed_table{
+}
+.market_viewed_table td{
+}
+
+.market_viewed a{
+color:#000;
+border-bottom:1px dotted #CCC;
+}
+
+#market_viewed_cell .item{
 border:1px dotted #CCC;
 margin-bottom:10px;
 padding:5px;
 height:100%;
+min-height:50px;
 }
 
 .itemheader{
@@ -76,6 +98,8 @@ border:1px dotted #CCC;
 cursor:pointer;
 padding:5px;
 }
+
+
 #add2cart img{
 padding:0px;
 margin:0px;
@@ -90,13 +114,16 @@ margin-bottom:20px;
 padding:0px;
 }
 
-#item_picture img{
+#market_viewed_cell #item #item_picture img{
 padding:0px;
 margin:0px;
 border:0px;
-width:250px;
-height:250px;
+width:50px;
+height:50px;
 display:block;
+}
+#item #itemheader .itemlink{
+font-size:10px;
 }
 
 #item .item_preview{
@@ -112,77 +139,14 @@ padding:0px;
 padding:0px;
 margin:0px;
 border:0px;
-height:100px;
-width:100px;
 display:block;
 }
 
-.search{
-margin-bottom:15px;
-border:1px dotted #000;
-padding:5px;
-}
-
-.srchtxt{
-width:100px;
-}
-
-#related_item{
-font-size:10px;
-font-weight:bold;
-color:#666;
-margin-bottom:15px;
-border:1px dotted;
-min-height:105px;
-padding-top:10px;
-padding-bottom:5px;
-}
-
-#related_item .group{
-font-size:9px;
-color:#666;
-border-bottom:1px dashed;
-}
-
-
-#related_item .item_preview{
-border:1px solid #666;
-float:left;
-width:100px;
-padding:0px;
-margin-left:12px;
-margin-right:10px;
-}
-
-#related_item #item_preview img{
-padding:0px;
-margin:0px;
-border:0px;
-width:100px;
-height:100px;
-display:block;
-}
-
-
-#related_item .add2cartwrap{
-cursor:pointer;
-padding:0px;
-height:30px;
-}
-
-#add2cartwrap .add2cart{
+#add2selwrap .delSel{
 float:right;
 border:1px dotted #CCC;
 cursor:pointer;
 padding:5px;
 }
-#related_item a{
-color:#666;
-border-bottom:1px dashed;
-}
-.related_items_header{
-font-size:14px;
-margin-top:20px;
-margin-bottom:20px;
-font-weight:bold;
-}
+
+

@@ -78,6 +78,28 @@ class di_catalogue_item extends data_interface
 			array('di' => $csn, 'name' => 'id')
 		), false);
 	}
+	/* get related products
+	*/
+
+	public function get_related()
+	{
+		$id = $this->args['_sid']; 
+//		$sql = "select order_item.item_id from order_item where order_id in  (select order_id from order_item where item_id = $id and order_id !=0) and order_id != 0 and item_id != $id limit 0,10";
+		$sql = "select order_item.item_id from order_item, order_item z where order_item.order_id = z.order_id and z.item_id = $id and order_item.order_id !=0 and order_item.item_id != $id  limit 0,10";
+		
+		$res =  $this->_get($sql);
+		if(count($res) == 0)
+		{
+			return;
+		}
+		foreach($res as $key=>$value)
+		{
+			$final[] = $value['item_id'];
+		}
+		$this->set_args(array('_sid'=>$final));
+		$res2 =  $this->get_items();
+		return $res2['records'];
+	}
 
 	/**
 	*	Get items for page

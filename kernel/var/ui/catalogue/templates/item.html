@@ -3,6 +3,7 @@
 {__(apply(/records)__}
 	<div class="item" id="item">
 		<h1 class="itemheader" id="itemheader"><a id="itemlink" class="itemlink" href="item_{__id__}.html">{__str_group__} &laquo;{__title__}&raquo;</a></h1><br>
+		<div id="add2selwrap" class="add2selwrap"> <div title="Add to selected" is="add2sel" class="add2sel" cid="{__id__}">В избранное</div></div>
 		<div class="item_picture" id="item_picture">
 		{__(if($picture)__}<img src="{__/storage__}{__picture__}" hspace="0" vspace="0" border="0" title="{__title__}"/>{__if)__}
 		</div>
@@ -71,6 +72,22 @@
 		<div id="add2cartwrap" class="add2cartwrap"><div title="Add to cart" is="add2cart" class="add2cart" cid="{__id__}">Заказать: <img src="/ico/silk/cart_add.png" border="0" hspace="5"/></div></div>
 		{__if)__}
 	</div>
-	<a href="javascript:history.back()">&laquo;назад</a>
 {__apply)__}
+
+{__(if(/related)__}
+<div class="related_items_header" id="related_items_header">С этим товаром покупают:</div>
+
+{__(apply(/related)__}
+<div id="related_item" class="related_item">
+		{__(if($preview)__}
+		<div class="item_preview" id="item_preview"><a href="/products/item_{__id__}.html"><img src="{__/storage__}{__preview__}" title="{__title__}"/></a></div>
+		{__if)__}
+<a class="group" id="group"  href="/products/group/{__group_id__}/">{__str_group__}</a><br>
+<a class="item" id="item"  href="/products/item_{__id__}.html">{__title__}</a><br>
+{__type__}<br><br>
+		<div id="add2cartwrap" class="add2cartwrap"><div title="Add to cart" is="add2cart" class="add2cart" cid="{__id__}">Заказать: <img src="/ico/silk/cart_add.png" border="0"  hspace="5"/></div></div>
+</div>
+{__apply)__}
+{__if)__}
+	<a href="javascript:history.back()">&laquo;назад</a>
 </div>

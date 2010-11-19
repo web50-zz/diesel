@@ -23,9 +23,10 @@ class ui_market_cat_nav extends user_interface
 	protected function pub_top_menu()
 	{
 		$st = data_interface::get_instance('guide_type');
+		//	$data = $st->extjs_grid_json(false,false);
+		$data['records'] = $st->get_nonempty_types();
 		// 9* detects type if already in catalogue to highlite selected
 
-		$data = $st->extjs_grid_json(false,false);
 		if (preg_match('/type\/(\d+)\//', SRCH_URI, $matches)&&PAGE_URI == '/products/')
 		{
 			$data['toselect'] = $matches[1];

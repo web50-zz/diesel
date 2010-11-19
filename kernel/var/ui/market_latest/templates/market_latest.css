@@ -52,9 +52,11 @@ margin-top:25px;
 padding:0px;
 }
 
-#item_preview img{
+#m_latest_product #item_preview img{
 padding:0px;
 margin:0px;
 border:0px;
+width:100px;
+height:100px;
 display:block;
 }
