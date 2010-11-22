@@ -23,7 +23,8 @@ class ui_market_selected extends user_interface
 		$cart = data_interface::get_instance('market_selected');
 		$data = array(
 			'records' => $cart->get_records(),
-			'is_logged' => authenticate::is_logged()
+			'is_logged' => authenticate::is_logged(),
+			'storage'=>'/storage/',
 		);
                 return $this->parse_tmpl('default.html', $data);
         }
