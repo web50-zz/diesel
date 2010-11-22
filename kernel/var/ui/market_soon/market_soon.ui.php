@@ -26,6 +26,9 @@ class ui_market_soon extends user_interface
         public function pub_long()
         {
 		$data = array();
+		$di  = data_interface::get_instance('market_soon');
+		$data = $di->_get_public_list_data();
+		$data['storage'] = '/storage/';
 		return $this->parse_tmpl('default.html',$data);
 	}
 

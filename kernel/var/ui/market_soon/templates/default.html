@@ -1,9 +1,72 @@
-<div class="market_latest" id="market_latest">
-<h1>Новинки магазина</h1>
-Новинки  содержит информацию о новых товарах, поступивших в продажу.
-Упорядочивается по дням поступления товаров. Сортируется по коллекциям, затем по ID товара.
-Заглавная часть блока о новинках, должна содержать расширенную информацию об одном, определенном, наиболее интересном, с точки зрения администратора товаре. Остальные товары в блоке имеют краткую информацию.
-Эта страница должна создаваться автоматически при вводе новых товаров и сохраняться в дальнейшем. Содержание этой стр. необходимо дублировать в рассылке писем с новинками магазина.
-В Б.Д. хранится 200 подобных блоков, остальные автоматически удаляются, что бы не раздувать саму базу.
-Пример: http://rockmarket.ppd.spb.ru/incoming/
+<div class="market_soon" id="market_soon">
+<h1>Скоро в продаже</h1>
+{__(apply(/records)__}
+	<div class="m_soon_product" id="m_soon_product">
+	<div class="item" id="item">
+		<h1 class="itemheader" id="itemheader"><a class="itemlink" id="itemlink" href="/products/item_{__id__}.html">{__str_group__} &laquo;{__title__}&raquo;</a></h1>
+		<div class="item_preview" id="item_preview">
+		{__(if($preview)__}<img src="{__/storage__}{__preview__}" title="{__title__}"/>{__if)__}
+		</div>
+		<table cellpadding="0" cellspacing="0" id="iteminfo" class="iteminfo">
+			<tr>
+				<th>Тип:</th>
+				<td>
+				{__(if(/args/_stype_id > 0)__}
+					{__str_type__}
+				{__else__}
+					<a href="/products/type/{__type_id__}/">{__str_type__}</a>
+				{__if)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Гуппа:</th>
+				<td>
+				{__(if(/args/_sgroup_id > 0)__}
+					{__str_group__}
+				{__else__}
+					<a href="/products/group/{__group_id__}/">{__str_group__}</a>
+				{__if)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Коллекция:</th>
+				<td>
+				{__(if(/args/_scollection_id > 0)__}
+					{__str_collection__}
+				{__else__}
+					<a href="/products/label/{__collection_id__}/">{__str_collection__}</a>
+				{__if)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Стили:</th>
+				<td>
+					{__set(#styles = preg_split('/,/', $Styles))__}
+					{__set(#ids = preg_split('/,/', $StyleIds))__}
+					{__(foreach(#ids AS @n => @id)__}
+						{__set(#title = #styles[@n])__}
+						{__set(#id = @id)__}
+						{__(if(/args/_scollection_id > 0)__}
+							{__#title__}
+						{__else__}
+							<a href="/products/style/{__#id__}/">{__#title__}</a>
+						{__if)__}{__(if(@position < @last)__}<span>, </span>{__if)__}
+					{__foreach)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Год выпуска:</th>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				{__description__}
+				</td>
+			</tr>
+
+		</table>
+	</div>
+</div>
+{__apply)__}
+{__pager__}
 </div>

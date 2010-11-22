@@ -80,6 +80,24 @@ class di_market_soon extends data_interface
 		return $data;
 	}
 
+	public function _get_public_list_data()
+	{
+		$this->_flush(true);
+		$data = $this->extjs_grid_json(array(
+			'id',
+			'm_soon_created_datetime', 
+			'm_soon_product_id'
+			),false);
+			foreach($data['records'] as $key=>$value)
+			{
+				$ids[] = $value['m_soon_product_id'];
+			}
+		$di  = data_interface::get_instance('catalogue_item');
+		$di->set_args(array('_sid'=>$ids,'with_description'=>true));
+		$data2 = $di->get_items();
+		return $data2;
+	}
+
 	/**
 	*	Get record
 	* @access protected

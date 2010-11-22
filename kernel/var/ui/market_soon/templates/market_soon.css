@@ -1,4 +1,4 @@
-.market_latest{
+.market_soon{
 font-family:Verdana;
 font-size:11px;
 margin-bottom:15px;
@@ -6,7 +6,7 @@ border:1px dotted;
 height:100%;
 padding:10px;
 }
-#market_latest h1{
+#market_soon h1{
 font-size:12px;
 }
 
@@ -35,7 +35,8 @@ padding-bottom:12px;
 font-size:10px;
 font-weight:bold;
 color:#666;
-border-bottom:1px dashed;
+padding:5px;
+border:1px dotted;
 }
 
 #m_soon_product .group{

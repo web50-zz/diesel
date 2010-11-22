@@ -140,6 +140,22 @@ class di_catalogue_item extends data_interface
 		}
 		//$this->connector->debug = true;
 		$this->set_group('id');
+		if($this->args['with_description'] == true)//9* 20101122 'это если надо выводить еще и дексрипшн по товару то флаг "width description" надо выставлять
+		{
+			return $this->extjs_grid_json(array(
+			'id', 'on_offer', 'recomended', 'title', 'preview', 'picture', 'type_id', 'collection_id', 'group_id', 'price_id','description',
+			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
+			'CONVERT(GROUP_CONCAT(`'.$gs->get_alias().'`.`id` SEPARATOR ",") USING utf8)' => 'StyleIds',
+			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gg, 'name' => 'name'),
+			array('di' => $gp, 'name' => 'cost'),
+			array('di' => $gc, 'name' => 'name'),
+			array('di' => $gs, 'name' => 'name'),
+			array('di' => $gc, 'name' => 'discount'),
+			array('di' => $csn, 'name' => 'id')
+			), false);
+
+		}
 		return $this->extjs_grid_json(array(
 			'id', 'on_offer', 'recomended', 'title', 'preview', 'picture', 'type_id', 'collection_id', 'group_id', 'price_id',
 			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
