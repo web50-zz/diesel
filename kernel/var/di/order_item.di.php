@@ -54,8 +54,6 @@ class di_order_item extends data_interface
 		response::send($data,'json');
 	}
 
-
-
 	public function get_list_data()
 	{
 	
@@ -76,6 +74,18 @@ class di_order_item extends data_interface
 		return $data;
 	}
 
+	/**
+	*	Проверить, существует ли данный элемент(ы) в заказах.
+	* @option	integer|array	$item_id	Id или массив Id элементов каталога
+	*/
+	public function item_exists($item_id)
+	{
+		$this->_flush();
+		$this->push_args(array('_sitem_id' => $item_id));
+		$this->_get();
+		$this->pop_args();
+		return $this->connector->_found_rows;
+	}
 
 	/**
 	*	Получить данные элемента в виде JSON
