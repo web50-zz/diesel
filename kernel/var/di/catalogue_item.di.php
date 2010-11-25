@@ -213,17 +213,39 @@ class di_catalogue_item extends data_interface
 	*/
 	protected function sys_unset()
 	{
-		$cf = data_interface::get_instance('catalogue_file');
-		$cs = data_interface::get_instance('catalogue_style');
 		$this->_flush();
-		$data = $this->extjs_unset_json(false);
-		$ids = $this->get_lastChangedId();
+		$this->what = array('id');
+		$records = $this->_get();
+		$ids = array();
+		foreach ($records as $rec)
+			$ids[] = $rec->id;
 		
-		// Remove all files and styles from catalogue items
-		if (($ids > 0 || count($ids) > 0))
+		$oi = data_interface::get_instance('order_item');
+		if (!$oi->item_exists($ids))
 		{
-			$cf->remove_files($ids);
-			$cs->remove_styles_from_item($ids);
+			$data = array(
+				'success' => false,
+				'message' => 'Не сработал handler.'
+			);
+			//$cf = data_interface::get_instance('catalogue_file');
+			//$cs = data_interface::get_instance('catalogue_style');
+			//$this->_flush();
+			//$data = $this->extjs_unset_json(false);
+			//$ids = $this->get_lastChangedId();
+			//
+			//// Remove all files and styles from catalogue items
+			//if (($ids > 0 || count($ids) > 0))
+			//{
+			//	$cf->remove_files($ids);
+			//	$cs->remove_styles_from_item($ids);
+			//}
+		}
+		else
+		{
+			$data = array(
+				'success' => false,
+				'message' => 'Данный элемент привязан к заказам.'
+			);
 		}
 
 		response::send($data, 'json');
