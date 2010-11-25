@@ -60,7 +60,6 @@ class di_guide_style extends data_interface
 		if ($this->args['_sname'] == '') unset($this->args['_sname']);
 		$this->_flush(true);
 		$gu = $this->join_with_di('catalogue_style', array('id' => 'style_id', intval($this->get_args('iid')) => 'catalogue_item_id'), array('catalogue_item_id' => 'iid'));
-		$this->set_order('name');
 		return $this->extjs_grid_json(array('id', 'name'));
 	}
 

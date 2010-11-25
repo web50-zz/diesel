@@ -22,7 +22,9 @@ ui.catalogue.styles = function(config){
 	this.store = new Ext.data.Store({
 		proxy: proxy,
 		reader: reader,
-		autoLoad: true
+		autoLoad: true,
+		remoteSort: true,
+		sortInfo: {field: 'name'}
 	});
 	this.reload = function(full){
 		this.store.load();
@@ -111,7 +113,7 @@ ui.catalogue.styles = function(config){
 	ui.catalogue.styles.superclass.constructor.call(this,{
 		columns: [
 			{id: 'id', dataIndex: 'id', hidden: true},
-			{id: 'name', header:  this.labelName, dataIndex: 'name', width: 200}
+			{id: 'name', header:  this.labelName, dataIndex: 'name', width: 200, sortable: true}
 		],
 		tbar: [
 			new Ext.Toolbar.TextItem ("Найти:"), srchField, srchBttOk, srchBttCancel
