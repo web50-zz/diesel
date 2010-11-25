@@ -15,10 +15,10 @@ class db_config
 			'type' => 'mysql',
 			'host' => 'localhost',
 			'charset' => CHARSET,
-			'user' => 'market_web50',
-			'pass' => 'market_web50',
+			'user' => 'diesel',
+			'pass' => 'diesel',
 			'dbs' => array(
-				'db1' => 'market_web50'
+				'db1' => 'diesel',
 				)
 			),
 		'session' => array(

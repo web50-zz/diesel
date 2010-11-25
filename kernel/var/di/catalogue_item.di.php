@@ -67,6 +67,7 @@ class di_catalogue_item extends data_interface
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
+		$csn = $this->join_with_di('market_soon', array('id' => 'm_soon_product_id'),array('id'=>'m_soon_id'));
 		return $this->extjs_grid_json(array(
 			'id', 'on_offer', 'recomended', 'title', 'description', 'type_id', 'collection_id', 'group_id', 'price_id','picture', 
 			array('di' => $gt, 'name' => 'name'),
@@ -74,7 +75,30 @@ class di_catalogue_item extends data_interface
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
 			array('di' => $gc, 'name' => 'discount'),
+			array('di' => $csn, 'name' => 'id')
 		), false);
+	}
+	/* get related products
+	*/
+
+	public function get_related()
+	{
+		$id = $this->args['_sid']; 
+//		$sql = "select order_item.item_id from order_item where order_id in  (select order_id from order_item where item_id = $id and order_id !=0) and order_id != 0 and item_id != $id limit 0,10";
+		$sql = "select order_item.item_id from order_item, order_item z where order_item.order_id = z.order_id and z.item_id = $id and order_item.order_id !=0 and order_item.item_id != $id  limit 0,10";
+		
+		$res =  $this->_get($sql);
+		if(count($res) == 0)
+		{
+			return;
+		}
+		foreach($res as $key=>$value)
+		{
+			$final[] = $value['item_id'];
+		}
+		$this->set_args(array('_sid'=>$final));
+		$res2 =  $this->get_items();
+		return $res2['records'];
 	}
 
 	/**
@@ -89,6 +113,7 @@ class di_catalogue_item extends data_interface
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
 		$cs = $this->join_with_di('catalogue_style', array('id' => 'catalogue_item_id'));
 		$gs = $this->join_with_di('guide_style', array('style_id' => 'id'), array('name' => 'style_name', 'id' => 'style_id'), $cs);
+		$csn = $this->join_with_di('market_soon', array('id' => 'm_soon_product_id'),array('id'=>'m_soon_id'));
 		$this->set_args(array('_son_offer' => 1), true);
 		$where = array();
 		if(($query = request::get('group', false)) != false)
@@ -101,12 +126,36 @@ class di_catalogue_item extends data_interface
 			$name = $this->get_alias();
 			$where[] = "`{$name}`.`title` LIKE \"%{$query}%\"";
 		}
+//9*  single line search through catalogue based on title an group name field contents
+		if(($q = request::get('q',false)) != false)
+		{
+			$group_tbl  = $gg->get_alias();
+			$item_tbl = $this->get_alias();
+			$where[] = "`{$group_tbl}`.`name` LIKE \"%{$q}%\" OR `{$item_tbl}`.`title` LIKE \"%{$q}%\""; 
+		}
+
 		if (!empty($where))
 		{
 			$this->where = join(' OR ', $where);
 		}
 		//$this->connector->debug = true;
 		$this->set_group('id');
+		if($this->args['with_description'] == true)//9* 20101122 'это если надо выводить еще и дексрипшн по товару то флаг "width description" надо выставлять
+		{
+			return $this->extjs_grid_json(array(
+			'id', 'on_offer', 'recomended', 'title', 'preview', 'picture', 'type_id', 'collection_id', 'group_id', 'price_id','description',
+			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
+			'CONVERT(GROUP_CONCAT(`'.$gs->get_alias().'`.`id` SEPARATOR ",") USING utf8)' => 'StyleIds',
+			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gg, 'name' => 'name'),
+			array('di' => $gp, 'name' => 'cost'),
+			array('di' => $gc, 'name' => 'name'),
+			array('di' => $gs, 'name' => 'name'),
+			array('di' => $gc, 'name' => 'discount'),
+			array('di' => $csn, 'name' => 'id')
+			), false);
+
+		}
 		return $this->extjs_grid_json(array(
 			'id', 'on_offer', 'recomended', 'title', 'preview', 'picture', 'type_id', 'collection_id', 'group_id', 'price_id',
 			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
@@ -116,7 +165,8 @@ class di_catalogue_item extends data_interface
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
 			array('di' => $gs, 'name' => 'name'),
-			array('di' => $gc, 'name' => 'discount')
+			array('di' => $gc, 'name' => 'discount'),
+			array('di' => $csn, 'name' => 'id')
 		), false);
 	}
 	

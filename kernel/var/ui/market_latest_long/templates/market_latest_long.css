@@ -2,6 +2,7 @@
 font-family:Verdana;
 font-size:11px;
 margin-top:20px;
+margin-bottom:15px;
 border:1px dotted;
 height:100%;
 padding:10px;
@@ -81,6 +82,8 @@ padding:0px;
 padding:0px;
 margin:0px;
 border:0px;
+width:250px;
+height:250px;
 display:block;
 }
 
@@ -103,6 +106,8 @@ padding:0px;
 padding:0px;
 margin:0px;
 border:0px;
+width:100px;
+height:100px;
 display:block;
 }
 #market_latest_long .top_block_wrap{

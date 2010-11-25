@@ -42,15 +42,26 @@ class ui_catalogue extends user_interface
 		}
 	}
 
+
+	protected function pub_search_single()
+	{
+		$data = array();
+		return $this->parse_tmpl('search_form_single.html',$data);
+	}
+
 	/**
 	*	Вывести описание товара
 	*/
 	private function get_item($id)
 	{
+		$di_v = data_interface::get_instance('market_viewed');
+		$di_v->_set($id);
+
 		$di = data_interface::get_instance('catalogue_item');
 		$di->set_args(array('_sid' => $id));
 		$df = data_interface::get_instance('catalogue_file');
 		$data = $di->get_item();
+		$data['related'] = $di->get_related();
 		$diStyles = data_interface::get_instance('guide_style');
 		$data['styles'] = $diStyles->get_styles_in_item($id);
 		$data['args'] = array_merge($this->get_args(), $this->parse_uri());

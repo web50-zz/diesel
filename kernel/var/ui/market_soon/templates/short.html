@@ -1,23 +1,12 @@
-<div id="market_recomendations_short" class="market_recomendations_short">
-<h1>RM рекомендует</h1>
-
-<br/>LACRIMOSA - Schattenspiel (2CD)	 Schattenspiel (2CD)
-<br/>LACRIMOSA<br/>
-<br/>METALLICA - death metall trash	death metall trash
-<br/>METALLICA<br/>
-<br/>MANDRAGORA SCREAM - Volturna	Volturna
-<br/>MANDRAGORA SCREAM<br/>
-<br/>RAY CHARLES - 50 Years in Music	50 Years in Music
-<br/>RAY CHARLES<br/>
-<br/>EDGUY - Fucking With Fire: Live (DVD) + ФУТБОЛКА Live in Moscow	Fucking With Fire: Live (DVD) + ФУТБОЛКА Live in Moscow
-<br/>EDGUY<br/>
-<br/>EDGUY - Fucking With Fire: Live (DVD)	Fucking With Fire: Live (DVD)
-<br/>EDGUY<br/>
-<br/>ETERNAL TEARS OF SORROW - Children of the Dark Waters	Children of the Dark Waters
-<br/>ETERNAL TEARS OF SORROW<br/>
-<br/>BOOZED - Bad Seed	Bad Seed
-<br/>BOOZED<br/>
-<br/>REPLICA - Languages Of Decay	Languages Of Decay
-<br/>REPLICA<br/>
-
+<div id="market_soon_short" class="market_soon_short">
+<h1>Скоро в продаже</h1>
+{__(apply(/records)__}
+<div class="m_soon_product" id="m_soon_product">
+		{__(if($preview)__}
+		<div class="item_preview" id="item_preview"><a href="/products/item_{__m_soon_product_id__}.html"><img src="{__/storage__}{__preview__}" title="{__p_title__}"/></a></div>
+		{__if)__}
+<a class="item" href="/products/item_{__m_soon_product_id__}.html">{__p_title__}</a><br>
+<a class="group" href="/products/group/{__p_group_id__}/">{__p_group__}</a>
+</div>
+{__apply)__}
 </div>

@@ -47,6 +47,7 @@ ui.cart = function(conf){
 	}
 }
 Ext.onReady(function(){
+	FRONTLOADER.load('/min/?f=/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
 	var c = new ui.cart();
 	c.collectButtons();
 });

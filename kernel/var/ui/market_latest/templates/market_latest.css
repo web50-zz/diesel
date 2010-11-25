@@ -1,7 +1,7 @@
 .market_latest{
 font-family:Verdana;
 font-size:11px;
-margin-top:20px;
+margin-bottom:20px;
 border:1px dotted;
 height:100%;
 padding:10px;
@@ -13,6 +13,7 @@ font-size:12px;
 .market_latest_short{
 font-family:Verdana;
 font-size:11px;
+margin-bottom:20px;
 border:1px dotted;
 height:100%;
 padding:10px;
@@ -51,9 +52,11 @@ margin-top:25px;
 padding:0px;
 }
 
-#item_preview img{
+#m_latest_product #item_preview img{
 padding:0px;
 margin:0px;
 border:0px;
+width:100px;
+height:100px;
 display:block;
 }

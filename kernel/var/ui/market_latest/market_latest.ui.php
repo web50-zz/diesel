@@ -10,10 +10,10 @@ class ui_market_latest extends user_interface
 {
 	public $title = 'Новинки магазина';
 	public $deps = array('main' => array(
+			'market_latest.catalogue_list',
+			'market_latest.latest_list',
 			'catalogue.item_list',
 			'catalogue.filter_form',
-			'market_latest.catalogue_list',
-			'market_latest.latest_list'
 			)
 		);
 	
@@ -37,7 +37,17 @@ class ui_market_latest extends user_interface
 		$data['storage'] = '/storage/';
 		return $this->parse_tmpl('short.html',$data);
 	}
-	
+
+	public function pub_rss()
+	{
+		$data = array();
+		$di  = data_interface::get_instance('market_latest');
+		$di->args['with_description'] = true;
+		$data = $di->_get_list_data();
+		$data['host'] = $_SERVER['HTTP_HOST'];
+		response::send($this->parse_tmpl('rss.html',$data),'html');
+	}
+
 	protected function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'catalogue.js');

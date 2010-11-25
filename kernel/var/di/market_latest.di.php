@@ -62,10 +62,27 @@ class di_market_latest extends data_interface
 	public function _get_list_data()
 	{
 		$this->_flush(true);
-		$dd = $this->join_with_di('catalogue_item', array('m_latest_product_id' => 'id'), array('title' => 'p_title','preview'=>'preview'));
+		$dd = $this->join_with_di('catalogue_item', array('m_latest_product_id' => 'id'), array('title' => 'p_title','preview'=>'preview','description'=>'description'));
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'p_type'),$dd);
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection'),$dd);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'p_group','id'=>'p_group_id'),$dd);
+		if($this->args['with_description'] == true)
+		{
+			$data = $this->extjs_grid_json(array(
+			'id',
+			'm_latest_created_datetime', 
+			'm_latest_product_id',
+			array('di' => $dd, 'name' => 'title'),
+			array('di' => $dd, 'name' => 'preview'),
+			array('di' => $dd, 'name' => 'description'),
+			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gc, 'name' => 'name'),
+			array('di' => $gg, 'name' => 'name'),
+			array('di' => $gg, 'name' => 'id')
+			),false);
+			return $data;
+
+		}
 		$data = $this->extjs_grid_json(array(
 			'id',
 			'm_latest_created_datetime', 
@@ -103,7 +120,7 @@ class di_market_latest extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
-		if ($this->get_args('_sid')>0)
+		if ($this->args['_sid']>0)
 		{
 			$this->set_args(array('m_latest_changed_datetime' => date('Y-m-d H:i:S')), true);
 			$this->set_args(array('m_latest_changer_uid' => UID), true);

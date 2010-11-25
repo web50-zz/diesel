@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
+<channel>
+	<title><![CDATA[rockmarket: Новинки]]></title>
+	<link>http://{__host__}/incoming/</link>
+	<description><![CDATA[rockmarket: Новинки ]]></description>
+
+{__(apply(/records)__}
+	<item>
+		<title><![CDATA[{__m_latest_l_title__}]]></title>
+		<link>http://{__/host__}/incoming/issue/{__id__}/</link>
+		<description><![CDATA[{__description__}]]></description>
+		<pubDate>{__php::date('d.m.Y',strtotime($created_datetime))__} </pubDate>
+	</item>
+{__apply)__}
+</channel>
+</rss>

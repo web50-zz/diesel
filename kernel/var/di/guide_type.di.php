@@ -53,6 +53,14 @@ class di_guide_type extends data_interface
 		response::send($data, 'json');
 	}
 	
+	public function get_nonempty_types()
+	{
+		// выдем только список типов по которым есть товары в каталоге с флагом on_offer - 1
+		$sql = "select * from guide_type where id in (SELECT type_id from catalogue_item where type_id != 0 and on_offer = 1 group by type_id)";
+		$res = $this->_get($sql);
+		return $res;
+	}
+
 	/**
 	*	Список записей
 	*/

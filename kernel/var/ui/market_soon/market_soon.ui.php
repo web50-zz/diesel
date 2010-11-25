@@ -1,16 +1,21 @@
 <?php
 /**
-*	UI Market latest products 
+*	UI Market soon products 
 *
-* @author	elgarat 	
+* @author       9*	
 * @access	public
 * @package	SBIN Diesel 	
 */
-// see also guestbook.di.php 
 class ui_market_soon extends user_interface
 {
 	public $title = 'Скоро в продаже';
-
+	public $deps = array('main' => array(
+			'market_soon.catalogue_list',
+			'market_soon.latest_list',
+			'catalogue.item_list',
+			'catalogue.filter_form',
+			)
+		);
 	
 	public function __construct()
 	{
@@ -21,13 +26,36 @@ class ui_market_soon extends user_interface
         public function pub_long()
         {
 		$data = array();
+		$di  = data_interface::get_instance('market_soon');
+		$data = $di->_get_public_list_data();
+		$data['storage'] = '/storage/';
 		return $this->parse_tmpl('default.html',$data);
 	}
 
 	public function pub_short()
         {
 		$data = array();
+		$di  = data_interface::get_instance('market_soon');
+		$data = $di->_get_list_data();
+		$data['storage'] = '/storage/';
 		return $this->parse_tmpl('short.html',$data);
 	}
+	
+	protected function sys_main()
+	{
+		$tmpl = new tmpl($this->pwd() . 'catalogue.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	protected function sys_catalogue_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'catalogue_list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	protected function sys_latest_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'latest_list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+
 }
 ?>

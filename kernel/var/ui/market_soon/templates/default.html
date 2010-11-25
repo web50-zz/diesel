@@ -1,14 +1,72 @@
 <div class="market_soon" id="market_soon">
 <h1>Скоро в продаже</h1>
+{__(apply(/records)__}
+	<div class="m_soon_product" id="m_soon_product">
+	<div class="item" id="item">
+		<h1 class="itemheader" id="itemheader"><a class="itemlink" id="itemlink" href="/products/item_{__id__}.html">{__str_group__} &laquo;{__title__}&raquo;</a></h1>
+		<div class="item_preview" id="item_preview">
+		{__(if($preview)__}<img src="{__/storage__}{__preview__}" title="{__title__}"/>{__if)__}
+		</div>
+		<table cellpadding="0" cellspacing="0" id="iteminfo" class="iteminfo">
+			<tr>
+				<th>Тип:</th>
+				<td>
+				{__(if(/args/_stype_id > 0)__}
+					{__str_type__}
+				{__else__}
+					<a href="/products/type/{__type_id__}/">{__str_type__}</a>
+				{__if)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Гуппа:</th>
+				<td>
+				{__(if(/args/_sgroup_id > 0)__}
+					{__str_group__}
+				{__else__}
+					<a href="/products/group/{__group_id__}/">{__str_group__}</a>
+				{__if)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Коллекция:</th>
+				<td>
+				{__(if(/args/_scollection_id > 0)__}
+					{__str_collection__}
+				{__else__}
+					<a href="/products/label/{__collection_id__}/">{__str_collection__}</a>
+				{__if)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Стили:</th>
+				<td>
+					{__set(#styles = preg_split('/,/', $Styles))__}
+					{__set(#ids = preg_split('/,/', $StyleIds))__}
+					{__(foreach(#ids AS @n => @id)__}
+						{__set(#title = #styles[@n])__}
+						{__set(#id = @id)__}
+						{__(if(/args/_scollection_id > 0)__}
+							{__#title__}
+						{__else__}
+							<a href="/products/style/{__#id__}/">{__#title__}</a>
+						{__if)__}{__(if(@position < @last)__}<span>, </span>{__if)__}
+					{__foreach)__}
+				</td>
+			</tr>
+			<tr>
+				<th>Год выпуска:</th>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				{__description__}
+				</td>
+			</tr>
 
-<h3>ANDREA BOCELLI<br/>
-Cieli Di Toscana</h3>
-<p>БИЛЕТЫ</p>
-<p>Год выпуска: 2007 "Ciele Di Toscana" - альбом 2007 года итальянского оперного певца - Андреа Бочелли, которого называют тенором номер один. Несмотря на слепоту, музыкант за свою десятилетнюю карьеру стал одним из наиболее запоминающихся голосов современный оперы и поп-музыки. Бочелли одинаково хорошо удается исполнение как классического репертуара, так и поп-баллад.
-Романтика, страсть, эмоции - все это можно услышать в его замечательном голосе на представленном Вашему вниманию диске.
-</p>
-Номер по каталогу: 1773<br />
-Год выхода: 2007<br />
-Стиль: Classic<br />
-Производитель: Universal Music<br />
+		</table>
+	</div>
+</div>
+{__apply)__}
+{__pager__}
 </div>

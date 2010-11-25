@@ -32,21 +32,31 @@ class ui_market_latest_long extends user_interface
 	{
 		if (preg_match('/archive/', SRCH_URI, $matches))
 		{
-			return $this->get_data(array('mode'=>'archive'));
+			$list =  $this->get_data(array('mode'=>'archive'));
+			return $this->parse_tmpl('list.html',$list);
 		}
 		else
 		{
 			if (preg_match('/issue\/(\d+)/', SRCH_URI, $matches))
 			{
-				return $this->get_data(array('id'=>$matches[1],'mode'=>'item'));
+				$data =  $this->get_data(array('id'=>$matches[1],'mode'=>'item'));
+				return $this->parse_tmpl('issue.html',$data);
 			}
 			else
 			{
-				return $this->get_data(array('mode'=>'item','id'=>'0'));
+				$data =  $this->get_data(array('mode'=>'item','id'=>'0'));
+				return $this->parse_tmpl('issue.html',$data);
 			}
 		}
 	}
 
+	public function pub_rss()
+	{
+		$this->args['limit'] = 5;
+		$list =  $this->get_data(array('mode'=>'archive'));
+		$list['host'] = $_SERVER['HTTP_HOST'];
+		return $this->parse_tmpl('rss.html',$list);
+	}
 
 	private function get_data($input)
 	{
@@ -55,7 +65,14 @@ class ui_market_latest_long extends user_interface
 		$ignore = array();	
 		if($input['mode'] == 'archive')
 		{
-			$limit = 10;
+			if(!$this->args['limit'])
+			{
+				$limit = 10;
+			}
+			else
+			{
+				$limit = $this->args['limit'];
+			}
 			$page = request::get('page', 1);
 			$di1->set_args(array(
 				'sort' => 'id',
@@ -95,7 +112,7 @@ class ui_market_latest_long extends user_interface
 			{
 				$data['previous'] = array('id'=>$list['records'][1]['id'],'issue_date'=>$list['records'][1]['m_latest_l_issue_datetime']);
 			}
-		return $this->parse_tmpl('issue.html',$data);
+		return $data;
 		}
 
 		$pager = user_interface::get_instance('pager');
@@ -103,7 +120,7 @@ class ui_market_latest_long extends user_interface
 		$list['page'] = $page;
 		$list['limit'] = $limit;
 		$list['pager'] = $pager->get_pager(array('page' => $page, 'total' => $list['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
-		return $this->parse_tmpl('list.html',$list);
+		return $list;
 	}
 	
 	protected function sys_main()

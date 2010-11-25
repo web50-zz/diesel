@@ -175,7 +175,7 @@ class di_market_latest_long extends data_interface
 		dbg::write($this->args);
 		$this->_flush();
 		$this->insert_on_empty = true;
-		if ($this->get_args('_sid')>0)
+		if ($this->args['_sid']>0)
 		{
 			$this->set_args(array('m_latest_l_changed_datetime' => date('Y-m-d H:i:S')), true);
 			$this->set_args(array('m_latest_l_changer_uid' => UID), true);
