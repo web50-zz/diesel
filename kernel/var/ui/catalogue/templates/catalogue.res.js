@@ -60,6 +60,10 @@ ui.catalogue = function(conf){
 
 }
 Ext.onReady(function(){
+	if(this.c)
+	{
+		return;
+	}
 	FRONTLOADER.load('/min/?f=/js/ux/alertbox/js/Ext.ux.AlertBox.js','alertbox');
 	this.c = new ui.catalogue();
 	this.c.collectButtons();
