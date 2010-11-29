@@ -62,6 +62,7 @@ class ui_catalogue extends user_interface
 		$df = data_interface::get_instance('catalogue_file');
 		$data = $di->get_item();
 		$data['related'] = $di->get_related();
+		$data['seealso'] = $di->get_see_also();
 		$diStyles = data_interface::get_instance('guide_style');
 		$data['styles'] = $diStyles->get_styles_in_item($id);
 		$data['args'] = array_merge($this->get_args(), $this->parse_uri());
