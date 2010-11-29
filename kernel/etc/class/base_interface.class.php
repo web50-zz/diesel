@@ -139,7 +139,9 @@ class base_interface
 	*/
 	public function pop_args()
 	{
-		return array_pop($this->args_stack);
+		//return array_pop($this->args_stack);
+		$this->args =  array_pop($this->args_stack);
+		return $this->args;
 	}
 }
 ?>
