@@ -78,6 +78,22 @@ class ui_catalogue extends user_interface
 		}
 	}
 
+	protected function pub_search_style_colection()
+	{
+		$data = array();
+		$this->do_args();
+		$data =  $this->args;
+		$ds = data_interface::get_instance('guide_style');
+		$ds->_flush();
+		$res = $ds->extjs_grid_json(false,false);
+		$data['styles'] = $res['records'];
+		$dc = data_interface::get_instance('guide_collection');
+		$dc->_flush();
+		$res = $dc->extjs_grid_json(false,false);
+		$data['collections'] = $res['records'];
+		return $this->parse_tmpl('search_form_style_colection.html',$data);
+	}
+
 	protected function do_args()
 	{
 		if(request::get('_stype_id',false)!= false)
@@ -121,6 +137,7 @@ class ui_catalogue extends user_interface
 	private function get_list()
 	{
 		$limit = 20;
+		$this->do_args();
 		$page = request::get('page', 1);
 		$di = data_interface::get_instance('catalogue_item');
 		$df = data_interface::get_instance('catalogue_file');
