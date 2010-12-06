@@ -54,8 +54,8 @@ color:#000;
 cursor:pointer;
 padding:0px;
 height:30px;
-
 }
+
 #add2selwrap .add2sel{
 float:right;
 border:1px dotted #CCC;
@@ -117,11 +117,6 @@ width:100px;
 display:block;
 }
 
-.search{
-margin-bottom:15px;
-border:1px dotted #000;
-padding:5px;
-}
 
 .srchtxt{
 width:100px;
@@ -190,12 +185,18 @@ margin-top:20px;
 margin-bottom:20px;
 font-weight:bold;
 }
+
 #catalogue_ui #search .fldttl{
 width:100px;
 min-width:200px;
 float:left;
 }
+#catalogue_ui .search{
+border: 1px dotted #CCC;
+padding:3px;
+}
 
 #catalogue_ui #search .fldcont{
 margin-bottom:5px;
+padding:3px;
 }

@@ -9,6 +9,7 @@ class ui_catalogue extends user_interface
 {
 	public $title = 'Каталог';
 	public $enable_filters	= false;
+	public $search_type = 2;
 
 	protected $deps = array(
 		'main' => array(
@@ -72,13 +73,14 @@ class ui_catalogue extends user_interface
 	protected function pub_search_advanced_results()
 	{
 		$this->do_args();
+		$this->search_type = false;
 		if(request::get('s',false) == 1)
 		{
 			return $this->get_list();
 		}
 	}
 
-	protected function pub_search_style_colection()
+	protected function search_style_colection()
 	{
 		$data = array();
 		$this->do_args();
@@ -156,9 +158,12 @@ class ui_catalogue extends user_interface
 		$data['cart'] = $cart->_list();
 		$pager = user_interface::get_instance('pager');
 		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
-		if($this->enable_filters == true)
+		if($this->search_type>0 )
 		{
 			$data['search'] = $this->get_search_form();
+		}
+		if($this->enable_filters == true)
+		{
 			$data['filters'] = $this->get_filters();
 		}
 		$data['storage'] = "/{$df->path_to_storage}";
@@ -171,7 +176,12 @@ class ui_catalogue extends user_interface
 	*/
 	private function get_search_form()
 	{
+	
 		$data = request::get();
+		if($this->search_type == 2)
+		{
+			return  $this->search_style_colection();
+		}
 		return $this->parse_tmpl('search_form.html', $data);
 	}
 
