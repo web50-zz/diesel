@@ -127,6 +127,10 @@ padding:5px;
 width:100px;
 }
 
+.srchtxt2{
+width:200px;
+}
+
 #related_item{
 font-size:10px;
 font-weight:bold;
@@ -185,4 +189,13 @@ font-size:14px;
 margin-top:20px;
 margin-bottom:20px;
 font-weight:bold;
+}
+#catalogue_ui #search .fldttl{
+width:100px;
+min-width:200px;
+float:left;
+}
+
+#catalogue_ui #search .fldcont{
+margin-bottom:5px;
 }
