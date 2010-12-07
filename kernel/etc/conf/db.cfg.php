@@ -15,10 +15,10 @@ class db_config
 			'type' => 'mysql',
 			'host' => 'localhost',
 			'charset' => CHARSET,
-			'user' => 'diesel',
-			'pass' => 'diesel',
+			'user' => 'site3u9ru',
+			'pass' => 'site3u9ru',
 			'dbs' => array(
-				'db1' => 'diesel',
+				'db1' => 'site3u9ru',
 				)
 			),
 		'session' => array(

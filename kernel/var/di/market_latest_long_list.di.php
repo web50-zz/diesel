@@ -63,20 +63,26 @@ class di_market_latest_long_list extends data_interface
 
 	public function _get_list_data()
 	{
+		$this->set_group('id');
 		$dd = $this->join_with_di('catalogue_item', array('m_latest_ls_product_id' => 'id'), array('title' => 'p_title','preview'=>'preview','picture'=>'picture'));
 		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'p_type'),$dd);
-		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection'),$dd);
+		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection','id'=>'p_collection_id'),$dd);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'p_group','id'=>'p_group_id'),$dd);
+		$cs = $this->join_with_di('catalogue_style', array('m_latest_ls_product_id' => 'catalogue_item_id'));
+		$gs = $this->join_with_di('guide_style', array('style_id' => 'id'), array('name' => 'style_name', 'id' => 'style_id'), $cs);
 		$data = $this->extjs_grid_json(array(
 			'id',
 			'm_latest_ls_created_datetime', 
 			'm_latest_ls_product_id',
 			'm_latest_ls_issue_id',
+			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
+			'CONVERT(GROUP_CONCAT(`'.$gs->get_alias().'`.`id` SEPARATOR ",") USING utf8)' => 'StyleIds',
 			array('di' => $dd, 'name' => 'title'),
 			array('di' => $dd, 'name' => 'preview'),
 			array('di' => $dd, 'name' => 'picture'),
 			array('di' => $gt, 'name' => 'name'),
 			array('di' => $gc, 'name' => 'name'),
+			array('di' => $gc, 'name' => 'id'),
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gg, 'name' => 'id')
 			),false);

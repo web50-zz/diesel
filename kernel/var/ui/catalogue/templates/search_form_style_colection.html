@@ -1,0 +1,24 @@
+<div id="search" class="search">
+	<form  method="get" id="search_block_form">
+		<div class="fldcont"><div class="fldttl">Коллекция:</div>
+			<select name="_scollection_id">
+				<option value=""></option>
+				{__(apply(/collections)__}
+					<option {__(if($id == /_scollection_id)__}selected{__if)__} value="{__id__}">{__name__}</option>
+				{__apply)__}
+			</select>
+		</div>	
+		
+		<div class="fldcont">
+			<div class="fldttl">Стиль:</div>
+			<select name="_sstyle_id">
+				<option value=""></option>
+				{__(apply(/styles)__}
+					<option {__(if($id == /_sstyle_id)__}selected{__if)__} value="{__id__}">{__name__}</option>
+				{__apply)__}
+			</select>
+		</div>
+			<input type="hidden"  name="s" value='1'>
+			<input class="ok" value="OK" type="submit">
+		</form>
+</div>

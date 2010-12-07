@@ -83,6 +83,7 @@ class di_catalogue_item extends data_interface
 
 	public function get_related()
 	{
+		$this->_flush();
 		$id = $this->args['_sid']; 
 //		$sql = "select order_item.item_id from order_item where order_id in  (select order_id from order_item where item_id = $id and order_id !=0) and order_id != 0 and item_id != $id limit 0,10";
 		$sql = "select order_item.item_id from order_item, order_item z where order_item.order_id = z.order_id and z.item_id = $id and order_item.order_id !=0 and order_item.item_id != $id  limit 0,10";
@@ -96,8 +97,36 @@ class di_catalogue_item extends data_interface
 		{
 			$final[] = $value['item_id'];
 		}
-		$this->set_args(array('_sid'=>$final));
+		$this->push_args(array('_sid'=>$final));
 		$res2 =  $this->get_items();
+		$this->pop_args();
+		return $res2['records'];
+	}
+
+	/*
+		get 'see also' products
+	*/
+
+	public function get_see_also()
+	{
+	
+		$id = $this->args['_sid']; 
+		$sql = "select id from ".$this->name." where group_id in (select group_id from ".$this->name." where id = $id )";
+		$res =  $this->_get($sql);
+		if(count($res) == 0)
+		{
+			return;
+		}
+		foreach($res as $key=>$value)
+		{
+			if($value['id'] != $id)
+			{
+				$final[] = $value['id'];
+			}
+		}
+		$this->push_args(array('_sid'=>$final));
+		$res2 =  $this->get_items();
+		$this->pop_args();
 		return $res2['records'];
 	}
 

@@ -8,6 +8,8 @@
 class ui_catalogue extends user_interface
 {
 	public $title = 'Каталог';
+	public $enable_filters	= false;
+	public $search_type = 2;
 
 	protected $deps = array(
 		'main' => array(
@@ -24,7 +26,6 @@ class ui_catalogue extends user_interface
 			'catalogue.resize_form'
 		)
 	);
-	
 	public function __construct ()
 	{
 		parent::__construct(__CLASS__);
@@ -49,6 +50,68 @@ class ui_catalogue extends user_interface
 		return $this->parse_tmpl('search_form_single.html',$data);
 	}
 
+	protected function pub_search_advanced()
+	{
+		$data = array();
+		$this->do_args();
+		$data =  $this->args;
+		$dt = data_interface::get_instance('guide_type');
+		$dt->_flush();
+		$res = $dt->extjs_grid_json(false,false);
+		$data['types'] = $res['records'];
+		$ds = data_interface::get_instance('guide_style');
+		$ds->_flush();
+		$res = $ds->extjs_grid_json(false,false);
+		$data['styles'] = $res['records'];
+		$dc = data_interface::get_instance('guide_collection');
+		$dc->_flush();
+		$res = $dc->extjs_grid_json(false,false);
+		$data['collections'] = $res['records'];
+		return $this->parse_tmpl('search_form_advanced.html',$data);
+	}
+
+	protected function pub_search_advanced_results()
+	{
+		$this->do_args();
+		$this->search_type = false;
+		if(request::get('s',false) == 1)
+		{
+			return $this->get_list();
+		}
+	}
+
+	protected function search_style_colection()
+	{
+		$data = array();
+		$this->do_args();
+		$data =  $this->args;
+		$ds = data_interface::get_instance('guide_style');
+		$ds->_flush();
+		$res = $ds->extjs_grid_json(false,false);
+		$data['styles'] = $res['records'];
+		$dc = data_interface::get_instance('guide_collection');
+		$dc->_flush();
+		$res = $dc->extjs_grid_json(false,false);
+		$data['collections'] = $res['records'];
+		return $this->parse_tmpl('search_form_style_colection.html',$data);
+	}
+
+	protected function do_args()
+	{
+		if(request::get('_stype_id',false)!= false)
+		{
+			$this->args['_stype_id'] = request::get('_stype_id');
+		}
+		if(request::get('_scollection_id',false)!= false)
+		{
+			$this->args['_scollection_id'] = request::get('_scollection_id');
+		}
+		if(request::get('_sstyle_id',false)!= false)
+		{
+			$this->args['_sstyle_id'] = request::get('_sstyle_id');
+		}
+	}
+
 	/**
 	*	Вывести описание товара
 	*/
@@ -62,6 +125,7 @@ class ui_catalogue extends user_interface
 		$df = data_interface::get_instance('catalogue_file');
 		$data = $di->get_item();
 		$data['related'] = $di->get_related();
+		$data['seealso'] = $di->get_see_also();
 		$diStyles = data_interface::get_instance('guide_style');
 		$data['styles'] = $diStyles->get_styles_in_item($id);
 		$data['args'] = array_merge($this->get_args(), $this->parse_uri());
@@ -75,6 +139,7 @@ class ui_catalogue extends user_interface
 	private function get_list()
 	{
 		$limit = 20;
+		$this->do_args();
 		$page = request::get('page', 1);
 		$di = data_interface::get_instance('catalogue_item');
 		$df = data_interface::get_instance('catalogue_file');
@@ -89,13 +154,18 @@ class ui_catalogue extends user_interface
 		$data = $di->get_items();
 		$data['page'] = $page;
 		$data['limit'] = $limit;
-
 		$cart = data_interface::get_instance('cart');
 		$data['cart'] = $cart->_list();
 		$pager = user_interface::get_instance('pager');
 		$data['pager'] = $pager->get_pager(array('page' => $page, 'total' => $data['total'], 'limit' => $limit, 'prefix' => $_SERVER['QUERY_STRING']));
-		$data['search'] = $this->get_search_form();
-		$data['filters'] = $this->get_filters();
+		if($this->search_type>0 )
+		{
+			$data['search'] = $this->get_search_form();
+		}
+		if($this->enable_filters == true)
+		{
+			$data['filters'] = $this->get_filters();
+		}
 		$data['storage'] = "/{$df->path_to_storage}";
 		$data['args'] = $di->get_args();
 		return $this->parse_tmpl('default.html',$data);
@@ -106,7 +176,12 @@ class ui_catalogue extends user_interface
 	*/
 	private function get_search_form()
 	{
+	
 		$data = request::get();
+		if($this->search_type == 2)
+		{
+			return  $this->search_style_colection();
+		}
 		return $this->parse_tmpl('search_form.html', $data);
 	}
 
