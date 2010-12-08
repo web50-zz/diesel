@@ -101,6 +101,7 @@ class di_market_latest_long extends data_interface
 				'm_latest_l_title',
 				'm_latest_l_product_id',
 				'm_latest_l_issue_datetime',
+				'm_latest_l_text',
 				array('di' => $ga, 'name' => 'description'),
 				array('di' => $ga, 'name' => 'group_id'),
 				array('di' => $ga, 'name' => 'type_id'),
