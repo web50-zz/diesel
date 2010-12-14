@@ -3,7 +3,21 @@
 *****************************************************/
 Ext.form.CKEditor = function(config){
 	this.config = config;
+	config.listeners = config.listeners || {};
+	this.onBeforeDestroy = function() {
+		if(Ext.isIE){
+	//9* some troubles in Firefox with destroy below but IE8 troubles if  we not do such action so only for IE
+			this.ckEditor.destroy();
+		}
+	}
+	Ext.applyIf(config.listeners, {
+			beforedestroy : this.onBeforeDestroy.createDelegate(this),
+			scope : this
+	});
+																																		
 	Ext.form.CKEditor.superclass.constructor.call(this, config);
+
+
 	this.onRender = function(ct, position){
 		if(!this.el){
 			this.defaultAutoCreate = {
@@ -12,7 +26,7 @@ Ext.form.CKEditor = function(config){
 			};
 		}
 		Ext.form.TextArea.superclass.onRender.call(this, ct, position);
-		CKEDITOR.replace(this.id, this.config.CKConfig);
+		this.ckEditor = CKEDITOR.replace(this.id, this.config.CKConfig);
 	}
 	this.setValue = function(value){
 		Ext.form.TextArea.superclass.setValue.apply(this,[value]);
@@ -20,13 +34,15 @@ Ext.form.CKEditor = function(config){
 	}
 	this.getValue = function(){
 		CKEDITOR.instances[this.id].updateElement();
-		return Ext.form.TextArea.superclass.getValue(this);
+		this.value = CKEDITOR.instances[this.id].getData();
+		return Ext.form.TextArea.superclass.getValue.apply(this);
 	}
 	this.getRawValue = function(){
 		CKEDITOR.instances[this.id].updateElement();
-		return Ext.form.TextArea.superclass.getRawValue(this);
+		this.value = CKEDITOR.instances[this.id].getData();
+		return Ext.form.TextArea.superclass.getRawValue.apply(this);
 	}
-	this.destroyInstance = function(){
+	this.onDestroy = function(){
 		if (CKEDITOR.instances[this.id]) {
 			delete CKEDITOR.instances[this.id];
 		}
