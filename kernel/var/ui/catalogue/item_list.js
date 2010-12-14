@@ -90,12 +90,27 @@ ui.catalogue.item_list = function(config, vp){
 		w.show(null, function(){f.Load(id, this.pid)}, this);
 	}.createDelegate(this);
 	var Delete = function(){
-		var record = this.getSelectionModel().getSelections();
-		if (!record) return false;
+		var records = this.getSelectionModel().getSelections();
+		if (!records) return false;
 
 		Ext.Msg.confirm(this.cnfrmTitle, this.cnfrmMsg, function(btn){
 			if (btn == "yes"){
-				this.store.remove(record);
+				//this.store.remove(record);
+				Ext.each(records, function(i){
+					Ext.Ajax.request({
+						url: 'di/catalogue_item/unset.do',
+						params: {_sid: i.id},
+						callback: function(options, success, response){
+							var d = Ext.util.JSON.decode(response.responseText);
+							if (d.success){
+								store.reload();
+							}else{
+								showError(d.errors);
+							}
+						},
+						scope: this
+					})
+				}, this);
 			}
 		}, this);
 	}.createDelegate(this);
