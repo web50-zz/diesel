@@ -60,7 +60,17 @@ class di_guide_group extends data_interface
 	*/
 	protected function sys_list()
 	{
-		$this->_flush();
+		$this->_flush(true);
+		if($this->args['name'] !='')
+		{
+			$where[] = '`name` LIKE "%'.$this->args['name'].'%"'; 
+		}
+		
+		if (!empty($where))
+		{
+			$this->where = join(' AND ',$where);
+		}
+
 		$this->extjs_grid_json();
 	}
 	

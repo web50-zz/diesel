@@ -171,6 +171,10 @@ class di_user extends data_interface
 	*/
 	protected function sys_list()
 	{
+		if (!empty($this->args['query']) && !empty($this->args['field']))
+		{
+			$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
+		}
 		$this->extjs_grid_json(array('id', 'login', 'name', 'email', 'lang'));
 	}
 	

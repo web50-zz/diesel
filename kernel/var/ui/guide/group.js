@@ -67,6 +67,30 @@ ui.guide.group = function(config){
 			}
 		}, this);
 	}.createDelegate(this);
+
+	var reload = function(){
+		store.load({params: {start: 0, limit: this.limit}});
+	}.createDelegate(this);
+	var srchField = new Ext.form.TextField();
+	var srchBttOk = new Ext.Toolbar.Button({
+		text: 'Найти',
+		iconCls:'find',
+		handler: function search_submit(){
+			Ext.apply(store.baseParams, {'name' : srchField.getValue()});
+			reload();
+		}
+	})
+	var srchBttCancel = new Ext.Toolbar.Button({
+		text: 'Сбросить',
+		iconCls:'cancel',
+		handler: function search_submit(){
+			srchField.setValue('');
+			Ext.apply(store.baseParams, {'name': srchField.getValue()});
+			reload();
+		}
+	})
+
+
 	ui.guide.group.superclass.constructor.call(this,{
 		store: store,
 		columns: columns,
@@ -76,6 +100,7 @@ ui.guide.group = function(config){
 			{text: this.bttAdd, iconCls: 'book_add', handler: Add},
 			{text: this.bttEdit, iconCls: "book_edit", handler: Edit, id: "bttEdt-gg", disabled: true},
 			{text: this.bttDelete, iconCls: "book_delete", handler: Delete, id: "bttDel-gg", disabled: true},
+			srchField, srchBttOk, srchBttCancel,
 			'->', {iconCls: 'help', handler: function(){showHelp('guide-group')}}
 		],
 		bbar: new Ext.PagingToolbar({

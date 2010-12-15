@@ -81,6 +81,54 @@ ui.user.main = function(config){
 			}
 		}, this);
 	}.createDelegate(this);
+
+	var onCmenu = function(grid, rowIndex, e){
+		grid.getSelectionModel().selectRow(rowIndex);
+		var row = grid.getSelectionModel().getSelected();
+		var id = row.get('id');
+		var cmenu = new Ext.menu.Menu({items: [
+			{iconCls: 'page_white_edit', text: this.bttEdit, handler: Edit},
+			{iconCls: 'page_white_delete', text: this.bttDelete, handler: Delete}
+		]});
+		e.stopEvent();  
+		cmenu.showAt(e.getXY());
+	}
+
+	var reload = function(){
+		store.load({params: {start: 0, limit: this.limit}});
+	}.createDelegate(this);
+	var srchType = new Ext.form.ComboBox({
+		width: 100,
+		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
+			['name', 'Имя'],
+			['login', 'Login'],
+			['email', 'E-mail'],
+			['id', 'UID']
+		]}), value: 'login',
+		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+	});
+
+	var srchField = new Ext.form.TextField({text:'Имя'});
+	var srchBttOk = new Ext.Toolbar.Button({
+		text: 'Найти',
+		iconCls:'find',
+		handler: function search_submit(){
+			Ext.apply(store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
+			reload();
+		}
+	})
+	var srchBttCancel = new Ext.Toolbar.Button({
+		text: 'Сбросить',
+		iconCls:'cancel',
+		handler: function search_submit(){
+			srchField.setValue('');
+			Ext.apply(store.baseParams, {field: '', query: ''});
+			reload();
+		}
+	})
+
+
+
 	ui.user.main.superclass.constructor.call(this,{
 		store: store,
 		columns: columns,
@@ -88,8 +136,8 @@ ui.user.main = function(config){
 		autoExpandColumn: 'name',
 		tbar: [
 			{text: this.bttAdd, iconCls: 'user_add', handler: Add},
-			{text: this.bttEdit, iconCls: "user_edit", handler: Edit, id: "bttEdt", disabled: true},
-			{text: this.bttDelete, iconCls: "user_delete", handler: Delete, id: "bttDel", disabled: true},
+			{text: this.bttDeleteSel, iconCls: "user_delete", handler: Delete, id: "bttDel2", disabled: true},
+			srchType,srchField, srchBttOk, srchBttCancel,
 			'->', {iconCls: 'help', handler: function(){showHelp('user')}}
 		],
 		bbar: new Ext.PagingToolbar({
@@ -104,9 +152,9 @@ ui.user.main = function(config){
 	);
 	this.on({
 		rowclick: function(grid, rowIndex, ev){
-			grid.getTopToolbar().findById("bttEdt").enable();
-			grid.getTopToolbar().findById("bttDel").enable();
+			grid.getTopToolbar().findById("bttDel2").enable();
 		},
+		rowcontextmenu: onCmenu,
 		render: function(){store.load({params:{start:0, limit: this.limit}})},
 		scope: this
 	})
@@ -125,6 +173,7 @@ Ext.extend(ui.user.main, Ext.grid.GridPanel, {
 	bttAdd: "Добавить",
 	bttEdit: "Изменить",
 	bttDelete: "Удалить",
+	bttDeleteSel: "Удалить выбранных",
 
 	cnfrmTitle: "Подтверждение",
 	cnfrmMsg: "Вы действительно хотите удалить эт(ого|их) пользовател(я|ей)?",
