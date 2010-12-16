@@ -19,7 +19,7 @@ ui.security.main = function(config){
 		title: 'Группы',
 		region: 'west',
 		split: true,
-		width: 300
+		width: 550
 	});
 	var getSelectedGroup = function(){
 		var s = group.getSelectionModel().getSelected();
@@ -32,6 +32,40 @@ ui.security.main = function(config){
 			u.store.baseParams = {gid: gid, _sgid: 'null'};
 			u.addEvents('users_added');
 			u.on('users_added', u.reload);
+			var reload = function(){
+				u.store.load({params: {start: 0, limit: 20}});
+			}.createDelegate(this);
+
+			var srchType = new Ext.form.ComboBox({
+			width: 100,
+			store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
+				['name', 'Имя'],
+				['login', 'Login'],
+				['email', 'E-mail'],
+				['id', 'UID']
+			]}), value: 'login',
+			valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+			});
+
+			var srchField = new Ext.form.TextField({text:'Имя'});
+			var srchBttOk = new Ext.Toolbar.Button({
+				text: 'Найти',
+				iconCls:'find',
+				handler: function search_submit(){
+					Ext.apply(u.store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
+					reload();
+				}
+			})
+			var srchBttCancel = new Ext.Toolbar.Button({
+				text: 'Сбросить',
+				iconCls:'cancel',
+				handler: function search_submit(){
+					srchField.setValue('');
+					Ext.apply(u.store.baseParams, {field: '', query: ''});
+					reload();
+				}
+			})
+
 			var w = new Ext.Window({title: "Choose users", modal: true, layout: 'fit', width: 640, height: 480, items: [u],
 				tbar: [
 					{text: this.bttAddUsers, iconCls: 'user_add', handler: function(){
@@ -64,6 +98,7 @@ ui.security.main = function(config){
 							showError(this.errUserNotSelected);
 						}
 					}, scope: this},
+					srchType,srchField, srchBttOk, srchBttCancel,
 					'->', {iconCls: 'help', handler: function(){showHelp('user-in-group')}}
 				]
 			});
@@ -72,11 +107,50 @@ ui.security.main = function(config){
 			showError(this.errGroupNotSelected);
 		}
 	}.createDelegate(this);
+	
+	
+
+	var srchType = new Ext.form.ComboBox({
+			width: 100,
+			store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
+				['name', 'Имя'],
+				['login', 'Login'],
+				['email', 'E-mail'],
+				['id', 'UID']
+			]}), value: 'login',
+			valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+			});
+
+	var srchField = new Ext.form.TextField({text:'Имя'});
+	var srchBttOk = new Ext.Toolbar.Button({
+				text: 'Найти',
+				iconCls:'find',
+				handler: function search_submit(){
+					Ext.apply(user.store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
+					reload1();
+				}
+			})
+	var srchBttCancel = new Ext.Toolbar.Button({
+				text: 'Сбросить',
+				iconCls:'cancel',
+				handler: function search_submit(){
+					srchField.setValue('');
+					Ext.apply(user.store.baseParams, {field: '', query: ''});
+					reload1();
+				}
+	})
+
+
 	var user = new ui.user.list({
 		title: 'Пользователи',
 		region: 'center',
-		tbar: [{text: this.bttAddUsers, iconCls: 'user_add', handler: addUsers}]
+		tbar: [{text: this.bttAddUsers, iconCls: 'user_add', handler: addUsers},
+			srchType,srchField, srchBttOk, srchBttCancel
+			]
 	});
+	var reload1 = function(){
+				user.store.load({params: {start: 0, limit: 20}});
+		}.createDelegate(this);
 	var delUsers = function(){
 		var gid = getSelectedGroup();
 		if (gid > 0){
@@ -107,6 +181,8 @@ ui.security.main = function(config){
 			}
 		}
 	}.createDelegate(this);
+	
+
 	user.getTopToolbar().add({text: this.bttRemoveUsers, iconCls: 'user_add', handler: delUsers});
 	user.store.baseParams = {gid: 0, _ngid: 'null'};
 	group.on({

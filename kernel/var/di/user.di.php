@@ -135,6 +135,17 @@ class di_user extends data_interface
 	protected function sys_user_in_group()
 	{
 		$this->_flush(true);
+		if (!empty($this->args['query']) && !empty($this->args['field']))
+		{
+			if($this->args['field'] != 'id')
+			{
+				$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
+			}
+			else
+			{
+				$this->args["_s{$this->args['field']}"] = "{$this->args['query']}";
+			}
+		}
 		$gu = $this->join_with_di('group_user', array('id' => 'user_id', intval($this->get_args('gid')) => 'group_id'), array('group_id' => 'gid'));
 		return $this->extjs_grid_json(array('id', 'login', 'name'));
 	}
@@ -173,7 +184,14 @@ class di_user extends data_interface
 	{
 		if (!empty($this->args['query']) && !empty($this->args['field']))
 		{
-			$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
+			if($this->args['field'] != 'id')
+			{
+				$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
+			}
+			else
+			{
+				$this->args["_s{$this->args['field']}"] = "{$this->args['query']}";
+			}
 		}
 		$this->extjs_grid_json(array('id', 'login', 'name', 'email', 'lang'));
 	}

@@ -44,6 +44,17 @@ class di_group extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
+		if (!empty($this->args['query']) && !empty($this->args['field']))
+		{
+			if($this->args['field'] != 'id')
+			{
+				$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
+			}
+			else
+			{
+				$this->args["_s{$this->args['field']}"] = "{$this->args['query']}";
+			}
+		}
 		$this->extjs_grid_json();
 	}
 	
