@@ -120,7 +120,18 @@ class ui_structure extends user_interface
 
 		if($path = $this->get_resource_path($this->interfaceName.'.res.js'))
 			$data['js_resources'][] = $path;
-        
+
+		$css_full = '/'.join(',/',$data['css_resources']);
+		$css_hash =  md5($css_full);
+		$data['css_hash'] = $css_hash;
+
+		$js_full = '/'.join(',/',$data['js_resources']);
+		$js_hash =  md5($js_full);
+		$data['js_hash'] = $js_hash;
+
+		$_SESSION['paths'][$js_hash] = $js_full;
+		$_SESSION['paths'][$css_hash] = $css_full;
+
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
 		$html = $this->parse_tmpl('main/'.$template, $data);
 		response::send($html, 'html');

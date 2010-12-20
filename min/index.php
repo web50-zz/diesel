@@ -7,6 +7,19 @@
  * @package Minify
  */
 
+/* 9* SBIN Diesel patch */
+if (isset($_GET['z'])) {
+    // well need session saved files list 
+	session_start();
+	$z = $_GET['z']; 
+	if(isset($_SESSION['paths'][$z]))
+	{
+		$_GET['f'] =  $_SESSION['paths'][$z];
+	}
+}
+/* 9* end of SBIN diesel patch */
+
+
 define('MINIFY_MIN_DIR', dirname(__FILE__));
 
 // load config
