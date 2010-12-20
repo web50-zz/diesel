@@ -49,6 +49,12 @@ class ui_structure extends user_interface
 		$divp->set_order('order');
 		$vps = $divp->_get();
 		$css_resources = array();
+		$js_resources = array();
+		$key_words = array();
+		$title_words = array();
+		$key_words[] = SITE_KEYWORDS;
+		$title_words[] = SITE_TITLE;
+		$description[] = SITE_DESCRIPTION;
 
 		foreach ($vps as $vp)
 		{
@@ -88,6 +94,15 @@ class ui_structure extends user_interface
 					$data["view_point_{$vp->view_point}"][] = $ui->call($call, json_decode($vp->ui_configure, true));
 				}
 				/* end of cache shit */
+				/* 9* title and keywords builder */
+				if($vp->title_words)
+				{
+					$title_words[] =  $vp->title_words;
+				}
+				if($vp->key_words)
+				{
+					$key_words[] =  $vp->key_words;
+				}
 
 				// 9*  css output
 				if(!$css_resource[$vp->ui_name])
@@ -121,6 +136,15 @@ class ui_structure extends user_interface
 		if($path = $this->get_resource_path($this->interfaceName.'.res.js'))
 			$data['js_resources'][] = $path;
 
+		if($vp->title_words)
+		{
+			$title_words[] =  $vp->title_words;
+		}
+		if($vp->key_words)
+		{
+			$key_words[] =  $vp->key_words;
+		}
+
 		$css_full = '/'.join(',/',$data['css_resources']);
 		$css_hash =  md5($css_full);
 		$data['css_hash'] = $css_hash;
@@ -131,6 +155,10 @@ class ui_structure extends user_interface
 
 		$_SESSION['paths'][$js_hash] = $js_full;
 		$_SESSION['paths'][$css_hash] = $css_full;
+
+		$data['title'] = join(',',$title_words);
+		$data['keywords'] = join(',',$key_words);
+		$data['description'] = join(',',$description);
 
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
 		$html = $this->parse_tmpl('main/'.$template, $data);

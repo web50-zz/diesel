@@ -16,4 +16,7 @@ $current_site_di = 'structure';
 // NOTE: Путь к текущей теме
 define ('SITE_UI',$current_site_ui);
 define ('SITE_DI',$current_site_di);
+define('SITE_TITLE','SBIN DIESEL');
+define('SITE_KEYWORDS','SBIN DIESEL,SBIN,DIESEL,framework,php');
+define('SITE_DESCRIPTION','SBIN Diesel is Opensource site development engine.');
 ?>
