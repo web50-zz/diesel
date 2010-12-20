@@ -95,15 +95,14 @@ class ui_structure extends user_interface
 				}
 				/* end of cache shit */
 				/* 9* title and keywords builder */
-				if($vp->title_words)
+				if($ui->title_words)
 				{
-					$title_words[] =  $vp->title_words;
+					$title_words[] =  $ui->title_words;
 				}
-				if($vp->key_words)
+				if($ui->key_words)
 				{
-					$key_words[] =  $vp->key_words;
+					$key_words[] =  $ui->key_words;
 				}
-
 				// 9*  css output
 				if(!$css_resource[$vp->ui_name])
 				{
@@ -136,13 +135,13 @@ class ui_structure extends user_interface
 		if($path = $this->get_resource_path($this->interfaceName.'.res.js'))
 			$data['js_resources'][] = $path;
 
-		if($vp->title_words)
+		if($this->title_words)
 		{
-			$title_words[] =  $vp->title_words;
+			$title_words[] =  $this->title_words;
 		}
-		if($vp->key_words)
+		if($this->key_words)
 		{
-			$key_words[] =  $vp->key_words;
+			$key_words[] =  $this->key_words;
 		}
 
 		$css_full = '/'.join(',/',$data['css_resources']);
@@ -159,7 +158,7 @@ class ui_structure extends user_interface
 		$data['title'] = join(',',$title_words);
 		$data['keywords'] = join(',',$key_words);
 		$data['description'] = join(',',$description);
-
+	
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
 		$html = $this->parse_tmpl('main/'.$template, $data);
 		response::send($html, 'html');

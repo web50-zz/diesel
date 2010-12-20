@@ -9,7 +9,6 @@
 class ui_navigation extends user_interface
 {
 	public $title = 'Навигация по сайту';
-
 	
 	public function __construct()
 	{
@@ -43,7 +42,14 @@ class ui_navigation extends user_interface
 	protected function pub_trunc_menu()
 	{
 		$st = data_interface::get_instance('structure');
-		return $this->parse_tmpl('trunc_menu.html',$st->get_trunc_menu());
+		$data = $st->get_trunc_menu();
+		$this->title_words = '';
+		$this->key_words = '';
+		$this->description = '';
+		$this->title_words = $data[count($data)-1]['title'];
+		$this->key_words = $data[count($data)-1]['title'];
+		$this->description = $data[count($data)-1]['title'];
+		return $this->parse_tmpl('trunc_menu.html',$data);
 	}
 	
 }
