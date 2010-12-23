@@ -51,7 +51,7 @@ class user_interface extends base_interface
 
 			if (!$object->files_path)//9* if have no overloads of files_path we set default UI_PATH. IF UI in INSTANCE path this property is required
 				$object->files_path = UI_PATH . $name . '/';
-
+			$object->set_lang_data();
 			self::$registry[$name] = $object;
 		}
 		catch(Exception $e)
@@ -114,7 +114,8 @@ class user_interface extends base_interface
 	}
 
 	/**
-	* 9* Initializes lANG file into internal varable wich should be passed into any template via $this->parse_tmpl()  
+	* 9* Initializes lANG file into internal varable wich should be passed into any template via $this->parse_tmpl() 
+	* this time method called from set_instance() proc of current class
 	**/
 	public function set_lang_data()
 	{

@@ -20,8 +20,6 @@ class ui_market_latest extends user_interface
 	public function __construct()
 	{
 		parent::__construct((func_num_args() > 0) ? func_get_arg(0) : __CLASS__);
-		$this->files_path = dirname(__FILE__).'/'; 
-		$this->set_lang_data();
 	}
 
         public function pub_long()
