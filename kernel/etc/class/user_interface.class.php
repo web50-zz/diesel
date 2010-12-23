@@ -112,7 +112,22 @@ class user_interface extends base_interface
 			return false;
 		}
 	}
-	
+
+	/**
+	* 9* Initializes lANG file into internal varable wich should be passed into any template via $this->parse_tmpl()  
+	**/
+	public function set_lang_data()
+	{
+		if($path = $this->get_resource_path('lang/'.LANG.'.php','absolute'))
+		{
+			include_once($path);
+			if($UI_LANG){
+				$this->UI_LANG['UI_LANG'] = $UI_LANG;
+				unset($UI_LANG);
+			}
+		}
+	}
+
 	/**
 	*	Get path to UI files
 	* @access	public
@@ -132,6 +147,10 @@ class user_interface extends base_interface
 
 	public function parse_tmpl($template_file_name,$data)
 	{
+		if($this->UI_LANG)
+		{
+			$data = array_merge($data,$this->UI_LANG);
+		}
 		if($tmpl_path = $this->get_resource_path($template_file_name,'absolute'))
 		{
 			$tmpl = new tmpl($tmpl_path);
@@ -173,7 +192,6 @@ class user_interface extends base_interface
 	{
 		$res_path = $this->get_resource_dir_path().$res_name;
 		$res_path2 = $this->get_resource_dir_path('default').$res_name;
-
 		if (file_exists($res_path))
 		{
 			if($mode == 'relative')

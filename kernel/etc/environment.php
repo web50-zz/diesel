@@ -11,7 +11,8 @@ error_reporting( E_ALL ^ E_NOTICE );
 
 define ('CHARSET', 'UTF8');
 define ('ENCODING', 'UTF-8');
-define ('LANG', 'en_EN');
+//define ('LANG', 'en_EN');
+define ('LANG', 'ru_RU');
 
 // NOTE: Base path to CMS files
 define ('KERNEL_PATH', BASE_PATH . 'kernel/');
