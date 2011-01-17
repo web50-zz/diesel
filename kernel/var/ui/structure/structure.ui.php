@@ -138,12 +138,26 @@ class ui_structure extends user_interface
 		if($this->title_words)
 		{
 			$title_words[] =  $this->title_words;
+		
 		}
+
+		// 9* include and mask some js  depes for current theme.
+		$js_deps_file = BASE_PATH.CURRENT_THEME_PATH.'/js_deps.php';
+		if(file_exists($js_deps_file))
+		{
+			include_once($js_deps_file);
+			foreach($js_deps as $depk=>$depv)
+			{
+				$path = CURRENT_THEME_PATH.$depv;
+				$data['js_resources'][] = $path;
+			}
+		}
+		//9* end of js deps inclusion
+
 		if($this->key_words)
 		{
 			$key_words[] =  $this->key_words;
 		}
-
 		$css_full = '/'.join(',/',$data['css_resources']);
 		$css_hash =  md5($css_full);
 		$data['css_hash'] = $css_hash;
@@ -158,6 +172,7 @@ class ui_structure extends user_interface
 		$data['title'] = join(',',$title_words);
 		$data['keywords'] = join(',',$key_words);
 		$data['description'] = join(',',$description);
+		$data['CURRENT_THEME_PATH'] = '/'.CURRENT_THEME_PATH;
 	
                 $template = (!empty($page['template'])) ? $page['template'] : pub_template;
 		$html = $this->parse_tmpl('main/'.$template, $data);
