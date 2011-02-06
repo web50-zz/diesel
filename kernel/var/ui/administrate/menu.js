@@ -14,7 +14,7 @@ ui.administrate.menu = function(config){
 			{text: "Производители", iconCls: 'book_open', appName: 'guide', appFace: 'group', handler: onMenuClick},
 			{text: "Коллекции", iconCls: 'book_open', appName: 'guide', appFace: 'collection', handler: onMenuClick},
 			{text: "Тэги", iconCls: 'book_open', appName: 'guide', appFace: 'style', handler: onMenuClick},
-			{text: "Типы товара", iconCls: 'book_open', appName: 'guide', appFace: 'type', handler: onMenuClick},
+			{text: "Типы товара", iconCls: 'book_open', appName: 'market_types', appFace: 'main', handler: onMenuClick},
 			{text: "Ценовые категории", iconCls: 'book_open', appName: 'guide', appFace: 'price', handler: onMenuClick},
 			{text: "Страны и регионы", iconCls: 'world', appName: 'country_regions', appFace: 'main', handler: onMenuClick},
 			{text: "Валюты", iconCls: 'money', appName: 'guide', appFace: 'currency', handler: onMenuClick},

@@ -61,14 +61,14 @@ class di_order_item extends data_interface
 		// Объединяем с ДИ Товары
 		$ci = $this->join_with_di('catalogue_item', array('item_id' => 'id'), array('title' => 'str_title','id'=>'item_id'));
 		// Объединяем ДИ Товары с ДИ типы товаров
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'), $ci);
+		$gt = $this->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'str_type'), $ci);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group','id'=>'group_id'), $ci);
 		$data = $this->extjs_grid_json(array(
 			'id', 'count', 'price1', 'price2', 'discbool', 'discount',
 			array('di' => $ci, 'name' => 'title'),	// Наименование товара
 			array('di' => $gg, 'name' => 'name'),	// Название группы
 			array('di' => $gg, 'name' => 'id'),	// Ид группы
-			array('di' => $gt, 'name' => 'name'),	// Тип товара
+			array('di' => $gt, 'name' => 'title'),	// Тип товара
 			array('di' => $ci, 'name' => 'id'),	// Ид  товара
 		),false);
 		return $data;

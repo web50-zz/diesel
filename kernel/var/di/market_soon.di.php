@@ -63,7 +63,7 @@ class di_market_soon extends data_interface
 	{
 		$this->_flush(true);
 		$dd = $this->join_with_di('catalogue_item', array('m_soon_product_id' => 'id'), array('title' => 'p_title','preview'=>'preview'));
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'p_type'),$dd);
+		$gt = $this->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'p_type'),$dd);
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection'),$dd);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'p_group','id'=>'p_group_id'),$dd);
 		$data = $this->extjs_grid_json(array(
@@ -72,7 +72,7 @@ class di_market_soon extends data_interface
 			'm_soon_product_id',
 			array('di' => $dd, 'name' => 'title'),
 			array('di' => $dd, 'name' => 'preview'),
-			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gt, 'name' => 'title'),
 			array('di' => $gc, 'name' => 'name'),
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gg, 'name' => 'id')

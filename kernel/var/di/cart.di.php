@@ -42,13 +42,13 @@ class di_cart extends data_interface
 			$cati = data_interface::get_instance('catalogue_item');
 			$cati->_flush(true);
 			$cati->connector->fetchMethod = PDO::FETCH_ASSOC;
-			$gt = $cati->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+			$gt = $cati->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'str_type'));
 			$gp = $cati->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'str_cost'));
 			$gc = $cati->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 			$cati->what = array(
 				'id',
 				'title',
-				array('di' => $gt, 'name' => 'name'),
+				array('di' => $gt, 'name' => 'title'),
 				array('di' => $gp, 'name' => 'cost'),
 				array('di' => $gc, 'name' => 'discount')
 			);

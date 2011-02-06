@@ -27,13 +27,13 @@ ui.catalogue.filter_form = function(config){
 				triggerAction: 'all', mode: 'local', editable: false
 			},
 			{fieldLabel: this.labelType, hiddenName: '_stype_id', xtype: 'combo', value: '',
-				store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'name'], autoLoad: true
+				store: new Ext.data.JsonStore({url: 'di/market_types/combolist.json', baseParams: {with_empty: 'yes'}, root: 'records', fields: ['id', 'title'], autoLoad: true
 					,listeners: {
 						load: function(){this.getForm().findField('_stype_id').setValue('')},
 						scope: this
 					}
 				}),
-				valueField: 'id', displayField: 'name', triggerAction: 'all', mode: 'local',
+				valueField: 'id', displayField: 'title', triggerAction: 'all', mode: 'local',
 				editable: false
 			},
 			{fieldLabel: this.labelGroup, hiddenName: '_sgroup_id', xtype: 'combo',

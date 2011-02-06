@@ -125,9 +125,9 @@ ui.catalogue.item_form = function(config){
 				{id: 'item-main', title: this.tabMain, autoScroll: true, layout: 'column', items: [
 					{columnWidth: .7, layout: 'form', labelWidth: 150, defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
 						{fieldLabel: this.labelType, hiddenName: 'type_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
-							store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
+							store: new Ext.data.JsonStore({url: 'di/market_types/combolist.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
 							valueField: 'id', 
-							displayField: 'name', 
+							displayField: 'title', 
 							mode: 'local', 
 							triggerAction: 'all', editable: false
 						},

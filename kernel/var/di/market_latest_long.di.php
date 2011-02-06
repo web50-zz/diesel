@@ -93,7 +93,7 @@ class di_market_latest_long extends data_interface
 	public function _get_extended_data($ignore_flds = array())
 	{
 		$ga = $this->join_with_di('catalogue_item', array('m_latest_l_product_id' => 'id'), array('title' => 'title','group_id'=>'group_id','description'=>'description','type_id'=>'type_id','collection_id'=>'collection_id','picture'=>'picture','preview'=>'preview'),$di1);
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type',$qa));
+		$gt = $this->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'str_type',$qa));
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'),$qa);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'),$qa);
 		$what  = array(
@@ -109,7 +109,7 @@ class di_market_latest_long extends data_interface
 				array('di' => $ga, 'name' => 'title'),
 				array('di' => $ga, 'name' => 'picture'),
 				array('di' => $ga, 'name' => 'preview'),
-				array('di' => $gt, 'name' => 'name'),
+				array('di' => $gt, 'name' => 'title'),
 				array('di' => $gg, 'name' => 'name'),
 				array('di' => $gc, 'name' => 'name'),
 			);
@@ -145,7 +145,7 @@ class di_market_latest_long extends data_interface
 	protected function _get_data()
 	{
 		$dd = $this->join_with_di('catalogue_item', array('m_latest_l_product_id' => 'id'), array('title' => 'p_title'));
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'p_type'),$dd);
+		$gt = $this->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'p_type'),$dd);
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection'),$dd);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'p_group','id'=>'p_group_id'),$dd);
 		$data = $this->extjs_form_json(array('id',
@@ -156,7 +156,7 @@ class di_market_latest_long extends data_interface
 					'm_latest_l_product_id',
 					'm_latest_l_issue_datetime',
 					array('di' => $dd, 'name' => 'title'),
-					array('di' => $gt, 'name' => 'name'),
+					array('di' => $gt, 'name' => 'title'),
 					array('di' => $gc, 'name' => 'name'),
 					array('di' => $gg, 'name' => 'name'),
 					array('di' => $gg, 'name' => 'id')

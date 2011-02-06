@@ -65,7 +65,7 @@ class di_market_latest_long_list extends data_interface
 	{
 		$this->set_group('id');
 		$dd = $this->join_with_di('catalogue_item', array('m_latest_ls_product_id' => 'id'), array('title' => 'p_title','preview'=>'preview','picture'=>'picture'));
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'p_type'),$dd);
+		$gt = $this->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'p_type'),$dd);
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'p_collection','id'=>'p_collection_id'),$dd);
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'p_group','id'=>'p_group_id'),$dd);
 		$cs = $this->join_with_di('catalogue_style', array('m_latest_ls_product_id' => 'catalogue_item_id'));
@@ -80,7 +80,7 @@ class di_market_latest_long_list extends data_interface
 			array('di' => $dd, 'name' => 'title'),
 			array('di' => $dd, 'name' => 'preview'),
 			array('di' => $dd, 'name' => 'picture'),
-			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gt, 'name' => 'title'),
 			array('di' => $gc, 'name' => 'name'),
 			array('di' => $gc, 'name' => 'id'),
 			array('di' => $gg, 'name' => 'name'),

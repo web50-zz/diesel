@@ -63,14 +63,14 @@ class di_catalogue_item extends data_interface
 	public function get_item()
 	{
 		$this->_flush(true);
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+		$gt = $this->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'str_type'));
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
 		$csn = $this->join_with_di('market_soon', array('id' => 'm_soon_product_id'),array('id'=>'m_soon_id'));
 		return $this->extjs_grid_json(array(
 			'id', 'on_offer', 'recomended', 'title', 'description', 'type_id', 'collection_id', 'group_id', 'price_id','picture', 
-			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gt, 'name' => 'title'),
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
@@ -136,7 +136,7 @@ class di_catalogue_item extends data_interface
 	public function get_items()
 	{
 		$this->_flush(true);
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+		$gt = $this->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'str_type'));
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('cost' => 'price_cost'));
@@ -175,7 +175,7 @@ class di_catalogue_item extends data_interface
 			'id', 'on_offer', 'recomended', 'title', 'preview', 'picture', 'type_id', 'collection_id', 'group_id', 'price_id','description',
 			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
 			'CONVERT(GROUP_CONCAT(`'.$gs->get_alias().'`.`id` SEPARATOR ",") USING utf8)' => 'StyleIds',
-			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gt, 'name' => 'title'),
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
@@ -189,7 +189,7 @@ class di_catalogue_item extends data_interface
 			'id', 'on_offer', 'recomended', 'title', 'preview', 'picture', 'type_id', 'collection_id', 'group_id', 'price_id',
 			'GROUP_CONCAT(`'.$gs->get_alias().'`.`name` SEPARATOR ",")' => 'Styles',
 			'CONVERT(GROUP_CONCAT(`'.$gs->get_alias().'`.`id` SEPARATOR ",") USING utf8)' => 'StyleIds',
-			array('di' => $gt, 'name' => 'name'),
+			array('di' => $gt, 'name' => 'title'),
 			array('di' => $gg, 'name' => 'name'),
 			array('di' => $gp, 'name' => 'cost'),
 			array('di' => $gc, 'name' => 'name'),
@@ -205,7 +205,7 @@ class di_catalogue_item extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush(true);
-		$gt = $this->join_with_di('guide_type', array('type_id' => 'id'), array('name' => 'str_type'));
+		$gt = $this->join_with_di('market_types', array('type_id' => 'id'), array('title' => 'str_type'));
 		$gg = $this->join_with_di('guide_group', array('group_id' => 'id'), array('name' => 'str_group'));
 		$gp = $this->join_with_di('guide_price', array('price_id' => 'id'), array('title' => 'str_price'));
 		$gc = $this->join_with_di('guide_collection', array('collection_id' => 'id'), array('name' => 'str_collection'));
@@ -240,7 +240,7 @@ class di_catalogue_item extends data_interface
 			'title',
 			//'prepayment',
 			//'payment_forward',
-			array('di' => $gt, 'name' => 'name'),		// Тип
+			array('di' => $gt, 'name' => 'title'),		// Тип
 			array('di' => $gg, 'name' => 'name'),		// Группа
 			array('di' => $gp, 'name' => 'title'),		// Прайс
 			array('di' => $gp, 'name' => 'cost'),		// Цена
