@@ -10,7 +10,7 @@
 
 		<table cellpadding="0" cellspacing="0" id="iteminfo" class="iteminfo">
 			<tr>
-				<th>Тип:</th>
+				<th>{__/UI_LANG/type__}</th>
 				<td>
 				{__(if(/args/_stype_id > 0)__}
 					{__str_type__}
@@ -20,7 +20,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>Гуппа:</th>
+				<th>{__/UI_LANG/group__}</th>
 				<td>
 				{__(if(/args/_sgroup_id > 0)__}
 					{__str_group__}
@@ -40,7 +40,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>Стили:</th>
+				<th>{__/UI_LANG/tags__}:</th>
 				<td>{__(apply(/styles)__}
 					{__name__}{__(if(@position < @last)__}<span>, </span>{__if)__}
 				{__apply)__}</td>
