@@ -256,7 +256,17 @@ class di_catalogue_item extends data_interface
 	protected function sys_get()
 	{
 		$this->_flush();
-		$this->extjs_form_json();
+		$data = $this->extjs_form_json(false,false);
+		if($data['data']['group_id']>0)//9* 05022011 Вот это для того чтобы в форме название группы выводилось по дефолту в хитрый комбобокс с поиском 
+		{
+			$di = data_interface::get_instance('guide_group');
+			$di->_flush();
+			$di->what = array('id', 'name');
+			$di->set_args(array('_sid' => $data['data']['group_id']));
+			$name = $di->extjs_form_json(false,false);
+			$data['data']['group_name'] = $name['data']['name'];
+		}
+		response::send($data, 'json');
 	}
 	
 	/**

@@ -116,7 +116,7 @@ Ext.extend(ui.market_soon.latest_list, Ext.grid.GridPanel, {
 	colPid: "Id товара",
 	colPtitle: "Наименование",
 	colPtype: "Тип",
-	colPgroup: "Группа",
+	colPgroup: "Производитель",
 	colPcollection: "Коллекция",
 
 	errText:'Ошибка соединения c сервером',

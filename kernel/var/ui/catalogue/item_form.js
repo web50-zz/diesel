@@ -61,12 +61,15 @@ ui.catalogue.item_form = function(config){
 			waitMsg: this.loadText,
 			success: function(form, action){
 				var d = Ext.util.JSON.decode(action.response.responseText);
+				form.findField('group_id_selector').setValue(d.data.group_name);
 				if (d.success)
 					tpl.overwrite(pnlPrvw.body, {real_name: d.data.preview, name: d.data.title});
 				else
 					showError(d.errors);
 				
-			}
+				},
+			scope:this
+
 		});
 		f.setValues([{id: '_sid', value: id}]);
 		files.setItemId(id);
@@ -123,8 +126,32 @@ ui.catalogue.item_form = function(config){
 					{columnWidth: .7, layout: 'form', labelWidth: 150, defaults: {xtype: 'textfield', width: '100', anchor: '100%'}, items: [
 						{fieldLabel: this.labelType, hiddenName: 'type_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
 							store: new Ext.data.JsonStore({url: 'di/guide_type/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', editable: false
+							valueField: 'id', 
+							displayField: 'name', 
+							mode: 'local', 
+							triggerAction: 'all', editable: false
 						},
+						
+						{fieldLabel: this.labelGroup, ct:'2', hiddenName: 'group_id_selector', xtype: 'combo', 
+							store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name']}),
+							valueField: 'id', 
+							displayField: 'name', 
+							
+							loadingText: 'Загрузка...',
+							triggerAction: 'query',
+							forceSelection: true,
+							hideTrigger: true,
+							minChars: 1,
+							mode: 'remote',
+							queryParam: '_sname',
+							listeners:{
+								select:function(){
+									var f = this.getForm().findField('group_id_selector').getValue();
+									this.getForm().findField('group_id').setValue(f);
+								},scope:this}
+						
+						},
+
 						{fieldLabel: this.labelProducer, hiddenName: 'producer_id', value: '33', xtype: 'combo', emptyText: this.blankProducerText, valueNotFoundText: this.blankProducerText,
 							store: new Ext.data.JsonStore({url: 'di/guide_producer/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true,
 								listeners: {load: function(){
@@ -132,25 +159,25 @@ ui.catalogue.item_form = function(config){
 									f.setValue(f.getValue());
 								}, scope: this}
 							}),
-							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+							valueField: 'id', 
+							displayField: 'name', 
+							mode: 'local', 
+							triggerAction: 'all', 
+							selectOnFocus: true, 
+							editable: false
 						},
 						{fieldLabel: this.labelCollection, hiddenName: 'collection_id', xtype: 'combo', emptyText: this.blankCollectionText, valueNotFoundText: this.blankCollectionText,
 							store: new Ext.data.JsonStore({url: 'di/guide_collection/combolist.json', root: 'records', fields: ['id', 'name'], autoLoad: true}),
-							valueField: 'id', displayField: 'name', mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
+							valueField: 'id', 
+							displayField: 'name', 
+							mode: 'local', 
+							triggerAction: 'all', 
+							selectOnFocus: true, 
+							editable: false
 						},
 						{fieldLabel: this.labelNumber, name: 'number', maxLength: 256, maxLengthText: this.maxLengthText},
-						{fieldLabel: this.labelGroup, hiddenName: 'group_id', xtype: 'combo',
-							store: new Ext.data.JsonStore({url: 'di/guide_group/combolist.json', root: 'records', fields: ['id', 'name']}),
-							valueField: 'id', displayField: 'name',
-							loadingText: 'Загрузка...',
-							triggerAction: 'query',
-							forceSelection: true,
-							hideTrigger: true,
-							minChars: 1,
-							mode: 'remote',
-							queryParam: '_sname'
-						},
-						{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
+						{xtype:'hidden',name:'group_id'},
+									{fieldLabel: this.labelName, name: 'title', allowBlank: false, blankText: this.blankText, maxLength: 256, maxLengthText: this.maxLengthText},
 						{fieldLabel: this.labelYear, name: 'year', xtype: 'numberfield', maxLength: 4},
 						{fieldLabel: this.labelDate, name: 'income_date', xtype: 'datefield', format: 'Y-m-d'},
 						preview, picture,
@@ -159,7 +186,12 @@ ui.catalogue.item_form = function(config){
 							valueField: 'id', displayField: 'title', mode: 'local', triggerAction: 'all', editable: false
 						},
 						{fieldLabel: this.labelExist, hiddenName: 'on_offer', xtype: 'combo', width: 50, value: 0, store: [[0, 'Нет'], [1, 'Да']], triggerAction: 'all', editable: false},
-						{hideLabel: true, name: 'description', xtype: 'htmleditor', value: 'Состав: <br/><br/><br/>Номер по каталогу: <br/>Год выхода: <br/>Стиль: <br/>Производитель:'}
+						{xtype: 'compositefield', items: [
+							{name: 'prepayment', width: 70, xtype: 'numberfield', fieldLabel: this.labelPrepay, decimalPrecision: 6},
+							{name: 'payment_forward', width: 70, xtype: 'numberfield', fieldLabel: this.labelPayfwd, decimalPrecision: 6}
+						]},
+
+						{hideLabel: true, name: 'description', xtype: 'htmleditor'}
 						//,{hideLabel: true, xtype: 'compositefield', items: [
 						//	{xtype: 'displayfield', value: this.labelRecomended},
 						//	{hiddenName: 'recomended', xtype: 'combo', width: 50, value: 0,
@@ -171,12 +203,6 @@ ui.catalogue.item_form = function(config){
 						//		store: new Ext.data.SimpleStore({ fields: ['value', 'title'], data: [[0, 'Нет'], [1, 'Да']] }),
 						//		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
 						//	}
-						//]}
-						//,{hideLabel: true, xtype: 'compositefield', items: [
-						//	{xtype: 'displayfield', value: this.labelPrepay},
-						//	{name: 'prepayment', width: 70, xtype: 'numberfield', decimalPrecision: 2},
-						//	{xtype: 'displayfield', value: this.labelPayfwd},
-						//	{name: 'payment_forward', width: 70, xtype: 'numberfield', decimalPrecision: 2}
 						//]}
 					]},
 					{columnWidth: .3, bodyStyle: 'margin: 0 0 0 5px', items: [pnlPrvw]}
@@ -217,7 +243,7 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 	loadText: 'Загрузка данных формы',
 
 	tabMain: 'Общая информация',
-	tabStyle: 'Стили',
+	tabStyle: 'Ключевые слова',
 	tabFiles: 'Файлы',
 
 	labelName: 'Наименование',
@@ -226,14 +252,14 @@ Ext.extend(ui.catalogue.item_form , Ext.form.FormPanel, {
 	labelDate: 'Дата поступления',
 	labelExist: 'В продаже',
 	labelRecomended: 'Рекомендовано',
-	labelPrice: 'Прайс-цена',
-	labelPrepay: "Цена по предоплата",
-	labelPayfwd: "Цена нал. плат.",
+	labelPrice: 'Ценовая категория',
+	labelPrepay: "Цена 1",
+	labelPayfwd: "Цена 2",
 	labelType: 'Тип товара',
-	labelProducer: 'Производитель',
+	labelProducer: 'Производитель2 доп',
 	labelCollection: 'Коллекция',
-	labelGroup: 'Группа',
-	labelStyle: 'Стиль',
+	labelGroup: 'Производитель',
+	labelStyle: 'Тэги',
 	labelPreview: 'Preview',
 	labelPicture: 'Изображение',
 

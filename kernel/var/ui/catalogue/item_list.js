@@ -64,11 +64,11 @@ ui.catalogue.item_list = function(config, vp){
 		{header: "ID", dataIndex: 'id', id: 'id', sortable: true, width: 50},
 		{header: this.colType, dataIndex: 'str_type', id: 'str_type', width: 100, sortable: true},
 		{header: this.colExist, dataIndex: 'on_offer', id:'on_offer', align: 'center', renderer: ynFormat, width: 50, sortable: true},
-		{header: this.colPrice, dataIndex: 'str_price', id:'str_price', width: 150, sortable: true},
-		{header: this.colCost, dataIndex: 'cost', id:'cost', width: 70, align: 'right', sortable: true},
-		{header: this.colCollection, dataIndex: 'str_collection', id:'str_collection', width: 200, sortable: true},
 		{header: this.colGroup, dataIndex: 'str_group', id:'str_group', width: 200, sortable: true},
-		{header: this.colTitle, dataIndex: 'title', id: 'title', width: 200, sortable: true}
+		{header: this.colTitle, dataIndex: 'title', id: 'title', width: 200, sortable: true},
+		{header: this.colPrice, dataIndex: 'str_price', id:'str_price', width: 150, sortable: true},
+		{header: this.colCost, dataIndex: 'cost', id:'cost', width: 70, align: 'right', sortable: true}
+//		{header: this.colCollection, dataIndex: 'str_collection', id:'str_collection', width: 200, sortable: true}
 	];
 	var Add = function(){
 		var f = new ui.catalogue.item_form();
@@ -145,10 +145,10 @@ Ext.extend(ui.catalogue.item_list, Ext.grid.GridPanel, {
 	limit: 20,
 	colExist: "В продаже",
 	colRecom: "Рекомендовано",
-	colGroup: "Группа",
+	colGroup: "Производитель",
 	colCollection: "Коллекция",
-	colPrice: "Прайс",
-	colCost: "Цена",
+	colPrice: "Ценовая категория",
+	colCost: "Цена по категории",
 	colPrepay: "Предоплата",
 	colPayfwd: "Нал. плат.",
 	colType: "Тип",

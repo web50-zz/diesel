@@ -130,7 +130,7 @@ ui.catalogue.styles = function(config){
 	})
 };
 Ext.extend(ui.catalogue.styles, Ext.grid.GridPanel, {
-	labelName: 'Стиль',
+	labelName: 'Тэг',
 
 	pagerEmptyMsg: 'Нет записей',
 	pagerDisplayMsg: 'Записи с {0} по {1}. Всего: {2}'

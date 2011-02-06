@@ -154,7 +154,7 @@ Ext.extend(ui.market_latest_long.items_list, Ext.grid.GridPanel, {
 	colPid: "Id товара",
 	colPtitle: "Наименование",
 	colPtype: "Тип",
-	colPgroup: "Группа",
+	colPgroup: "Производитель",
 	colPcollection: "Коллекция",
 
 	bttAdd:'Добавить',
