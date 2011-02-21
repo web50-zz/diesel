@@ -151,7 +151,35 @@ class di_user extends data_interface
 	}
 
 	/**
-	*	Get available interfaces
+	*	Get all available interfaces for current user
+	* @param	string	$type	Тип интерфейса
+	*/
+	public function get_available_interfaces($type = FALSE)
+	{
+		$sql = 'SELECT DISTINCT
+			i.type,
+			i.name AS `interface`,
+			ep.name AS `entry_point`
+		FROM
+			`sys_user` AS `u`
+			LEFT JOIN `group_user` AS `gu` ON gu.user_id = u.id
+			LEFT JOIN `entry_point_group` AS `epg` ON epg.group_id = gu.group_id
+			LEFT JOIN `entry_point` AS `ep` ON ep.id = epg.entry_point_id
+			LEFT JOIN `interface` AS `i` ON i.id = ep.interface_id
+		WHERE
+			u.id = ' . UID;
+		
+		if (in_array(strtolower($type), array('ui', 'di'))) $sql.= " AND i.type = '{$type}'";
+
+		$this->_get($sql);
+		return $this->get_results();
+	}
+
+	/**
+	*	Check if current interface is available for current user
+	* @param	string	$interface	Interface name
+	* @param	string	$entry_point	Entry point name
+	* @param	string	$type		Iterface type
 	*/
 	public function is_available_interfaces($interface, $entry_point, $type)
 	{
@@ -230,8 +258,31 @@ class di_user extends data_interface
 	{
 		$this->_flush();
 		$this->insert_on_empty = true;
-		$data = $this->extjs_set_json(false);
-		response::send($data, 'json');
+		$this->extjs_set_json();
+		//$data = $this->extjs_set_json(false);
+		//response::send($data, 'json');
+	}
+
+	/**
+	*	Сохранить данные и вернуть JSON-пакет для ExtJS
+	* @access protected
+	*/
+	protected function sys_mset()
+	{
+		$records = (array)json_decode($this->get_args('records'), true);
+
+		foreach ($records as $record)
+		{
+			$record['_sid'] = $record['id'];
+			unset($record['id']);
+			$this->_flush();
+			$this->push_args($record);
+			$this->insert_on_empty = true;
+			$data = $this->extjs_set_json(false);
+			$this->pop_args();
+		}
+
+		response::send(array('success' => true), 'json');
 	}
 	
 	/**

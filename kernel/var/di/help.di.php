@@ -52,7 +52,7 @@ class di_help extends data_interface
 	/**
 	*	Список страниц помощи
 	*/
-	public function sys_list()
+	protected function sys_list()
 	{
 		$this->_flush();
 		$this->extjs_grid_json();

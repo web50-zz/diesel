@@ -20,7 +20,7 @@ class ui_help extends user_interface
 	/**
 	*       Управляющий JS админки
 	*/
-	public function sys_main()
+	protected function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'help.js');
 		response::send($tmpl->parse($this), 'js');

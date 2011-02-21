@@ -14,7 +14,14 @@ class ui_user extends user_interface
 
 	protected $deps = array(
 		'main' => array(
-			'user.editForm'
+			'user.grid',
+			'user.item_form',
+		),
+		'grid' => array(
+			'user.languages',
+		),
+		'item_form' => array(
+			'user.languages',
 		)
 	);
 	
@@ -26,25 +33,43 @@ class ui_user extends user_interface
 	/**
 	*       Управляющий JS админки
 	*/
-	public function sys_main()
+	protected function sys_main()
 	{
-		$tmpl = new tmpl($this->pwd() . 'user.js');
+		$tmpl = new tmpl($this->pwd() . 'main.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       ExtJS Grid - список пользователей
+	*/
+	protected function sys_grid()
+	{
+		$tmpl = new tmpl($this->pwd() . 'grid.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 	
 	/**
 	*       Форма редактирования
 	*/
-	public function sys_editForm()
+	protected function sys_item_form()
 	{
-		$tmpl = new tmpl($this->pwd() . 'editForm.js');
+		$tmpl = new tmpl($this->pwd() . 'item_form.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Список доступных языков
+	*/
+	protected function sys_languages()
+	{
+		$tmpl = new tmpl($this->pwd() . 'languages.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 	
 	/**
 	*       Простой список пользователей
 	*/
-	public function sys_list()
+	protected function sys_list()
 	{
 		$tmpl = new tmpl($this->pwd() . 'list.js');
 		response::send($tmpl->parse($this), 'js');

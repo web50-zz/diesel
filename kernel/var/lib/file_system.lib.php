@@ -36,11 +36,20 @@ class file_system
 					throw new Exception("Unknown error uploading file.");
 			
 			$data['name'] = $fset['name'];
-			$data['real_name'] = md5($fset['name'] . mktime()) . '.' . array_pop(preg_split("/\./", $fset['name']));
 			$data['type'] = $fset['type'];
 			$data['size'] = $fset['size'];
 			if (!$storage_path) $storage_path = FILE_STORAGE_PATH;
-			$file = $storage_path . $data['real_name'];
+
+			$k = 0;
+			$file = '';
+			do
+			{
+				$k++;
+				$data['real_name'] = md5($fset['name'] . mktime() . $k) . '.' . strtolower(array_pop(preg_split("/\./", $fset['name'])));
+				$file = $storage_path . $data['real_name'];
+			}
+			while(file_exists($file));
+
 			if(!@copy($fset['tmp_name'], $file))
 				throw new Exception('Error while copy "' . $fset['tmp_name'] . '" to "' . $file . '"');
 			

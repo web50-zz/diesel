@@ -11,9 +11,10 @@ class ui_group extends user_interface
 
 	protected $deps = array(
 		'main' => array(
-			'group.editForm',
+			'group.grid',
+			'group.item_form',
 			'security.interfaces'
-		)
+		),
 	);
 	
 	public function __construct ()
@@ -26,16 +27,25 @@ class ui_group extends user_interface
 	*/
 	protected function sys_main()
 	{
-		$tmpl = new tmpl($this->pwd() . 'group.js');
+		$tmpl = new tmpl($this->pwd() . 'main.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 	
 	/**
-	*       Edit form
+	*       ExtJS Grid
 	*/
-	protected function sys_editForm()
+	protected function sys_grid()
 	{
-		$tmpl = new tmpl($this->pwd() . 'editForm.js');
+		$tmpl = new tmpl($this->pwd() . 'grid.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       ExtJs Form
+	*/
+	protected function sys_item_form()
+	{
+		$tmpl = new tmpl($this->pwd() . 'item_form.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }

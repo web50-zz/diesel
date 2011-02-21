@@ -31,30 +31,36 @@ ui.administrate.main = function(config){
 		});
 		app.Load(appName, appFace);
 	}
-	var appLauncher = function(config){
-		var appId = 'app-'+config.appName+'-'+config.appFace;
-                var appClass = 'ui.'+config.appName+'.'+config.appFace;
-		var app = new App();
-		app.on({
-			apploaded: function(){
-				var tab = ws.getComponent(appId);
-				if (tab != undefined){
-					ws.setActiveTab(tab);
-				}else{
-					var cfg = Ext.apply({region: 'center'}, {
-						id: appId,
-						title: config.text,
-						iconCls: config.iconCls,
-						closable: true
-					});
-					tab = eval('new '+appClass+'(cfg)');
-					ws.add(tab);
-					ws.setActiveTab(tab);
-				}
-			},
-			apperror: showError
-		});
-		app.Load(config.appName, config.appFace);
+	var appLauncher = function(item){
+		if (item.appName && item.appFace){
+			var appId = 'app-'+item.appName+'-'+item.appFace;
+			var appClass = 'ui.'+item.appName+'.'+item.appFace;
+			var app = new App();
+			app.on({
+				apploaded: function(){
+					var tab = ws.getComponent(appId);
+					if (tab != undefined){
+						ws.setActiveTab(tab);
+					}else{
+						var cfg = Ext.apply({region: 'center'}, {
+							id: appId,
+							title: item.text,
+							iconCls: item.iconCls,
+							closable: true
+						});
+						tab = eval('new '+appClass+'(cfg)');
+						ws.add(tab);
+						ws.setActiveTab(tab);
+					}
+				},
+				apperror: showError
+			});
+			app.Load(item.appName, item.appFace);
+		}else if(item.href){
+			document.location = item.href;
+		}else{
+			showError('Unknown action');
+		}
 	}.createDelegate(this);
 	menu.on('menuclick', appLauncher);
 	ui.administrate.main.superclass.constructor.call(this, {

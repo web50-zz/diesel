@@ -78,6 +78,28 @@ class di_group extends data_interface
 		$this->insert_on_empty = true;
 		$this->extjs_set_json();
 	}
+
+	/**
+	*	Сохранить данные и вернуть JSON-пакет для ExtJS
+	* @access protected
+	*/
+	protected function sys_mset()
+	{
+		$records = (array)json_decode($this->get_args('records'), true);
+
+		foreach ($records as $record)
+		{
+			$record['_sid'] = $record['id'];
+			unset($record['id']);
+			$this->_flush();
+			$this->push_args($record);
+			$this->insert_on_empty = true;
+			$data = $this->extjs_set_json(false);
+			$this->pop_args();
+		}
+
+		response::send(array('success' => true), 'json');
+	}
 	
 	/**
 	*	Unset data to storage and return results in JSON
