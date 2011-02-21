@@ -7,3 +7,5 @@ kernel/var/logs/*
 *.swp
 *.gz
 sync.php
+instances/*
+!instances/README

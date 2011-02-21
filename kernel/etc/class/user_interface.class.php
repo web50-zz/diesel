@@ -50,7 +50,17 @@ class user_interface extends base_interface
 			$object->interfaceName = $name;
 
 			if (!$object->files_path)//9* if have no overloads of files_path we set default UI_PATH. IF UI in INSTANCE path this property is required
+			{
 				$object->files_path = UI_PATH . $name . '/';
+			}
+			if(!file_exists($object->files_path))
+			{
+				$object->files_path = INSTANCE_UI_PATH . $name . '/';
+			}
+			if(!file_exists($object->files_path))
+			{
+				dbg::write('failed to find templates path');
+			}
 			$object->set_lang_data();
 			self::$registry[$name] = $object;
 		}

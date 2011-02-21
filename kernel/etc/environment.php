@@ -42,9 +42,6 @@ define ('LOG_PATH', KERNEL_PATH . 'var/logs/');
 // NOTE: 9* 05072010 Path to store THEMES template css js images
 define ('THEMES_PATH', 'themes/');
 
-// NOTE: 9* 05072010 Path to store Instance code
-define ('INSTANCES_PATH', BASE_PATH . 'instances/' );
-
 // NOTE: Path to connector files
 define ('CONNECTOR_PATH', KERNEL_PATH . 'var/connectors/');
 define ('CONNECTOR_FEXT', '.connector.php');

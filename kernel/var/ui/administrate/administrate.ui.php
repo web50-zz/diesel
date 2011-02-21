@@ -63,6 +63,7 @@ class ui_administrate extends user_interface
 	{
 		$menu = array(
 			array('text' => 'Запросы', 'icon' => 'comment', 'ui' => 'logistic_request', 'ep' => 'main'),
+			array('text' => 'Каталог', 'icon' => 'comment', 'ui' => 'catalogue', 'ep' => 'main'),
 			array('text' => 'Заявки', 'icon' => 'folder_page', 'ui' => 'logistic_order', 'ep' => 'main'),
 			array('text' => 'Справочники', 'icon' => 'book', 'menu' => array(
 				array('text' => 'Услуги', 'icon' => 'book', 'ui' => 'services', 'ep' => 'main'),
