@@ -23,6 +23,7 @@ define ('LOCALES_PATH', KERNEL_PATH . 'var/locales/');
 // NOTE: Path to configuration files
 define ('CONF_PATH', KERNEL_PATH . 'etc/conf/');
 define ('CONF_FEXT', '.cfg.php');
+define ('CONF_ETC_PATH',BASE_PATH.'etc/');// for /etc config files if overload default required
 
 // NOTE: Path to initialization files
 define ('INIT_PATH', KERNEL_PATH . 'etc/init/');

@@ -50,23 +50,29 @@ function __autoload($class_name)
 	}
 }
 
-// NOTE: Include data bases configurations
-include_once(CONF_PATH . 'db' . CONF_FEXT);
+//9* 22022011 possible configs
+$conf_types =  array(
+		'db',// NOTE: Include data bases configurations
+		'fs',// NOTE: Include file storages configurations
+		'theme',// NOTE:9* 05072010 Include current theme  configuration
+		'instance',// NOTE:9* 050702010 Include current instance  configuration
+		'site',// NOTE:9* 05072010 Include current instance  configuration
+		'cache'// NOTE:9* 18102010 Include cache configurations
+		);
+//9* choosing which one to load
+foreach($conf_types as $key=>$value)
+{
+	$etc_file = CONF_ETC_PATH.$value.CONF_FEXT;
+	if(file_exists($etc_file))//9* /etc (if exists) has priority against kernel defaults 
+	{
+		include_once($etc_file);
+	}
+	else
+	{
+		include_once(CONF_PATH . $value . CONF_FEXT);
+	}
+}
 
-// NOTE: Include file storages configurations
-include_once(CONF_PATH . 'fs' . CONF_FEXT);
-
-// NOTE:9* 05072010 Include current theme  configuration
-include_once(CONF_PATH . 'theme' . CONF_FEXT);
-
-// NOTE:9* 050702010 Include current instance  configuration
-include_once(CONF_PATH . 'instance' . CONF_FEXT);
-
-// NOTE:9* 05072010 Include current instance  configuration
-include_once(CONF_PATH . 'site' . CONF_FEXT);
-
-// NOTE:9* 18102010 Include cache configurations
-include_once(CONF_PATH . 'cache' . CONF_FEXT);
 
 // NOTE: Include default localization file
 include_once(LOCALES_PATH . 'default.php');
