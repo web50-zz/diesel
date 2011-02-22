@@ -9,3 +9,5 @@ kernel/var/logs/*
 sync.php
 instances/*
 !instances/README
+etc/*
+!etc/README
