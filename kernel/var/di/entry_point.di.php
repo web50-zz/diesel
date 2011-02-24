@@ -74,7 +74,6 @@ class di_entry_point extends data_interface
 			$this->where = "`{$aep}`.`name` LIKE '%{$this->args['query']}%'";
 			$this->where.= " OR `{$ain}`.`human_name` LIKE '%{$this->args['query']}%'";
 		}
-		$this->connector->debug = true;
 		return $this->extjs_grid_json(array(
 			'id', 'name',
 			array('di' => $in, 'name' => 'human_name'),
