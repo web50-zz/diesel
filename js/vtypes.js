@@ -18,6 +18,9 @@ var formatDateMySQL = function(value){
 var formatDateTime = function(value){
 	return value ? value.dateFormat('d M Y H:i:s') : ''
 };
+var formatTime = function(value){
+	return value ? value.dateFormat('H:i:s') : ''
+};
 var formatSize = function(value){
 	return value ? Ext.util.Format.fileSize(value) : '0'
 };

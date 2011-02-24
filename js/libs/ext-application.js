@@ -44,14 +44,7 @@ var App = function(config){
 				}
 			},
 			failure: function(response, options){
-				switch (options.failureType){
-					case Ext.response.Action.CONNECT_FAILURE:
-						showError("Ошибка связи с сервером");
-					break;
-					case Ext.response.Action.SERVER_INVALID:
-						showError(options.result.errors);
-					break;
-				}
+				showError("Server-side failure with status code: "+response.status+"<br/>"+response.statusText);
 			},
 			scope: this
 		});
@@ -59,7 +52,7 @@ var App = function(config){
 	this.Load = function(appName, appFace, depChecked){
 		Ext.namespace("ui."+appName);
 
-		if (!classExists("ui."+appName+"."+appFace)){
+		if (!(classExists("ui."+appName+"."+appFace) || eval("typeof(ui."+appName+"."+appFace+")") == 'object')){
 			if (!depChecked){
 				checkForDependencies(appName, appFace);
 			}else{
@@ -92,11 +85,21 @@ var App = function(config){
 					
 					this.on({
 						scriptloaded: function(){
-							if (classExists("ui."+appName+"."+appFace)){
-								if (ApplyLocale) ApplyLocale();
-								this.fireEvent('apploaded', [appName, appFace])
-							}else
-								this.fireEvent('apperror', this.appErrorMsg);
+							try{
+								var x = "ui."+appName+"."+appFace;
+								if (classExists(x) || eval("typeof("+x+")") == 'object'){
+									if (ApplyLocale) ApplyLocale();
+									this.fireEvent('apploaded', [appName, appFace])
+								}else
+									this.fireEvent('apperror', this.appErrorMsg);
+							}catch(e){
+								this.fireEvent('apperror', new Ext.Template(
+									"fileName: {fileName}<br/>",
+									"lineNumber: {lineNumber}<br/>",
+									"errorName: {name}<br/>",
+									"errorMessage: {message}<br/>"
+								).apply(e));
+							}
 						},
 						deperror: function(errMsg){
 							this.fireEvent('apperror', errMsg);
@@ -104,7 +107,8 @@ var App = function(config){
 						apploaded: function(appName, appFace){
 							loadMask.hide();
 						},
-						apperror: function(){
+						apperror: function(msg){
+							showError(new Ext.Template(msg).apply({name: appName, face: appFace}));
 							loadMask.hide();
 						},
 						scope: this
@@ -123,7 +127,13 @@ var App = function(config){
 		deploaded: true,
 		deperror: true
 	});
+	this.on({
+		deperror: function(errMsg){
+			this.fireEvent('apperror', errMsg);
+		},
+		scope: this
+	})
 }
 Ext.extend(App, Ext.util.Observable, {
-	appErrorMsg: 'Не удалось загрузить приложение.'
+	appErrorMsg: 'Не удалось загрузить приложение ui.{name}.{face}.'
 });
