@@ -63,7 +63,6 @@ class ui_administrate extends user_interface
 	{
 		$menu = array(
 			array('text' => 'Запросы', 'icon' => 'comment', 'ui' => 'logistic_request', 'ep' => 'main'),
-			array('text' => 'Каталог', 'icon' => 'comment', 'ui' => 'catalogue', 'ep' => 'main'),
 			array('text' => 'Заявки', 'icon' => 'folder_page', 'ui' => 'logistic_order', 'ep' => 'main'),
 			array('text' => 'Справочники', 'icon' => 'book', 'menu' => array(
 				array('text' => 'Услуги', 'icon' => 'book', 'ui' => 'services', 'ep' => 'main'),
@@ -73,6 +72,7 @@ class ui_administrate extends user_interface
 				array('text' => 'Файл-менеджер', 'icon' => 'application_view_tile', 'ui' => 'file_manager', 'ep' => 'main'),
 			)),
 			array('text' => 'Администрирование', 'icon' => 'shield', 'menu' => array(
+				array('text' => 'Системное меню', 'icon' => 'chart_organisation', 'ui' => 'system_menu', 'ep' => 'main'),
 				array('text' => 'Пользователи', 'icon' => 'user', 'ui' => 'user', 'ep' => 'main'),
 				array('text' => 'Группы', 'icon' => 'group', 'ui' => 'group', 'ep' => 'main'),
 				array('text' => 'Безопасность', 'icon' => 'shield', 'ui' => 'security', 'ep' => 'main'),
@@ -81,6 +81,8 @@ class ui_administrate extends user_interface
 			array('->'),
 			array('text' => 'Выход', 'icon' => 'logout', 'href' => '/xxx/login/?cll=logout'),
 		);
+		$sm = data_interface::get_instance('system_menu');
+		$menu = $sm->generate_menu();
 
 		if (UID == 1)
 		{
