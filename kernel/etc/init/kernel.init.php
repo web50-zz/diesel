@@ -14,6 +14,7 @@
 */
 function __autoload($class_name)
 {
+	global $INST_R;
 	if (!$class_name) return FALSE;
 	
 	if (file_exists(CLASS_PATH . $class_name . CLASS_FEXT))
@@ -22,13 +23,31 @@ function __autoload($class_name)
 	}
 	else if (preg_match('/^' . UI_CLASS_PREFIX . '(\w+)/', $class_name, $matches))
 	{
-		$file_name = UI_PATH . $matches[1] . '/' . $matches[1] . UI_FEXT;
-		$file_name_instance = INSTANCE_UI_PATH . $matches[1] . '/' . $matches[1] . UI_FEXT;
+		foreach($INST_R as $key=>$value)
+		{
+			$file_name_instance = $value['instance_ui_path'] . $matches[1] . '/' . $matches[1] . UI_FEXT;
+			if(file_exists($file_name_instance))
+			{
+				$file_name = $file_name_instance;
+				$INST_R['paths'][$class_name] = $value['instance_ui_path'];//9* 25022011 required for UI tmpl resources path detection in UI CLASS proto
+			}
+		}
+		if(!$file_name)
+		{
+			$file_name = UI_PATH . $matches[1] . '/' . $matches[1] . UI_FEXT;
+			$INST_R['paths'][$class_name] = UI_PATH;//DEFAULT 9* 25022011 required for UI tmpl resources path detection in UI CLASS proto
+		}
 	}
 	else if (preg_match('/^' . DI_CLASS_PREFIX . '(\w+)/', $class_name, $matches))
 	{
-		$file_name = DI_PATH . $matches[1] . DI_FEXT;
-		$file_name_instance = INSTANCE_DI_PATH . $matches[1] . DI_FEXT;
+		foreach($INST_R as $key=>$value)
+		{
+			$file_name_instance = $value['instance_di_path'] . $matches[1] . DI_FEXT;
+			if(file_exists($file_name_instance))
+				$file_name = $file_name_instance;
+		}
+		if(!$file_name)
+			$file_name = DI_PATH . $matches[1] . DI_FEXT;
 	}
 	else if (preg_match('/^' . CONNECTOR_CLASS_PREFIX . '(\w+)/', $class_name, $matches))
 	{
@@ -39,15 +58,11 @@ function __autoload($class_name)
 		$file_name = LIB_PATH . $class_name . LIB_FEXT;
 	}
 
-// NOTE: 9* 05072010 including  from kernel if exists, else trying to find this one in instance 
+// NOTE: 9* 05072010 including  if exists
 	if (file_exists($file_name))
 	{
 		include_once($file_name);
 	}	
-	else if(file_exists($file_name_instance))
-	{
-		include_once($file_name_instance);
-	}
 }
 
 //9* 22022011 possible configs

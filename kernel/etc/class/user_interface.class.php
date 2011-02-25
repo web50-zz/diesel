@@ -42,6 +42,7 @@ class user_interface extends base_interface
 	*/
 	private static function set_instance($name)
 	{
+		global $INST_R;
 		try
 		{	
 			$class = UI_CLASS_PREFIX . $name;
@@ -49,14 +50,11 @@ class user_interface extends base_interface
 			$object = new $class();
 			$object->interfaceName = $name;
 
-			if (!$object->files_path)//9* if have no overloads of files_path we set default UI_PATH. IF UI in INSTANCE path this property is required
+			if(!file_exists($object->files_path))//9* if have no overloads of files_path before we get it from autoload registry 
 			{
-				$object->files_path = UI_PATH . $name . '/';
+				$object->files_path = $INST_R['paths'][$class].$name.'/';
 			}
-			if(!file_exists($object->files_path))
-			{
-				$object->files_path = INSTANCE_UI_PATH . $name . '/';
-			}
+			
 			if(!file_exists($object->files_path))
 			{
 				dbg::write('failed to find templates path');

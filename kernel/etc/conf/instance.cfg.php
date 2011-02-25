@@ -1,19 +1,25 @@
 <?php
 /**
-*	Конфигурационные параметры для работы с файлами
+*	Конфигурационные параметры для работы с инстансами 
 *
 * @author	9*
-* @version	0.1
+* @version	2.0
 * @access	public
-* @package	CFsCMS2(PE)
+* @package      SBIN DIESEL	
 * @since	05-07-2010
 */
-$instance = 'market';
-// NOTE: Путь к хранилищу файлов
+$instances = array(
+		);
+
+$INST_R = array();
+$INST_R['paths'] = array();
 // NOTE: 9* 05072010 Path to store Instance code
 define ('INSTANCES_PATH', BASE_PATH . 'instances/' );
-define ('CURRENT_INSTANCE_PATH', INSTANCES_PATH . $instance.'/');
-define ('INSTANCE_UI_PATH', INSTANCES_PATH . $instance.'/var/ui/');
-define ('INSTANCE_DI_PATH', INSTANCES_PATH . $instance.'/var/di/');
-define ('RELATIVE_INSTANCE_UI_PATH','instances/'. $instance.'/var/ui/');
+foreach($instances as $key=>$value)
+{
+	$tmp = array();
+	$tmp['instance_ui_path'] =  INSTANCES_PATH . $value.'/var/ui/';
+	$tmp['instance_di_path'] =  INSTANCES_PATH . $value.'/var/di/';
+	array_push($INST_R,$tmp);
+}
 ?>
