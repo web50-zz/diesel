@@ -46,7 +46,10 @@ class user_interface extends base_interface
 		try
 		{	
 			$class = UI_CLASS_PREFIX . $name;
-			class_exists($class);
+			if(!class_exists($class))
+			{
+				throw new Exception("Can't  init class class $class");
+			}
 			$object = new $class();
 			$object->interfaceName = $name;
 
