@@ -34,7 +34,7 @@ class ui_text extends user_interface
 	/**
 	*       Управляющий JS админки
 	*/
-	protected function sys_main()
+	public function sys_main()
 	{
 		$tmpl = new tmpl($this->pwd() . 'text.js');
 		response::send($tmpl->parse($this), 'js');
@@ -43,7 +43,7 @@ class ui_text extends user_interface
 	/**
 	*       ExtJS - Форма редактирования
 	*/
-	protected function sys_item_form()
+	public function sys_item_form()
 	{
 		$tmpl = new tmpl($this->pwd() . 'item_form.js');
 		response::send($tmpl->parse($this), 'js');
