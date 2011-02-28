@@ -28,7 +28,13 @@ try
 }
 catch(Exception $e)
 {
-	dbg::write('Error: '.$e->getMessage());
-	response::header('404');
+	//dbg::write('Error: '.$e->getMessage());
+	//response::header('404');
+	//9* 28102010
+	$out = user_interface::get_instance('action_page');
+	$out->set_args(array(
+		'action_msg' => $e->getMessage(,
+	));
+	return $out->render();
 }
 ?>
