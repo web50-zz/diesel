@@ -50,7 +50,7 @@ class di_entry_point_group extends data_interface
 
 	/**
 	*	Remove user from all groups
-	* @param	integer	$uid	The user`s ID
+	* @param	integer|array	$uid	The user`s ID
 	*/
 	public function remove_entry_point_from_groups($epid)
 	{

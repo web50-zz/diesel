@@ -104,27 +104,58 @@ class di_interface extends data_interface
 	*/
 	private function get_di_array()
 	{
-		$dis = array();
-		// Получить список всех ИП
-		$dh = dir(DI_PATH);
+		$dis = $this->get_di_name_array();
+		dbg::write($dis);
 
-		while (($iFile = $dh->read()) !== FALSE)
+		// Перебираем список полученных DI и регистрируем их
+		foreach ($dis as $iName => $props)
 		{
-			if (preg_match('/^(\w+)\.di\.php$/', $iFile, $match))
+			if ($iObj = data_interface::get_instance($iName))
 			{
-				$iName = $match[1];
-
-				if ($iObj = data_interface::get_instance($iName))
-				{
-					$dis[$iName] = array(
-						'obj' => $iObj,
-						'rec' => $this->register($iName, 'di', $iObj)
-					);
-				}
+				$dis[$iName]['obj'] = $iObj;
+				$dis[$iName]['rec'] = $this->register($iName, 'di', $iObj);
+			}
+			else
+			{
+				unset($dis[$iName]);
 			}
 		}
 
-		$dh->close();
+		return $dis;
+	}
+
+	/**
+	*	Get array of DI names
+	* @access	private
+	* @return	array	The array of DI names
+	*/
+	public function get_di_name_array()
+	{
+		global $INST_R;
+		$dis = array();
+		$paths = $INST_R['instances_path'];
+		array_unshift($paths, array('di_path' => DI_PATH));
+
+		// Собираем список всех DI по объявленным путям
+		foreach ($paths as $value)
+		{
+			$di_path = $value['di_path'];
+			// Получить список всех ИП
+			$dh = dir($di_path);
+
+			while (($iFile = $dh->read()) !== FALSE)
+			{
+				if (preg_match('/^(\w+)\.di\.php$/', $iFile, $match))
+				{
+					$dis[$match[1]] = array(
+						'path' => $di_path
+					);
+				}
+			}
+
+			$dh->close();
+		}
+
 		return $dis;
 	}
 
@@ -135,25 +166,57 @@ class di_interface extends data_interface
 	*/
 	private function get_ui_array()
 	{
-		$uis = array();
-		// Получить список всех ИП
-		$dh = dir(UI_PATH);
+		$uis = $this->get_ui_name_array();
 
-		while (($iName = $dh->read()) !== FALSE)
+		// Перебираем список полученных DI и регистрируем их
+		foreach ($uis as $iName => $props)
 		{
-			if (is_dir(UI_PATH . $iName) && preg_match('/^\w+$/', $iName))
+			if ($iObj = user_interface::get_instance($iName))
 			{
-				if ($iObj = user_interface::get_instance($iName))
-				{
-					$uis[$iName] = array(
-						'obj' => $iObj,
-						'rec' => $this->register($iName, 'ui', $iObj)
-					);
-				}
+				$uis[$iName]['obj'] = $iObj;
+				$uis[$iName]['rec'] = $this->register($iName, 'ui', $iObj);
+			}
+			else
+			{
+				unset($uis[$iName]);
 			}
 		}
 
-		$dh->close();
+		return $uis;
+	}
+
+	/**
+	*	Get array of UI names
+	* @access	private
+	* @return	array	The array of UI names
+	*/
+	public function get_ui_name_array()
+	{
+		global $INST_R;
+		$uis = array();
+		$paths = $INST_R['instances_path'];
+		array_unshift($paths, array('ui_path' => UI_PATH));
+
+		// Собираем список всех DI по объявленным путям
+		foreach ($paths as $value)
+		{
+			$ui_path = $value['ui_path'];
+			// Получить список всех ПИ
+			$dh = dir($ui_path);
+
+			while (($iName = $dh->read()) !== FALSE)
+			{
+				if (is_dir($ui_path . $iName) && preg_match('/^\w+$/', $iName))
+				{
+					$uis[$iName] = array(
+						'path' => $ui_path
+					);
+				}
+			}
+
+			$dh->close();
+		}
+
 		return $uis;
 	}
 
