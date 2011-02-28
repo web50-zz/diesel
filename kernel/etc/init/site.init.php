@@ -4,7 +4,7 @@
 *
 * @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
 * @access	public
-* @package	FlugerCMS
+* @package	SBIN DIESEL	
 */
 try
 {
@@ -31,10 +31,18 @@ catch(Exception $e)
 	dbg::write('Error: '.$e->getMessage());
 	//response::header('404');
 	//9* 28102010
-	$out = user_interface::get_instance('action_page');
-	$out->set_args(array(
-		'action_msg' => $e->getMessage()
-	));
-	return $out->render();
+	try
+	{
+		$out = user_interface::get_instance('action_page');
+		$out->set_args(array(
+			'action_msg' => $e->getMessage()
+		));
+		return $out->render();
+	}
+	catch(Exception $e)
+	{
+		dbg::write('Error: '.$e->getMessage());
+		echo('<center>WWW ENGINE  IS NOT PRESENTED</center>');
+	}
 }
 ?>

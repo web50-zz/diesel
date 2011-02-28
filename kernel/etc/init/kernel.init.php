@@ -88,13 +88,14 @@ $conf_types =  array(
 foreach($conf_types as $key=>$value)
 {
 	$etc_file = CONF_ETC_PATH.$value.CONF_FEXT;
+	$kernel_file = CONF_PATH . $value . CONF_FEXT;
 	if(file_exists($etc_file))//9* /etc (if exists) has priority against kernel defaults 
 	{
 		include_once($etc_file);
 	}
-	else
+	elseif(file_exists($kernel_file))
 	{
-		include_once(CONF_PATH . $value . CONF_FEXT);
+		include_once($kernel_file);
 	}
 }
 
