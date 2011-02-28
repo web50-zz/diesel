@@ -141,13 +141,7 @@ class connector_mysql
 		}
 		catch(PDOException $e)
 		{
-	//9* 28102010		throw new Exception('Init error: '.$e->getMessage());
-			$out = user_interface::get_instance('action_page');
-			$msg = "Can't connect to databse";
-			$out->set_args(array(
-					'action_msg'=>$msg,
-					));
-			return $out->render();
+			throw new Exception('Init error: '.$e->getMessage());
 		}
 	}
 	
