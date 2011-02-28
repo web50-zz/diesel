@@ -20,6 +20,12 @@ try
 catch(Exception $e)
 {
 	dbg::write($e->getMessage(), LOG_PATH . 'ui_errors.log');
-	response::header('404');
+	//response::header('404');
+	//9* 28102010
+	$out = user_interface::get_instance('action_page');
+	$out->set_args(array(
+		'action_msg' => $e->getMessage()
+	));
+	return $out->render();
 }
 ?>
