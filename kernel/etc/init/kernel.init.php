@@ -23,30 +23,36 @@ function __autoload($class_name)
 	}
 	else if (preg_match('/^' . UI_CLASS_PREFIX . '(\w+)/', $class_name, $matches))
 	{
-		foreach($INST_R as $key=>$value)
+		foreach ($INST_R['instances_path'] as $value)
 		{
-			$file_name_instance = $value['instance_ui_path'] . $matches[1] . '/' . $matches[1] . UI_FEXT;
-			if(file_exists($file_name_instance))
+			$file_name_instance = $value['ui_path'] . $matches[1] . '/' . $matches[1] . UI_FEXT;
+
+			if (file_exists($file_name_instance))
 			{
 				$file_name = $file_name_instance;
-				$INST_R['paths'][$class_name] = $value['instance_ui_path'];//9* 25022011 required for UI tmpl resources path detection in UI CLASS proto
+				//9* 25022011 required for UI tmpl resources path detection in UI CLASS proto
+				$INST_R['paths'][$class_name] = $value['ui_path'];
 			}
 		}
-		if(!$file_name)
+
+		if (!$file_name)
 		{
 			$file_name = UI_PATH . $matches[1] . '/' . $matches[1] . UI_FEXT;
-			$INST_R['paths'][$class_name] = UI_PATH;//DEFAULT 9* 25022011 required for UI tmpl resources path detection in UI CLASS proto
+			//DEFAULT 9* 25022011 required for UI tmpl resources path detection in UI CLASS proto
+			$INST_R['paths'][$class_name] = UI_PATH;
 		}
 	}
 	else if (preg_match('/^' . DI_CLASS_PREFIX . '(\w+)/', $class_name, $matches))
 	{
-		foreach($INST_R as $key=>$value)
+		foreach ($INST_R['instances_path'] as $value)
 		{
-			$file_name_instance = $value['instance_di_path'] . $matches[1] . DI_FEXT;
-			if(file_exists($file_name_instance))
+			$file_name_instance = $value['di_path'] . $matches[1] . DI_FEXT;
+
+			if (file_exists($file_name_instance))
 				$file_name = $file_name_instance;
 		}
-		if(!$file_name)
+
+		if (!$file_name)
 			$file_name = DI_PATH . $matches[1] . DI_FEXT;
 	}
 	else if (preg_match('/^' . CONNECTOR_CLASS_PREFIX . '(\w+)/', $class_name, $matches))
@@ -58,7 +64,7 @@ function __autoload($class_name)
 		$file_name = LIB_PATH . $class_name . LIB_FEXT;
 	}
 
-// NOTE: 9* 05072010 including  if exists
+	// NOTE: 9* 05072010 including  if exists
 	if (file_exists($file_name))
 	{
 		include_once($file_name);
