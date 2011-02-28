@@ -69,6 +69,10 @@ function __autoload($class_name)
 	{
 		include_once($file_name);
 	}	
+	else
+	{
+		throw new Exception("Can`t load '{$class_name}'");
+	}
 }
 
 //9* 22022011 possible configs
