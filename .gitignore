@@ -11,3 +11,5 @@ instances/*
 !instances/README
 etc/*
 !etc/README
+themes/*
+!themes/README
