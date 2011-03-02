@@ -141,7 +141,8 @@ class connector_mysql
 		}
 		catch(PDOException $e)
 		{
-			throw new Exception('Init error: '.$e->getMessage());
+			throw new Exception('Init error: Database connection issue. Check logs for details.');
+			dbg::write('Init error: '.$e->getMessage());
 		}
 	}
 	

@@ -15,6 +15,14 @@ catch(Exception $e)
 	$data['errors'] = $e->getMessage();
 }
 
-if (authenticate::is_logged() && request::get('logout') == 'yes')
-	authenticate::logout();
+
+try
+{
+	if (authenticate::is_logged() && request::get('logout') == 'yes')
+		authenticate::logout();
+}
+catch(Exception $e)
+{
+
+}
 ?>

@@ -5,7 +5,7 @@
 * @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
 * @version	2.0
 * @access	public
-* @package	CFsCMS2(PE)
+* @package	SBIN Diesel	
 */
 try
 {
