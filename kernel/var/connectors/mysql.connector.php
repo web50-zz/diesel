@@ -183,6 +183,28 @@ class connector_mysql
 		if ($this->mysql_int_version >= 40100)
 			$this->query('SET NAMES ' . $character_set);
 	}
+
+	/**
+	*	Сделать дамп структуры
+	*/
+	public function dump_structure()
+	{
+		$table = $this->di->get_alias();
+		$query = "SHOW CREATE TABLE `{$table}`";
+		$this->_get($query);
+		return $this->di->get_results(0, 'Create Table');
+	}
+
+	/**
+	*	Сделать дамп данных
+	* @param	string	$outfile	The file name for dump
+	*/
+	public function dump_data($outfile)
+	{
+		$table = $this->di->get_alias();
+		$query = "SELECT * INTO OUTFILE '{$outfile}' FROM `{$table}`";
+		$this->query($query);
+	}
 	
 	/**
 	*	Выполнить пользовательский запрос

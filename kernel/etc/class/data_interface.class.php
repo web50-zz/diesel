@@ -697,5 +697,33 @@ class data_interface extends base_interface
 		else
 			return $data;
 	}
+
+	/**
+	*	Сформировать дамп данных
+	* @access	public
+	* @param	bool	$only_structure	Сделать дамп только структуры
+	*/
+	public function make_dump($only_structure = FALSE)
+	{
+		if (method_exists($this->connector, 'dump_structure'))
+		{
+			file_system::write_to_file(DUMP_PATH . $this->name . '.strc.sql', $this->connector->dump_structure());
+			if (!$only_structure)
+				$this->connector->dump_data(DUMP_PATH . $this->name . '.data.sql');
+		}
+		else
+		{
+			throw new Exception("Connector has no dumper");
+		}
+	}
+
+	/**
+	*	Сформировать дамп данных
+	* @access	public
+	* @param	bool	$only_structure	Сделать дамп только структуры
+	*/
+	public function init_dump($only_structure = FALSE)
+	{
+	}
 }
 ?>
