@@ -141,8 +141,7 @@ class connector_mysql
 		}
 		catch(PDOException $e)
 		{
-			throw new Exception('Init error: Database connection issue. Check logs for details.');
-			dbg::write('Init error: '.$e->getMessage());
+			throw new Exception('Init error: '.$e->getMessage());
 		}
 	}
 	
@@ -202,9 +201,13 @@ class connector_mysql
 	*/
 	public function dump_data($outfile)
 	{
+		$dbname = $this->di->get_db();
 		$table = $this->di->get_alias();
-		$query = "SELECT * INTO OUTFILE '{$outfile}' FROM `{$table}`";
-		$this->query($query);
+		//$query = "SELECT * INTO OUTFILE '{$outfile}' FROM `{$table}`";
+		//$this->query($query);
+		$cfg = $this->di->get_cfg();
+		$command = "mysqldump --skip-triggers --compact --no-create-info --opt -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} {$table} > {$outfile}";
+		system($command , $return);
 	}
 	
 	/**
