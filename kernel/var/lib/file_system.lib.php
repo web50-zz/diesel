@@ -115,5 +115,16 @@ class file_system
 		if (!file_exists($file)) throw new Exception('The file "' . $file . '" NOT exists.');
 		readfile($file);
 	}
+
+	/**
+	*	Записать содержимое в файл
+	*/
+	public static function write_to_file($file_name, $file_content)
+	{
+		//if (!is_writable($file_name)) throw new Exception('The file "' . $file_name . '" is NOT writable.');
+		$fh = fopen($file_name, 'w');
+		fwrite($fh, $file_content);
+		fclose($fh);
+	}
 }
 ?>
