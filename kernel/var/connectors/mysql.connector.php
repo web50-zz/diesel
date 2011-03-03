@@ -196,6 +196,17 @@ class connector_mysql
 	}
 
 	/**
+	*	Инициализировать структуру
+	* @param	string	$file		The file with structure
+	*/
+	public function init_structure($file)
+	{
+		$table = $this->di->get_alias();
+		$this->query("DROP TABLE IF EXISTS `{$table}`");
+		$this->query(file_get_contents($file));
+	}
+
+	/**
 	*	Сделать дамп данных
 	* @param	string	$outfile	The file name for dump
 	*/
@@ -207,6 +218,18 @@ class connector_mysql
 		//$this->query($query);
 		$cfg = $this->di->get_cfg();
 		$command = "mysqldump --skip-triggers --compact --no-create-info --opt -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} {$table} > {$outfile}";
+		system($command , $return);
+	}
+
+	/**
+	*	Загрузить данные из файла
+	* @param	string	$file		The file with data
+	*/
+	public function init_data($file)
+	{
+		$dbname = $this->di->get_db();
+		$cfg = $this->di->get_cfg();
+		$command = "mysql -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} < {$file}";
 		system($command , $return);
 	}
 	

@@ -724,6 +724,27 @@ class data_interface extends base_interface
 	*/
 	public function init_dump($only_structure = FALSE)
 	{
+		if (method_exists($this->connector, 'init_structure'))
+		{
+			$strc_file = DUMP_PATH . $this->name . '.strc.sql';
+			if (file_exists($strc_file))
+				$this->connector->init_structure($strc_file);
+			else
+				throw new Exception("Dump file '{$strc_file}' NOT exists");
+
+			if (!$only_structure)
+			{
+				$data_file = DUMP_PATH . $this->name . '.data.sql';
+				if (file_exists($data_file))
+					$this->connector->init_data($data_file);
+				else
+					throw new Exception("Dump file '{$data_file}' NOT exists");
+			}
+		}
+		else
+		{
+			throw new Exception("Connector has no dumper");
+		}
 	}
 }
 ?>
