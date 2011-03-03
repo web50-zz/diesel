@@ -77,13 +77,14 @@ function __autoload($class_name)
 
 //9* 22022011 possible configs
 $conf_types =  array(
-		'db',// NOTE: Include data bases configurations
-		'fs',// NOTE: Include file storages configurations
-		'theme',// NOTE:9* 05072010 Include current theme  configuration
-		'instance',// NOTE:9* 050702010 Include current instance  configuration
-		'site',// NOTE:9* 05072010 Include current instance  configuration
-		'cache'// NOTE:9* 18102010 Include cache configurations
-		);
+	'db',		// NOTE: Include data bases configurations
+	'fs',		// NOTE: Include file storages configurations
+	'theme',	// NOTE: 9* 05072010 Include current theme  configuration
+	'instance',	// NOTE: 9* 05072010 Include current instance  configuration
+	'site',		// NOTE: 9* 05072010 Include current instance  configuration
+	'cache',	// NOTE: 9* 18102010 Include cache configurations
+	'dump',		// NOTE: Anthon S Litvinenko [2010-03-03] Include dump configuration
+);
 //9* choosing which one to load
 foreach($conf_types as $key=>$value)
 {
