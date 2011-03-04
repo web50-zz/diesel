@@ -102,10 +102,9 @@ class di_interface extends data_interface
 	* @access	private
 	* @return	array	The array of DI objects
 	*/
-	private function get_di_array()
+	public function get_di_array()
 	{
 		$dis = $this->get_di_name_array();
-		dbg::write($dis);
 
 		// Перебираем список полученных DI и регистрируем их
 		foreach ($dis as $iName => $props)
