@@ -12,7 +12,7 @@
 *	Autoloading data and user interfaces, libraries, connectors and base classes
 * @param		string	$class_name	The class name
 */
-function __autoload($class_name)
+function resource_loader($class_name)
 {
 	global $INST_R;
 	if (!$class_name) return FALSE;
@@ -71,9 +71,13 @@ function __autoload($class_name)
 	}	
 	else
 	{
-		throw new Exception("Can`t load '{$class_name}'");
+		// Not compatible with PHPExcel autoloader
+		//throw new Exception("Can`t load '{$class_name}'");
 	}
 }
+
+// Register kernel resource loader
+spl_autoload_register('resource_loader');
 
 //9* 22022011 possible configs
 $conf_types =  array(
