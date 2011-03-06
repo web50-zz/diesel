@@ -13,3 +13,5 @@ etc/*
 !etc/README
 themes/*
 !themes/README
+kernel/var/dump/current/*
+!kernel/var/dump/current/README

@@ -746,5 +746,86 @@ class data_interface extends base_interface
 			throw new Exception("Connector has no dumper");
 		}
 	}
+
+
+
+	public function make_dump2($type,$path)
+	{
+		try
+		{
+			if (method_exists($this->connector, 'dump_structure'))
+			{
+				if(!$path)
+					$path = DUMP_PATH;
+				if(!$this->name)
+				{
+					throw new Exception("No table detected");
+				}
+				switch($type)
+				{
+					case 1:
+						file_system::write_to_file($path . $this->name . '.strc.sql', $this->connector->dump_structure());
+					break;
+					case 2:
+						$this->connector->dump_data($path . $this->name . '.data.sql');
+					break;
+					case 3:
+						file_system::write_to_file($path . $this->name . '.strc.sql', $this->connector->dump_structure());
+						$this->connector->dump_data($path . $this->name . '.data.sql');
+					break;
+				}
+			}
+			else
+			{
+				throw new Exception("Connector has no dumper");
+			}
+		}
+		catch(Exception $e)
+		{
+		}
+	}
+
+	public function init_dump2($type,$path)
+	{
+		if(!$path)
+			$path = DUMP_PATH;
+		if (method_exists($this->connector, 'init_structure'))
+		{
+			$strc_file = $path . $this->name . '.strc.sql';
+			$data_file = $path . $this->name . '.data.sql';
+			switch($type)
+				{
+					case 1:
+						if (file_exists($strc_file))
+							$this->connector->init_structure($strc_file);
+						else
+						throw new Exception("Can't init table source. Dump file '{$strc_file}' NOT exists");
+					break;
+					case 2:
+						if (file_exists($data_file))
+							$this->connector->init_data($data_file);
+						else
+							throw new Exception("Can't init table data. Dump file '{$data_file}' NOT exists");
+
+					break;
+					case 3:
+						if (file_exists($strc_file))
+							$this->connector->init_structure($strc_file);
+						else
+						throw new Exception("Can't init table source. Dump file '{$strc_file}' NOT exists");
+
+						if (file_exists($data_file))
+							$this->connector->init_data($data_file);
+						else
+							throw new Exception("Can't init table data. Dump file '{$data_file}' NOT exists");
+					break;
+				}
+		}
+		else
+		{
+			throw new Exception("Connector has no dumper");
+		}
+	}
+
 }
 ?>

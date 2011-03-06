@@ -23,7 +23,9 @@ foreach ($instances as $name)
 {
 	$INST_R['instances_path'][] = array(
 		'ui_path' =>  INSTANCES_PATH . $name . '/var/ui/',
-		'di_path' =>  INSTANCES_PATH . $name . '/var/di/'
+		'di_path' =>  INSTANCES_PATH . $name . '/var/di/',
+		'dump_path' =>  INSTANCES_PATH . $name . '/var/dump/',
+		'instance_name' => $name 
 	);
 }
 ?>

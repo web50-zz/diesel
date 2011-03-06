@@ -19,10 +19,6 @@ class di_cache extends data_interface
 	*/
 	protected $db = 'db1';
 	
-	/**
-	* @var	string	$name	Имя таблицы
-	*/
-	protected $name = 'none';
 	
 	/**
 	* @var	array	$fields	Конфигурация таблицы
