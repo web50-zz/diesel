@@ -454,9 +454,17 @@ class data_interface extends base_interface
 	*/
 	private function _init()
 	{
-		$conType = db_config::$params[$this->cfg]['type'];
-		$conName = CONNECTOR_CLASS_PREFIX . $conType;
-		$this->connector = new $conName($this);
+		// If configuration name presents
+		if ($this->cfg)
+		{
+			// If connector type presents
+			if (!empty(db_config::$params[$this->cfg]['type']))
+			{
+				$conType = db_config::$params[$this->cfg]['type'];
+				$conName = CONNECTOR_CLASS_PREFIX . $conType;
+				$this->connector = new $conName($this);
+			}
+		}
 	}
 	
 	/**

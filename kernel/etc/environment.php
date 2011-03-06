@@ -75,4 +75,7 @@ define ('ADM_PREFIX', 'sys_');				// methods prefix
 define ('PUB_PREFIX', 'pub_');				// methods prefix
 define ('PUB_TEMPLATE', 'default.html');		// default template
 define ('PUB_INIT', INIT_PATH . 'site' . INIT_FEXT);	// Initialization file
+
+// NOTE: Set include path
+ini_set('include_path', ini_get('include_path').':' . LIB_PATH);
 ?>
