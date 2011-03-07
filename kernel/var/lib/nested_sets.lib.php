@@ -305,7 +305,7 @@ class nested_sets
 				$q.= ' LEFT JOIN `' . $this->di->get_name() . '` as parent ON parent.left < child.left AND parent.right > child.right';
 			else
 				$q.= ' LEFT JOIN `' . $this->di->get_name() . '` as parent ON parent.left <= child.left AND parent.right >= child.right';
-			$q.= ' WHERE parent.id IS NOT NULL AND child.id = ' . $id;
+			$q.= ' WHERE parent.id IS NOT NULL AND child.id = ' . $id .' ORDER by level ASC';
 			$this->di->connector->fetchMethod = PDO::FETCH_ASSOC;
 			$this->di->_get($q);
 			return $this->di->get_results();
