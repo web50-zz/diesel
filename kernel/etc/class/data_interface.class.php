@@ -104,10 +104,14 @@ class data_interface extends base_interface
 		try
 		{
 			$class = DI_CLASS_PREFIX . $name;
-			class_exists($class);
-			$object = new $class();
-			$object->interfaceName = $name;
-			self::$registry[$name] = $object;
+			if(class_exists($class))
+			{
+				$object = new $class();
+				$object->interfaceName = $name;
+				self::$registry[$name] = $object;
+				return true;
+			}
+			throw new Exception("Can't instantiate class$name. Class not exists.");
 		}
 		catch(Exception $e)
 		{
@@ -124,11 +128,16 @@ class data_interface extends base_interface
 	{
 		if (empty($name))
 			throw new Exception('The name of data interface not present.');
-
 		if (!isset(self::$registry[$name]))
 		{
-			self::set_instance($name);
-			self::$registry[$name]->_init();
+			if(self::set_instance($name))
+			{
+				self::$registry[$name]->_init();
+			}
+			else
+			{
+				throw new Exception("Can't instantiate class$name couse set_instance returns false. Obviously class not presented.");
+			}
 		}
 		return self::$registry[$name];
 	}
