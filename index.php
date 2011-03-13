@@ -5,7 +5,10 @@ NOTE: Если что то из файлов в сторадже не найде
 и вот, если апач не нашел файл по прямой ссылке, то и искать 
 мы не будем а сразу 404 и досвидос
 */
-if(preg_match('/^\/storage\//',$_SERVER['REQUEST_URI']))
+if(preg_match('/^\/storage\//',$_SERVER['REQUEST_URI'])||
+   preg_match('/^\/filestorage\//',$_SERVER['REQUEST_URI'])||
+   preg_match('/\/storage\//',$_SERVER['REQUEST_URI'])
+   )
 {
 header("HTTP/1.0 404 Not Found");
 echo('Not Found');
