@@ -16,16 +16,21 @@ define ('INSTANCES_PATH', BASE_PATH . 'instances/' );
 
 $INST_R = array(
 	'instances_path' => array(),
-	'paths' => array()
+	'paths' => array(),
+	'paths_assoc' => array(),
+	'class_instance'=>array()
 );
 
 foreach ($instances as $name)
 {
-	$INST_R['instances_path'][] = array(
+	$data = array(
 		'ui_path' =>  INSTANCES_PATH . $name . '/var/ui/',
 		'di_path' =>  INSTANCES_PATH . $name . '/var/di/',
 		'dump_path' =>  INSTANCES_PATH . $name . '/var/dump/',
-		'instance_name' => $name 
-	);
+		'instance_name' => $name
+		); 
+
+	$INST_R['instances_path'][] = $data;
+	$INST_R['paths_assoc'][$name] = $data ;
 }
 ?>

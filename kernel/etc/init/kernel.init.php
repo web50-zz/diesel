@@ -32,6 +32,7 @@ function resource_loader($class_name)
 				$file_name = $file_name_instance;
 				//9* 25022011 required for UI tmpl resources path detection in UI CLASS proto
 				$INST_R['paths'][$class_name] = $value['ui_path'];
+				$INST_R['class_instance'][$class_name] = $value['instance_name'];
 			}
 		}
 
@@ -49,7 +50,11 @@ function resource_loader($class_name)
 			$file_name_instance = $value['di_path'] . $matches[1] . DI_FEXT;
 
 			if (file_exists($file_name_instance))
+			{
 				$file_name = $file_name_instance;
+				$INST_R['paths'][$class_name] = $value['ui_path'];
+				$INST_R['class_instance'][$class_name] = $value['instance_name'];
+			}
 		}
 
 		if (!$file_name)

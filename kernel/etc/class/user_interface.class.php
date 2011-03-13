@@ -57,7 +57,7 @@ class user_interface extends base_interface
 			{
 				$object->files_path = $INST_R['paths'][$class].$name.'/';
 			}
-			
+			$object->instance_name = $INST_R['class_instance'][$class];	
 			if(!file_exists($object->files_path))
 			{
 				dbg::write('failed to find templates path');

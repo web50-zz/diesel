@@ -126,6 +126,8 @@ class data_interface extends base_interface
 	*/
 	public static function get_instance($name)
 	{
+		global $INST_R;
+		$class = DI_CLASS_PREFIX.$name;
 		if (empty($name))
 			throw new Exception('The name of data interface not present.');
 		if (!isset(self::$registry[$name]))
@@ -133,6 +135,7 @@ class data_interface extends base_interface
 			if(self::set_instance($name))
 			{
 				self::$registry[$name]->_init();
+				self::$registry[$name]->instance_name = $INST_R['class_instance'][$class];
 			}
 			else
 			{
