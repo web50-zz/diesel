@@ -111,7 +111,7 @@ class data_interface extends base_interface
 				self::$registry[$name] = $object;
 				return true;
 			}
-			throw new Exception("Can't instantiate class$name. Class not exists.");
+			throw new Exception("Can't instantiate class '$name'. Class not exists.");
 		}
 		catch(Exception $e)
 		{
