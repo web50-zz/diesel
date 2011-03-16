@@ -17,12 +17,15 @@ class ui_user extends user_interface
 			'user.grid',
 			'user.item_form',
 		),
+		'user_list' => array(
+			'user.grid',
+		),
 		'grid' => array(
 			'user.languages',
 		),
 		'item_form' => array(
 			'user.languages',
-		)
+		),
 	);
 	
 	public function __construct ()
@@ -72,6 +75,15 @@ class ui_user extends user_interface
 	protected function sys_list()
 	{
 		$tmpl = new tmpl($this->pwd() . 'list.js');
+		response::send($tmpl->parse($this), 'js');
+	}
+	
+	/**
+	*       Простой список пользователей, с возможностью выбора
+	*/
+	protected function sys_user_list()
+	{
+		$tmpl = new tmpl($this->pwd() . 'user_list.js');
 		response::send($tmpl->parse($this), 'js');
 	}
 }
