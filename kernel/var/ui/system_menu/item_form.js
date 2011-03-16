@@ -76,6 +76,9 @@ ui.system_menu.item_form = function(config){
 		buttons: [
 			{iconCls: 'disk', text: this.bttSave, handler: Save},
 			{iconCls: 'cancel', text: this.bttCancel, handler: Cancel}
+		],
+		keys: [
+			{key: [Ext.EventObject.ENTER], handler: Save}
 		]
 	});
 	this.addEvents(
