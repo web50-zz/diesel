@@ -110,6 +110,45 @@ foreach($conf_types as $key=>$value)
 }
 
 
+
+//9* adjast instances configs
+// NOTE: 9* 05072010 Path to store Instance code
+define ('INSTANCES_PATH', BASE_PATH . 'instances/' );
+
+$INST_R = array(
+	'instances_path' => array(),
+	'paths' => array(),
+	'paths_assoc' => array(),
+	'class_instance'=>array()
+);
+
+foreach ($instances as $name)
+{
+	$data = array(
+		'ui_path' =>  INSTANCES_PATH . $name . '/var/ui/',
+		'di_path' =>  INSTANCES_PATH . $name . '/var/di/',
+		'dump_path' =>  INSTANCES_PATH . $name . '/var/dump/',
+		'instance_name' => $name
+		); 
+
+	$INST_R['instances_path'][] = $data;
+	$INST_R['paths_assoc'][$name] = $data ;
+	
+	$def_etc_file = INSTANCES_PATH .$name.'/etc/inst_'.$name.CONF_FEXT;
+	$etc_file = CONF_ETC_PATH . 'inst_'.$name . CONF_FEXT;
+	//9* init config files for instance
+	if(file_exists($def_etc_file))//9* /etc (if exists) has priority against kernel defaults 
+	{
+		include_once($def_etc_file);
+	}
+	elseif(file_exists($etc_file))
+	{
+		include_once($etc_file);
+	}
+
+}
+//9* end of instances configs
+
 // NOTE: Include default localization file
 include_once(LOCALES_PATH . 'default.php');
 
