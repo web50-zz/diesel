@@ -8,4 +8,4 @@ CREATE TABLE `interface` (
   PRIMARY KEY  (`id`),
   KEY `exist` (`exist`),
   KEY `type_name` (`type`,`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8
+) ENGINE=MyISAM AUTO_INCREMENT=138 DEFAULT CHARSET=utf8

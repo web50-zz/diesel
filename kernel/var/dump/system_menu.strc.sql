@@ -11,4 +11,4 @@ CREATE TABLE `system_menu` (
   `level` mediumint(8) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `left` (`left`,`right`,`level`)
-) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=utf8
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8
