@@ -39,6 +39,50 @@ class di_registry extends data_interface
 	    // Call Base Constructor
 	    parent::__construct(__CLASS__);
 	}
+
+	/**
+	*	Return value from registry by name
+	* @access	public
+	* @param	string	$name	The name of parametrs
+	* @return	mixed	Finded value
+	*/
+	public function get($name)
+	{
+		$this->push_args(array('_sname' => $name));
+		$this->_flush();
+		$this->_get();
+		$rec = $this->get_results(0);
+		$this->pop_args();
+		dbg::write($rec);
+		switch ($rec->type)
+		{
+			case 1:
+				return (string)$rec->value;
+			break;
+			case 2:
+				return json_decode($rec->value);
+			break;
+			case 3:
+				$cfg = $rec->value;
+				if (!empty($cfg->di))
+				{
+					$di = data_interface::get_instance($cfg->di);
+					$di->call($cfg->ep, json_decode($cfg->params));
+				}
+				else if (!empty($cfg->ui))
+				{
+					$ui = user_interface::get_instance($cfg->ui);
+					$ui->call($cfg->ep, json_decode($cfg->params));
+				}
+				else
+				{
+					throw new Exception("Unknown call configuration for registry record '{$name}'");
+				}
+			break;
+			default:
+				throw new Exception("Unknown registry record type for '{$name}'");
+		}
+	}
 	
 	/**
 	*	Get records list in JSON

@@ -12,8 +12,7 @@ ui.registry.main = Ext.extend(ui.registry.grid, {
 	/**
 	 * @constructor
 	 */
-	constructor: function(config)
-	{
+	constructor: function(config){
 		var srchField = new Ext.form.TextField({text:'Имя', width: 200});
 		var srchBttOk = new Ext.Toolbar.Button({
 			text: this.bttSearch,
@@ -53,26 +52,6 @@ ui.registry.main = Ext.extend(ui.registry.grid, {
 			})
 		});
 		ui.registry.main.superclass.constructor.call(this, config);
-	},
-
-	/**
-	 * To manually set default properties.
-	 * 
-	 * @param {Object} config Object containing all config options.
-	 */
-	configure: function(config)
-	{
-		config = config || {};
-		Ext.apply(this, config, config);
-	},
-
-	/**
-	 * @private
-	 * @param {Object} o Object containing all options.
-	 *
-	 * Initializes the box by inserting into DOM.
-	 */
-	init: function(o){
 		this.on({
 			rowcontextmenu: function(grid, rowIndex, e){
 				grid.getSelectionModel().selectRow(rowIndex);
@@ -90,5 +69,24 @@ ui.registry.main = Ext.extend(ui.registry.grid, {
 			},
 			scope: this
 		});
+	},
+
+	/**
+	 * To manually set default properties.
+	 * 
+	 * @param {Object} config Object containing all config options.
+	 */
+	configure: function(config){
+		config = config || {};
+		Ext.apply(this, config, config);
+	},
+
+	/**
+	 * @private
+	 * @param {Object} o Object containing all options.
+	 *
+	 * Initializes the box by inserting into DOM.
+	 */
+	init: function(o){
 	}
 });

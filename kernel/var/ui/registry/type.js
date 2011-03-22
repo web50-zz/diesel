@@ -3,7 +3,8 @@ ui.registry.type = new Ext.data.SimpleStore({
 	fields: ['value', 'title'],
 	data: [
 		[0, 'Не опеределён'],
-		[1, 'Значение'],
-		[2, 'Вызов']
+		[1, 'Текст'],
+		[2, 'JSON'],
+		[3, 'Вызов']
 	]
 });
