@@ -681,6 +681,46 @@ class connector_mysql
 					$this->_where_values['_l'.$sField] = intval($this->_args['_n'.$sField]);
 				}
 			break;
+			case 'float':
+				if (isset($this->_args['_s'.$sField]))
+				{
+					if (is_array($this->_args['_s'.$sField]))
+					{
+						$str = "{$name}.{$field} IN (" . join(", ", array_map('floatval', $this->_args['_s'.$sField])) . ")";
+					}
+					else if ('null' != strtolower($this->_args['_s'.$sField]))
+					{
+						$str = "{$name}.{$field} = :_s{$sField}";
+						$this->_where_values['_s'.$sField] = floatval($this->_args['_s'.$sField]);
+					}
+					else
+					{
+						$str = "{$name}.{$field} IS NULL";
+					}
+				}
+				else if (isset($this->_args['_n'.$sField]))
+				{
+					if ('null' != strtolower($this->_args['_n'.$sField]))
+					{
+						$str = "{$name}.{$field} <> :_n{$sField}";
+						$this->_where_values['_n'.$sField] = floatval($this->_args['_n'.$sField]);
+					}
+					else
+					{
+						$str = "{$name}.{$field} IS NOT NULL";
+					}
+				}
+				else if (isset($this->_args['_m'.$sField]))
+				{
+					$str = "{$name}.{$field} > :_n{$sField}";
+					$this->_where_values['_m'.$sField] = floatval($this->_args['_n'.$sField]);
+				}
+				else if (isset($this->_args['_l'.$sField]))
+				{
+					$str = "{$name}.{$field} < :_l{$sField}";
+					$this->_where_values['_l'.$sField] = floatval($this->_args['_n'.$sField]);
+				}
+			break;
 			case 'date':
 				if (isset($this->_args['_s'.$sField]))
 				{
