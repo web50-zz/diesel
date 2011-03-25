@@ -35,20 +35,34 @@ ui.security.interfaces = function(config){
 			bb.doLoad(bb.cursor);
 		}
 	};
-	var srchField = new Ext.form.TextField();
+	var srchType = new Ext.form.ComboBox({
+		width: 50,
+		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
+			['', 'Все'],
+			['di', 'DI'],
+			['ui', 'UI']
+		]}), value: '',
+		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+	});
+	var srchField = new Ext.form.TextField({
+	});
+	var srchSubmit = function(){
+		var p = {query: srchField.getValue(), type: srchType.getValue()};
+		Ext.apply(store.baseParams, p);
+		this.reload();
+	}.createDelegate(this);
+	srchField.on('specialkey', function(field, e){if (e.getKey() == e.ENTER) srchSubmit()});
 	var srchBttOk = new Ext.Toolbar.Button({
 		text: 'Найти',
 		iconCls:'find',
-		handler: function search_submit(){
-			Ext.apply(store.baseParams, {query: srchField.getValue()});
-			this.reload();
-		},
+		handler: srchSubmit,
 		scope: this
 	})
 	var srchBttCancel = new Ext.Toolbar.Button({
 		text: 'Сбросить',
 		iconCls:'cancel',
 		handler: function search_submit(){
+			srchType.setValue('');
 			srchField.setValue('');
 			Ext.apply(store.baseParams, {query: ''});
 			this.reload();
@@ -60,7 +74,7 @@ ui.security.interfaces = function(config){
 		columns: columns,
 		loadMask: true,
 		autoExpandColumn: 'face',
-		tbar: [new Ext.Toolbar.TextItem ("Найти:"), srchField, srchBttOk, srchBttCancel],
+		tbar: [new Ext.Toolbar.TextItem ("Найти:"), srchType, srchField, srchBttOk, srchBttCancel],
 		bbar: new Ext.PagingToolbar({
 			pageSize: this.limit,
 			store: store,
