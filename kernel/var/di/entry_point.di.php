@@ -64,16 +64,26 @@ class di_entry_point extends data_interface
 	protected function sys_in_group()
 	{
 		$this->_flush(true);
+		$where = array();
 		$in = $this->join_with_di('interface', array('interface_id' => 'id'), array('human_name' => 'interface_name'));
 		$gu = $this->join_with_di('entry_point_group', array('id' => 'entry_point_id', intval($this->get_args('gid')) => 'group_id'), array('group_id' => 'gid'));
+
+		if (!empty($this->args['type']))
+		{
+			$ait = $in->get_alias();
+			$where[] = "`{$ait}`.`type` LIKE '{$this->args['type']}'";
+		}
+
 		if (!empty($this->args['query']))
 		{
 			//$this->args["_sinterface_name"] = "%{$this->args['query']}%";
 			$aep = $this->get_alias();
-			$ain = $in->get_alias();
-			$this->where = "`{$aep}`.`name` LIKE '%{$this->args['query']}%'";
-			$this->where.= " OR `{$ain}`.`human_name` LIKE '%{$this->args['query']}%'";
+			$ait = $in->get_alias();
+			$where[] = "(`{$aep}`.`name` LIKE '%{$this->args['query']}%'  OR `{$ait}`.`human_name` LIKE '%{$this->args['query']}%')";
 		}
+
+		$this->where = join(' AND ', $where);
+
 		return $this->extjs_grid_json(array(
 			'id', 'name',
 			array('di' => $in, 'name' => 'human_name'),
