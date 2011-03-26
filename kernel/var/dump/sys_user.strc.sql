@@ -1,5 +1,5 @@
 CREATE TABLE `sys_user` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `multi_login` tinyint(1) unsigned NOT NULL,
   `login` varchar(32) NOT NULL COMMENT 'Login',
   `passw` varchar(64) NOT NULL COMMENT 'Password',
@@ -10,7 +10,7 @@ CREATE TABLE `sys_user` (
   `login_date` datetime NOT NULL,
   `remote_addr` varchar(32) NOT NULL,
   `created_datetime` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   KEY `account_id` (`login`,`passw`),
   KEY `hash` (`hash`)
-) ENGINE=MyISAM AUTO_INCREMENT=20716 DEFAULT CHARSET=utf8 COMMENT='System user'
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='System user'
