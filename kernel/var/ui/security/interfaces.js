@@ -18,13 +18,15 @@ ui.security.interfaces = function(config){
 	// The data store
 	var store = new Ext.data.Store({
 		proxy: proxy,
-		reader: reader
+		reader: reader,
+		remoteSort: true,
+		sortInfo: {field: 'type', direction: 'ASC'}
 	});
 	var columns = [
 		{id: 'id', dataIndex: 'id', hidden: true},
-		{id: 'type', header:  this.labelType, dataIndex: 'type', width: 30},
-		{id: 'name', header:  this.labelName, dataIndex: 'interface_name', width: 200},
-		{id: 'face', header:  this.labelFace, dataIndex: 'name', width: 200}
+		{id: 'type', header:  this.labelType, dataIndex: 'type', width: 30, sortable: true},
+		{id: 'name', header:  this.labelName, dataIndex: 'interface_name', width: 200, sortable: true},
+		{id: 'face', header:  this.labelFace, dataIndex: 'name', width: 200, sortable: true}
 	];
 	this.reload = function(full){
 		if (full == true){
