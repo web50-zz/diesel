@@ -185,7 +185,7 @@ class di_util_db extends data_interface
 			$dh->close();
 	}
 
-	protected function perform_init($type_id,$path_di,$path_dump)
+	public function perform_init($type_id,$path_di,$path_dump)
 	{
 		$type = $this->types_map[$type_id];
 		if($type_id == 4)//9* for current  get only data
