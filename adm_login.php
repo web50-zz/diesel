@@ -7,7 +7,7 @@ try
 	if (request::get('cll') == 'logout')
 	{
 		authenticate::logout();
-		response::redirect('login/');
+		response::redirect('/xxx/');
 	}
 	else
 	{
