@@ -29,6 +29,7 @@ class di_util_db extends data_interface
 				'4' => '3'
 			);
 
+	protected $dump_kernel_to_instance_cfg =  false;
 
 	public function __construct () {
 	    // Call Base Constructor
@@ -48,6 +49,15 @@ class di_util_db extends data_interface
 		{
 			$data['records'][] = array('id'=>$value,'title'=>$value);
 		}
+		response::send($data, 'json');
+	}
+	protected function sys_dop_list()
+	{
+		global $instances;
+		$data = array();
+		$data['success'] = 'true';
+		$data['records'][] = array('id'=>'only_instance','title'=>'only instnance');
+		$data['records'][] = array('id'=>'and_kernel','title'=>'instance &  kernel cnf');
 		response::send($data, 'json');
 	}
 
@@ -85,6 +95,11 @@ class di_util_db extends data_interface
 		$inst_id = $this->args['inst_id'];
 		$type_id = $this->args['type_id'];
 		$ops_id = $this->args['ops_id'];
+			
+		if($this->args['dop_type'] == 'and_kernel'){
+			$this->dump_kernel_to_instance_cfg = true;
+		}
+
 		if($type_id == 4)//9* for current  get only data
 		{
 			$subfold = 'current/';
@@ -159,7 +174,7 @@ class di_util_db extends data_interface
 
 	protected function perform_dump($type_id,$path_di,$path_dump)
 	{
-			$type = $this->types_map[$type_id];
+		$type = $this->types_map[$type_id];
 			if($type_id == 4)//9* for current  get only data
 			{
 				$type = 2;
@@ -169,8 +184,16 @@ class di_util_db extends data_interface
 			{
 				if (preg_match('/^(\w+)\.di\.php$/', $i, $match))
 				{
+					
 					if ($iObj = data_interface::get_instance($match[1]))
 					{
+						if($this->dump_kernel_to_instance_cfg == false)
+						{
+							if(preg_match('/^cpy_.+/',$match[1],$match2))
+							{
+								continue;
+							}
+						}
 						try
 						{
 							$iObj->make_dump2($type,$path_dump);
@@ -199,6 +222,15 @@ class di_util_db extends data_interface
 				{
 					if ($iObj = data_interface::get_instance($match[1]))
 					{
+					
+						if($this->dump_kernel_to_instance_cfg == false)
+						{
+							if(preg_match('/^cpy_.+/',$match[1],$match2))
+							{
+								continue;
+							}
+						}
+
 						try
 						{
 							$iObj->init_dump2($type,$path_dump);

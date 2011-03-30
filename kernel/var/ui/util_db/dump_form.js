@@ -57,15 +57,22 @@ ui.util_db.dump_form = function(config){
 					mode: 'local', 
 					triggerAction: 'all', editable: false
 			},
-			{fieldLabel: this.labelOps, hiddenName: 'ops_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
-				store: new Ext.data.JsonStore({url: 'di/util_db/operations_list.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
+			
+			{fieldLabel: this.labelDop, hiddenName: 'dop_type', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
+				store: new Ext.data.JsonStore({url: 'di/util_db/dop_list.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
 					valueField: 'id', 
 					displayField: 'title', 
 					mode: 'local', 
 					triggerAction: 'all', editable: false
 			},
 
-
+			{fieldLabel: this.labelOps, hiddenName: 'ops_id', xtype: 'combo', emptyText: this.blankTypeText, valueNotFoundText: this.blankTypeText,
+				store: new Ext.data.JsonStore({url: 'di/util_db/operations_list.json', root: 'records', fields: ['id', 'title'], autoLoad: true}),
+					valueField: 'id', 
+					displayField: 'title', 
+					mode: 'local', 
+					triggerAction: 'all', editable: false
+			}
 
 		],
 		buttonAlign: 'right',
@@ -89,7 +96,7 @@ Ext.extend(ui.util_db.dump_form , Ext.form.FormPanel, {
 	labelType:'Как',
 	labelInst:'Над чем',
 	labelOps:'Сделать',
-
+	labelDop:'Дополнительно',
 	loadText: 'Загрузка данных формы',
 	subMsgBox: ' ',
 	saveText: 'Сохранение...',
