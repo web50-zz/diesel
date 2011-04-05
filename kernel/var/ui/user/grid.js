@@ -34,7 +34,7 @@ ui.user.grid = function(config){
 		sortInfo: {field: 'id', direction: 'ASC'}
 	});
 	var rndLang = function(v){
-		return ui.user.languages.getById(v).get('title');
+		return (v == '') ? 'Не указан' : ui.user.languages.getById(v).get('title');
 	}
 	ui.user.grid.superclass.constructor.call(this, {
 		store: store,
