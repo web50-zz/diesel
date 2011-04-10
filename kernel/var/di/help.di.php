@@ -1,13 +1,13 @@
 <?php
 /**
-*	Интерфейс данных "Контакты компании"
+*	Интерфейс данных "Страницы помощи"
 *
 * @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
 * @package	SBIN Diesel
 */
 class di_help extends data_interface
 {
-	public $title = 'Контакты компании';
+	public $title = 'Страницы помощи';
 	/**
 	* @var	string	$cfg	Имя конфигурации БД
 	*/

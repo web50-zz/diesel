@@ -1,6 +1,6 @@
 <?php
 /**
-*	ПИ "Управление пользователями"
+*	ПИ "Страницы помощи"
 *
 * @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
 * @version	1.0
@@ -10,7 +10,7 @@
 */
 class ui_help extends user_interface
 {
-	public $title = 'Управление пользователями';
+	public $title = 'Страницы помощи';
 	
 	public function __construct ()
 	{
