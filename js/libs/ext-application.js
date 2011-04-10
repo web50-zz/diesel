@@ -59,8 +59,8 @@ var App = function(config){
 				var id = 'ui-'+appName+'-'+appFace;
 				var el = Ext.fly(id);
 				if (undefined == el){
-					var loadMask = new Ext.LoadMask(Ext.getBody(), {msg: 'Загрузка приложения "'+appName+'.'+appFace+'"'});
-					loadMask.show();
+					//var loadMask = new Ext.LoadMask(Ext.getBody(), {msg: 'Загрузка приложения "'+appName+'.'+appFace+'"'});
+					//loadMask.show();
 					// append script to the head
 					var h = Ext.fly(document.getElementsByTagName('head')[0]);
 					var j = document.createElement('script');
@@ -105,11 +105,11 @@ var App = function(config){
 							this.fireEvent('apperror', errMsg);
 						},
 						apploaded: function(appName, appFace){
-							loadMask.hide();
+							//loadMask.hide();
 						},
 						apperror: function(msg){
 							showError(new Ext.Template(msg).apply({name: appName, face: appFace}));
-							loadMask.hide();
+							//loadMask.hide();
 						},
 						scope: this
 					});
