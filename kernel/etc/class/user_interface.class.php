@@ -27,6 +27,7 @@ class user_interface extends base_interface
 	public		$title = 'Unnamed UI';
 
 	protected	$deps = array();
+	public $theme_path = CURRENT_THEME_PATH;
 
 	/**
 	*	Constructor which MUST be called from derived Class Constructor
@@ -156,14 +157,14 @@ class user_interface extends base_interface
 	* @param	string	$tmpl_name	array() $data to parse out 
 	* @return	parsed template 	tmpl2
 	*/
-
-	public function parse_tmpl($template_file_name,$data)
+	public function parse_tmpl($template_file_name, $data)
 	{
-		if($this->UI_LANG)
+		if ($this->UI_LANG)
 		{
 			$data = array_merge($data,$this->UI_LANG);
 		}
-		if($tmpl_path = $this->get_resource_path($template_file_name,'absolute'))
+
+		if ($tmpl_path = $this->get_resource_path($template_file_name,'absolute'))
 		{
 			$tmpl = new tmpl($tmpl_path);
 			$html = $tmpl->parse($data);
@@ -174,6 +175,7 @@ class user_interface extends base_interface
 			$dbgs = array_shift(debug_backtrace());
 			dbg::write("TEMPLATE WAS NOT FOUND at user_interface::parse_tmpl() \nCall from:.....  ". $dbgs['file']."\nline:..........  ".$dbgs['line']. "\ntemplate: $template_file_name\npath1: $tmpl_path \npath2: $tmpl_path2");
 		}
+
 		return false;
 	}
 
@@ -188,7 +190,7 @@ class user_interface extends base_interface
 	{
 		if ($mode != 'default')
 		{
-			$tmpl_path = BASE_PATH.CURRENT_THEME_PATH.'tmpl/'.$this->interfaceName; 
+			$tmpl_path = BASE_PATH.$this->theme_path.'tmpl/'.$this->interfaceName; 
 			if (is_dir($tmpl_path)) return "{$tmpl_path}/";
 		}
 
