@@ -98,10 +98,10 @@ var Files = function(config){
 			layout: 'form',
 			frame: true,
 			fileUpload: true,
-			defaults: {xtype: 'textfield', width: '97%'},
+			defaults: {xtype: 'textfield', width: 100, anchor: '100%'},
 			buttonAlign: 'right',
 			items: [
-				{xtype: 'hidden', name: 'id', value: data.id},
+				{xtype: 'hidden', name: '_sid', value: data.id},
 				{xtype: 'hidden', name: 'pid', value: data.pid},
 				{fieldLabel: 'Название', name: 'title'},
 				{fieldLabel: 'Файл', name: 'file', xtype: 'fileuploadfield', buttonCfg: {text: '', iconCls: 'folder'}}
@@ -139,6 +139,7 @@ var Files = function(config){
 				params: {_sid: id},
 				waitMsg: 'Загрузка...'
 			});
+			fp.getForm().setValues([{id: '_sid', value: id}]);
 		}, this);
 	}
 	this.saveFile = function(id, data){
