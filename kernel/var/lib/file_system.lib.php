@@ -50,7 +50,7 @@ class file_system
 			}
 			while(file_exists($file));
 
-			if(!@copy($fset['tmp_name'], $file))
+			if(!move_uploaded_file($fset['tmp_name'], $file))
 				throw new Exception('Error while copy "' . $fset['tmp_name'] . '" to "' . $file . '"');
 			
 			return $data;
