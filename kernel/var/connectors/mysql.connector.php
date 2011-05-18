@@ -387,7 +387,7 @@ class connector_mysql
 		$by_name = $by_di->get_name();
 		$with_name = $with_di->get_name();
 		$name = "{$by_name}_{$with_name}";
-		while(in_array($name, $this->_joins))
+		while(in_array($name, array_keys($this->_joins)))
 		{
 			$i++;
 			$name = "{$by_name}_{$with_name}_{$i}";
