@@ -672,13 +672,13 @@ class connector_mysql
 				}
 				else if (isset($this->_args['_m'.$sField]))
 				{
-					$str = "{$name}.{$field} > :_n{$sField}";
-					$this->_where_values['_m'.$sField] = intval($this->_args['_n'.$sField]);
+					$str = "{$name}.{$field} > :_m{$sField}";
+					$this->_where_values['_m'.$sField] = intval($this->_args['_m'.$sField]);
 				}
 				else if (isset($this->_args['_l'.$sField]))
 				{
 					$str = "{$name}.{$field} < :_l{$sField}";
-					$this->_where_values['_l'.$sField] = intval($this->_args['_n'.$sField]);
+					$this->_where_values['_l'.$sField] = intval($this->_args['_l'.$sField]);
 				}
 			break;
 			case 'float':
@@ -712,13 +712,13 @@ class connector_mysql
 				}
 				else if (isset($this->_args['_m'.$sField]))
 				{
-					$str = "{$name}.{$field} > :_n{$sField}";
-					$this->_where_values['_m'.$sField] = floatval($this->_args['_n'.$sField]);
+					$str = "{$name}.{$field} > :_m{$sField}";
+					$this->_where_values['_m'.$sField] = floatval($this->_args['_m'.$sField]);
 				}
 				else if (isset($this->_args['_l'.$sField]))
 				{
 					$str = "{$name}.{$field} < :_l{$sField}";
-					$this->_where_values['_l'.$sField] = floatval($this->_args['_n'.$sField]);
+					$this->_where_values['_l'.$sField] = floatval($this->_args['_l'.$sField]);
 				}
 			break;
 			case 'date':
