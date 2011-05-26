@@ -217,7 +217,8 @@ class connector_mysql
 		//$query = "SELECT * INTO OUTFILE '{$outfile}' FROM `{$table}`";
 		//$this->query($query);
 		$cfg = $this->di->get_cfg();
-		$command = "mysqldump --skip-triggers --compact --no-create-info --opt -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} {$table} > {$outfile}";
+		//$command = "mysqldump --skip-triggers --compact --no-create-info --opt -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} {$table} > {$outfile}";
+		$command = "mysqldump --skip-triggers  -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} {$table} > {$outfile}";
 		system($command , $return);
 	}
 

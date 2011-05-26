@@ -99,7 +99,7 @@ class di_group_user extends data_interface
 		//dbg::write($this->get_args());
 		$success = true;
 		$gid = $this->get_args('gid');
-		$uids = split(',', $this->get_args('uids'));
+		$uids = explode(',', $this->get_args('uids'));
 		if (!empty($uids))
 		{
 			foreach ($uids as $uid)

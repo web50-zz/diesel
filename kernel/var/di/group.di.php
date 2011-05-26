@@ -117,7 +117,7 @@ class di_group extends data_interface
 		foreach ($ids as $gid)
 		{
 			$gu->remove_users_from_group($gid);
-			$gu->remove_entry_points_from_group($gid);
+			$epg->remove_entry_points_from_group($gid);
 		}
 
 		response::send($data, 'json');
