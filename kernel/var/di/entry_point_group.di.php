@@ -68,7 +68,7 @@ class di_entry_point_group extends data_interface
 		//dbg::write($this->get_args());
 		$success = true;
 		$gid = $this->get_args('gid');
-		$epids = split(',', $this->get_args('epids'));
+		$epids = explode(',', $this->get_args('epids'));
 		if (!empty($epids) && $gid > 0)
 		{
 			foreach ($epids as $epid)
@@ -98,7 +98,7 @@ class di_entry_point_group extends data_interface
 		//dbg::write($this->get_args());
 		$success = true;
 		$gid = $this->get_args('gid');
-		$epids = split(',', $this->get_args('epids'));
+		$epids = explode(',', $this->get_args('epids'));
 		if (!empty($epids) && $gid > 0)
 		{
 			foreach ($epids as $epid)
