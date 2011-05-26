@@ -54,7 +54,7 @@ ui.user.item_form = function(config){
 			{fieldLabel: this.labelName, name: 'name', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: this.maxLengthText},
 			{fieldLabel: this.labelLogin, name: 'login', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: this.maxLengthText},
 			{fieldLabel: this.labelEMail, name: 'email', allowBlank: false, blankText: this.blankText, maxLength: 64, maxLengthText: 'Не больше 64 символов', vtype: 'email', emailText: 'e-mail введён не верно'},
-			{fieldLabel: this.labelLang, hiddenName: 'type', xtype: 'combo', value: 'ru_RU', width: 150,
+			{fieldLabel: this.labelLang, hiddenName: 'lang', xtype: 'combo', value: 'ru_RU', width: 150,
 				valueField: 'value', displayField: 'title', allowBlank: false,
 				mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false,
 				store: ui.user.languages
