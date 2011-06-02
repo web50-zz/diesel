@@ -384,15 +384,11 @@ class connector_mysql
 			$join_type = 'LEFT';
 		
 		// Определяем уникальное имя объединения ИД
-		$i = 0;
 		$by_name = $by_di->get_name();
 		$with_name = $with_di->get_name();
-		$name = "{$by_name}_{$with_name}";
-		while(in_array($name, array_keys($this->_joins)))
-		{
-			$i++;
-			$name = "{$by_name}_{$with_name}_{$i}";
-		}
+		$i = 0;
+		do $name = "{$by_name}_{$with_name}_" . ($i++);
+		while (in_array($name, array_keys($this->_joins)));
 		$with_di->set_alias($name);
 		
 		// Получаем имя или синоним объединяющего ИД
@@ -418,10 +414,19 @@ class connector_mysql
 			$_on_[] = $str;
 		}
 		
-		// Определяем имя объединяемой БД
-		$with_db = $with_di->get_db();
 		// Формируем SQL-код объединения
-		$this->_joins[$name] = "{$join_type} JOIN `{$with_db}`.`{$with_name}` AS `{$with_alias}`";
+		if (!empty($with_di->query))
+		{
+			// Объединяем с запросом
+			$this->_joins[$name] = "{$join_type} JOIN ({$with_di->query}) AS `{$with_alias}`";
+		}
+		else
+		{
+			// Объединяем с таблицей
+			// Определяем имя объединяемой БД
+			$with_db = $with_di->get_db();
+			$this->_joins[$name] = "{$join_type} JOIN `{$with_db}`.`{$with_name}` AS `{$with_alias}`";
+		}
 		$this->_joins[$name].= ' ON ' . join(' AND ', $_on_);
 		
 		// Запоминаем объединяемый ИД

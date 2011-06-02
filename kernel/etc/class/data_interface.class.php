@@ -15,16 +15,46 @@ class data_interface extends base_interface
 	private	static $registry = array();
 	
 	/**
-	* @access	protected
-	* @var	string	$alias		ALIAS
-	*/
-	protected	$alias = null;
-	
-	/**
 	* @access	public
 	* @var	string	$title		Название интерфейса
 	*/
 	public		$title = 'Unnamed DI';
+
+	/**
+	* @access	protected
+	* @var	string	$name		Имя таблицы (запроса)
+	*/
+	protected	$name = null;
+	
+	/**
+	* @access	protected
+	* @var	string	$alias		Альтернативное имя таблицы (запроса)
+	*/
+	protected	$alias = null;
+
+	/**
+	* @access	protected
+	* @var	string	$query
+	*/
+	public		$query = null;
+
+	/**
+	* @access	public
+	* @var	array	$fields		Массив полей ИД
+	*/
+	public		$fields = array();
+
+	/**
+	* @access	protected
+	* @var	string	$cfg		Имя конфигурации БД
+	*/
+	protected	$cfg = null;
+	
+	/**
+	* @access	protected
+	* @var	string	$db		Имя БД
+	*/
+	protected	$db = null;
 	
 	/**
 	* @access	protected
@@ -91,6 +121,7 @@ class data_interface extends base_interface
 	*/
 	protected function __construct($strDerivedClassName)
 	{
+		if (!$strDerivedClassName) $strDerivedClassName = __CLASS__;
 		parent::__construct($strDerivedClassName);
 	}
   	
@@ -118,6 +149,37 @@ class data_interface extends base_interface
 			throw new Exception('Can`t set data interface: ' . $e->getMessage());
 		}
 	}
+
+	/**
+	*	Создать экземпляр класса для указанного запроса
+	* @static
+	* @param	string	$query	Запрос
+	* @param	array	$fields	Описание полей в запросе
+	*/
+	public static function set_query($query, $fields = array(), $cfg = 'localhost', $db = 'db1')
+	{
+		try
+		{
+			// Подбираем имя для нового объекта
+			$i = 0;
+			do $name = "query_" . ($i++); while(in_array($name, array_keys(self::$registry)));
+
+			$object = new data_interface();
+			$object->cfg = $cfg;
+			$object->db = $db;
+			$object->interfaceName = $name;
+			$object->name = $name;
+			$object->query = $query;
+			$object->fields = $fields;
+			$object->_init();
+			self::$registry[$name] = $object;
+			return $object;
+		}
+		catch(Exception $e)
+		{
+			throw new Exception('Can`t set data interface for query: ' . $e->getMessage());
+		}
+	}
 	
 	/**
 	*	Получить экземпляр класса указанного DI
@@ -139,9 +201,25 @@ class data_interface extends base_interface
 			}
 			else
 			{
-				throw new Exception("Can't instantiate class$name couse set_instance returns false. Obviously class not presented.");
+				throw new Exception("Can't instantiate class $name couse set_instance returns false. Obviously class not presented.");
 			}
 		}
+		return self::$registry[$name];
+	}
+	
+	/**
+	*	Получить экземпляр класса указанного Запроса
+	* @static
+	* @param string $name Имя запроса
+	*/
+	public static function get_query($name)
+	{
+		if (empty($name))
+			throw new Exception('The name of query not present.');
+
+		if (!isset(self::$registry[$name]))
+			throw new Exception("The query '$name' not exists.");
+
 		return self::$registry[$name];
 	}
 	
