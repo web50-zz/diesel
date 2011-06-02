@@ -10,7 +10,13 @@
 try
 {
 	// NOTE: If defined authentication data interface and user not logged in
+	/* 9* старый вариант не рубил отдачу файлов по сслке /files/?id=6 например в случае  если юзер не залогинен
+	 и вот потому  дополнительно условие если аутх мое публик то на pub_ не будем руибить доступ ибо это публик по дефолту
+
+
 	if (defined('AUTH_DI') && !authenticate::is_logged())
+	*/
+	if (defined('AUTH_DI') && !authenticate::is_logged()&&AUTH_MODE != 'public')//9* new 30052011 см выше коменты
 	{
 		// Then send error
 		response::send('Session closed. Authorization needed.', 'error');

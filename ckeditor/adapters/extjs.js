@@ -7,7 +7,7 @@ Ext.form.CKEditor = function(config){
 	this.onBeforeDestroy = function() {
 		if(Ext.isIE){
 	//9* some troubles in Firefox with destroy below but IE8 troubles if  we not do such action so only for IE
-			this.ckEditor.destroy();
+	// 9* in IE8 now this method rises error so commented 30052011			this.ckEditor.destroy();
 		}
 	}
 	Ext.applyIf(config.listeners, {
