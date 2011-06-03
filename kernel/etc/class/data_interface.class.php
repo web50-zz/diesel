@@ -671,7 +671,10 @@ class data_interface extends base_interface
 
 		$order = $this->get_args(array('sort', 'dir'));
 		if (!empty($order))
-			$this->set_order($order['sort'], $order['dir']);
+		{
+			$di = (!in_array($order['sort'], array_keys($this->fields))) ? null : $this;
+			$this->set_order($order['sort'], $order['dir'], $di);
+		}
 
 		$limit = $this->get_args(array('start', 'limit'));
 		if (!empty($limit))
