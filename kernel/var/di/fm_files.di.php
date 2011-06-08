@@ -65,7 +65,7 @@ class di_fm_files extends data_interface
 		}
 	}
 	
-	private function get_file($id)
+	public function get_file($id)
 	{
 		$sql = 'SELECT * FROM `'.$this->name.'` WHERE `id` = ' . intval($id);
 		$this->_get($sql);
