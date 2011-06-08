@@ -655,10 +655,11 @@ class data_interface extends base_interface
 	* @access	public
 	* @param	boolean|array	$fields		Массив полей для выборки, если FALSE, то выбираются все поля
 	* @param	boolean		$with_response	Если TRUE то автоматически отсылается JSON-пакет
+	* @param	boolean		$flush		Сделать FLUSH
 	*/
-	public function extjs_grid_json($fields = false, $with_response = true)
+	public function extjs_grid_json($fields = false, $with_response = true, $flush = false)
 	{
-		$this->_flush();
+		if ($flush) $this->_flush();
 		$data = array();
 		
 		//$this->what = 'COUNT(*) AS `total`';
