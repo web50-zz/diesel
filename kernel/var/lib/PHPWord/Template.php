@@ -64,7 +64,9 @@ class PHPWord_Template {
      */
     public function __construct($strFilename) {
         $path = dirname($strFilename);
-        $this->_tempFileName = $path.time().'.docx';
+	$i = 0;
+	do {$this->_tempFileName = $path . "/" . time() . ($i++) . '.docx';} while(file_exists($this->_tempFileName));
+        
         
         copy($strFilename, $this->_tempFileName); // Copy the source File to the temp File
 
@@ -72,6 +74,10 @@ class PHPWord_Template {
         $this->_objZip->open($this->_tempFileName);
         
         $this->_documentXML = $this->_objZip->getFromName('word/document.xml');
+
+	/**FIX: 2011-06-11 Anthon S Litvinenko <a.litvinenko@web50.ru>
+		Replace tags between Values names */
+	$this->_documentXML = preg_replace_callback('|\$\{[^}]*}|', create_function('$matches', 'return strip_tags($matches[0]);'), $this->_documentXML);
     }
     
     /**
@@ -79,13 +85,14 @@ class PHPWord_Template {
      * 
      * @param mixed $search
      * @param mixed $replace
+     * @param bool  $encode
      */
-    public function setValue($search, $replace) {
+    public function setValue($search, $replace, $encode = true) {
         if(substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
             $search = '${'.$search.'}';
         }
         
-        if(!is_array($replace)) {
+        if(!is_array($replace) && $encode) {
             $replace = utf8_encode($replace);
         }
         
