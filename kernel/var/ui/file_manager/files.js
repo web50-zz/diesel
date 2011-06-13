@@ -184,6 +184,7 @@ var Files = function(config){
 			handler: file2ck.createDelegate(this, [id, row.get('title')]), disabled: !self.fck},
 			{iconCls: 'image', text: 'Посмотреть',
 			handler: this.showImage.createDelegate(this, [id, row.get('title')]), disabled: !/^image/.test(row.get('type'))},
+			{iconCls: 'link', text: 'Скачать', handler: function(){document.location = '/files/?id='+id+'&download'}},
 			'-',
 			{iconCls: 'image_edit', text: 'Редактировать',
 			handler: this.editFile.createDelegate(this, [id])},
