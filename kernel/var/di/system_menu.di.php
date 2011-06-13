@@ -195,6 +195,13 @@ class di_system_menu extends data_interface
 		{
 			if ($record->left > $left && $record->right < $right && $record->level == $level)
 			{
+				if($record->text == CURRENT_USER)
+				{
+					$di =  data_interface::get_instance('user');
+					$usr = $di->get_user();
+					$record->text = $usr['name'].' ('.UID.')';
+				}
+
 				if ($record->left + 1 < $record->right)
 				{
 					$slice[] = array('text' => $record->text, 'icon' => $record->icon, 'menu' => $this->process_slice($results, $record->left, $record->right, $record->level + 1));
