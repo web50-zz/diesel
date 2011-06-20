@@ -1,5 +1,37 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: site4
+-- ------------------------------------------------------
+-- Server version	5.0.51a-24+lenny4
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Dumping data for table `system_menu`
+--
+
 LOCK TABLES `system_menu` WRITE;
 /*!40000 ALTER TABLE `system_menu` DISABLE KEYS */;
-INSERT INTO `system_menu` VALUES (1,0,'root','','','','',1,92,1),(2,0,'Запросы','comment','logistic_request','main','',55,56,3),(3,0,'Заявки','folder_page','logistic_order','main','',57,58,3),(4,0,'Справочники','book','','','',45,54,3),(5,0,'Услуги','book','services','main','',46,47,4),(6,0,'Контрагенты','lorry','contractor','main','',48,49,4),(7,0,'Приложения','application_double','','','',62,75,2),(8,0,'Файл-менеджер','application_view_tile','file_manager','main','',63,64,3),(9,0,'Администрирование','shield','','','',76,85,2),(10,0,'Системное меню','chart_organisation','system_menu','main','',77,78,3),(11,0,'Пользователи','user','user','main','',79,80,3),(12,0,'Группы','group','group','main','',81,82,3),(13,0,'Безопасность','shield','security','main','',83,84,3),(14,0,'Страницы помощи','help','help','main','',86,87,2),(15,1,'->','','','','',88,89,2),(16,0,'Выход','logout','','','/xxx/login/?cll=logout',90,91,2),(19,0,'Структура','chart_organisation','structure','main','',4,5,2),(20,1,'Маркет','application_double','','','',6,43,2),(21,0,'Каталог','layout','catalogue','main','',29,30,3),(22,0,'Заказы','coins','order','main','',31,32,3),(23,1,'Справочники','book_open','','','',7,28,3),(24,0,'Производители','book_open','guide','group','',8,9,4),(25,0,'Тэги','book_open','guide','style','',12,13,4),(26,0,'Коллекции','book_open','guide','collection','',10,11,4),(27,0,'Типы товара','book_open','market_types','main','',14,15,4),(28,1,'Логистика','lorry','','','',44,59,2),(29,0,'Ценовые категории','book_open','guide','price','',16,17,4),(30,0,'Страны и регионы','world','country_regions','main','',22,23,4),(33,0,'Почтовые зоны','map','guide','post_zone','',20,21,4),(32,0,'Валюты','money','guide','currency','',18,19,4),(34,0,'Способы оплаты','book_open','guide','pay_type','',24,25,4),(47,0,'Производитель MACRO','world','guide','producer','',26,27,4),(36,0,'Новости','newspaper','news','main','',65,66,3),(37,0,'Текст','page_white','text','main','',67,68,3),(38,0,'FAQ','book_open','faq','main','',69,70,3),(39,0,'Гоcтевая','book_open','guestbook','main','',71,72,3),(40,0,'Рассылки','book_open','subscribe','main','',73,74,3),(41,0,'Клиенты','book_open','market_clients','main','',33,34,3),(42,0,'Рекомендуемое','book_open','market_recomendations','main','',35,36,3),(43,0,'Новинки','book_open','market_latest','main','',37,38,3),(44,0,'Новинки расширенно','book_open','market_latest_long','main','',39,40,3),(46,0,'Скоро в продаже','book_open','market_soon','main','',41,42,3),(48,0,'dbUtil','book_open','util_db','main','',2,3,2),(49,0,'Фотогалери','book_open','photoalbum','main','',60,61,2),(50,0,'Персонал','report_user','personnel','main','',50,51,4),(51,0,'Штатное расписание','user_gray','staff_list','main','',52,53,4);
+INSERT INTO `system_menu` VALUES (1,0,'root','','','','',1,24,1),(7,0,'Приложения','application_double','','','',2,5,2),(8,0,'Файл-менеджер','application_view_tile','file_manager','main','',3,4,3),(9,0,'Администрирование','shield','','','',6,17,2),(10,0,'Системное меню','chart_organisation','system_menu','main','',7,8,3),(11,0,'Пользователи','user','user','main','',9,10,3),(12,0,'Группы','group','group','main','',11,12,3),(13,0,'Безопасность','shield','security','main','',13,14,3),(14,0,'Страницы помощи','help','help','main','',18,19,2),(15,1,'->','','','','',20,21,2),(16,0,'Выход','logout','','','/xxx/login/?cll=logout',22,23,2),(48,0,'Database Util','book_open','util_db','main','',15,16,3);
 /*!40000 ALTER TABLE `system_menu` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2011-06-20 18:24:49

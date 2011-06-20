@@ -8,4 +8,4 @@ CREATE TABLE `entry_point` (
   PRIMARY KEY  (`id`),
   KEY `exist` (`exist`),
   KEY `interface_id` (`interface_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=808 DEFAULT CHARSET=utf8
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
