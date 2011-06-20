@@ -1,0 +1,58 @@
+SBIN DIESEL Short install guide
+======================================
+After deployment distributon from archive or .git repo take a look on file cmd_init.php.
+It's kernel install script. Berfore execute this file you should go through some steps.
+
+*1 Create empty MySQL database.
+*2 Create DB user or take already existed.
+*3 Grant him all privileges on new database
+*4 copy files listed below to 'etc' folder located on the root of the  distrubution three.
+
+ kernel/etc/conf/cache.cfg.php
+ kernel/etc/conf/db.cfg.php
+ kernel/etc/conf/instance.cfg.php
+ kernel/etc/conf/site.cfg.php
+ kernel/etc/conf/theme.cfg.php
+
+*5 Next you should edit  files copied to 'etc/' folder. Let's see how it can be done.
+
+  First you should edit db.cfg.php. 
+  You must enter:
+	  database user
+	  database password
+	  database name
+ For details see into the db.cfg.php
+
+ Next you should check for instances installed.
+ Because no instances shipped with kernel by default, you can safely skip this step :). 
+ For instance deployment instructions refer to instance manual.
+ And that is all about config.
+
+*6 So, we have configured database and ready db config file.
+   And now you can just execute cmd_init.php on the root of distribution.
+   This script will load tables and defaut data to database which you've pointed in db.cfg.php
+
+*7 Now you can find admin panel at http://yoursite/xxx path. 
+
+	Global user login cridentials:
+	user: admin
+	password: admin
+
+After login you will see Applications Administration and Helper menu points.
+Most of the interfaces will be intuitively understandable. 
+So no more istructions. Go and get some.
+
+!!!!DO NOT FORGET TO REMOVE cmd_init.php and cmd_dump.php. 
+It's potentially dangerous for your data.
+
+
+---------------------------------
+Thank you for interest.
+
+Sincerely yours SBIN DIESEL Dev Team
+http://www.web50.ru
+
+ 
+ 
+  
+  
