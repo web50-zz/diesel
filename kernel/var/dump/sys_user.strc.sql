@@ -13,4 +13,4 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY  (`id`),
   KEY `account_id` (`login`,`passw`),
   KEY `hash` (`hash`)
-) ENGINE=MyISAM AUTO_INCREMENT=20716 DEFAULT CHARSET=utf8 COMMENT='System user'
+) ENGINE=MyISAM AUTO_INCREMENT=20718 DEFAULT CHARSET=utf8 COMMENT='System user'
