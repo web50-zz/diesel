@@ -107,6 +107,12 @@ class connector_mysql
 
 	/**
 	* @access	public
+	* @var	bool	$emptyZeroDate	Нулевые даты возвращать в виде пустой строки
+	*/
+	public $emptyZeroDate = true;
+
+	/**
+	* @access	public
 	* @var	boolean	$debug		Записать запрос в debug-файл
 	*/
 	public $debug = FALSE;
@@ -507,8 +513,13 @@ class connector_mysql
 				if ($field == '*')
 				// Добавить все имеющиеся поля в DI
 				{
-					foreach (array_keys($this->di->fields) as $sFld)
-						$set[] = "`{$name}`.`{$sFld}`";
+					foreach ($this->di->fields as $sFld => $pFld)
+					{
+						if ($this->emptyZeroDate && $pFld['type'] == 'date')
+							$set[] = "IF(`{$name}`.`{$sFld}` = '0000-00-00', '', `{$name}`.`{$sFld}`) AS `{$sFld}`";
+						else
+							$set[] = "`{$name}`.`{$sFld}`";
+					}
 				}
 				elseif (is_string($field) && preg_match('/^[!](\w+)$/', $field, $matches) && ($n = array_search("`{$name}`.`{$matches[1]}`", $set)) !== FALSE)
 				// Удалить поле из списка имеющихся полей
@@ -538,7 +549,13 @@ class connector_mysql
 					}
 					else if (preg_match('/^\w+$/', $field))
 					{
-						$field = "`{$name}`.`{$field}`";
+						if ($this->emptyZeroDate && $this->di->fields[$field]['type'] == 'date')
+						{
+							$alias = $field;
+							$field = "IF(`{$name}`.`{$field}` = '0000-00-00', '', `{$name}`.`{$field}`)";
+						}
+						else
+							$field = "`{$name}`.`{$field}`";
 					}
 					else if ($field == '*')
 					{
