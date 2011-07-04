@@ -110,7 +110,7 @@ class base_interface
 					$results[$var_name] = $default[$var_name];
 				else if (is_array($default) && isset($default[$n]))
 					$results[$var_name] = $default[$n];
-				else if ($default)
+				else if (!is_null($default))
 					$results[$var_name] = $default;
 			}
 		}
