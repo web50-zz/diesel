@@ -53,6 +53,11 @@ var App = function(config){
 		Ext.namespace("ui."+appName);
 
 		if (!(classExists("ui."+appName+"."+appFace) || eval("typeof(ui."+appName+"."+appFace+")") == 'object')){
+			if (this.waitMsg && typeof(this.loadMask) != 'object'){
+				this.loadMask = new Ext.LoadMask(Ext.getBody(), {msg: this.waitMsg});
+				this.loadMask.show();
+			}
+
 			if (!depChecked){
 				checkForDependencies(appName, appFace);
 			}else{
@@ -102,12 +107,15 @@ var App = function(config){
 							}
 						},
 						deperror: function(errMsg){
+							if (typeof(this.loadMask) == 'object') this.loadMask.hide();
 							this.fireEvent('apperror', errMsg);
 						},
 						apploaded: function(appName, appFace){
+							if (typeof(this.loadMask) == 'object') this.loadMask.hide();
 							//loadMask.hide();
 						},
 						apperror: function(msg){
+							if (typeof(this.loadMask) == 'object') this.loadMask.hide();
 							showError(new Ext.Template(msg).apply({name: appName, face: appFace}));
 							//loadMask.hide();
 						},
@@ -117,6 +125,7 @@ var App = function(config){
 				}
 			}
 		}else{
+			if (typeof(this.loadMask) == 'object') this.loadMask.hide();
 			this.fireEvent('apploaded', [appName, appFace]);
 		}
 	}
@@ -129,6 +138,7 @@ var App = function(config){
 	});
 	this.on({
 		deperror: function(errMsg){
+			if (typeof this.loadMask == 'object') this.loadMask.hide();
 			this.fireEvent('apperror', errMsg);
 		},
 		scope: this

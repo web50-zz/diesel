@@ -35,12 +35,11 @@ ui.administrate.main = function(config){
 		if (item.appName && item.appFace){
 			var appId = 'app-'+item.appName+'-'+item.appFace;
 			var appClass = 'ui.'+item.appName+'.'+item.appFace;
-			var app = new App();
-			var loadMask = new Ext.LoadMask(Ext.getBody(), {msg: 'Загрузка приложения "'+item.text+'"'});
-			loadMask.show();
+			var app = new App({
+				waitMsg: 'Загрузка приложения "'+item.text+'"'
+			});
 			app.on({
 				apploaded: function(){
-					loadMask.hide();
 					var tab = ws.getComponent(appId);
 					if (tab != undefined){
 						ws.setActiveTab(tab);
@@ -57,7 +56,6 @@ ui.administrate.main = function(config){
 					}
 				},
 				apperror: function(msg){
-					loadMask.hide();
 					showError(msg);
 				}
 			});
