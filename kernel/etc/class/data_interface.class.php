@@ -119,7 +119,7 @@ class data_interface extends base_interface
 	/**
 	*	Constructor which MUST be called from derived Class Constructor
 	*/
-	protected function __construct($strDerivedClassNam = null)
+	protected function __construct($strDerivedClassName = null)
 	{
 		if (!$strDerivedClassName) $strDerivedClassName = __CLASS__;
 		parent::__construct($strDerivedClassName);
