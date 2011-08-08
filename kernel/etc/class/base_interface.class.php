@@ -93,8 +93,9 @@ class base_interface
 	*	Get arguments
 	* @access	public
 	* @param	boolean|string	$name	Get argument by name
+	* @param	boolean		$simple	Return simple array without keys, only values
 	*/
-	public function get_args($name = NULL, $default = NULL)
+	public function get_args($name = NULL, $default = NULL, $simple = FALSE)
 	{
 		//return ($ind !== false) ? $this->args[$ind] : (array)$this->args;
 		$results = array();
@@ -105,13 +106,33 @@ class base_interface
 			foreach ($name as $n => $var_name)
 			{
 				if (isset($this->args[$var_name]))
-					$results[$var_name] = $this->args[$var_name];
+				{
+					if ($simple)
+						$results[] = $this->args[$var_name];
+					else
+						$results[$var_name] = $this->args[$var_name];
+				}
 				else if (is_array($default) && isset($default[$var_name]))
-					$results[$var_name] = $default[$var_name];
+				{
+					if ($simple)
+						$results[] = $default[$var_name];
+					else
+						$results[$var_name] = $default[$var_name];
+				}
 				else if (is_array($default) && isset($default[$n]))
-					$results[$var_name] = $default[$n];
-				else if (!is_null($default))
-					$results[$var_name] = $default;
+				{
+					if ($simple)
+						$results[] = $default[$n];
+					else
+						$results[$var_name] = $default[$n];
+				}
+				else if ($default)
+				{
+					if ($simple)
+						$results[] = $default;
+					else
+						$results[$var_name] = $default;
+				}
 			}
 		}
 		else if (isset($this->args[$name]))
