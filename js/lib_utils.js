@@ -28,7 +28,7 @@ function showHelp(name){
 				});
 				w.show();
 			}else
-				showError(d.errors || 'Не удалось найти страницу помощи.');
+				showError(d.errors || 'Не удалось найти страницу помощи для "'+name+'".');
 		}
 	});
 }
