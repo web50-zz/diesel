@@ -126,7 +126,7 @@ class base_interface
 					else
 						$results[$var_name] = $default[$n];
 				}
-				else if ($default)
+				else if (!is_null($default))
 				{
 					if ($simple)
 						$results[] = $default;
