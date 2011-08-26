@@ -671,6 +671,10 @@ class connector_mysql
 					{
 						$str = "{$name}.{$field} IN (" . join(", ", array_map('intval', $this->_args['_s'.$sField])) . ")";
 					}
+					else if (strpos($this->_args['_s'.$sField], ',') !== FALSE)
+					{
+						$str = "{$name}.{$field} IN (" . join(", ", array_map('intval', explode(",", $this->_args['_s'.$sField]))) . ")";
+					}
 					else if ('null' != strtolower($this->_args['_s'.$sField]))
 					{
 						$str = "{$name}.{$field} = :_s{$sField}";
@@ -683,7 +687,20 @@ class connector_mysql
 				}
 				else if (isset($this->_args['_n'.$sField]))
 				{
-					if ('null' != strtolower($this->_args['_n'.$sField]))
+					if ($this->_prepare_mode == 'NESTED_SETS_SLICE' && $params['serial'])
+					{
+						$str = "{$name}_parent.{$field} <> :_n{$sField}";
+						$this->_where_values['_n'.$sField] = intval($this->_args['_n'.$sField]);
+					}
+					else if (is_array($this->_args['_n'.$sField]))
+					{
+						$str = "{$name}.{$field} NOT IN (" . join(", ", array_map('intval', $this->_args['_n'.$sField])) . ")";
+					}
+					else if (strpos($this->_args['_n'.$sField], ',') !== FALSE)
+					{
+						$str = "{$name}.{$field} NOT IN (" . join(", ", array_map('intval', explode(",", $this->_args['_n'.$sField]))) . ")";
+					}
+					else if ('null' != strtolower($this->_args['_n'.$sField]))
 					{
 						$str = "{$name}.{$field} <> :_n{$sField}";
 						$this->_where_values['_n'.$sField] = intval($this->_args['_n'.$sField]);
