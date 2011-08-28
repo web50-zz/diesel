@@ -628,6 +628,22 @@ class data_interface extends base_interface
 	{
 		return $this->connector->_clear();
 	}
+
+	/**
+	*	Преобразовать строчку с записями в массив
+	* @access	public
+	* @param	string	$field_name	Имя поля, для преобразования
+	* @return	array	Массив записей, либо FALSE, если данное поле отсутствует в списке входящих аргументов
+	*/
+	public function extjs_collect_records($field_name = 'records')
+	{
+		$records = $this->get_args($field_name, false);
+		if ($records{0} == '{') $records = "[{$records}]";
+		if ($records)
+			return (array)json_decode($records, true);
+		else
+			return FALSE;
+	}
 	
 	/**
 	*	Сформировать XML-пакет для ExtJS-формы
