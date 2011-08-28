@@ -151,7 +151,7 @@ class base_interface
 	public function push_args($args)
 	{
 		$this->args_stack[] = $this->args;
-		$this->args = $args;
+		$this->args = (array)$args;
 	}
 	
 	/**
