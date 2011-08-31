@@ -1058,6 +1058,8 @@ class connector_mysql
 				$mode = 'upd';
 				$sql = $this->_prepare_update();
 				$values = array_merge($this->_where_values, $this->_fields_values);
+				if (($ids = $this->_get_changed_id()) !== false)
+					$this->di->set_lastChangedId($ids);
 			}
 			else if ($this->di->insert_on_empty == true)
 			// NOTE: Записей по данным условиям не найдено, поэтому добавляем их, согласно флагу
@@ -1077,9 +1079,6 @@ class connector_mysql
 		
 		if ($mode == 'ins')
 			$this->di->set_lastChangedId($this->dbh->lastInsertId());
-		else if ($mode == 'upd')
-			if (($ids = $this->_get_changed_id()) !== false)
-				$this->di->set_lastChangedId($ids);
 	}
 	
 	/**
