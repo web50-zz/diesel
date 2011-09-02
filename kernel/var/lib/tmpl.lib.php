@@ -346,6 +346,8 @@ class tmpl
 		
 		$results = preg_replace_callback('/{__echo\((.+?)\)__}/', array(&$this, '_parse_echo'), $results);
 		
+		$results = preg_replace_callback('/{__parse\((.+?)\)__}/', array(&$this, '_parse_parse'), $results);
+		
 		$results = preg_replace_callback('/{__((?:#|@|\$)?\w+)__}/', array(&$this, '_parse_variable'), $results);
 		
 		$results = preg_replace_callback('/{__((?:#|@|\$|\/)(.+?))__}/', array(&$this, '_parse_variable'), $results);
@@ -720,6 +722,21 @@ class tmpl
 		$results = $this->_parse_line($args[1]);
 		@eval('$results = ' . $results . ';');
 		return $results;
+	}
+	
+	/**
+	*	Анализ шаблона вида {__parse(шаблон, указатель)__}
+	*
+	* @param	string	$args	Результат работы регулярного выражения
+	*				[1] => Шаблон
+	* @see	this::parse()
+	*/
+	private function _parse_parse($args)
+	{
+		$tmpl = $this->_parse_line($args[1]);
+		@eval('$tmpl = ' . $tmpl . ';');
+		$parser = $this->__create_tmpl_obj($tmpl);
+		return $parser->parse($this->local_data);
 	}
 	
 	/**
