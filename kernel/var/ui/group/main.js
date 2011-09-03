@@ -36,15 +36,23 @@ ui.group.main = function(config){
 	}.createDelegate(this);
 	var Permissions = function(){
 		var gid = this.getSelectionModel().getSelected().get('id');
-		var i1 = new ui.security.interfaces({title: 'Доступные', region: 'east', width: 512, split: true,
+		var i1 = new ui.security.interfaces({title: 'Доступные', flex: 1,
 			ddGroup: 'available',
 			enableDragDrop: true});
-		var i2 = new ui.security.interfaces({title: 'Назначенные', region: 'center',
+		var i2 = new ui.security.interfaces({title: 'Назначенные', flex: 1,
 			ddGroup: 'enabled',
 			enableDragDrop: true});
-		var w = new Ext.Window({title: this.permTitle, modal: true, layout: 'border', width: 1024, height: 600,
+		var w = new Ext.Window({
+			title: this.permTitle,
+			modal: true,
+			maximizable: true,
+			resizable: true,
+			width: 1024,
+			height: 600,
 			tbar: ['->', {iconCls: 'help', handler: function(){showHelp('add-user-to-group')}}],
-			items: [i2, i1]});
+			layout: 'hbox', flex: 1, layoutConfig: {align: 'stretch'},
+			items: [i2, i1]
+		});
 		i1.store.baseParams = {gid: gid, _sgid: 'null'};
 		i2.store.baseParams = {gid: gid, _ngid: 'null'};
 		i2.addEvents('interfaces_added', 'interfaces_removed');
