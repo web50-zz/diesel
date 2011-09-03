@@ -79,7 +79,7 @@ class di_entry_point extends data_interface
 			//$this->args["_sinterface_name"] = "%{$this->args['query']}%";
 			$aep = $this->get_alias();
 			$ait = $in->get_alias();
-			$where[] = "(`{$aep}`.`name` LIKE '%{$this->args['query']}%'  OR `{$ait}`.`human_name` LIKE '%{$this->args['query']}%')";
+			$where[] = "(`{$aep}`.`name` LIKE '{$this->args['query']}'  OR `{$ait}`.`human_name` LIKE '{$this->args['query']}')";
 		}
 
 		$this->where = join(' AND ', $where);
