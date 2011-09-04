@@ -55,6 +55,10 @@ class xml2xls
 					{
 						$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight($td['height']);
 					}
+					if ($td['width'] > 0)
+					{
+						$objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth($td['width']);
+					}
 					//9* <td border="1"> //9* пока только бордер может быть равен 1, автоматом делает аутлайн и THIN  других бордеров пока не поддереживаем
 					if($td['border'] >0)
 					{
