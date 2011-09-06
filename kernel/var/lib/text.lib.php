@@ -189,7 +189,13 @@ class text
 		(
 			1 => array(1 => 'год', 'года', 'году', 'год', 'годом', 'годе'), // ед.ч. (1)
 			array(1 => 'года', 'лет', 'годам', 'года', 'годами', 'годах') // мн.ч. (2-4) + мн.ч. (11-19, х5-х0)
-		)
+		),
+
+		'months' => array(
+			1 => array(1 => 'январь', 2 => 'февраль', 3 => 'март', 4 => 'апрель', 5 => 'май', 6 => 'июнь', 7 => 'июль', 8 => 'август', 9 => 'сентябрь', 10 => 'октябрь', 11 => 'ноябрь', 12 => 'декабрь'),
+			2 => array(1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля', 5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа', 9 => 'сентября', 10 => 'октября', 11 => 'ноября', 12 => 'декабря'),
+			3 => array(1 => 'ЯНВ', 2 => 'ФЕВ', 3 => 'МАР', 4 => 'АПР', 5 => 'МАЙ', 6 => 'ИЮН', 7 => 'ИЮЛ', 8 => 'АВГ', 9 => 'СЕН', 10 => 'ОКТ', 11 => 'НОЯ', 12 => 'ДЕК'),
+		),
 	);
 
 	public function __construct()
@@ -277,14 +283,12 @@ class text
 	*/
 	public static function mysql_date_format($date = '', $format = 'd.m.Y H:i:s', $case = 1)
 	{
-		global $VARS;
-
 		if ($date == '' || $date == '0000-00-00' || $date == '0000-00-00 00:00:00' || $date == '0') return;
 
-		$parts_datetime = split(' ', $date);
-		$parts_date = split('-', $parts_datetime[0]);
+		$parts_datetime = explode(' ', $date);
+		$parts_date = explode('-', $parts_datetime[0]);
 
-		if ($parts_datetime[1]) $parts_time = split(':', $parts_datetime[1]);
+		$parts_time = ($parts_datetime[1]) ? explode(':', $parts_datetime[1]) : array();
 		$parts = array_merge($parts_date, $parts_time);
 
 		if (preg_match('/d/', $format))
@@ -299,10 +303,10 @@ class text
 
 		// Месяц прописью
 		if (strstr($format, 'F'))
-			$format = str_replace('F', $VARS['LANG']['MONTHS'][2][sprintf('%d', $parts[1])], $format);
+			$format = str_replace('F', self::$LIBTEXT_GLOBALS['months'][2][sprintf('%d', $parts[1])], $format);
 
 		if (strstr($format, 'M'))
-			$format = str_replace('M', $VARS['LANG']['MONTHS'][3][sprintf('%d', $parts[1])], $format);
+			$format = str_replace('M', self::$LIBTEXT_GLOBALS['months'][3][sprintf('%d', $parts[1])], $format);
 
 		if (preg_match('/m/', $format))
 			$format = preg_replace('/m/', $parts[1], $format);
@@ -819,7 +823,7 @@ class text
 			$_S = '';
 			$_o = intval($matches[1]);
 			$aX = self::$LIBTEXT_GLOBALS['currency'][$currency];
-			$_f = (!empty($matches[2])) ? intval(substr($matches[2], 0, 2)) : 0;
+			$_f = sprintf("%02d", (!empty($matches[2])) ? intval(substr($matches[2], 0, 2)) : 0);
 			$_F = ($_f > 0) ? $_f : '';
 			$_n = number_format($sum, 2, ',', ' ');
 			$_N = ($_f > 0) ? $_n : number_format(intval($sum), 0, 0, ' ');
@@ -828,7 +832,7 @@ class text
 			$x = text::numtostr($_o, 1, $case, 1, 1, $aX);
 			if (!empty($aX))
 			{
-				$x = split(' ', $x);
+				$x = explode(' ', $x);
 				$_c = array_pop($x);
 				$_C = ucfirst($_c);
 				$_i = join(' ', $x);
@@ -844,12 +848,17 @@ class text
 			{
 				if ($y)
 				{
-					$y = split(' ', $y);
+					$y = explode(' ', $y);
 					$_s = array_pop($y);
 					$_S = ucfirst($_s);
 					$_d = join(' ', $y);
 					$_D = ucfirst($_d);
 					$_p = $dec . '/100';
+				}
+				else if ($_f == '00')
+				{
+					$_s = $aY['2']['2'];
+					$_S = ucfirst($_s);
 				}
 			}
 			else
