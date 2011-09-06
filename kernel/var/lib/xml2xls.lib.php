@@ -135,13 +135,21 @@ class xml2xls
 					// Anthon S Litvinenko <a.litvinenko@web50.ru> - Если объединение только колонок
 					if ($td['colspan'] > 0 && !$td['rowspan'])
 					{
+						$ocol = $col;
 						$col = $col + ($td['colspan'] - 1);
 						$merge_to_cell =  $objPHPExcel->getActiveSheet()->getCellByColumnAndRow($col, $row);
 						$coord1 = $current_cell->getCoordinate();
 						$coord2 = $merge_to_cell->getCoordinate();
 						$objPHPExcel->getActiveSheet()->mergeCells("$coord1:$coord2");
-						if (!empty($cellStyle['borders']['right']))
-							$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($col, $row)->getBorders()->getRight()->setBorderStyle($cellStyle['borders']['right']['style']);
+						for ($c = $ocol + 1; $c < $ocol + $td['colspan']; $c++)
+						{
+							if ($c == ($ocol + $td['colspan'] - 1) && !empty($cellStyle['borders']['right']))
+								$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($c, $row)->getBorders()->getRight()->setBorderStyle($cellStyle['borders']['right']['style']);
+							if (!empty($cellStyle['borders']['top']))
+								$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($c, $row)->getBorders()->getTop()->setBorderStyle($cellStyle['borders']['top']['style']);
+							if (!empty($cellStyle['borders']['bottom']))
+								$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($c, $row)->getBorders()->getBottom()->setBorderStyle($cellStyle['borders']['bottom']['style']);
+						}
 					}
 					// Anthon S Litvinenko <a.litvinenko@web50.ru> - Если объединение только строк
 					else if ($td['rowspan'] > 0 && !$td['colspan'])
