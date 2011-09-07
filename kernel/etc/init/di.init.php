@@ -29,7 +29,7 @@ try
 }
 catch(Exception $e)
 {
-	dbg::write("REQUEST_URI: {$_SERVER['REQUEST_URI']}\n" . $e->getMessage() . "\n" . $e->getTraceAsString(), LOG_PATH . 'di_errors.log');
+	dbg::write("UID: " . UID . "\nREQUEST_URI: {$_SERVER['REQUEST_URI']}\n" . $e->getMessage() . "\n" . $e->getTraceAsString(), LOG_PATH . 'di_errors.log');
 	response::send('Error while process request.', 'error');
 }
 ?>
