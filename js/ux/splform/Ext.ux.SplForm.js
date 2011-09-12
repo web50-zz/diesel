@@ -3,9 +3,9 @@ Ext.ns('Ext.ux');
 /**
  * @class Ext.ux.SplForm
  * @extends Ext.util.Observable
- * Simple form combo with all intaracts, and server side form template
+ * Simple form combo with all interacts, and server side form template
  * @author 9* all.universe9@gmail.com 
- * @version 1.0
+ * @version 1.2
  * @singleton
  *
  */
@@ -14,6 +14,8 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 
 	wrapid: 'frmwrap',
 	wrapcls : 'frmwrap',
+	overid:'oeover',
+	overlaycls:'oeoverlay',
 	button_close_cls : '.closebt',
 	button_submit_cls: '.sbbt',
 	form_id: 'ffqf',
@@ -62,7 +64,7 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 				var obj = Ext.decode(response.responseText);
 				if(obj.code == '400')
 				{
-					AlertBox.show("Внимание", obj.error, 'none', {dock: 'top'});
+					AlertBox.show(" ", obj.error, 'none', {dock: 'top'});
 				}
 				if(obj.code == '200')
 				{
@@ -80,7 +82,14 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 		if(this.frm == true){
 			return;
 		}
-		var dh = Ext.DomHelper; 
+		var dh = Ext.DomHelper;
+		var overlay={
+			id:this.overid,
+			tag:'div',
+			cls:this.overlaycls
+		};
+		var over = dh.append(document.body,overlay);
+		over.innerHTML = '&nbsp;';
 		var spec ={
 		id:this.wrapid,
 		tag:'div',
@@ -111,6 +120,10 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 				if(el1){
 					el1.remove();
 				}
+				var el2 = Ext.fly(this.overid);
+				if(el2){
+					el2.remove();
+				}
 				this.frm = false;
 				this.height = false;
 				this.width = false;
@@ -132,10 +145,21 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 	afterMakeFrm: function()
 	{
 	},
-
+// close window here or redirect to elsewhere
 	authism : function()
 	{
-		window.location="";
+			var el1 = Ext.fly(this.wrapid);
+			if(el1){
+				el1.remove();
+				}
+			var el2 = Ext.fly(this.overid);
+			if(el2){
+				el2.remove();
+			}
+			this.frm = false;
+			this.height = false;
+			this.width = false;
+//		window.location="";
 	},
 // 9* subit the box and handle errors. After submit page will be refreshed
 	handleSubmit : function(){
@@ -165,7 +189,7 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 				var obj = Ext.decode(response.responseText);
 				if(obj.code == '400')
 				{
-					AlertBox.show("Внимание", obj.error, 'none', {dock: 'top'});
+					AlertBox.show(" ", obj.error, 'none', {dock: 'top'});
 				}
 				if(obj.code == '200')
 				{
