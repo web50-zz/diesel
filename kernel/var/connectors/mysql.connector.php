@@ -517,6 +517,8 @@ class connector_mysql
 					{
 						if ($this->emptyZeroDate && $pFld['type'] == 'date')
 							$set[] = "IF(`{$name}`.`{$sFld}` = '0000-00-00', '', `{$name}`.`{$sFld}`) AS `{$sFld}`";
+						else if ($this->emptyZeroDate && $pFld['type'] == 'datetime')
+							$set[] = "IF(`{$name}`.`{$sFld}` = '0000-00-00 00:00:00', '', `{$name}`.`{$sFld}`) AS `{$sFld}`";
 						else
 							$set[] = "`{$name}`.`{$sFld}`";
 					}
@@ -553,6 +555,11 @@ class connector_mysql
 						{
 							$alias = $field;
 							$field = "IF(`{$name}`.`{$field}` = '0000-00-00', '', `{$name}`.`{$field}`)";
+						}
+						else if ($this->emptyZeroDate && $this->di->fields[$field]['type'] == 'datetime')
+						{
+							$alias = $field;
+							$field = "IF(`{$name}`.`{$field}` = '0000-00-00 00:00:00', '', `{$name}`.`{$field}`)";
 						}
 						else
 							$field = "`{$name}`.`{$field}`";
