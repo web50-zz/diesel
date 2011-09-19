@@ -55,6 +55,10 @@ Ext.ux.SplForm = Ext.extend(Ext.util.Observable, {
 	init: function(o)
 	{
 		this.configure(o);
+                if(o.content){
+		          this.makeFrmWindow(o.content);
+		          return;
+		};
 		// 9* preload css disabled this.loadCss(this.theme,'splformcss');
 		Ext.Ajax.request({
 			url: this.formUrl,
