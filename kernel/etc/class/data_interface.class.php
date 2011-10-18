@@ -441,7 +441,7 @@ class data_interface extends base_interface
 	* @param	string	$field	Имя поля
 	* @param	string	$dir	Направление сортировки ASC или DESC
 	*/
-	public function set_order($field, $dir = false, $di = null)
+	public function set_order($field, $dir = false, $di = false)
 	{
 		if ($di === false) $di = $this;
 		$dir = (!in_array(strtoupper($dir), array('ASC', 'DESC'))) ? 'ASC' : strtoupper($dir);
