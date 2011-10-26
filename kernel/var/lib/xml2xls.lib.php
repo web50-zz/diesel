@@ -19,12 +19,6 @@ class xml2xls
 	*/
 	protected $merge = array();
 
-	/**
-	* @access	protected
-	* @var	array	$merge	Матрица объединений ячеек
-	*/
-	public $path = '';
-
         public function __construct()
 	{
         }
@@ -35,59 +29,40 @@ class xml2xls
 		{
 			if (!file_exists($xml_file))
 				throw new Exception("XML-file '{$xml_file}' NOT exosts.");
-			//include LIB_PATH . 'PHPExcel/Writer/Excel2007.php';
-			$xml = new SimpleXMLElement(file_get_contents($xml_file));
+		//include LIB_PATH . 'PHPExcel/Writer/Excel2007.php';
+		$xml = new SimpleXMLElement(file_get_contents($xml_file));
 		}
-		elseif ($type == 'TEXT')
-		{
+		elseif ($type == 'TEXT') {
 			$xml = new SimpleXMLElement($xml_file);
 		}
 		else
 		{
-			throw new Exception("Wrong XML declaration");
+				throw new Exception("Wrong XML declaration");
 
 		}
-
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel->getProperties()->setCreator((string) $xml->body['creator']);
 		$objPHPExcel->getProperties()->setLastModifiedBy((string) $xml->body['creator']);
 		$objPHPExcel->getProperties()->setTitle((string) $xml->body['title']);
 		$objPHPExcel->getProperties()->setSubject((string) $xml->body['subject']);
 		$objPHPExcel->getProperties()->setDescription((string) $xml->body['description']);
-
 		$this->parse_styles($xml->body->styles);
 		//dbg::write($this->styles);
-
 		$n = 0;
 		foreach ($xml->body->table as $table)
 		{
 			if ($n > 0) $objPHPExcel->createSheet();
 			$objPHPExcel->setActiveSheetIndex($n++);
-
-			// Если указан `title` для страницы
-			if (!empty($table['title']))
-				$objPHPExcel->getActiveSheet()->setTitle((string) $table['title']);
-
-			// Если указана ориентация `landscape` для страницы
-			if ($table['landscape'] == 1)
-				$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
-
-			// Если указан рамер страницы
-			if ($table['pagesize'] == 'A4')
-				$objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
-
-			// Если установлен параметр, уместить на странице
-			if ($table['fittopage'] == 1)
-				$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
+			$objPHPExcel->getActiveSheet()->setTitle((string) $table['title']);
 
 			$row = 0;
 			foreach ($table->tr as $tr)
 			{
+				$row++;
+				$col = 0;
 				$rowClass = (string)$tr['class'];
 				$rowStyle = (!empty($rowClass) && !empty($this->styles[$rowClass])) ? $rowStyle = $this->styles[$rowClass] : array();
 
-				$row++;
-				$col = 0;
 				foreach ($tr->td as $td)
 				{
 					if ($td['col'] > 0)
@@ -115,7 +90,7 @@ class xml2xls
 						$objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($col)->setWidth($td['width']);
 					}
 					
-					// AS <td number_format="#,##0.00">
+					// AS <td number_format="# ###,0">
 					if ($td['number_format'] != "")
 					{
 						$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($col,$row)->getNumberFormat()->setFormatCode((string)$td['number_format']);
@@ -125,26 +100,15 @@ class xml2xls
 					// Если указано имя стиля
 					$cellClass = (string)$td['class'];
 					$cellStyle = (!empty($cellClass) && !empty($this->styles[$cellClass])) ? $cellStyle = $this->styles[$cellClass] : array();
-
 					// Если стиля для ячейки нет, но определён для строки
 					if (empty($cellStyle)) $cellStyle = $rowStyle;
-
 					// Собираем дополн. стиль из ячейки
 					$cellStyle = $this->prepare_style($td, $cellStyle);
-
 					// Применяем стиль
+					//dbg::write($cellStyle);
 					$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($col,$row)->applyFromArray($cellStyle);
 
-					// Если в ячейку вложен тэг IMG, то вставляем картинку
-					if ($td->img)
-					{
-						$this->insert_image($td->img, $objPHPExcel->getActiveSheet(), $current_cell->getCoordinate());
-					}
-					// Иначе значение ячейки как текст
-					else
-					{
-						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, (string) $td);
-					}
+					$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, (string) $td);
 
 					if ($td['merge'] > 0)
 					{
@@ -353,31 +317,6 @@ class xml2xls
 		}
 
 		return (array)$styleArray;
-	}
-	
-	/**
-	*	Вставить в указанную ячейку изображение
-	*/
-	protected function insert_image($img, $activeSheet, $coord)
-	{
-		$iDrowing = new PHPExcel_Worksheet_Drawing();
-
-		// Указываем путь к файлу изображения
-		$iDrowing->setPath($this->path . $img['src']);
-
-		// Устанавливаем ячейку
-		$iDrowing->setCoordinates($coord);
-
-		// Устанавливаем смещение X и Y
-		if ($img['offsetX'] > 0) $iDrowing->setOffsetX($img['offsetX']);
-		if ($img['offsetY'] > 0) $iDrowing->setOffsetY($img['offsetY']);
-
-		// Устанавливаем размеры изображения width и height
-		if ($img['width'] > 0) $iDrowing->setWidth($img['width']);
-		if ($img['height'] > 0) $iDrowing->setHeight($img['height']);
-		 
-		 //помещаем на лист
-		 $iDrowing->setWorksheet($activeSheet);
 	}
 }
 ?>
