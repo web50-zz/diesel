@@ -143,7 +143,7 @@ class xml2xls
 					// Иначе значение ячейки как текст
 					else
 					{
-						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, (string) $td);
+						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, (string) str_replace(array('\n'), array(chr(10)), $td));
 					}
 
 					if ($td['merge'] > 0)
