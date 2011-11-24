@@ -80,11 +80,28 @@ class xml2xls
 			if ($table['fittopage'] == 1)
 				$objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
 
+			// Определяем набор стилей для таблицы
+			$tblClasses = explode(" ", (string)$table['class']);
+			$tblStyle = array();
+			foreach ($tblClasses as $class)
+			{
+				$style = (!empty($class) && !empty($this->styles[$class])) ? $this->styles[$class] : array();
+				$tblStyle = $this->merge_styles((array)$tblStyle, (array)$style);
+			}
+
 			$row = 0;
 			foreach ($table->tr as $tr)
 			{
-				$rowClass = (string)$tr['class'];
-				$rowStyle = (!empty($rowClass) && !empty($this->styles[$rowClass])) ? $rowStyle = $this->styles[$rowClass] : array();
+				// Определяем набор стилей для строки
+				$rowClasses = explode(" ", (string)$tr['class']);
+				$rowStyle = array();
+				foreach ($rowClasses as $class)
+				{
+					$style = (!empty($class) && !empty($this->styles[$class])) ? $this->styles[$class] : array();
+					$rowStyle = $this->merge_styles((array)$rowStyle, (array)$style);
+				}
+				// Если стиля для строки нет, но определён для таблицы
+				if (empty($rowStyle)) $rowStyle = $tblStyle;
 
 				$row++;
 				$col = 0;
@@ -103,28 +120,15 @@ class xml2xls
 					}
 					$current_cell = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow($col,$row);
 
-					//9* высота строки  выставляется по последне заданной высоте ячейки в строке
-					if ($td['height'] > 0)
-					{
-						$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight($td['height']);
-					}
-
-					//9* <td width="200">  ширина колонны,  хинт - естественно будет та ширина которая в последней ячейке  колонный в шаблоне выставлена
-					if ($td['width'] > 0)
-					{
-						$objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($col)->setWidth($td['width']);
-					}
-					
-					// AS <td number_format="#,##0.00">
-					if ($td['number_format'] != "")
-					{
-						$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($col,$row)->getNumberFormat()->setFormatCode((string)$td['number_format']);
-					}
-
 					//=== Подготовка стиля
 					// Если указано имя стиля
-					$cellClass = (string)$td['class'];
-					$cellStyle = (!empty($cellClass) && !empty($this->styles[$cellClass])) ? $cellStyle = $this->styles[$cellClass] : array();
+					$cellClasses = explode(" ", (string)$td['class']);
+					$cellStyle = array();
+					foreach ($cellClasses as $class)
+					{
+						$style = (!empty($class) && !empty($this->styles[$class])) ? $this->styles[$class] : array();
+						$cellStyle = $this->merge_styles((array)$cellStyle, (array)$style);
+					}
 
 					// Если стиля для ячейки нет, но определён для строки
 					if (empty($cellStyle)) $cellStyle = $rowStyle;
@@ -134,6 +138,24 @@ class xml2xls
 
 					// Применяем стиль
 					$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($col,$row)->applyFromArray($cellStyle);
+
+					//9* высота строки  выставляется по последне заданной высоте ячейки в строке
+					if ($td['height'] > 0)
+					{
+						$objPHPExcel->getActiveSheet()->getRowDimension($row)->setRowHeight((float)$td['height']);
+					}
+
+					//9* <td width="200">  ширина колонны,  хинт - естественно будет та ширина которая в последней ячейке  колонный в шаблоне выставлена
+					if ($td['width'] > 0)
+					{
+						$objPHPExcel->getActiveSheet()->getColumnDimensionByColumn($col)->setWidth((float)$td['width']);
+					}
+					
+					// AS <td number_format="#,##0.00">
+					if ($td['number_format'] != "")
+					{
+						$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($col,$row)->getNumberFormat()->setFormatCode((string)$td['number_format']);
+					}
 
 					// Если в ячейку вложен тэг IMG, то вставляем картинку
 					if ($td->img)
@@ -331,14 +353,14 @@ class xml2xls
 		}
 
 		//9* <td font-name="Arial">
-		if ($style['font-name'] != '')
+		if (!empty($style['font-name']))
 		{
-			$styleArray['font']['name'] = $style['font-name'];
+			$styleArray['font']['name'] = (string)$style['font-name'];
 		}
-		else
-		{
-			$styleArray['font']['name'] = 'Arial';//9* Arial by default
-		}
+		//else if (empty($styleArray['font']['name']));
+		//{
+		//	$styleArray['font']['name'] = 'Arial';//9* Arial by default
+		//}
 
 		//AS <td font-size="10">
 		if ($style['font-size'] != '')
@@ -378,6 +400,18 @@ class xml2xls
 		 
 		 //помещаем на лист
 		 $iDrowing->setWorksheet($activeSheet);
+	}
+
+	private function merge_styles($style1, $style2)
+	{
+		foreach ($style2 as $name => $param)
+		{
+			if (!is_array($param))
+				$style1[$name] = $param;
+			else
+				$style1[$name] = $this->merge_styles((array)$style1[$name], $param);
+		}
+		return (array)$style1;
 	}
 }
 ?>
