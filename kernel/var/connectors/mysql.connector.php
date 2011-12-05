@@ -242,7 +242,10 @@ class connector_mysql
 	{
 		$dbname = $this->di->get_db();
 		$cfg = $this->di->get_cfg();
-		$command = "mysql -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} < {$file}";
+		if (!empty($cfg['pass']))
+			$command = "mysql -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} < {$file}";
+		else
+			$command = "mysql -h {$cfg['host']} -u {$cfg['user']} {$dbname} < {$file}";
 		system($command , $return);
 	}
 	
