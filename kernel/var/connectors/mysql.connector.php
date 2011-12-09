@@ -77,6 +77,12 @@ class connector_mysql
 	
 	/**
 	* @access	private
+	* @var	string	$_having	Условия для выборки в блоке HAVING
+	*/
+	private $_having;
+	
+	/**
+	* @access	private
 	* @var	string	$_where_values	Данные полей для выборки
 	*/
 	private $_where_values = array();
@@ -236,7 +242,10 @@ class connector_mysql
 	{
 		$dbname = $this->di->get_db();
 		$cfg = $this->di->get_cfg();
-		$command = "mysql -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} < {$file}";
+		if (!empty($cfg['pass']))
+			$command = "mysql -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} < {$file}";
+		else
+			$command = "mysql -h {$cfg['host']} -u {$cfg['user']} {$dbname} < {$file}";
 		system($command , $return);
 	}
 	
@@ -327,6 +336,7 @@ class connector_mysql
 		$this->_set_dis($this->di, true);
 		$this->_where_values = array();
 		$this->_where = '';
+		$this->_having = '';
 		$this->_fields = array();
 		$this->_fields_values = array();
 		$this->_group = '';
@@ -345,6 +355,7 @@ class connector_mysql
 		$this->_from = '';
 		$this->_where_values = array();
 		$this->_where = '';
+		$this->_having = '';
 		$this->_fields = array();
 		$this->_fields_values = array();
 	}
@@ -362,11 +373,11 @@ class connector_mysql
 		{
 			$this->_prepare_get();
 
-			$sql = "SELECT COUNT(*) As `count` FROM (SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group}) AS `total`";
+			$sql = "SELECT COUNT(*) As `count` FROM (SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_having}) AS `total`";
 			$this->exec($sql, $this->_where_values, TRUE, TRUE);
 			$this->_found_rows = $this->di->get_results(0, 'count');
 
-			$sql = "SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_order} {$this->_limit}";
+			$sql = "SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_having} {$this->_order} {$this->_limit}";
 		}
 
 		//$results = $this->exec($sql, $this->_where_values, TRUE, TRUE);
@@ -492,6 +503,7 @@ class connector_mysql
 		$this->_prepare_from();
 		$this->_prepare_where();
 		$this->_prepare_group();
+		$this->_prepare_having();
 		$this->_prepare_order();
 	}
 	
@@ -942,6 +954,15 @@ class connector_mysql
 
 			$this->_group = "GROUP BY " . join(', ', $x);
 		}
+	}
+
+	/**
+	*	Подготовить блок для HAAVING
+	*/
+	private function _prepare_having()
+	{
+		if (!empty($this->di->having))
+			$this->_having = "HAVING " . $this->di->having;
 	}
 
 	/**

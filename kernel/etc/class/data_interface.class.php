@@ -85,6 +85,12 @@ class data_interface extends base_interface
 	* @var	string	$where		Условия выборки
 	*/
 	public	$where;
+	
+	/**
+	* @access	public
+	* @var	string	$having		Условия выборки для блоке HAVING
+	*/
+	public	$having;
 
 	/**
 	* @access	public
@@ -566,6 +572,7 @@ class data_interface extends base_interface
 		if ($this->__ignore_next_flush === false)
 		{
 			$this->where = null;
+			$this->having = null;
 			$this->__order = array();
 			$this->__group = array();
 			$this->connector->_flush();
