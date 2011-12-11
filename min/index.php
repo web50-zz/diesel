@@ -22,9 +22,14 @@ if (isset($_GET['z'])) {
 
 define('MINIFY_MIN_DIR', dirname(__FILE__));
 
-// load config
+// load default config
 require MINIFY_MIN_DIR . '/config.php';
-
+// load current config
+$etc_config = $_SERVER['DOCUMENT_ROOT'].'/etc/minify.cfg.php';
+if(file_exists($etc_config))
+{
+	include_once $etc_config;
+}
 // setup include path
 set_include_path($min_libPath . PATH_SEPARATOR . get_include_path());
 
@@ -43,7 +48,10 @@ if ($min_documentRoot) {
 }
 
 $min_serveOptions['minifierOptions']['text/css']['symlinks'] = $min_symlinks;
-
+if ($DISABLE_MINIFY == true)
+{
+	$min_serveOptions['minifiers'][Minify::TYPE_JS] = '';
+}
 if ($min_allowDebugFlag && isset($_GET['debug'])) {
     $min_serveOptions['debug'] = true;
 }
