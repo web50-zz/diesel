@@ -2,9 +2,9 @@ ui.user.main = function(config){
 	Ext.apply(this, config);
 	var Add = function(){
 		var f = new ui.user.item_form();
-		var w = new Ext.Window({title: this.addTitle, maximizable: true, modal: true, layout: 'fit', width: this.formWidth, height: this.formHeight, items: f});
+		var w = new Ext.Window({title: this.addTitle, maximizable: true, modal: true, layout: 'fit', width: f.formWidth, height: f.formHeight, items: f});
 		f.on({
-			saved: function(){this.store.reload()},
+			data_saved: function(){this.store.reload()},
 			cancelled: function(){w.destroy()},
 			scope: this
 		});
@@ -13,13 +13,13 @@ ui.user.main = function(config){
 	var Edit = function(){
 		var id = this.getSelectionModel().getSelected().get('id');
 		var f = new ui.user.item_form();
-		var w = new Ext.Window({title: this.editTitle, maximizable: true, modal: true, layout: 'fit', width: this.formWidth, height: this.formHeight, items: f});
+		var w = new Ext.Window({title: this.editTitle, maximizable: true, modal: true, layout: 'fit', width: f.formWidth, height: f.formHeight, items: f});
 		f.on({
-			saved: function(){this.store.reload()},
+			data_saved: function(){this.store.reload()},
 			cancelled: function(){w.destroy()},
 			scope: this
 		});
-		w.show(null, function(){f.Load(id)});
+		w.show(null, function(){f.Load({id: id})});
 	}.createDelegate(this);
 	var multiSave = function(){
 		this.store.save();
@@ -51,27 +51,26 @@ ui.user.main = function(config){
 			['name', 'Имя'],
 			['login', 'Login'],
 			['email', 'E-mail'],
+			['server', 'Сервер'],
 			['id', 'UID']
 		]}), value: 'login',
 		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
 	});
 	var srchField = new Ext.form.TextField({text:'Имя'});
+	var srchSubmit = function(){
+		this.setParams({field: srchType.getValue(), query: srchField.getValue()}, true);
+	}.createDelegate(this);
+	srchField.on('specialkey', function(field, e){if (e.getKey() == e.ENTER) srchSubmit()});
 	var srchBttOk = new Ext.Toolbar.Button({
 		text: 'Найти',
 		iconCls:'find',
-		handler: function search_submit(){
-			Ext.apply(this.store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
-			this.reload();
-		},
-		scope: this
+		handler: srchSubmit
 	})
 	var srchBttCancel = new Ext.Toolbar.Button({
 		text: 'Сбросить',
 		iconCls:'cancel',
 		handler: function search_submit(){
-			srchField.setValue('');
-			Ext.apply(this.store.baseParams, {field: '', query: ''});
-			this.reload();
+			this.setParams({field: '', query: ''}, true);
 		},
 		scope: this
 	})
@@ -87,14 +86,11 @@ ui.user.main = function(config){
 	});
 	this.on({
 		rowcontextmenu: onCmenu,
-		render: function(){this.store.load({params:{start:0, limit: this.limit}})},
+		render: function(){this.store.load({params: {start: 0, limit: this.pagerSize}})},
 		scope: this
 	});
 };
 Ext.extend(ui.user.main, ui.user.grid, {
-	formWidth: 350,
-	formHeight: 270,
-
 	bttAdd: 'Добавить',
 	bttEdit: 'Редактировать',
 	bttDelete: 'Удалить'

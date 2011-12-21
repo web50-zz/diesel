@@ -42,6 +42,8 @@ class di_user extends data_interface
 			'multi_login' => array('type' => 'integer'),
 			'login' => array('type' => 'string'),
 			'passw' => array('type' => 'password', 'alias' => 'secret'),
+			'type' => array('type' => 'int'),	// Тип авторизации (0 - MySQL, 1 - LDAP)
+			'server' => array('type' => 'string'),	// Сервер авторизации (Например: LDAP)
 			'name' => array('type' => 'string'),
 			'email' => array('type' => 'string'),
 			'lang' => array('type' => 'string'),
@@ -96,11 +98,27 @@ class di_user extends data_interface
 	*/
 	public function get_by_password($login, $password)
 	{
-		$sql = 'SELECT `id`, `login`, `multi_login`, `name`, `email`, `lang`, `hash` FROM `' . $this->name . '` WHERE `login` = :login AND `passw` = PASSWORD(:password)';
+		$sql = 'SELECT `id`, `login`, (PASSWORD(:password) = `passw`) AS `passwd_check`, `type`, `server`, `multi_login`, `name`, `email`, `lang`, `hash` FROM `' . $this->name . '` WHERE `login` = :login';
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
 		$result = $this->connector->exec($sql, array('login' => $login, 'password' => $password), true, true);
 		if (count($result) == 1)
 		{
+			switch($result[0]['type'])
+			{
+				// Авторизация MySQL
+				case 0:
+					if ($result[0]['passwd_check'] !== '1') return FALSE;
+				break;
+				case 1:
+					// соединение с сервером
+					$ldapconn = ldap_connect($result[0]['server']);
+					if (!$ldapconn) Throw new Exception("Can`t connect to LDAP server \"{$result[0]['server']}\".");
+
+					// проверка привязки
+					if (!($ldapbind = ldap_bind($ldapconn, $login, $password))) return FALSE;
+				break;
+			}
+			unset($result[0]['passwd']);
 			$this->user = $result[0];
 			return $result[0];
 		}
@@ -210,18 +228,16 @@ class di_user extends data_interface
 	*/
 	protected function sys_list()
 	{
-		if (!empty($this->args['query']) && !empty($this->args['field']))
+		$this->_flush();
+		list($field, $query) = array_values($this->get_args(array('field', 'query')));
+		if (!empty($field) && !empty($query))
 		{
 			if($this->args['field'] != 'id')
-			{
-				$this->args["_s{$this->args['field']}"] = "%{$this->args['query']}%";
-			}
+				$this->set_args(array("_s{$field}" => "%{$query}%"), true);
 			else
-			{
-				$this->args["_s{$this->args['field']}"] = "{$this->args['query']}";
-			}
+				$this->set_args(array("_s{$field}" => $query), true);
 		}
-		$this->extjs_grid_json(array('id', 'login', 'name', 'email', 'lang'));
+		$this->extjs_grid_json(array('id', 'login', 'type', 'server', 'name', 'email', 'lang'));
 	}
 	
 	/**
@@ -231,7 +247,7 @@ class di_user extends data_interface
 	protected function sys_get()
 	{
 		$this->_flush();
-		$this->extjs_form_json(array('login', 'multi_login', 'name', 'email', 'lang'));
+		$this->extjs_form_json(array('login', 'type', 'server', 'multi_login', 'name', 'email', 'lang'));
 	}
 	
 	/**
