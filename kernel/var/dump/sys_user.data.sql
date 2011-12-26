@@ -1,8 +1,8 @@
--- MySQL dump 10.11
+-- MySQL dump 10.13  Distrib 5.1.49, for debian-linux-gnu (i486)
 --
--- Host: localhost    Database: site4
+-- Host: localhost    Database: jswg_web50_ru
 -- ------------------------------------------------------
--- Server version	5.0.51a-24+lenny4
+-- Server version	5.1.49-3
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -21,7 +21,7 @@
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,1,'admin','*4ACFE3202A5FF5CF467898FC58AAB1D615029441','Administrator','admin@local.host','ru_RU','e91355e959839c4f912be99af2575242','2010-07-29 18:04:43','91.122.35.164','0000-00-00 00:00:00'),(20716,0,'wheel','*4A4D4C4AEC241075D0ABF44C3FC976C39B685206','wheel','wheel@web50.ru','ru_RU','1d62d5dffbfdaeaa9070a3809bf3b159','2011-06-20 22:43:06','93.100.77.50','0000-00-00 00:00:00'),(20717,0,'user','*D5D9F81F5542DE067FFF5FF7A4CA4BDD322C578F','user','user@web50.ru','ru_RU','6fd06fe8944a619c2a04ee6afa28ca96','2011-06-20 22:43:41','93.100.77.50','0000-00-00 00:00:00');
+INSERT INTO `sys_user` VALUES (1,1,'admin','*C5FCA628FF3255CAA1FFB6EC1ADFB88DB03B7DB3',0,'','Administrator','admin@local.host','ru_RU','e91355e959839c4f912be99af2575242','2010-07-29 18:04:43','91.122.35.164','0000-00-00 00:00:00'),(20716,0,'wheel','*4A4D4C4AEC241075D0ABF44C3FC976C39B685206',0,'','wheel','wheel@web50.ru','ru_RU','1d62d5dffbfdaeaa9070a3809bf3b159','2011-06-20 22:43:06','93.100.77.50','0000-00-00 00:00:00'),(20717,0,'user','*D5D9F81F5542DE067FFF5FF7A4CA4BDD322C578F',0,'','user','user@web50.ru','ru_RU','6fd06fe8944a619c2a04ee6afa28ca96','2011-06-20 22:43:41','93.100.77.50','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-06-20 18:44:34
+-- Dump completed on 2011-12-26 18:19:45
