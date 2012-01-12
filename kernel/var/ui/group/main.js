@@ -36,10 +36,10 @@ ui.group.main = function(config){
 	}.createDelegate(this);
 	var Permissions = function(){
 		var gid = this.getSelectionModel().getSelected().get('id');
-		var i1 = new ui.security.interfaces({title: 'Доступные', flex: 1,
+		var i1 = new ui.security.interfaces({title: this.ttlAvailable, flex: 1,
 			ddGroup: 'available',
 			enableDragDrop: true});
-		var i2 = new ui.security.interfaces({title: 'Назначенные', flex: 1,
+		var i2 = new ui.security.interfaces({title: this.ttlEnabled, flex: 1,
 			ddGroup: 'enabled',
 			enableDragDrop: true});
 		var w = new Ext.Window({
@@ -49,7 +49,7 @@ ui.group.main = function(config){
 			resizable: true,
 			width: 1024,
 			height: 600,
-			tbar: ['->', {iconCls: 'help', handler: function(){showHelp('add-user-to-group')}}],
+			tbar: ['->', {iconCls: 'help', handler: function(){showHelp('group-permissions')}}],
 			layout: 'hbox', flex: 1, layoutConfig: {align: 'stretch'},
 			items: [i2, i1]
 		});
@@ -187,6 +187,8 @@ Ext.extend(ui.group.main, ui.group.grid, {
 	formWidth: 350,
 	formHeight: 100,
 
+	ttlAvailable: 'Доступные',
+	ttlEnabled: 'Назначенные',
 	permTitle: "Права доступа",
 	vName: 'Наименование',
 	bttFind: 'Найти',

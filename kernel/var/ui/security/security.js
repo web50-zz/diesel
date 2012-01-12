@@ -16,7 +16,7 @@ ui.security.main = function(config){
 		});
 	}.createDelegate(this);
 	var group = new ui.group.main({
-		title: 'Группы',
+		title: this.ttlGroups,
 		region: 'west',
 		split: true,
 		width: 550
@@ -39,7 +39,7 @@ ui.security.main = function(config){
 			var srchType = new Ext.form.ComboBox({
 			width: 100,
 			store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
-				['name', 'Имя'],
+				['name', this.vName],
 				['login', 'Login'],
 				['email', 'E-mail'],
 				['id', 'UID']
@@ -49,7 +49,7 @@ ui.security.main = function(config){
 
 			var srchField = new Ext.form.TextField({text:'Имя'});
 			var srchBttOk = new Ext.Toolbar.Button({
-				text: 'Найти',
+				text: this.bttFind,
 				iconCls:'find',
 				handler: function search_submit(){
 					Ext.apply(u.store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
@@ -57,7 +57,7 @@ ui.security.main = function(config){
 				}
 			})
 			var srchBttCancel = new Ext.Toolbar.Button({
-				text: 'Сбросить',
+				text: this.bttReset,
 				iconCls:'cancel',
 				handler: function search_submit(){
 					srchField.setValue('');
@@ -107,50 +107,45 @@ ui.security.main = function(config){
 			showError(this.errGroupNotSelected);
 		}
 	}.createDelegate(this);
-	
-	
-
 	var srchType = new Ext.form.ComboBox({
-			width: 100,
-			store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
-				['name', 'Имя'],
-				['login', 'Login'],
-				['email', 'E-mail'],
-				['id', 'UID']
-			]}), value: 'login',
-			valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
-			});
+		width: 100,
+		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
+			['name', this.vName],
+			['login', 'Login'],
+			['email', 'E-mail'],
+			['id', 'UID']
+		]}), value: 'login',
+		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
+	});
 
 	var srchField = new Ext.form.TextField({text:'Имя'});
 	var srchBttOk = new Ext.Toolbar.Button({
-				text: 'Найти',
-				iconCls:'find',
-				handler: function search_submit(){
-					Ext.apply(user.store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
-					reload1();
-				}
-			})
+		text: this.bttFind,
+		iconCls:'find',
+		handler: function search_submit(){
+			Ext.apply(user.store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
+			reload1();
+		}
+	});
 	var srchBttCancel = new Ext.Toolbar.Button({
-				text: 'Сбросить',
-				iconCls:'cancel',
-				handler: function search_submit(){
-					srchField.setValue('');
-					Ext.apply(user.store.baseParams, {field: '', query: ''});
-					reload1();
-				}
-	})
-
-
+		text: this.bttReset,
+		iconCls:'cancel',
+		handler: function search_submit(){
+			srchField.setValue('');
+			Ext.apply(user.store.baseParams, {field: '', query: ''});
+			reload1();
+		}
+	});
 	var user = new ui.user.list({
-		title: 'Пользователи',
+		title: this.ttlUsers,
 		region: 'center',
 		tbar: [{text: this.bttAddUsers, iconCls: 'user_add', handler: addUsers},
 			srchType,srchField, srchBttOk, srchBttCancel
 			]
 	});
 	var reload1 = function(){
-				user.store.load({params: {start: 0, limit: 20}});
-		}.createDelegate(this);
+		user.store.load({params: {start: 0, limit: 20}});
+	}.createDelegate(this);
 	var delUsers = function(){
 		var gid = getSelectedGroup();
 		if (gid > 0){
@@ -181,8 +176,6 @@ ui.security.main = function(config){
 			}
 		}
 	}.createDelegate(this);
-	
-
 	user.getTopToolbar().add({text: this.bttRemoveUsers, iconCls: 'user_add', handler: delUsers});
 	user.store.baseParams = {gid: 0, _ngid: 'null'};
 	group.on({
@@ -211,11 +204,16 @@ ui.security.main = function(config){
 	});
 };
 Ext.extend(ui.security.main, Ext.Panel, {
-	menuTitleMain: 'Operations',
-	menuTitleSync: 'Syncronization',
-	bttAddUsers: 'Add users', 
-	bttRemoveUsers: 'Remove users', 
-	errDoSync: 'Error while modules syncronization',
-	errGroupNotSelected: 'The group not selected',
-	errUserNotSelected: 'The user(s) not selected'
+	bttFind: 'Найти',
+	bttReset: 'Сбросить',
+	vName: 'Имя',
+	ttlUsers: 'Пользователи',
+	ttlGroups: 'Группы',
+	menuTitleMain: 'Операции',
+	menuTitleSync: 'Синхронизация',
+	bttAddUsers: 'Добавить пользователя', 
+	bttRemoveUsers: 'Удалить пользователей', 
+	errDoSync: 'Ошибка при синхронизации модулей',
+	errGroupNotSelected: 'Не выбрана группа',
+	errUserNotSelected: 'Не выбраны пользователи'
 });

@@ -15,10 +15,12 @@ var ApplyLocale = function(){
 		}
 		if (ui.user.grid){
 			Ext.override(ui.user.grid, {
-				labelName: 'Name',
-				labelLogin: 'Login',
-				labelEMail: 'e-mail',
-				labelLang: 'Language',
+				lblName: 'Name',
+				lblType: 'Type',
+				lblServer: 'Server',
+				lblLogin: 'Login',
+				lblEMail: 'e-mail',
+				lblLang: 'Language',
 
 				addTitle: "Add new user",
 				editTitle: "Edit user",
@@ -27,7 +29,7 @@ var ApplyLocale = function(){
 				cnfrmMsg: "Are you sure you want to delete this user?",
 
 				pagerEmptyMsg: 'Empty',
-				pagerDisplayMsg: 'Users from {0} to {1}. Total: {2}'
+				pagerDisplayMsg: 'Users {0} - {1} of {2}'
 			});
 		}
 		if (ui.user.item_form){
@@ -62,13 +64,15 @@ var ApplyLocale = function(){
 				labelLogin: 'Login',
 
 				pagerEmptyMsg: 'Empty',
-				pagerDisplayMsg: 'Users from {0} to {1}. Total: {2}'
+				pagerDisplayMsg: 'Users {0} - {1} of {2}'
 			});
 		}
 	}
 	if (ui.group){
 		if (ui.group.main){
 			Ext.override(ui.group.main, {
+				ttlAvailable: 'Available',
+				ttlEnabled: 'Enabled',
 				permTitle: "The access rights",
 				bttFind: 'Find',
 				bttReset: 'Reset',
@@ -88,7 +92,7 @@ var ApplyLocale = function(){
 				cnfrmTitle: "Confirm",
 				cnfrmMsg: "Are you sure you want to delete this group?",
 				pagerEmptyMsg: 'Empty',
-				pagerDisplayMsg: 'Groups from {0} to {1}. Total: {2}',
+				pagerDisplayMsg: 'Groups {0} - {1} of {2}',
 			});
 		}
 		if (ui.group.item_form){
@@ -101,6 +105,38 @@ var ApplyLocale = function(){
 				errSaveText: 'Error while saving',
 				errInputText: 'Correctly fill out all required fields',
 				errConnectionText: "Error communicating with server"
+			});
+		}
+	}
+	if (ui.security){
+		if (ui.security.main){
+			Ext.override(ui.security.main, {
+				bttFind: 'Find',
+				bttReset: 'Reset',
+				vName: 'Name',
+				ttlUsers: 'Users',
+				ttlGroups: 'Groups',
+				menuTitleMain: 'Operations',
+				menuTitleSync: 'Syncronization',
+				bttAddUsers: 'Add users', 
+				bttRemoveUsers: 'Remove users', 
+				errDoSync: 'Error while modules syncronization',
+				errGroupNotSelected: 'The group is not selected',
+				errUserNotSelected: 'The user(s) is not selected'
+			});
+		}
+		if (ui.security.interfaces){
+			Ext.override(ui.security.interfaces, {
+				labelType: 'Type',
+				labelName: 'Interface',
+				labelFace: 'Entry point',
+
+				vAll: 'All',
+				bttFind: 'Find',
+				bttReset: 'Reset',
+
+				pagerEmptyMsg: 'Empty',
+				pagerDisplayMsg: 'Records {0} - {1} of {2}'
 			});
 		}
 	}

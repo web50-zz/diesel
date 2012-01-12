@@ -40,14 +40,13 @@ ui.security.interfaces = function(config){
 	var srchType = new Ext.form.ComboBox({
 		width: 50,
 		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
-			['', 'Все'],
+			['', this.vAll],
 			['di', 'DI'],
 			['ui', 'UI']
 		]}), value: '',
 		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
 	});
-	var srchField = new Ext.form.TextField({
-	});
+	var srchField = new Ext.form.TextField({width: 300});
 	var srchSubmit = function(){
 		var p = {query: srchField.getValue(), type: srchType.getValue()};
 		Ext.apply(store.baseParams, p);
@@ -55,13 +54,13 @@ ui.security.interfaces = function(config){
 	}.createDelegate(this);
 	srchField.on('specialkey', function(field, e){if (e.getKey() == e.ENTER) srchSubmit()});
 	var srchBttOk = new Ext.Toolbar.Button({
-		text: 'Найти',
+		text: this.bttFind,
 		iconCls:'find',
 		handler: srchSubmit,
 		scope: this
 	})
 	var srchBttCancel = new Ext.Toolbar.Button({
-		text: 'Сбросить',
+		text: this.bttReset,
 		iconCls:'cancel',
 		handler: function search_submit(){
 			srchType.setValue('');
@@ -76,7 +75,7 @@ ui.security.interfaces = function(config){
 		columns: columns,
 		loadMask: true,
 		autoExpandColumn: 'face',
-		tbar: [new Ext.Toolbar.TextItem ("Найти:"), srchType, srchField, srchBttOk, srchBttCancel],
+		tbar: [srchType, srchField, srchBttOk, srchBttCancel],
 		bbar: new Ext.PagingToolbar({
 			pageSize: this.limit,
 			store: store,
@@ -96,6 +95,10 @@ Ext.extend(ui.security.interfaces, Ext.grid.GridPanel, {
 	labelType: 'Тип',
 	labelName: 'Интерфейс',
 	labelFace: 'Точка входа',
+
+	vAll: 'Все',
+	bttFind: 'Найти',
+	bttReset: 'Сбросить',
 
 	pagerEmptyMsg: 'Нет записей',
 	pagerDisplayMsg: 'Записи с {0} по {1}. Всего: {2}'

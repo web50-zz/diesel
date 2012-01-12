@@ -13,6 +13,22 @@ ui.user.grid = Ext.extend(Ext.grid.EditorGridPanel, {
 		Ext.apply(s.baseParams, params);
 		if (reload) s.load({params:{start: 0, limit: this.pagerSize}});
 	},
+	lblName: 'Имя',
+	lblType: 'Тип',
+	lblServer: 'Сервер',
+	lblLogin: 'Login',
+	lblEMail: 'e-mail',
+	lblLang: 'Язык',
+
+	addTitle: "Добавление пользователя",
+	editTitle: "Изменение пользователя",
+
+	cnfrmTitle: "Подтверждение",
+	cnfrmMsg: "Вы действительно хотите удалить эт(ого|их) пользовател(я|ей)?",
+
+	pagerSize: 50,
+	pagerEmptyMsg: 'Нет пользователей',
+	pagerDisplayMsg: 'Пользователи с {0} по {1}. Всего: {2}',
 	/**
 	 * @constructor
 	 */
@@ -52,24 +68,6 @@ ui.user.grid = Ext.extend(Ext.grid.EditorGridPanel, {
 				remoteSort: true,
 				sortInfo: {field: 'id', direction: 'DESC'}
 			})
-		});
-		Ext.apply(this, {
-			pagerSize: 50,
-			pagerEmptyMsg: 'Нет пользователей',
-			pagerDisplayMsg: 'Пользователи с {0} по {1}. Всего: {2}',
-
-			lblName: 'Имя',
-			lblType: 'Тип',
-			lblServer: 'Сервер',
-			lblLogin: 'Login',
-			lblEMail: 'e-mail',
-			lblLang: 'Язык',
-
-			addTitle: "Добавление пользователя",
-			editTitle: "Изменение пользователя",
-
-			cnfrmTitle: "Подтверждение",
-			cnfrmMsg: "Вы действительно хотите удалить эт(ого|их) пользовател(я|ей)?",
 		});
 		Ext.apply(this, {
 			loadMask: true,
