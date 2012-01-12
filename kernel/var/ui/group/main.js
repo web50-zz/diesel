@@ -142,14 +142,14 @@ ui.group.main = function(config){
 	var srchType = new Ext.form.ComboBox({
 		width: 100,
 		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
-			['name', 'Наименование'],
+			['name', this.vName],
 			['id', 'GID']
 		]}), value: 'name',
 		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
 	});
-	var srchField = new Ext.form.TextField({text:'Имя'});
+	var srchField = new Ext.form.TextField({});
 	var srchBttOk = new Ext.Toolbar.Button({
-		text: 'Найти',
+		text: this.bttFind,
 		iconCls:'find',
 		handler: function search_submit(){
 			Ext.apply(this.store.baseParams, {field: srchType.getValue(), query: srchField.getValue()});
@@ -158,7 +158,7 @@ ui.group.main = function(config){
 		scope: this
 	})
 	var srchBttCancel = new Ext.Toolbar.Button({
-		text: 'Сбросить',
+		text: this.bttReset,
 		iconCls:'cancel',
 		handler: function search_submit(){
 			srchField.setValue('');
@@ -188,7 +188,9 @@ Ext.extend(ui.group.main, ui.group.grid, {
 	formHeight: 100,
 
 	permTitle: "Права доступа",
-
+	vName: 'Наименование',
+	bttFind: 'Найти',
+	bttReset: 'Сбросить',
 	bttAdd: 'Добавить',
 	bttEdit: 'Редактировать',
 	bttFaces: "Права доступа",

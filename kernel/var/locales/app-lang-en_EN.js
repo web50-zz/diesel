@@ -66,5 +66,43 @@ var ApplyLocale = function(){
 			});
 		}
 	}
+	if (ui.group){
+		if (ui.group.main){
+			Ext.override(ui.group.main, {
+				permTitle: "The access rights",
+				bttFind: 'Find',
+				bttReset: 'Reset',
+				vName: 'Title',
+				bttAdd: 'Add',
+				bttEdit: 'Edit',
+				bttFaces: "The access rights",
+				bttDelete: 'Delete'
+			});
+		}
+		if (ui.group.grid){
+			Ext.override(ui.group.grid, {
+				colNameTitle: "Title",
+				addTitle: "Add group",
+				editTitle: "Edit group",
+				permTitle: "The access rights",
+				cnfrmTitle: "Confirm",
+				cnfrmMsg: "Are you sure you want to delete this group?",
+				pagerEmptyMsg: 'Empty',
+				pagerDisplayMsg: 'Groups from {0} to {1}. Total: {2}',
+			});
+		}
+		if (ui.group.item_form){
+			Ext.override(ui.group.item_form, {
+				labelName: 'Title',
+				loadText: 'Loading form data',
+				saveText: 'Saving...',
+				bttSave: 'Save',
+				bttCancel: 'Cancel',
+				errSaveText: 'Error while saving',
+				errInputText: 'Correctly fill out all required fields',
+				errConnectionText: "Error communicating with server"
+			});
+		}
+	}
 }
 ApplyLocale();
