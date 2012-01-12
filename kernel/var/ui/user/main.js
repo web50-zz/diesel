@@ -48,10 +48,10 @@ ui.user.main = function(config){
 	var srchType = new Ext.form.ComboBox({
 		width: 100,
 		store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [
-			['name', 'Имя'],
-			['login', 'Login'],
-			['email', 'E-mail'],
-			['server', 'Сервер'],
+			['name', this.fldName],
+			['login', this.fldLogin],
+			['email', this.fldEmail],
+			['server', this.fldServer],
 			['id', 'UID']
 		]}), value: 'login',
 		valueField: 'value', displayField: 'title', triggerAction: 'all', mode: 'local', editable: false
@@ -62,12 +62,12 @@ ui.user.main = function(config){
 	}.createDelegate(this);
 	srchField.on('specialkey', function(field, e){if (e.getKey() == e.ENTER) srchSubmit()});
 	var srchBttOk = new Ext.Toolbar.Button({
-		text: 'Найти',
+		text: this.bttFind,
 		iconCls:'find',
 		handler: srchSubmit
 	})
 	var srchBttCancel = new Ext.Toolbar.Button({
-		text: 'Сбросить',
+		text: this.bttReset,
 		iconCls:'cancel',
 		handler: function search_submit(){
 			this.setParams({field: '', query: ''}, true);
@@ -91,6 +91,12 @@ ui.user.main = function(config){
 	});
 };
 Ext.extend(ui.user.main, ui.user.grid, {
+	fldName: 'Имя',
+	fldLogin: 'Логин',
+	fldEmail: 'email',
+	fldServer: 'Сервер',
+	bttFind: 'Найти',
+	bttReset: 'Сбросить',
 	bttAdd: 'Добавить',
 	bttEdit: 'Редактировать',
 	bttDelete: 'Удалить'

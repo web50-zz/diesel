@@ -49,64 +49,63 @@ ui.user.item_form = Ext.extend(Ext.form.FormPanel, {
 		this.fireEvent('cancelled');
 	},
 
+	lblName: 'Имя',
+	lblMulti: "multi-вход",
+	lblLogin: 'Login',
+	lblType: 'Тип автор.',
+	lblServer: 'Сервер',
+	lblEMail: 'e-mail',
+	lblLang: 'Язык',
+	lblPassw: 'Пароль',
+	lblRePassw: 'Пароль контр.',
+	vYes: 'Yes',
+	vNo: 'No',
+	loadText: 'Загрузка данных формы',
+	saveText: 'Сохранение...',
+	bttSave: 'Сохранить',
+	bttCancel: 'Отмена',
+	errSaveText: 'Ошибка во время сохранения',
+	errInputText: 'Корректно заполните все необходимые поля',
+	errConnectionText: "Ошибка связи с сервером",
+
 	/**
 	 * @constructor
 	 */
 	constructor: function(config){
 		config = config || {};
 		Ext.apply(this, {
-			formWidth: 350,
-			formHeight: 320,
-			labelName: 'Имя',
-			labelMulti: "multi-вход",
-			labelLogin: 'Login',
-			labelType: 'Тип автор.',
-			labelServer: 'Сервер',
-			labelEMail: 'e-mail',
-			labelLang: 'Язык',
-			labelPassw: 'Пароль',
-			lebelRePassw: 'Пароль контр.',
-
-			loadText: 'Загрузка данных формы',
-
-			saveText: 'Сохранение...',
-
-			bttSave: 'Сохранить',
-			bttCancel: 'Отмена',
-
-			errSaveText: 'Ошибка во время сохранения',
-			errInputText: 'Корректно заполните все необходимые поля',
-			errConnectionText: "Ошибка связи с сервером"
+			formWidth: 400,
+			formHeight: 320
 		});
 		Ext.apply(this, {
 			frame: true,
 			autoScroll: true,
 			labelAlign: 'right', 
-			labelWidth: 100,
+			labelWidth: 120,
 			defaults: {xtype: 'textfield', width: 150, anchor: '100%'},
 			items: [
 				{name: '_sid', xtype: 'hidden'},
-				{fieldLabel: this.labelMulti, hiddenName: 'multi_login', value: 0, xtype: 'combo', width: 50, anchor: null,
-					store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [[1, 'Да'], [0, 'Нет']] }),
+				{fieldLabel: this.lblMulti, hiddenName: 'multi_login', value: 0, xtype: 'combo', width: 50, anchor: null,
+					store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [[1, this.vYes], [0, this.vNo]] }),
 					valueField: 'value', displayField: 'title',
 					mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
 				},
-				{fieldLabel: this.labelName, name: 'name', allowBlank: false, maxLength: 64},
-				{fieldLabel: this.labelLogin, name: 'login', allowBlank: false, maxLength: 64},
-				{fieldLabel: this.labelType, hiddenName: 'type', value: 0, xtype: 'combo', width: 100, anchor: null,
+				{fieldLabel: this.lblName, name: 'name', allowBlank: false, maxLength: 64},
+				{fieldLabel: this.lblLogin, name: 'login', allowBlank: false, maxLength: 64},
+				{fieldLabel: this.lblType, hiddenName: 'type', value: 0, xtype: 'combo', width: 100, anchor: null,
 					store: new Ext.data.SimpleStore({fields: ['value', 'title'], data: [[0, 'MySQL'], [1, 'LDAP']] }),
 					valueField: 'value', displayField: 'title',
 					mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false
 				},
-				{fieldLabel: this.labelServer, name: 'server', maxLength: 64},
-				{fieldLabel: this.labelEMail, name: 'email', allowBlank: false, maxLength: 64, vtype: 'email', emailText: 'e-mail введён не верно'},
-				{fieldLabel: this.labelLang, hiddenName: 'lang', xtype: 'combo', value: 'ru_RU', width: 150,
+				{fieldLabel: this.lblServer, name: 'server', maxLength: 64},
+				{fieldLabel: this.lblEMail, name: 'email', allowBlank: false, maxLength: 64, vtype: 'email', emailText: 'e-mail введён не верно'},
+				{fieldLabel: this.lblLang, hiddenName: 'lang', xtype: 'combo', value: 'ru_RU', width: 150,
 					valueField: 'value', displayField: 'title', allowBlank: false,
 					mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false,
 					store: ui.user.languages
 				},
-				{fieldLabel: this.labelPassw, name: 'secret', inputType: 'password', vtype: 'password', initialPasswordField: 'secret2'},
-				{fieldLabel: this.lebelRePassw, name: 'secret2', inputType: 'password', vtype: 'password', id: 'secret2'}
+				{fieldLabel: this.lblPassw, name: 'secret', inputType: 'password', vtype: 'password', initialPasswordField: 'secret2'},
+				{fieldLabel: this.lblRePassw, name: 'secret2', inputType: 'password', vtype: 'password', id: 'secret2'}
 			],
 			buttonAlign: 'right',
 			buttons: [
