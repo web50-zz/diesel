@@ -54,15 +54,15 @@ ui.system_menu.item_form = function(config){
 		items: [
 			{name: '_sid', xtype: 'hidden'},
 			{name: 'pid', xtype: 'hidden'},
-			{hiddenName: 'type', value: 0, xtype: 'combo', width: 150,
+			{fieldLabel: this.lblType, hiddenName: 'type', value: 0, xtype: 'combo', width: 150,
 				valueField: 'value', displayField: 'title', allowBlank: false,
 				mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false,
 				store: new Ext.data.SimpleStore({
 					idIndex: 0,
 					fields: ['value', 'title'],
 					data: [
-						[0, 'Пункт меню'],
-						[1, 'Спец пункт']
+						[0, this.vMenu],
+						[1, this.vSpec]
 					]
 				})
 			},
@@ -94,6 +94,9 @@ ui.system_menu.item_form = function(config){
 	})
 }
 Ext.extend(ui.system_menu.item_form , Ext.form.FormPanel, {
+	lblType: 'Тип',
+	vMenu: 'Пункт меню',
+	vSpec: 'Спец пункт',
 	lblText: 'Наименование',
 	lblIcon: 'Иконка',
 	lblUI: 'User Interface',

@@ -4,7 +4,7 @@ ui.system_menu.tree = function(config){
 		rootVisible: false,
 		autoScroll: true,
 		root: {id: '1', pid: '0', draggable: false, expanded: true},
-		loadMask: "Загрузка данных...",
+		loadMask: this.msgLoading,
 		loader: new Ext.tree.TreeLoader({url: 'di/system_menu/slice.json'})
 	});
 	this.on({
@@ -13,11 +13,7 @@ ui.system_menu.tree = function(config){
 	});
 };
 Ext.extend(ui.system_menu.tree, Ext.tree.TreePanel, {
-	addTitle: "Добавление договора",
-	editTitle: "Редактирование договора",
-
-	cnfrmTitle: "Подтверждение",
-	cnfrmMsg: "Вы действительно хотите удалить этот договор?",
+	msgLoading: "Загрузка данных...",
 	operation: {
 		Reload: function(id){
 			if (id){
