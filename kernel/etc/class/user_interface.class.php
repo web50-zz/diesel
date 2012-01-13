@@ -230,6 +230,20 @@ class user_interface extends base_interface
 		return false;
 	}
 
+	/**
+	*	Get neccessary UI for application
+	*/
+	public function get_dependencies($name)
+	{
+		$faces = $this->get_entry_poins('/^' . UI_CALL_PREFIX . '\w+/');
+
+		if (!in_array(UI_CALL_PREFIX . $name, $faces))
+			throw new Exception("Приложение {$this->interfaceName}.{$name} не существует.");
+
+		$deps = (array)$this->deps[$name];
+		$deps[] = "{$this->interfaceName}.locale";
+		return $deps;
+	}
 
 	/**
 	*	External entry point
@@ -242,25 +256,19 @@ class user_interface extends base_interface
 		
 		try
 		{
-			if (!in_array(UI_CALL_PREFIX . $face, $faces))
-				throw new Exception("Приложение {$this->interfaceName}.{$face} не существует.");
-
 			$dependencies  = array();
-			$deps = (array)$this->deps[$face];
+			$deps = $this->get_dependencies($face);
 
 			while(!empty($deps))
 			{
 				$app = array_shift($deps);
 				list($ui_name, $call) = preg_split('/\./', $app);
 				$ui = user_interface::get_instance($ui_name);
-				$sub_deps = $ui->get_dependencies($call);
-				foreach ($sub_deps as $dep)
-					array_push($deps, $dep);
-
+				$sub_deps = ($call != 'locale') ? $ui->get_dependencies($call) : array();
+				foreach ($sub_deps as $dep) array_push($deps, $dep);
 				array_push($dependencies, $app);
 			}
 			
-			$dependencies[] = "{$this->interfaceName}.locale";
 			$dependencies = array_reverse($dependencies);
 			$dependencies = array_unique($dependencies);
 			$dependencies = array_reverse($dependencies);
@@ -303,19 +311,6 @@ class user_interface extends base_interface
 			// Else default code
 			response::send("ui.{$this->interfaceName}.locale = function(face){}", 'js');
 		}
-	}
-
-	/**
-	*	Get neccessary UI for application
-	*/
-	public function get_dependencies($name)
-	{
-		$faces = $this->get_entry_poins('/^' . UI_CALL_PREFIX . '\w+/');
-
-		if (!in_array(UI_CALL_PREFIX . $name, $faces))
-			throw new Exception("Приложение {$this->interfaceName}.{$name} не существует.");
-
-		return (array)$this->deps[$name];
 	}
 }
 ?>
