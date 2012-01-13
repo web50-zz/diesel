@@ -260,6 +260,7 @@ class user_interface extends base_interface
 				array_push($dependencies, $app);
 			}
 			
+			$dependencies[] = "{$this->interfaceName}.locale";
 			$dependencies = array_reverse($dependencies);
 			$dependencies = array_unique($dependencies);
 			$dependencies = array_reverse($dependencies);
@@ -275,6 +276,32 @@ class user_interface extends base_interface
 				'success' => false,
 				'errors' => $e->getMessage()
 			), 'json');
+		}
+	}
+
+	/**
+	*	UI localization file
+	* Return localization JS-file
+	*/
+	protected function sys_locale()
+	{
+		// Current locale
+		$su = (object)data_interface::get_instance(AUTH_DI)->get_user();
+		$locale = (!$su->lang) ? LANG : $su->lang;
+
+		// Path to UI locale file
+		$lc_file = $this->pwd()."locale/{$locale}.js";
+
+		if (file_exists($lc_file))
+		{
+			// If locale exists
+			$tmpl = new tmpl($lc_file);
+			response::send($tmpl->parse(), 'js');
+		}
+		else
+		{
+			// Else default code
+			response::send("ui.{$this->interfaceName}.locale = function(face){}", 'js');
 		}
 	}
 

@@ -93,8 +93,9 @@ var App = function(config){
 							try{
 								var x = "ui."+appName+"."+appFace;
 								if (classExists(x) || eval("typeof("+x+")") == 'object'){
-									if (ApplyLocale) ApplyLocale();
-									this.fireEvent('apploaded', [appName, appFace])
+									//if (ApplyLocale) ApplyLocale();
+									eval("ui."+appName+".locale(appFace)");
+									this.fireEvent('apploaded', appName, appFace);
 								}else
 									this.fireEvent('apperror', this.appErrorMsg);
 							}catch(e){
