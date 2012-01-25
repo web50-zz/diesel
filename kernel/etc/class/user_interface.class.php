@@ -100,7 +100,7 @@ class user_interface extends base_interface
 		if (empty($name))
 			throw new Exception('The name of method of user interface not present.');
 
-		if ($this->check_access($this->interfaceName, UI_CALL_PREFIX . $name, 'ui'))
+		if (in_array($name, array('dependencies', 'locale')) || $this->check_access($this->interfaceName, UI_CALL_PREFIX . $name, 'ui'))
 		{
 			$call_name = UI_CALL_PREFIX . $name;
 			

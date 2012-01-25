@@ -110,6 +110,9 @@ class di_user extends data_interface
 					if ($result[0]['passwd_check'] !== '1') return FALSE;
 				break;
 				case 1:
+					// Почему-то прокатывает пустой пароль для LDAP, поэтому принудительный FALSE
+					if (empty($password)) return FALSE;
+
 					// соединение с сервером
 					$ldapconn = ldap_connect($result[0]['server']);
 					if (!$ldapconn) Throw new Exception("Can`t connect to LDAP server \"{$result[0]['server']}\".");
