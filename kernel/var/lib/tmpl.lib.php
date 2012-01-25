@@ -869,6 +869,18 @@ class tmpl
 				$data = $this->_get_value($data, $matches[1]);
 			}
 			elseif ($name AND ($params[$key] != '/' OR $params[$key] != '')
+				AND preg_match('/^\[[\'"](\w+)[\'"]\]$/', $params[$key], $matches)
+				)
+			{
+				$data = $this->_parse_path($name, $data, FALSE);
+				//$data = $this->_get_value($data, $matches[1]);
+				$_d = array();
+				foreach ($data as $_x)
+					if (($v = $this->_get_value($_x, $matches[1])) !== FALSE)
+						$_d[] = $v;
+				$data = (count($_d) == 1) ? $_d[0] : $_d;
+			}
+			elseif ($name AND ($params[$key] != '/' OR $params[$key] != '')
 				AND ($matches = $this->_parse_XPath_get_conditions($params[$key]))
 				)
 			{
@@ -962,10 +974,19 @@ class tmpl
 		}
 		elseif (is_array($data))
 		{
-			if (is_array($data) AND count($data) == 1 AND is_array($data[0]) AND isset($data[0][$var]))
-				return $data[0][$var];
+			//if (is_array($data) AND count($data) == 1 AND is_array($data[0]) AND isset($data[0][$var]))
+			//{
+			//	return $data[0][$var];
+			//}
+			// FIX: 2012-02-23 A.Litvinenko Fixed error for array with 1 object element 
+			if ($var != '0' && count($data) == 1 && isset($data[0]))
+			{
+				return $this->_get_value($data[0], $var);
+			}
 			elseif (isset($data[$var]))
+			{
 				return $data[$var];
+			}
 		}
 		
 		return FALSE;
