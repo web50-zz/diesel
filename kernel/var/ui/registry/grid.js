@@ -78,10 +78,10 @@ ui.registry.grid = Ext.extend(Ext.grid.EditorGridPanel, {
 		config = config || {};
 		Ext.apply(this, config, {
 			columns: [
-				{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', sortable: true, width: 50, hidden: true},
-				{id: 'name', dataIndex: 'name', header:  this.lblName, sortable: true, width: 100},
-				{id: 'type', dataIndex: 'type', header: this.lblType, sortable: true, width: 100, renderer: function(v){return ui.registry.type.getById(v).get('title')}},
-				{id: 'value', dataIndex: 'value', header:  this.lblValue, sortable: true, width: 100},
+				{id: 'id', dataIndex: 'id', header: 'ID', align: 'right', sortable: true, width: 150, hidden: true},
+				{id: 'name', dataIndex: 'name', header:  this.lblName, sortable: true, width: 200},
+				{id: 'type', dataIndex: 'type', header: this.lblType, sortable: true, width: 50, renderer: function(v){return ui.registry.type.getById(v).get('title')}},
+				{id: 'value', dataIndex: 'value', header:  this.lblValue, sortable: true, width: 400},
 				{id: 'comment', dataIndex: 'comment', header:  this.lblCmmnt, sortable: true}
 			]
 		});
