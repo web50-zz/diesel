@@ -91,6 +91,11 @@ class tmpl
 	*/
 	private $errs = array();
 
+	/**
+	* @var	array	$callbacks	Массив функций обратного вызова
+	*/
+	public $callbacks = array();
+
 	public function __construct($tmpl = FALSE, $type = 'FILE')
 	{
 		switch(strtoupper($type))
@@ -433,8 +438,16 @@ class tmpl
 	*/
 	private function _parse_call_ui($args)
 	{
-		$ui = user_interface::get_instance($args[1]);
-		return $ui->call($args[2], $this->_convert_params_to_array($this->_parse_line($args[3])));
+		$ui_name = $args[1];
+		$ui_call = $args[2];
+		$ui_prms = $this->_convert_params_to_array($this->_parse_line($args[3]));
+
+		$ui = user_interface::get_instance($ui_name);
+
+		if (!empty($this->callbacks['ui']))
+			call_user_func($this->callbacks['ui'], $ui, $ui_name, $ui_call, $ui_prms);
+
+		return $ui->call($ui_call, $ui_prms);
 	}
 	
 	/**
@@ -1086,6 +1099,7 @@ class tmpl
 		$tmpl->root_data =& $this->root_data;
 		$tmpl->templates =& $this->templates;
 		$tmpl->loops_bodies =& $this->loops_bodies;
+		$tmpl->callbacks =& $this->callbacks;
 		
 		return $tmpl;
 	}
