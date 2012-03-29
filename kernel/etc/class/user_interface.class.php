@@ -157,7 +157,7 @@ class user_interface extends base_interface
 	* @param	string	$tmpl_name	array() $data to parse out 
 	* @return	parsed template 	tmpl2
 	*/
-	public function parse_tmpl($template_file_name, $data)
+	public function parse_tmpl($template_file_name, $data, $callbacks = null)
 	{
 		if ($this->UI_LANG)
 		{
@@ -167,6 +167,7 @@ class user_interface extends base_interface
 		if ($tmpl_path = $this->get_resource_path($template_file_name,'absolute'))
 		{
 			$tmpl = new tmpl($tmpl_path);
+			$tmpl->callbacks = (array)$callbacks;
 			$html = $tmpl->parse($data);
 			return $html;
 		}
