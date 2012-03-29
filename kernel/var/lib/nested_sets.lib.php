@@ -269,14 +269,17 @@ class nested_sets
 		}
 	}
 	
-	public function get_parent($id, $level = false)
+	public function get_parent($id, $level = false, $self = false)
 	{
 		try
 		{
 			if (!($id > 0)) throw new Exception('Undefined node ID.');
 			$sql = 'SELECT parent.* FROM `' . $this->di->get_name() . '` as child';
 			$sql.= ' LEFT JOIN `' . $this->di->get_name() . '` as parent';
-			$sql.= ' ON parent.left < child.left AND parent.right > child.right';
+			if ($self)
+				$sql.= ' ON parent.left <= child.left AND parent.right >= child.right';
+			else
+				$sql.= ' ON parent.left < child.left AND parent.right > child.right';
 			$sql.= ' WHERE parent.id IS NOT NULL AND child.id = ' . $id;
 			$sql.= ' AND parent.level = ' . (($level > 0) ? $level :  'parent.level = child.level - 1');
 			$this->di->connector->fetchMethod = PDO::FETCH_ASSOC;
