@@ -11,7 +11,7 @@ class file_system
 	*	Сохранить файл загруженный по HTTP
 	* @param	string	$name	Имя поля загружаемого файла
 	*/
-	public static function upload_file($name, $storage_path = null)
+	public static function upload_file($name, $storage_path = null, $real_name = null)
 	{
 		try
 		{
@@ -40,15 +40,23 @@ class file_system
 			$data['size'] = $fset['size'];
 			if (!$storage_path) $storage_path = FILE_STORAGE_PATH;
 
-			$k = 0;
-			$file = '';
-			do
+			if ($real_name === null)
 			{
-				$k++;
-				$data['real_name'] = md5($fset['name'] . mktime() . $k) . '.' . strtolower(array_pop(preg_split("/\./", $fset['name'])));
+				$k = 0;
+				$file = '';
+				do
+				{
+					$k++;
+					$data['real_name'] = md5($fset['name'] . mktime() . $k) . '.' . strtolower(array_pop(preg_split("/\./", $fset['name'])));
+					$file = $storage_path . $data['real_name'];
+				}
+				while(file_exists($file));
+			}
+			else
+			{
+				$data['real_name'] = $real_name;
 				$file = $storage_path . $data['real_name'];
 			}
-			while(file_exists($file));
 
 			if(!move_uploaded_file($fset['tmp_name'], $file))
 				throw new Exception('Error while copy "' . $fset['tmp_name'] . '" to "' . $file . '"');
@@ -90,9 +98,9 @@ class file_system
 	* @param	string	$name		Имя поля загружаемого файла
 	* @param	string	$old_file_name	Имя удаляемого файла
 	*/
-	public static function replace_file($name, $old_file_name, $storage_path = null)
+	public static function replace_file($name, $old_file_name, $storage_path = null, $real_name = null)
 	{
-		$data = self::upload_file($name, $storage_path);
+		$data = self::upload_file($name, $storage_path, $real_name);
 		if ($data !== false && !empty($data))
 		{
 			if (!self::remove_file($old_file_name, $storage_path))
