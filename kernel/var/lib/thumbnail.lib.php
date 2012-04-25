@@ -67,5 +67,46 @@ class thumbnail
 		else
 			return FALSE;
 	}
+/* 9* 
+	$image_to   - file name with fullpath to image 
+	$sType      - 'jpeg,png,gif' 
+	$fwatermark - filename with fullpath to png watermark
+	watermark will be set at left bottom of the image
+*/
+	public	function SetWatermark($image_to, $sType, $sfWatermark)
+	{
+		if(!file_exists($image_to))
+		{
+			return false;
+		}
+		if('png' == $sType)
+		{
+			$rImg = imagecreatefrompng($image_to);
+		}
+		if('jpeg' == $sType || 'jpg' == $sType)
+		{
+			$rImg = imagecreatefromjpeg($image_to);
+		}
+		if('gif' == $sType) 
+		{
+			$rImg = imagecreatefromgif($image_to);
+		}
+		$iDelta = 5;
+		$xImg = imagesx($rImg);
+		$yImg = imagesy($rImg);
+		$r = imagecreatefrompng($sfWatermark);
+		$x = imagesx($r);
+		$y = imagesy($r);
+		$xDest= $iDelta;
+		$yDest=$yImg-($y + $iDelta);
+		imageAlphaBlending($rImg,TRUE);
+		imagecopy($rImg,$r, $xDest,$yDest, 0,0, $x,$y);
+		if('png' == $sType) imagepng($rImg,$image_to);
+		if('jpeg' == $sType || 'jpg' == $sType) imagejpeg($rImg,$image_to,100);
+		if('gif' == $sType) imagegif($rImg,$image_to);
+		imagedestroy($r);
+		imagedestroy($rImg);
+		return true;
+	}
 }
 ?>
