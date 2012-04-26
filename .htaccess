@@ -11,7 +11,9 @@ RewriteRule	^xxx/di/([^/]+)/(.*)\.[a-z]+$	adm_data.php?di=$1&cll=$2			[L,QSA]
 
 RewriteRule	^files/$  			file.php?di=fm_files&cll=get			[L,QSA]
 RewriteRule	^ui/([^/]+)/(.*)\.[a-z]+$	pub_gui.php?ui=$1&cll=$2			[L,QSA]
-
+RewriteRule     (.*).cfg.php$	index.php
+RewriteRule     ^etc/(.*)	index.php
+RewriteRule     ^instances/(.*)\.php	index.php
 RewriteCond	%{REQUEST_FILENAME} !-f
 RewriteCond	%{REQUEST_FILENAME} !-d
 RewriteRule	^(.*)		index.php
