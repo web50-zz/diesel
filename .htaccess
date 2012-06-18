@@ -1,7 +1,7 @@
 AddDefaultCharset utf-8
 DirectoryIndex	index.php
 
-Options +Indexes +FollowSymlinks -MultiViews
+Options -Indexes +FollowSymlinks -MultiViews
 RewriteEngine	on
 RewriteBase	/
 RewriteRule	^xxx/$  			adm_gui.php?ui=administrate&cll=workspace	[L,QSA]
