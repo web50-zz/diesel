@@ -57,6 +57,9 @@ class di_fm_files extends data_interface
 			header ('Connection: close');
 			header ('Content-Type: ' . $file->type . '; charset=' . CHARSET);
 			if (isset($this->args['download'])) header ('Content-Disposition: attachment; filename="' . $file->name . '"');
+			//in some cases buffer have shit so clean it before 
+			ob_clean();
+			flush();
 			file_system::file_content($file->real_name);
 		}
 		else
