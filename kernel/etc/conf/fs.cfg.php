@@ -6,5 +6,5 @@
 * @package	SBIN Diesel
 */
 // NOTE: Путь к хранилищу файлов
-define ('FILE_STORAGE_PATH', KERNEL_PATH . 'var/filestorage/');
+define ('FILE_STORAGE_PATH', BASE_PATH . 'filestorage/');
 ?>
