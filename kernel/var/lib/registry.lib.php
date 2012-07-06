@@ -44,7 +44,8 @@ class registry
 				}
 			break;
 			default:
-				throw new Exception("Unknown registry record type for '{$name}'");
+				return (string)$rec->value; //9* пусть стринг по дефолту, да и не будет ругаться если нет ключа.
+				//throw new Exception("Unknown registry record type for '{$name}'");
 		}
 	}
 }
