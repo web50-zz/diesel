@@ -980,6 +980,10 @@ class connector_mysql
 				{
 					$x[] = "`{$rec['field']}` {$rec['dir']}";
 				}
+				else if (!preg_match('/^\w+$/', $rec['field']))
+				{
+					$x[] = "{$rec['field']}";
+				}
 				else if ($rec['di']->field_exists($rec['field']))
 				{
 					$table = $rec['di']->get_alias();
