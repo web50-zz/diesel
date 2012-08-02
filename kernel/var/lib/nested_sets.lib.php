@@ -240,7 +240,7 @@ class nested_sets
 				$q.= ' LEFT JOIN `' . $this->di->get_name() . '` AS sp2 ON sp2.left < sp1.left AND sp2.right > sp1.right';
 				$q.= ' WHERE';
 				$q.= ' sp2.id = ' . $pid;
-				if ($level) $q.= ' AND (sp1.level - sp2.level) <= ' . $level;
+				if ($level) $q.= ' AND (CAST(sp1.level AS signed) - CAST(sp2.level AS signed)) <= ' . $level;
 				if ($this->di->where) $q.= ' AND (' . str_replace('[table]', 'sp1.', $this->di->where) . ')';
 				if (!$this->di->order)
 					$q.= ' ORDER BY sp1.left';
