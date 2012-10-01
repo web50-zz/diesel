@@ -444,7 +444,9 @@ class connector_mysql
 			$with_db = $with_di->get_db();
 			$this->_joins[$name] = "{$join_type} JOIN `{$with_db}`.`{$with_name}` AS `{$with_alias}`";
 		}
-		$this->_joins[$name].= ' ON ' . join(' AND ', $_on_);
+
+		if (!empty($_on_))
+			$this->_joins[$name].= ' ON ' . join(' AND ', $_on_);
 		
 		// Запоминаем объединяемый ИД
 		$this->_set_dis($with_di);
@@ -615,7 +617,12 @@ class connector_mysql
 		break;
 		case  'STANDARD':
 		default:
-			$this->_from = "FROM `" . $this->di->get_name() . "`";
+			// Если DI не таблица, а запрос, то вставляем его
+			if (!empty($this->di->query))
+				$this->_from = "FROM ({$this->di->query}) AS `" . $this->di->get_name() . "`";
+			else
+				$this->_from = "FROM `" . $this->di->get_name() . "`";
+
 			if (!empty($this->_joins))
 				$this->_from.= ' ' . join("\n ", $this->_joins);
 		}
@@ -979,6 +986,10 @@ class connector_mysql
 				if ($rec['di'] === null)
 				{
 					$x[] = "`{$rec['field']}` {$rec['dir']}";
+				}
+				else if (!preg_match('/^\w+$/', $rec['field']))
+				{
+					$x[] = "{$rec['field']}";
 				}
 				else if ($rec['di']->field_exists($rec['field']))
 				{
