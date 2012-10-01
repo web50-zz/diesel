@@ -17,3 +17,5 @@ kernel/var/dump/current/*
 !kernel/var/dump/current/README
 filestorage/*
 !filestorage/README
+share/*
+!share/README

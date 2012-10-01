@@ -15,6 +15,20 @@ ui.security.main = function(config){
 			scope: this
 		});
 	}.createDelegate(this);
+	var doSyncList = function(){
+		loadMask.show();
+		Ext.Ajax.request({
+			url: 'di/interface/reg_list.do',
+			disableCaching: true,
+			callback: function(options, success, response){
+				loadMask.hide();
+				var d = Ext.util.JSON.decode(response.responseText);
+				if (!(success && d.success))
+					showError(this.errDoSync);
+			},
+			scope: this
+		});
+	}.createDelegate(this);
 	var group = new ui.group.main({
 		title: this.ttlGroups,
 		region: 'west',
@@ -188,7 +202,8 @@ ui.security.main = function(config){
 		layout: 'border',
 		tbar: new Ext.Toolbar({items:[
 			{text: this.menuTitleMain, iconCls: 'shield', menu:[
-				{text: this.menuTitleSync, iconCls: 'shield_go', handler: doSync}
+				{text: this.menuTitleSync, iconCls: 'shield_go', handler: doSync},
+				{text: this.menuTitleSyncList, iconCls: 'internet', handler: doSyncList}
 			]}
 		]}),
 		items: [group, user]
@@ -211,6 +226,7 @@ Ext.extend(ui.security.main, Ext.Panel, {
 	ttlGroups: 'Группы',
 	menuTitleMain: 'Операции',
 	menuTitleSync: 'Синхронизация',
+	menuTitleSyncList: 'Регистрация вызовов',
 	bttAddUsers: 'Добавить пользователя', 
 	bttRemoveUsers: 'Удалить пользователей', 
 	errDoSync: 'Ошибка при синхронизации модулей',

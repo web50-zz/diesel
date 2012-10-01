@@ -61,6 +61,9 @@ class di_interface extends data_interface
 	*/
 	protected function sys_sync()
 	{
+		// Регистрация всех listeners
+		event_manager::register_listeners();
+
 		// Сбросить со всех записей признака проверен (поле check)
 		$this->_flush();
 		$this->insert_on_empty = false;
@@ -94,6 +97,17 @@ class di_interface extends data_interface
 		}
 		$this->pop_args();
 
+		response::send(array('success' => true), 'json');
+	}
+
+	/**
+	*	System interfaces listeners registration
+	* @access protected
+	*/
+	protected function sys_reg_list()
+	{
+		// Регистрация всех listeners
+		event_manager::register_listeners();
 		response::send(array('success' => true), 'json');
 	}
 

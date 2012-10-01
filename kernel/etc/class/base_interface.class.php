@@ -164,5 +164,10 @@ class base_interface
 		$this->args =  array_pop($this->args_stack);
 		return $this->args;
 	}
+
+	public function fire_event($event_name, $event_params = null, $args = null)
+	{
+		event_manager::fire_event($this, $event_name, $event_params, $args);
+	}
 }
 ?>

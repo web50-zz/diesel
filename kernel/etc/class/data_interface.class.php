@@ -123,6 +123,12 @@ class data_interface extends base_interface
 	protected $__ignore_next_flush = false;
 
 	/**
+	* @access	public
+	* @var	boolean	$default_events		Fire default events
+	*/
+	public $default_events = true;
+
+	/**
 	*	Constructor which MUST be called from derived Class Constructor
 	*/
 	protected function __construct($strDerivedClassName = null)
@@ -628,6 +634,9 @@ class data_interface extends base_interface
 		{
 			$this->args['_sid'] = request::json2int($this->args['records']);
 		}
+		// If enabled default events
+		if ($this->default_events)
+			$this->fire_event('onBeforeUnset', array($this->get_args()));
 		return $this->connector->_unset($query);
 	}
 	
@@ -768,6 +777,9 @@ class data_interface extends base_interface
 	{
 		try
 		{
+			// If enabled default events
+			if ($this->default_events)
+				$this->fire_event('onBeforeSet', array($this->get_args()));
 			$this->_set();
 			$data = array(
 				'success' => true,
@@ -775,6 +787,9 @@ class data_interface extends base_interface
 					'id' => $this->get_lastChangedId(0)
 					)
 				);
+			// If enabled default events
+			if ($this->default_events)
+				$this->fire_event('onSet', array($this->get_lastChangedId(), $this->get_args()));
 		}
 		catch(Exception $e)
 		{
@@ -807,6 +822,9 @@ class data_interface extends base_interface
 					'id' => $this->get_lastChangedId(0)
 					)
 				);
+			// If enabled default events
+			if ($this->default_events)
+				$this->fire_event('onUnset', array($this->get_lastChangedId(), $this->get_args()));
 		}
 		catch(Exception $e)
 		{
