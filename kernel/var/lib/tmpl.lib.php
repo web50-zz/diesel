@@ -514,8 +514,14 @@ class tmpl
 	*/
 	private function _parse_apply($params, $body)
 	{
+		// Поиск конструкции вида $some_var explode(,)
+		preg_match("/(.+) (explode)\(((?>[^()]+)|(?R))*\)/i", $params, $matches);
+		// Если был найден explode, то отделяем переменную
+		if (!empty($matches)) $params = $matches[1];
 		if ($_data = $this->_parse_path($params))
 		{
+			// Если был найден explode то используем его для преобразования данных
+			if (!empty($matches)) $_data = explode($matches[3], $_data);
 			return $this->apply_template_for_multiple($_data, $body);
 		}
 	}
