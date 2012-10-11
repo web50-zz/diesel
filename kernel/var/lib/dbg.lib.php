@@ -23,10 +23,13 @@ class dbg
 	public static function write($value, $file = NULL)
 	{
 		$log_file = ($file) ? $file : LOG_PATH . 'debug.log';
-		$dbgs = array_shift(debug_backtrace());
 		$msg =  date('====================[ Y-m-d H:i:s ]==========' . "\n");
-		$msg.= 'file:..... '.$dbgs['file']. "\n";
-		$msg.= 'line:..... '.$dbgs['line'] . "\n\n";
+		if ($x = debug_backtrace())
+		{
+			$dbgs = array_shift($x);
+			$msg.= 'file:..... '.$dbgs['file']. "\n";
+			$msg.= 'line:..... '.$dbgs['line'] . "\n\n";
+		}
 		$msg.=  var_export($value, true) . "\n\n";
 //		$msg.=  '====================[ END OF DEBUG BLOCK ]===========' . "\n\n\n";
 		error_log($msg,3,$log_file);
