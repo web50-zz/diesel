@@ -87,6 +87,7 @@ class base_interface
 			$this->args = $args;
 		else
 			$this->args = array_merge($this->args, $args);
+		return $this;
 	}
 	
 	/**
@@ -152,6 +153,7 @@ class base_interface
 	{
 		$this->args_stack[] = $this->args;
 		$this->args = (array)$args;
+		return $this;
 	}
 	
 	/**
@@ -162,12 +164,13 @@ class base_interface
 	{
 		//return array_pop($this->args_stack);
 		$this->args =  array_pop($this->args_stack);
-		return $this->args;
+		return $this;
 	}
 
 	public function fire_event($event_name, $event_params = null, $args = null)
 	{
 		event_manager::fire_event($this, $event_name, $event_params, $args);
+		return $this;
 	}
 }
 ?>

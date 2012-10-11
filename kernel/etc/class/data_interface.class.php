@@ -136,6 +136,25 @@ class data_interface extends base_interface
 		if (!$strDerivedClassName) $strDerivedClassName = __CLASS__;
 		parent::__construct($strDerivedClassName);
 	}
+	
+	/**
+	*	Инициализация интерфейса
+	*/
+	private function _init()
+	{
+		// If configuration name presents
+		if ($this->cfg)
+		{
+			// If connector type presents
+			if (!empty(db_config::$params[$this->cfg]['type']))
+			{
+				$conType = db_config::$params[$this->cfg]['type'];
+				$conName = CONNECTOR_CLASS_PREFIX . $conType;
+				$this->connector = new $conName($this);
+			}
+		}
+		return $this;
+	}
   	
 	/**
 	*	Создать экземпляр класса указанного DI
@@ -218,6 +237,15 @@ class data_interface extends base_interface
 		}
 		return self::$registry[$name];
 	}
+
+	/**
+	*	Get current connector
+	* @return	object	Current DB connector
+	*/
+	public function get_connector()
+	{
+		return $this->connector;
+	}
 	
 	/**
 	*	Получить экземпляр класса указанного Запроса
@@ -277,6 +305,7 @@ class data_interface extends base_interface
 	{
 		$this->rcount = count($results);
 		$this->results = $results;
+		return $this;
 	}
 	
 	/**
@@ -327,6 +356,7 @@ class data_interface extends base_interface
 	public function set_lastChangedId($id)
 	{
 		$this->lastChangedId = $id;
+		return $this;
 	}
 	
 	/**
@@ -349,6 +379,7 @@ class data_interface extends base_interface
 	public function set_rowCount($count)
 	{
 		$this->rowCount = intval($count);
+		return $this;
 	}
 
 	/**
@@ -417,6 +448,7 @@ class data_interface extends base_interface
 	public function set_alias($alias)
 	{
 		$this->alias = $alias;
+		return $this;
 	}
 	
 	/**
@@ -426,6 +458,7 @@ class data_interface extends base_interface
 	public function unset_alias()
 	{
 		$this->alias = null;
+		return $this;
 	}
 	
 	/**
@@ -435,6 +468,34 @@ class data_interface extends base_interface
 	public function get_mode()
 	{
 		return (!isset($this->mode) || empty($this->mode)) ? 'STANDARD' : $this->mode;
+	}
+
+	public function set_connector_debug($bool = true)
+	{
+		$this->connector->debug = $bool;
+		return $this;
+	}
+
+	/**
+	*	Set fields for query
+	* @param	array	$fields		Fields set
+	* @return	object	Data interface self
+	*/
+	public function set_what($fields = array())
+	{
+		$this->what = $fields;
+		return $this;
+	}
+
+	/**
+	*	Set conditions for query
+	* @param	array	$where		Conditions set
+	* @return	object	Data interface self
+	*/
+	public function set_where($where = array())
+	{
+		$this->where = $where;
+		return $this;
 	}
 	
 	/**
@@ -446,6 +507,7 @@ class data_interface extends base_interface
 	{
 		if (!$di) $di = $this;
 		$this->__group[] = array('field' => $field, 'di' => $di);
+		return $this;
 	}
 	
 	/**
@@ -458,6 +520,7 @@ class data_interface extends base_interface
 		if ($di === false) $di = $this;
 		$dir = (!in_array(strtoupper($dir), array('ASC', 'DESC'))) ? 'ASC' : strtoupper($dir);
 		$this->__order[] = array('field' => $field, 'dir' => $dir, 'di' => $di);
+		return $this;
 	}
 	
 	/**
@@ -468,6 +531,7 @@ class data_interface extends base_interface
 	public function set_limit($start, $limit)
 	{
 		$this->connector->set_limitation($start, $limit);
+		return $this;
 	}
 	
 	/**
@@ -483,6 +547,7 @@ class data_interface extends base_interface
 		else
 			foreach ($field as $field_name)
 				$this->fields[$field_name]['join_alias'] = $alias;
+		return $this;
 	}
 	
 	/**
@@ -513,6 +578,7 @@ class data_interface extends base_interface
 				$this->unset_fields_join_alias($field_name);
 		else if (!empty($field) && isset($this->fields[$field]['join_alias']))
 			unset($this->fields[$field]['join_alias']);
+		return $this;
 	}
 	
 	/**
@@ -552,24 +618,6 @@ class data_interface extends base_interface
 	}
 	
 	/**
-	*	Инициализация интерфейса
-	*/
-	private function _init()
-	{
-		// If configuration name presents
-		if ($this->cfg)
-		{
-			// If connector type presents
-			if (!empty(db_config::$params[$this->cfg]['type']))
-			{
-				$conType = db_config::$params[$this->cfg]['type'];
-				$conName = CONNECTOR_CLASS_PREFIX . $conType;
-				$this->connector = new $conName($this);
-			}
-		}
-	}
-	
-	/**
 	*	Сбросить служебные поля конектора
 	* @param	boolean	$ignore_next	Игнорировать следующий вызов _flush
 	*/
@@ -585,6 +633,7 @@ class data_interface extends base_interface
 		}
 		
 		$this->__ignore_next_flush = $ignore_next;
+		return $this;
 	}
 	
 	/**
@@ -617,17 +666,33 @@ class data_interface extends base_interface
 		return $this->connector->_join($by_di, $with_di, $on, $fields_alias, $join_type);
 	}
 	
+	/**
+	*	Do GET Query with set_resluts()
+	* @param	mixed	$query	Manual query (array or string for current connector)
+	* @return	object	Data interface object self
+	*/
 	public function _get($query = false)
 	{
 		$this->connector->_get($query);
-		return $this->get_results();
+		return $this;
 	}
 	
+	/**
+	*	Do SET Query
+	* @param	mixed	$query	Manual query (array or string for current connector)
+	* @return	object	Data interface object self
+	*/
 	public function _set($query = false)
 	{
-		return $this->connector->_set($query);
+		$this->connector->_set($query);
+		return $this;
 	}
 	
+	/**
+	*	Do UNSET Query
+	* @param	mixed	$query	Manual query (array or string for current connector)
+	* @return	object	Data interface object self
+	*/
 	public function _unset($query = false)
 	{
 		if (!$query && $this->args['records'] && !$this->args['_sid'])
@@ -637,12 +702,18 @@ class data_interface extends base_interface
 		// If enabled default events
 		if ($this->default_events)
 			$this->fire_event('onBeforeUnset', array($this->get_args()));
-		return $this->connector->_unset($query);
+		$this->connector->_unset($query);
+		return $this;
 	}
 	
+	/**
+	*	Clear table or collection
+	* @return	object	Data interface object self
+	*/
 	public function _clear()
 	{
-		return $this->connector->_clear();
+		$this->connector->_clear();
+		return $this;
 	}
 
 	/**
@@ -712,10 +783,14 @@ class data_interface extends base_interface
 		$limit = $this->get_args(array('start', 'limit'));
 		if (!empty($limit))
 			$this->set_limit($limit['start'], $limit['limit']);
-
-		$data['success'] = true;
-		$data['records'] = $this->_get();
-		$data['total'] = $this->connector->_found_rows;
+		
+		$this->_get();
+		
+		$data = array(
+			'success' => true,
+			'records' => $this->get_results(),
+			'total' => $this->get_rowCount(),
+		);
 		
 		if ($with_response)
 			response::send($data, 'json');
