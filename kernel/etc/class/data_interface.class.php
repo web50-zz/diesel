@@ -786,6 +786,7 @@ class data_interface extends base_interface
 		
 		$this->_get();
 		
+		dbg::write($this->get_rowCount());
 		$data = array(
 			'success' => true,
 			'records' => $this->get_results(),

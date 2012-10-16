@@ -287,7 +287,7 @@ class connector_mysql
 			$sth = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 			$sth->execute($values);
 
-			$this->di->set_rowCount($sth->rowCount());
+			//$this->di->set_rowCount($sth->rowCount());
 
 			if (($lid = $this->dbh->lastInsertId()) > 0)
 				$this->di->set_lastChangedId($lid);
@@ -342,7 +342,7 @@ class connector_mysql
 		$this->_group = '';
 		$this->_order = '';
 		$this->_limit = '';
-		$this->i_found_rows = 0;
+		$this->_found_rows = 0;
 	}
 	
 	/**
@@ -375,7 +375,8 @@ class connector_mysql
 
 			$sql = "SELECT COUNT(*) As `count` FROM (SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_having}) AS `total`";
 			$this->exec($sql, $this->_where_values, TRUE, TRUE);
-			$this->_found_rows = $this->di->get_results(0, 'count');
+			//$this->_found_rows = $this->di->get_results(0, 'count');
+			$this->di->set_rowCount($this->di->get_results(0, 'count'));
 
 			$sql = "SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_having} {$this->_order} {$this->_limit}";
 		}
