@@ -79,7 +79,8 @@ class di_user extends data_interface
 	{
 		$sql = 'SELECT `id`, `login`, `multi_login`, `name`, `email`, `lang`, `hash` FROM `' . $this->name . '` WHERE `id` = :id AND `login` = :login AND `hash` = :hash';
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
-		$result = $this->connector->exec($sql, array('id' => $id, 'login' => $login, 'hash' => $hash), true, true);
+		$this->connector->exec($sql, array('id' => $id, 'login' => $login, 'hash' => $hash), true, true);
+		$result = $this->get_results();
 		if (count($result) == 1)
 		{
 			$this->user = $result[0];
@@ -100,7 +101,8 @@ class di_user extends data_interface
 	{
 		$sql = 'SELECT `id`, `login`, (PASSWORD(:password) = `passw`) AS `passwd_check`, `type`, `server`, `multi_login`, `name`, `email`, `lang`, `hash` FROM `' . $this->name . '` WHERE `login` = :login';
 		$this->connector->fetchMethod = PDO::FETCH_ASSOC;
-		$result = $this->connector->exec($sql, array('login' => $login, 'password' => $password), true, true);
+		$this->connector->exec($sql, array('login' => $login, 'password' => $password), true, true);
+		$result = $this->get_results();
 		if (count($result) == 1)
 		{
 			switch($result[0]['type'])
@@ -208,7 +210,7 @@ class di_user extends data_interface
 		if (AUTH_MODE == 'public' && !defined(UID)) return true;
 
 		$sql = 'SELECT DISTINCT
-			i.id
+			COUNT(i.id) AS `count`
 		FROM
 			`sys_user` AS `u`
 			LEFT JOIN `group_user` AS `gu` ON gu.user_id = u.id
@@ -221,8 +223,9 @@ class di_user extends data_interface
 			AND i.name = '{$interface}'
 			AND ep.name = '{$entry_point}'
 			";
-		$records = $this->_get($sql);
-		return ($this->get_rowCount() > 0);
+		$this->_get($sql);
+		return ($this->get_results(0, 'count') > 0);
+
 	}
 	
 	/**
