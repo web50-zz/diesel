@@ -55,7 +55,8 @@ class di_entry_point extends data_interface
 			'human_name'
 		);
 		$this->set_args(array('_sname' => 'pub_%'), true);
-		response::send($this->_get(), 'json');
+		$this->_get()
+		response::send($this->get_results(), 'json');
 	}
 		
 	/**

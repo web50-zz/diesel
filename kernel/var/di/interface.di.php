@@ -52,7 +52,8 @@ class di_interface extends data_interface
 		$this->what = array('name', 'human_name');
 		$this->set_group('id');
 		$this->set_order('human_name');
-		response::send($this->_get(), 'json');
+		$this->_get();
+		response::send($this->get_results(), 'json');
 	}
 
 	/**
