@@ -25,7 +25,11 @@ define('MINIFY_MIN_DIR', dirname(__FILE__));
 // load default config
 require MINIFY_MIN_DIR . '/config.php';
 // load current config
-$etc_config = $_SERVER['DOCUMENT_ROOT'].'/etc/minify.cfg.php';
+if(is_file($_SERVER['DOCUMENT_ROOT'].'/etc/minify.cfg.php')){
+	$etc_config = $_SERVER['DOCUMENT_ROOT'].'/etc/minify.cfg.php';
+}else{
+	$etc_config = $_SERVER['DOCUMENT_ROOT'].'/kernel/etc/conf/minify.cfg.php';
+}
 if(file_exists($etc_config))
 {
 	include_once $etc_config;
