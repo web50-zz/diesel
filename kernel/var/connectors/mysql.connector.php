@@ -1233,8 +1233,24 @@ class connector_mysql
 			case 'integer':
 				if (isset($this->_args[$sField]))
 				{
-					$this->_fields[] = $field;
-					$this->_fields_values[$field] = intval($this->_args[$sField]);
+					if (preg_match('/^([+-]{2})(\d+)$/', $this->_args[$sField], $matches))
+					{
+						if ($matches[1] == '++')
+						{
+							$this->_fields[] = array('name' => $field, 'function' => "`{$field}` + :{$field}");
+							$this->_fields_values[$field] = $matches[2];
+						}
+						elseif ($matches[1] == '--')
+						{
+							$this->_fields[] = array('name' => $field, 'function' => "`{$field}` - :{$field}");
+							$this->_fields_values[$field] = $matches[2];
+						}
+					}
+					else
+					{
+						$this->_fields[] = $field;
+						$this->_fields_values[$field] = intval($this->_args[$sField]);
+					}
 				}
 			break;
 			case 'double':
