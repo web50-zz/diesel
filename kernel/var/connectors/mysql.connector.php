@@ -146,7 +146,9 @@ class connector_mysql
 			$pass = $cfg['pass'];
 			$this->dbh = new PDO($param, $user, $pass, array(
 				// SQL-ошибки отдавать как PDOException
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+				// Persistent connections enabled 9* 19032013
+				PDO::ATTR_PERSISTENT => true
 				));
 			$this->get_version();
 			$this->set_character_set($cfg['charset']);
