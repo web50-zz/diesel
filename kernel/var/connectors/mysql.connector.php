@@ -742,10 +742,20 @@ class connector_mysql
 					$str = "{$name}.{$field} > :_m{$sField}";
 					$this->_where_values['_m'.$sField] = intval($this->_args['_m'.$sField]);
 				}
+				else if (isset($this->_args['_M'.$sField]))
+				{
+					$str = "{$name}.{$field} >= :_M{$sField}";
+					$this->_where_values['_M'.$sField] = intval($this->_args['_M'.$sField]);
+				}
 				else if (isset($this->_args['_l'.$sField]))
 				{
 					$str = "{$name}.{$field} < :_l{$sField}";
 					$this->_where_values['_l'.$sField] = intval($this->_args['_l'.$sField]);
+				}
+				else if (isset($this->_args['_L'.$sField]))
+				{
+					$str = "{$name}.{$field} <= :_L{$sField}";
+					$this->_where_values['_L'.$sField] = intval($this->_args['_L'.$sField]);
 				}
 			break;
 			case 'float':
@@ -782,17 +792,36 @@ class connector_mysql
 					$str = "{$name}.{$field} > :_m{$sField}";
 					$this->_where_values['_m'.$sField] = floatval($this->_args['_m'.$sField]);
 				}
+				else if (isset($this->_args['_M'.$sField]))
+				{
+					$str = "{$name}.{$field} >= :_M{$sField}";
+					$this->_where_values['_M'.$sField] = floatval($this->_args['_M'.$sField]);
+				}
 				else if (isset($this->_args['_l'.$sField]))
 				{
 					$str = "{$name}.{$field} < :_l{$sField}";
 					$this->_where_values['_l'.$sField] = floatval($this->_args['_l'.$sField]);
 				}
+				else if (isset($this->_args['_L'.$sField]))
+				{
+					$str = "{$name}.{$field} <= :_L{$sField}";
+					$this->_where_values['_L'.$sField] = floatval($this->_args['_L'.$sField]);
+				}
 			break;
 			case 'date':
 				if (isset($this->_args['_s'.$sField]))
 				{
-					$str = "{$name}.{$field} = :_s{$sField}";
-					$this->_where_values['_s'.$sField] = $this->_args['_s'.$sField];
+					if (is_array($this->_args['_s'.$sField]))
+					{
+						$str = "{$name}.{$field} BETWEEN STR_TO_DATE(:_Fs{$sField}, '%Y-%m-%d') AND STR_TO_DATE(:_Ts{$sField}, '%Y-%m-%d')";
+						$this->_where_values['_Fs'.$sField] = $this->_args['_s'.$sField][0];
+						$this->_where_values['_Ts'.$sField] = $this->_args['_s'.$sField][1];
+					}
+					else
+					{
+						$str = "{$name}.{$field} = :_s{$sField}";
+						$this->_where_values['_s'.$sField] = $this->_args['_s'.$sField];
+					}
 				}
 				else if (isset($this->_args['_n'.$sField]))
 				{
@@ -819,12 +848,41 @@ class connector_mysql
 					$str = "{$name}.{$field} <= :_sTo{$sField}";
 					$this->_where_values['_sTo'.$sField] = sprintf('%04d-%02d-%02d', $this->_args['_sTo'.$sField.'_year'], $this->_args['_sTo'.$sField.'_month'], $this->_args['_sTo'.$sField.'_day']);
 				}
+				else if (isset($this->_args['_m'.$sField]))
+				{
+					$str = "{$name}.{$field} > STR_TO_DATE(:_m{$sField}, '%Y-%m-%d')";
+					$this->_where_values['_m'.$sField] = $this->_args['_m'.$sField];
+				}
+				else if (isset($this->_args['_M'.$sField]))
+				{
+					$str = "{$name}.{$field} >= STR_TO_DATE(:_M{$sField}, '%Y-%m-%d')";
+					$this->_where_values['_M'.$sField] = $this->_args['_M'.$sField];
+				}
+				else if (isset($this->_args['_l'.$sField]))
+				{
+					$str = "{$name}.{$field} < STR_TO_DATE(:_l{$sField}, '%Y-%m-%d')";
+					$this->_where_values['_l'.$sField] = $this->_args['_l'.$sField];
+				}
+				else if (isset($this->_args['_L'.$sField]))
+				{
+					$str = "{$name}.{$field} <= STR_TO_DATE(:_L{$sField}, '%Y-%m-%d')";
+					$this->_where_values['_L'.$sField] = $this->_args['_L'.$sField];
+				}
 			break;
 			case 'time':
 				if (isset($this->_args['_s'.$sField]))
 				{
-					$str = "{$name}.{$field} = :_s{$sField}";
-					$this->_where_values['_s'.$sField] = $this->_args['_s'.$sField];
+					if (is_array($this->_args['_s'.$sField]))
+					{
+						$str = "{$name}.{$field} BETWEEN STR_TO_DATE(:_Fs{$sField}, '%H:%i:%s') AND STR_TO_DATE(:_Ts{$sField}, '%H:%i:%s')";
+						$this->_where_values['_Fs'.$sField] = $this->_args['_s'.$sField][0];
+						$this->_where_values['_Ts'.$sField] = $this->_args['_s'.$sField][1];
+					}
+					else
+					{
+						$str = "{$name}.{$field} = :_s{$sField}";
+						$this->_where_values['_s'.$sField] = $this->_args['_s'.$sField];
+					}
 				}
 				else if (isset($this->_args['_n'.$sField]))
 				{
@@ -851,12 +909,41 @@ class connector_mysql
 					$str = "{$name}.{$field} <= :_sTo{$sField}";
 					$this->_where_values['_sTo'.$sField] = sprintf('H:i:s', $this->_args['_sTo'.$sField.'_hour'], $this->_args['_sTo'.$sField.'_min'], $this->_args['_sTo'.$sField.'_sec']);
 				}
+				else if (isset($this->_args['_m'.$sField]))
+				{
+					$str = "{$name}.{$field} > STR_TO_DATE(:_m{$sField}, '%H:%i:%s')";
+					$this->_where_values['_m'.$sField] = $this->_args['_m'.$sField];
+				}
+				else if (isset($this->_args['_M'.$sField]))
+				{
+					$str = "{$name}.{$field} >= STR_TO_DATE(:_M{$sField}, '%H:%i:%s')";
+					$this->_where_values['_M'.$sField] = $this->_args['_M'.$sField];
+				}
+				else if (isset($this->_args['_l'.$sField]))
+				{
+					$str = "{$name}.{$field} < STR_TO_DATE(:_l{$sField}, '%H:%i:%s')";
+					$this->_where_values['_l'.$sField] = $this->_args['_l'.$sField];
+				}
+				else if (isset($this->_args['_L'.$sField]))
+				{
+					$str = "{$name}.{$field} <= STR_TO_DATE(:_L{$sField}, '%H:%i:%s')";
+					$this->_where_values['_L'.$sField] = $this->_args['_L'.$sField];
+				}
 			break;
 			case 'datetime':
 				if (isset($this->_args['_s'.$sField]))
 				{
-					$str = "{$name}.{$field} = :_s{$sField}";
-					$this->_where_values['_s'.$sField] = $this->_args['_s'.$sField];
+					if (is_array($this->_args['_s'.$sField]))
+					{
+						$str = "{$name}.{$field} BETWEEN STR_TO_DATE(:_Fs{$sField}, '%Y-%m-%d %H:%i:%s') AND STR_TO_DATE(:_Ts{$sField}, '%Y-%m-%d %H:%i:%s')";
+						$this->_where_values['_Fs'.$sField] = $this->_args['_s'.$sField][0];
+						$this->_where_values['_Ts'.$sField] = $this->_args['_s'.$sField][1];
+					}
+					else
+					{
+						$str = "{$name}.{$field} = :_s{$sField}";
+						$this->_where_values['_s'.$sField] = $this->_args['_s'.$sField];
+					}
 				}
 				else if (isset($this->_args['_n'.$sField]))
 				{
@@ -883,6 +970,26 @@ class connector_mysql
 					$str = "{$name}.{$field} <= :_sTo{$sField}";
 					$this->_where_values['_sTo'.$sField] = sprintf('%04d-%02d-%02d H:i:s', $this->_args['_sTo'.$sField.'_year'], $this->_args['_sTo'.$sField.'_month'], $this->_args['_sTo'.$sField.'_day'], $this->_args['_sTo'.$sField.'_hour'], $this->_args['_sTo'.$sField.'_min'], $this->_args['_sTo'.$sField.'_sec']);
 				}
+				else if (isset($this->_args['_m'.$sField]))
+				{
+					$str = "{$name}.{$field} > STR_TO_DATE(:_m{$sField}, '%Y-%m-%d %H:%i:%s')";
+					$this->_where_values['_m'.$sField] = $this->_args['_m'.$sField];
+				}
+				else if (isset($this->_args['_M'.$sField]))
+				{
+					$str = "{$name}.{$field} >= STR_TO_DATE(:_M{$sField}, '%Y-%m-%d %H:%i:%s')";
+					$this->_where_values['_M'.$sField] = $this->_args['_M'.$sField];
+				}
+				else if (isset($this->_args['_l'.$sField]))
+				{
+					$str = "{$name}.{$field} < STR_TO_DATE(:_l{$sField}, '%Y-%m-%d %H:%i:%s')";
+					$this->_where_values['_l'.$sField] = $this->_args['_l'.$sField];
+				}
+				else if (isset($this->_args['_L'.$sField]))
+				{
+					$str = "{$name}.{$field} <= STR_TO_DATE(:_L{$sField}, '%Y-%m-%d %H:%i:%s')";
+					$this->_where_values['_L'.$sField] = $this->_args['_L'.$sField];
+				}
 			break;
 			case 'string': case 'text':
 				if (isset($this->_args['_s'.$sField]))
@@ -908,6 +1015,13 @@ class connector_mysql
 					{
 						$str = "{$name}.{$field} IS NOT NULL";
 					}
+				}
+			break;
+			case 'password':
+				if (!empty($this->_args['_s'.$sField]))
+				{
+					$str = "{$name}.{$field} = PASSWORD(:_s{$sField})";
+					$this->_where_values['_s'.$sField] = $this->_args['_s'.$sField];
 				}
 			break;
 			default:
