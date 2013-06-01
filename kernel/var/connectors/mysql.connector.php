@@ -331,6 +331,7 @@ class connector_mysql
 	*/
 	public function _flush()
 	{
+		$this->fetchMethod = PDO::FETCH_OBJ;
 		$this->_prepare_mode = '';
 		$this->_what = '';
 		$this->_from = '';
