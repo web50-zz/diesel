@@ -112,6 +112,39 @@ class di_system_menu extends data_interface
 		response::send($data, 'json');
 	}
 	
+	public function node_set()
+	{
+		if ($this->args['_sid'] > 0)
+		{
+			$this->_flush();
+			$this->insert_on_empty = false;
+			$data = $this->extjs_set_json(false);
+		}
+		else if($this->args['pid'] > 0)
+		{
+			$ns = new nested_sets($this);
+			unset($this->args['_sid']); // Иначе будет пытаться обновить нулевую ноду
+			
+			if ($ns->add_node($this->args['pid']))
+			{
+				$this->args['_sid'] = $this->get_lastChangedId(0);
+				$data = array(
+					'success' => true,
+					'data' => array(
+						'id' =>  $this->get_lastChangedId(0)
+					));
+			}
+			else
+			{
+				$data = array(
+					'success' => false,
+					'errors' =>  $e->getMessage()
+					);
+			}
+		}
+		return $data;
+	}
+
 	/**
 	*	Переместить узел
 	* @access protected
