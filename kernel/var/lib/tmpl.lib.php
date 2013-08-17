@@ -918,7 +918,9 @@ class tmpl
 				AND ($matches = $this->_parse_XPath_get_conditions($params[$key]))
 				)
 			{
-				if ($data = $this->_get_value($data, $name))
+				//if ($data = $this->_get_value($data, $name))
+				# 2013-06-05 Anthon S Litvinenko _get_value не обрабатывало переменные вида #var
+				if ($data = $this->_parse_path($name, $data))
 				{
 					if (isset($data[0]))
 					{
