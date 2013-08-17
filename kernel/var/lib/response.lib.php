@@ -115,7 +115,7 @@ class response
 		{
 			$data = response::to_unicode($data);
 		}
-		return json_encode($data);
+		return json_encode($data, JSON_HEX_QUOT | JSON_HEX_TAG);
 	}
 	
 	/**

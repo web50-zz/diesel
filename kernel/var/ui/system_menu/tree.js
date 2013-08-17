@@ -15,6 +15,23 @@ ui.system_menu.tree = function(config){
 Ext.extend(ui.system_menu.tree, Ext.tree.TreePanel, {
 	msgLoading: "Загрузка данных...",
 	operation: {
+		Reload: function(s,id){
+			if (id){
+				var node = s.getNodeById(id);
+				if (node){
+					node.expand()
+					if (!node.expanded){
+				//9* expand operation  seems to be necessary anyway  		node.expand()
+					}else{
+						node.reload();
+					}
+					s.fireEvent('changenode', node.id, node);
+				}
+			}else if (s.root.rendered == true){
+				s.root.reload();
+			}
+		},
+/*
 		Reload: function(id){
 			if (id){
 				var node = this.getNodeById(id);
@@ -27,6 +44,7 @@ Ext.extend(ui.system_menu.tree, Ext.tree.TreePanel, {
 			}else if (this.root.rendered == true)
 				this.root.reload();
 		},
+	*/
 		Move: function(tree, node, oldParent, newParent, index){
 			Ext.Ajax.request({
 				url: 'di/system_menu/move.do',
