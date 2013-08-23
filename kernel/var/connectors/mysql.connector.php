@@ -1090,7 +1090,8 @@ class connector_mysql
 		{
 			// NOTE: Считаем сколько записей можно найти по такому условию
 			$sql = "SELECT COUNT(*) AS `total` FROM {$this->_from} {$this->_where} {$this->_order} {$this->_limit}";
-			$count = array_pop($this->exec($sql, $this->_where_values, TRUE));
+			$x = $this->exec($sql, $this->_where_values, TRUE);
+			$count = $x[0];
 			
 			if ($count->total > 0)
 			// NOTE: Найдены записи по данным условиям, поэтому обновляем их
