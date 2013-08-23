@@ -101,7 +101,11 @@ class ui_administrate extends user_interface
 		foreach ($menu as $i => $item)
 		{
 			if (is_array($item['menu']))
+			{
 				$menu[$i]['menu'] = $this->process_menu($item['menu'], $ifs);
+				if (empty($menu[$i]['menu']))
+					unset($menu[$i]);
+			}
 			else if (!$this->check_menu_item($item, $ifs))
 				unset($menu[$i]);
 		}

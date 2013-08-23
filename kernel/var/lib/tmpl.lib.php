@@ -130,14 +130,29 @@ class tmpl
 	private function load_template($tmpl_name)
 	{
 		$tmpl_file = $this->tmpl_path . $tmpl_name;
-		
 		if (file_exists($tmpl_file))
-			if (($this->tmpl = file_get_contents($tmpl_file)) !== FALSE)
-				return TRUE;
-			else
-				throw new Exception('Can`t load tmpl file "' . $tmpl_file . '".');
+		{
+			 if (function_exists('ioncube_read_file')) 
+			 {
+		                 $this->tmpl = ioncube_read_file($tmpl_file);
+				 return TRUE;
+			 }
+			 else  
+			 {
+				if (($this->tmpl = file_get_contents($tmpl_file)) !== FALSE)
+				{
+					return TRUE;
+				}
+				else
+				{
+					throw new Exception('Can`t load tmpl file "' . $tmpl_file . '".');
+				}	
+			 }
+		}
 		else
+		{
 			throw new Exception('The tmpl file "' . $tmpl_file . '" not exists.');
+		}
 	}
 	
 	/**
@@ -903,7 +918,9 @@ class tmpl
 				AND ($matches = $this->_parse_XPath_get_conditions($params[$key]))
 				)
 			{
-				if ($data = $this->_get_value($data, $name))
+				//if ($data = $this->_get_value($data, $name))
+				# 2013-06-05 Anthon S Litvinenko _get_value не обрабатывало переменные вида #var
+				if ($data = $this->_parse_path($name, $data))
 				{
 					if (isset($data[0]))
 					{

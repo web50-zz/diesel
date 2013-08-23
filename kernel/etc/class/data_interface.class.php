@@ -528,7 +528,7 @@ class data_interface extends base_interface
 	* @param	integer	$start	Начало
 	* @param	integer	$limit	Смещение
 	*/
-	public function set_limit($start, $limit)
+	public function set_limit($start, $limit = 0)
 	{
 		$this->connector->set_limitation($start, $limit);
 		return $this;
@@ -625,6 +625,7 @@ class data_interface extends base_interface
 	{
 		if ($this->__ignore_next_flush === false)
 		{
+			$this->what = null;
 			$this->where = null;
 			$this->having = null;
 			$this->__order = array();

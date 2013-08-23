@@ -69,6 +69,52 @@ class file_system
 			return false;
 		}
 	}
+
+	/**
+	*	Сохранить файл загруженный по HTTP
+	* @param	string	$name	Имя поля загружаемого файла
+	*/
+	public static function copy_file($source, $storage_path = null, $real_name = null)
+	{
+		try
+		{
+			if (!file_exists($source))
+				throw new Exception("The source file '{$source}' not exists.");
+
+			$data['name'] = basename($source);
+			$data['type'] = mime_content_type($source);
+			$data['size'] = filesize($source);
+			if (!$storage_path) $storage_path = FILE_STORAGE_PATH;
+
+			if ($real_name === null)
+			{
+				$k = 0;
+				$file = '';
+				do
+				{
+					$k++;
+					$data['real_name'] = md5($data['name'] . mktime() . $k) . '.' . strtolower(array_pop(preg_split("/\./", $data['name'])));
+					$file = $storage_path . $data['real_name'];
+				}
+				while(file_exists($file));
+			}
+			else
+			{
+				$data['real_name'] = $real_name;
+				$file = $storage_path . $data['real_name'];
+			}
+
+			if(!copy($source, $file))
+				throw new Exception('can`t copy file "' . $source . '" to "' . $file . '"');
+			
+			return $data;
+		}
+		catch(Exception $e)
+		{
+			dbg::write("ERROR: " . $e->getMessage());
+			return false;
+		}
+	}
 	
 	/**
 	*	Удалить существующий файл из хранилища
