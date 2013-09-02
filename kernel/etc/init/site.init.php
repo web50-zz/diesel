@@ -10,6 +10,11 @@ try
 {
 	$uri = (empty($_SERVER['REDIRECT_URL'])) ? '/' : $_SERVER['REDIRECT_URL'];
         $diStrc = data_interface::get_instance(SITE_DI);
+	$uiSt = user_interface::get_instance(SITE_UI);
+	if(preg_match('/\"/',$uri))// 9* вот тут надо проверить чтобы в ури не было хуйни, которую пихают разные  мракобесы в поисках дыр
+	{
+		$uiSt->do_404();
+	}
         $page = $diStrc->get_page_by_uri($uri);
 	define(PAGE_URI, $page['uri']);
 	define(PAGE_NAME, $page['name']);
