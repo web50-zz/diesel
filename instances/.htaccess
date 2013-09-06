@@ -1,0 +1,4 @@
+<FilesMatch "\.((html?)|res.js|css)$">
+	Order Deny,Allow
+	Deny from All
+</FilesMatch>

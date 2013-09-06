@@ -9,13 +9,16 @@ kernel/var/logs/*
 sync.php
 instances/*
 !instances/README
+!instances/.htaccess
 etc/*
 !etc/README
 themes/*
 !themes/README
+!themes/.htaccess
 kernel/var/dump/current/*
 !kernel/var/dump/current/README
 filestorage/*
 !filestorage/README
+!filestorage/.htaccess
 share/*
 !share/README
