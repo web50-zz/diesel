@@ -631,6 +631,13 @@ class data_interface extends base_interface
 			$this->__order = array();
 			$this->__group = array();
 			$this->connector->_flush();
+
+			// Удаляем все DI созданные через set_query()
+			foreach (self::$registry as $name => $object)
+			{
+				if (!empty($object->query))
+					unset(self::$registry[$name]);
+			}
 		}
 		
 		$this->__ignore_next_flush = $ignore_next;
