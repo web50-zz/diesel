@@ -165,7 +165,18 @@ class xml2xls
 					// Иначе значение ячейки как текст
 					else
 					{
-						$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, (string) str_replace(array('\n'), array(chr(10)), $td));
+						// Если это MySQL дата, то преобразуем её в нужный формат
+						if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $td, $date))
+						{
+							$f_date = PHPExcel_Shared_Date::FormattedPHPToExcel($date[1], $date[2], $date[3]);
+							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, $f_date);
+							$objPHPExcel->getActiveSheet()->getStyleByColumnAndRow($col, $row)
+							        ->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_XLSX14);
+						}
+						else
+						{
+							$objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, (string) str_replace(array('\n'), array(chr(10)), $td));
+						}
 					}
 
 					if ($td['merge'] > 0)
