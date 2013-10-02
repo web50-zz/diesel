@@ -18,36 +18,48 @@ RewriteRule	^xxx/ui/([^/]+)/(.*)\.[a-z]+$	adm_gui.php?ui=$1&cll=$2			[L,QSA]
 RewriteRule	^xxx/di/([^/]+)/(.*)\.[a-z]+$	adm_data.php?di=$1&cll=$2			[L,QSA]
 */
 
-$uri = request::get('_uri', 'xxx/');
-if ($uri == 'xxx/')
+// Получаем текущий префикс админки
+$prefix = request::get('_uri_prefix');
+
+// Склеиваем префикс для preg_match
+$preg_prefix = str_replace('/', '\/', $prefix);
+
+// Получаем текущий URI
+$uri = request::get('_uri', $prefix);
+
+if ($uri == $prefix)
 {
 	// NOTE: Вызов административной части
 	call_ui('administrate', 'workspace');
 }
-else if (preg_match('/^xxx\/([^\/]*)\/$/', $uri, $match))
+else if (preg_match("/^{$preg_prefix}([^\/]*)\/$/", $uri, $match))
 {
-	if ($match == 'logout')
-	{
-		authenticate::logout();
-		response::redirect('/xxx/');
-	}
-	else
+	if ($match[1] == 'login')
 	{
 		$ui = user_interface::get_instance('login');
 		$ui->admin();
 	}
+	else if ($match[1] == 'logout')
+	{
+		authenticate::logout();
+		response::redirect("/{$prefix}");
+	}
+	else 
+	{
+		response::header('404', 'Not Found.');
+	}
 }
-else if (preg_match('/^xxx\/ui\/([^\/]*)\/(.*)(?:\..+)$/', $uri, $match))
+else if (preg_match("/^{$preg_prefix}ui\/([^\/]*)\/(.*)(?:\..+)$/", $uri, $match))
 {
 	call_ui($match[1], $match[2]);
 }
-else if (preg_match('/^xxx\/di\/([^\/]*)\/(.*)(?:\..+)$/', $uri, $match))
+else if (preg_match("/^{$preg_prefix}di\/([^\/]*)\/(.*)(?:\..+)$/", $uri, $match))
 {
 	call_di($match[1], $match[2]);
 }
 else
 {
-	response::header(404, 'Not Found.');
+	response::header('404', 'Not Found.');
 }
 
 /**

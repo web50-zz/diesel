@@ -175,8 +175,17 @@ if (!empty($uri_configuration))
 	foreach ($uri_configuration as $regexp => $handler)
 	{
 		// Проверяем на соответствие шаблону
-		if (preg_match($regexp, $uri))
+		if (preg_match($regexp, $uri, $match))
 		{
+			// Запоминаем результат preg_match
+			$_REQUEST['_uri_match'] = $match;
+
+			// Убираем первый для формирования префикса, ибо это общий match по URI
+			array_shift($match);
+
+			// Склеиваем префикс и запоминаем его
+			$_REQUEST['_uri_prefix'] = join('/', $match) . '/';
+
 			// Если управляющий файл найден
 			if (file_exists($handler))
 			{
