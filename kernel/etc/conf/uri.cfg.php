@@ -8,8 +8,8 @@
 * @since	2013-10-01
 */
 $uri_configuration = array(
-	'/xxx\/.*/' => BASE_PATH . 'admin.php',
-	//'/.*/' => INSTANCES_PATH . 'wwwcore/www_handler.php',
+	'/xxx\/.*/' => INIT_PATH . 'admin' . INIT_FEXT,
+	//'/.*/' => INSTANCES_PATH . 'wwwcore/www' . INIT_FEXT,
 );
 /*
 

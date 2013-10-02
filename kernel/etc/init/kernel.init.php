@@ -93,7 +93,9 @@ $conf_types =  array(
 	'site',		// NOTE: 9* 05072010 Include current instance  configuration
 	'cache',	// NOTE: 9* 18102010 Include cache configurations
 	'dump',		// NOTE: Anthon S Litvinenko [2010-03-03] Include dump configuration
+	'uri',		// NOTE: Anthon S Litvinenko [2013-10-01] Include uri configuration
 );
+
 //9* choosing which one to load
 foreach($conf_types as $key=>$value)
 {
@@ -109,12 +111,7 @@ foreach($conf_types as $key=>$value)
 	}
 }
 
-
-
 //9* adjast instances configs
-// NOTE: 9* 05072010 Path to store Instance code
-define ('INSTANCES_PATH', BASE_PATH . 'instances/' );
-
 $INST_R = array(
 	'instances_path' => array(),
 	'paths' => array(),
@@ -167,4 +164,32 @@ if (!function_exists('json_encode'))
 
 // NOTE: Include Switft Mail library
 include_once(LIB_PATH . 'Swift/swift_required.php');
+
+// NOTE: Обработка uri и передача управления в указанный файл
+if (!empty($uri_configuration))
+{
+	// Получаем URI
+	$uri = request::get('_uri', '/');
+
+	// Перебираем конфигурацию
+	foreach ($uri_configuration as $regexp => $handler)
+	{
+		// Проверяем на соответствие шаблону
+		if (preg_match($regexp, $uri))
+		{
+			// Если управляющий файл найден
+			if (file_exists($handler))
+			{
+				// Вызываем его и прерываем цикл
+				include_once($handler);
+				break;
+			}
+			// Иначе генерируем Exception
+			else
+			{
+				throw new Exception("{$handler} not exists.");
+			}
+		}
+	}
+}
 ?>
