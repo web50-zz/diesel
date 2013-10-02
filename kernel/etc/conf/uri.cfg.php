@@ -9,6 +9,7 @@
 */
 $uri_configuration = array(
 	'/xxx\/.*/' => INIT_PATH . 'admin' . INIT_FEXT,
+	'/file\/.*/' => INIT_PATH . 'file' . INIT_FEXT,
 	//'/.*/' => INSTANCES_PATH . 'wwwcore/www' . INIT_FEXT,
 );
 /*
