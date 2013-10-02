@@ -11,10 +11,10 @@ class response
 {
 	/**
 	* @access	public
-	* @param	string	$content	The content
-	* @param	string	$type		The content type
+	* @param	integer	$code		Headers code
+	* @param	string	$message	Some message
 	*/
-	public static function header($code)
+	public static function header($code, $message = "")
 	{
 		switch($code)
 		{
@@ -33,6 +33,8 @@ class response
 			default:
 				throw new Exception('Unknown header`s code.');
 		}
+		if (!empty($message))
+			echo($message);
 		die();
 	}
 	
