@@ -77,7 +77,7 @@ class ui_login extends user_interface
 		}
 		else
 		{
-			response::redirect('/xxx/');
+			response::redirect("/" . request::get('_uri_prefix'));
 		}
 	}
 }
