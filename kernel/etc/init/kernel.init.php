@@ -169,13 +169,13 @@ include_once(LIB_PATH . 'Swift/swift_required.php');
 if (!empty($uri_configuration))
 {
 	// Получаем URI
-	$uri = request::get('_uri', '/');
+	define('URI', request::get('_uri', ''));
 
 	// Перебираем конфигурацию
 	foreach ($uri_configuration as $regexp => $handler)
 	{
 		// Проверяем на соответствие шаблону
-		if (preg_match($regexp, $uri, $match))
+		if (preg_match($regexp, URI, $match))
 		{
 			// Запоминаем результат preg_match
 			$_REQUEST['_uri_match'] = $match;
@@ -184,7 +184,7 @@ if (!empty($uri_configuration))
 			array_shift($match);
 
 			// Склеиваем префикс и запоминаем его
-			$_REQUEST['_uri_prefix'] = join('/', $match) . '/';
+			define('URI_PREFIX', join('/', $match) . '/');
 
 			// Если управляющий файл найден
 			if (file_exists($handler))

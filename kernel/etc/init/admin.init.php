@@ -19,7 +19,7 @@ RewriteRule	^xxx/di/([^/]+)/(.*)\.[a-z]+$	adm_data.php?di=$1&cll=$2			[L,QSA]
 */
 
 // Получаем текущий префикс админки
-$prefix = request::get('_uri_prefix');
+$prefix = URI_PREFIX;
 
 // Склеиваем префикс для preg_match
 $preg_prefix = str_replace('/', '\/', $prefix);
