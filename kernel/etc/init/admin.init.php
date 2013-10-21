@@ -42,7 +42,7 @@ else if (preg_match("/^{$preg_prefix}([^\/]*)\/$/", $uri, $match))
 	else if ($match[1] == 'logout')
 	{
 		authenticate::logout();
-		response::redirect("/{$prefix}");
+		response::redirect("{$prefix}");
 	}
 	else 
 	{
