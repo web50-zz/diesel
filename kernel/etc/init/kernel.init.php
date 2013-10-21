@@ -183,8 +183,16 @@ if (!empty($uri_configuration))
 			// Убираем первый для формирования префикса, ибо это общий match по URI
 			array_shift($match);
 
-			// Склеиваем префикс и запоминаем его
-			define('URI_PREFIX', join('/', $match) . '/');
+			if (!empty($match))
+			{
+				// Склеиваем префикс и запоминаем его
+				define('URI_PREFIX', '/' . join('/', $match) . '/');
+			}
+			else
+			{
+				// Иначе устанавливаем дефолтный "/"
+				define('URI_PREFIX', '/');
+			}
 
 			// Если управляющий файл найден
 			if (file_exists($handler))
