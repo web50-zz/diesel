@@ -1,24 +1,38 @@
 AddDefaultCharset utf-8
 DirectoryIndex	index.php
 
-Options -Indexes +FollowSymlinks -MultiViews
+Options		+FollowSymlinks
+
+# Запретить листинг директорий
+Options		-Indexes
+
+Options		-MultiViews
+
 RewriteEngine	on
 RewriteBase	/
-RewriteRule	^xxx/$  			adm_gui.php?ui=administrate&cll=workspace	[L,QSA]
-RewriteRule	^xxx/(.*)/$			adm_$1.php					[L,QSA]
-RewriteRule	^xxx/ui/([^/]+)/(.*)\.[a-z]+$	adm_gui.php?ui=$1&cll=$2			[L,QSA]
-RewriteRule	^xxx/di/([^/]+)/(.*)\.[a-z]+$	adm_data.php?di=$1&cll=$2			[L,QSA]
 
-RewriteRule	^files/$  			file.php?di=fm_files&cll=get			[L,QSA]
-RewriteRule	^ui/([^/]+)/(.*)\.[a-z]+$	pub_gui.php?ui=$1&cll=$2			[L,QSA]
 # 9* 26032012 all cfg.php files
-RewriteRule     (.*).cfg.php$	index.php		
+#RewriteRule     (.*).cfg.php$	index.php		
 # 9* 26032012 all files in etc
-RewriteRule     ^etc/(.*)	index.php		
+#RewriteRule     ^etc/(.*)	index.php		
 # 9* 26032012 all php files in instances
-RewriteRule     ^instances/(.*)\.php	index.php	
+#RewriteRule     ^instances/(.*)\.php	index.php	
+
+#RewriteCond	%{REQUEST_FILENAME}	!favicon\.ico
+RewriteCond	%{REQUEST_FILENAME}	!-f
+RewriteCond	%{REQUEST_FILENAME}	!-d
+RewriteRule	^([^?]*)		index.php?_uri=$1	[L,QSA]
+
+# Заворачиваем файлы DI, UI, конфигураций и логов на 404
+RewriteCond	%{REQUEST_FILENAME}	.*\.{ui\.php|di\.php|init\.php|cfg\.php|cmd\.php|log}
+RewriteRule	^(.*)$			-			[R=404,L]
+
+# Заворачиваем etc/ на 404
+RewriteRule	^etc/			-			[R=404,L]
+
+# Заворачиваем instances/ на 404, кроме обращений к ресурсам js_widgets
+#RewriteCond	%{REQUEST_FILENAME}	!.*\.{gif|jpg|png}
+#RewriteRule	^instances/		error.php?v=%{REQUEST_FILENAME}		[L]
+
 # 9* 26032012 all directories in instances 
 RewriteRule     ^instances/(.*)/$	index.php	
-RewriteCond	%{REQUEST_FILENAME} !-f
-RewriteCond	%{REQUEST_FILENAME} !-d
-RewriteRule	^(.*)		index.php

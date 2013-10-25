@@ -78,4 +78,7 @@ define ('PUB_INIT', INIT_PATH . 'site' . INIT_FEXT);	// Initialization file
 
 // NOTE: Set include path
 ini_set('include_path', ini_get('include_path').':' . LIB_PATH);
+
+// NOTE: 9* 05072010 Path to store Instance code
+define ('INSTANCES_PATH', BASE_PATH . 'instances/' );
 ?>
