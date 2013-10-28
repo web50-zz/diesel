@@ -98,10 +98,12 @@ class base_interface
 	*/
 	public function get_args($name = NULL, $default = NULL, $simple = FALSE)
 	{
-		//return ($ind !== false) ? $this->args[$ind] : (array)$this->args;
-		$results = array();
+		$results = $default;
+
 		if (!$name)
+		{
 			$results = (array)$this->args;
+		}
 		else if (is_array($name))
 		{
 			foreach ($name as $n => $var_name)
@@ -127,7 +129,7 @@ class base_interface
 					else
 						$results[$var_name] = $default[$n];
 				}
-				else if (!is_null($default))
+				else
 				{
 					if ($simple)
 						$results[] = $default;
@@ -137,9 +139,9 @@ class base_interface
 			}
 		}
 		else if (isset($this->args[$name]))
+		{
 			$results = $this->args[$name];
-		else if (!is_null($default))
-			$results = $default;
+		}
 
 		return $results;
 	}
