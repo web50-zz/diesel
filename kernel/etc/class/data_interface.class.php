@@ -781,16 +781,16 @@ class data_interface extends base_interface
 		$this->what = $fields;
 		$this->NOT_prepare_where = false;
 
-		$order = $this->get_args(array('sort', 'dir'));
-		if (!empty($order))
+		list($sort, $dir) = $this->get_args(array('sort', 'dir'), array(false, 'ASC'), true);
+		if ($sort)
 		{
-			$di = (!in_array($order['sort'], array_keys($this->fields))) ? null : $this;
-			$this->set_order($order['sort'], $order['dir'], $di);
+			$di = (!in_array($sort, array_keys($this->fields))) ? null : $this;
+			$this->set_order($sort, $dir, $di);
 		}
 
-		$limit = $this->get_args(array('start', 'limit'));
+		list($start, $limit) = $this->get_args(array('start', 'limit'), null, true);
 		if (!empty($limit))
-			$this->set_limit($limit['start'], $limit['limit']);
+			$this->set_limit($start, $limit);
 		
 		$this->_get();
 		
