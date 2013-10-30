@@ -98,7 +98,7 @@ class base_interface
 	*/
 	public function get_args($name = NULL, $default = NULL, $simple = FALSE)
 	{
-		$results = $default;
+		$results = NULL;
 
 		if (!$name)
 		{
@@ -141,6 +141,10 @@ class base_interface
 		else if (isset($this->args[$name]))
 		{
 			$results = $this->args[$name];
+		}
+		else
+		{
+			$results = $default;
 		}
 
 		return $results;
