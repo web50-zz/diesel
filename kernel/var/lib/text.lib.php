@@ -1021,5 +1021,17 @@ class text
 
 		return implode(' ', $str);
 	}
+
+	/**
+	*	Check if string is JSON
+	* http://stackoverflow.com/questions/6041741/fastest-way-to-check-if-a-string-is-json-in-php
+	*
+	* @param	string	$str	String to check
+	* @return	boolean		True if JSON string, otherwise false
+	*/
+	public static function is_json($str){
+		return !preg_match('/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/',
+		       preg_replace('/"(\\.|[^"\\])*"/g', '', $str));
+	}
 }
 ?>
