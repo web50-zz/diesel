@@ -782,21 +782,21 @@ class data_interface extends base_interface
 		$this->NOT_prepare_where = false;
 
 		list($sort, $dir) = $this->get_args(array('sort', 'dir'), array(false, 'ASC'), true);
+		
+		$jsort = json_decode($sort);
 
-		if ($sort && text::is_json($sort))
+		if ($jsort && json_last_error() == JSON_ERROR_NONE)
 		{
-			$sort = json_decode($sort);
-
-			if (is_array($sort))
+			if (is_array($jsort))
 			{
-				foreach ($sort as $srt)
+				foreach ($jsort as $srt)
 				{
 					$this->set_order($srt->property, $srt->direction);
 				}
 			}
-			else
+			else if (is_object($jsort))
 			{
-				$this->set_order($sort->property, $sort->direction);
+				$this->set_order($jsort->property, $jsort->direction);
 			}
 		}
 		else if ($sort)
