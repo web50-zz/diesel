@@ -3,7 +3,8 @@ kernel/var/filestorage/*
 kernel/var/cache/*.cache
 storage/*
 !storage/README
-kernel/var/logs/*
+logs/*
+!logs/README
 *.swp
 *.gz
 sync.php
