@@ -38,7 +38,7 @@ define ('LIB_PATH', KERNEL_PATH . 'var/lib/');
 define ('LIB_FEXT', '.lib.php');
 
 // NOTE: Path to store log and error files
-define ('LOG_PATH', KERNEL_PATH . 'logs/');
+define ('LOG_PATH', BASE_PATH . 'logs/');
 
 // NOTE: 9* 05072010 Path to store THEMES template css js images
 define ('THEMES_PATH', 'themes/');
