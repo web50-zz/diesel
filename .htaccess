@@ -29,6 +29,7 @@ RewriteRule	^(.*)$			-			[R=404,L]
 
 # Заворачиваем etc/ на 404
 RewriteRule	^etc/			-			[R=404,L]
+RewriteRule	^logs/			-			[R=404,L]
 
 # Заворачиваем instances/ на 404, кроме обращений к ресурсам js_widgets
 #RewriteCond	%{REQUEST_FILENAME}	!.*\.{gif|jpg|png}
