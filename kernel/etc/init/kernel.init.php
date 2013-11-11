@@ -169,7 +169,9 @@ include_once(LIB_PATH . 'Swift/swift_required.php');
 if (!empty($uri_configuration))
 {
 	// Получаем URI
-	define('URI', request::get('_uri', ''));
+	//define('URI', request::get('_uri', ''));
+	$uri = (empty($_SERVER['REDIRECT_URL'])) ? '/' : $_SERVER['REDIRECT_URL'];
+	define('URI', $uri);
 
 	// Перебираем конфигурацию
 	foreach ($uri_configuration as $regexp => $handler)

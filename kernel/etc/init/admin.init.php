@@ -25,7 +25,7 @@ $prefix = URI_PREFIX;
 $preg_prefix = str_replace('/', '\/', $prefix);
 
 // Получаем текущий URI
-$uri = '/' . request::get('_uri', $prefix);
+$uri = URI;
 
 if ($uri == $prefix)
 {
