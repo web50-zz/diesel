@@ -106,25 +106,25 @@ class di_util_db extends data_interface
 		}
 		if($inst_id == 'kernel') //9* dump kernel
 		{
-				$path_di = DI_PATH;
-				$path_dump = DUMP_PATH.$subfold;
-				if($ops_id == 1)
-				{
-					$this->perform_dump($type_id,$path_di,$path_dump);
-				}
-				elseif($ops_id == 2)
-				{
-					$this->perform_init($type_id,$path_di,$path_dump);
-				}
-
+			$path_di = DI_PATH;
+			$path_dump = DUMP_PATH.$subfold;
+			if($ops_id == 1)
+			{
+				$this->perform_dump($type_id,$path_di,$path_dump);
+			}
+			elseif($ops_id == 2)
+			{
+				$this->perform_init($type_id,$path_di,$path_dump);
+			}
 		}
 		elseif($inst_id == 'all')
 		{
-		//9* dump instances
+			//9* dump instances
 			foreach($INST_R['instances_path'] as $key=>$value)
 			{
 				$path_di = $value['di_path'] ;
 				$path_dump = $value['dump_path'].$subfold;
+
 				if($ops_id == 1)
 				{
 					$this->perform_dump($type_id,$path_di,$path_dump);
@@ -135,7 +135,8 @@ class di_util_db extends data_interface
 				}
 
 			}
-		//9* now dump the kernel	
+
+			//9* now dump the kernel	
 			$path_di = DI_PATH ;
 			$path_dump = DUMP_PATH.$subfold;
 			if($ops_id == 1)
@@ -208,41 +209,51 @@ class di_util_db extends data_interface
 			$dh->close();
 	}
 
-	public function perform_init($type_id,$path_di,$path_dump)
+	public function perform_init($type_id, $path_di, $path_dump)
 	{
-		$type = $this->types_map[$type_id];
-		if($type_id == 4)//9* for current  get only data
+		try
 		{
-			$type = 2;
-		}
-		$dh = dir($path_di);
-			while (($i = $dh->read()) !== FALSE)
-			{
-				if (preg_match('/^(\w+)\.di\.php$/', $i, $match))
-				{
-					if ($iObj = data_interface::get_instance($match[1]))
-					{
-					
-						if($this->dump_kernel_to_instance_cfg == false)
-						{
-							if(preg_match('/^cpy_.+/',$match[1],$match2))
-							{
-								continue;
-							}
-						}
+			$type = $this->types_map[$type_id];
 
-						try
+			if ($type_id == 4)//9* for current get only data
+			{
+				$type = 2;
+			}
+
+			if (file_exists($path_di))
+			{
+				$dh = dir($path_di);
+
+				while (($i = $dh->read()) !== FALSE)
+				{
+					if (preg_match('/^(\w+)\.di\.php$/', $i, $match))
+					{
+						if ($iObj = data_interface::get_instance($match[1]))
 						{
-							$iObj->init_dump2($type,$path_dump);
-						}
-						catch(Exception $e)
-						{
-							dbg::write($match[1].'  '.$e->getMessage());
+						
+							if($this->dump_kernel_to_instance_cfg == false)
+							{
+								if(preg_match('/^cpy_.+/',$match[1],$match2))
+								{
+									continue;
+								}
+							}
+
+								$iObj->init_dump2($type,$path_dump);
 						}
 					}
 				}
+				$dh->close();
 			}
-			$dh->close();
+			else
+			{
+				throw new Exception("{$path_di} directory NOT exists.");
+			}
+		}
+		catch(Exception $e)
+		{
+			dbg::write($e->getMessage(), LOG_PATH . 'cmd_init.log');
+		}
 	}
 
 

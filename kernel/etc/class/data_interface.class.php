@@ -1028,45 +1028,47 @@ class data_interface extends base_interface
 		}
 	}
 
-	public function init_dump2($type,$path)
+	public function init_dump2($type, $path)
 	{
-		if(!$path)
+		if (!$path)
 			$path = DUMP_PATH;
+
 		if (method_exists($this->connector, 'init_structure'))
 		{
 			$strc_file = $path . $this->name . '.strc.sql';
 			$data_file = $path . $this->name . '.data.sql';
+
 			switch($type)
 				{
 					case 1:
 						if (file_exists($strc_file))
 							$this->connector->init_structure($strc_file);
 						else
-						throw new Exception("Can't init table source. Dump file '{$strc_file}' NOT exists");
+							throw new Exception(get_class($this) . ":: Can't init table source. Dump file '{$strc_file}' NOT exists");
 					break;
 					case 2:
 						if (file_exists($data_file))
 							$this->connector->init_data($data_file);
 						else
-							throw new Exception("Can't init table data. Dump file '{$data_file}' NOT exists");
+							throw new Exception(get_class($this) . ":: Can't init table data. Dump file '{$data_file}' NOT exists");
 
 					break;
 					case 3:
 						if (file_exists($strc_file))
 							$this->connector->init_structure($strc_file);
 						else
-						throw new Exception("Can't init table source. Dump file '{$strc_file}' NOT exists");
+							throw new Exception(get_class($this) . ":: Can't init table source. Dump file '{$strc_file}' NOT exists");
 
 						if (file_exists($data_file))
 							$this->connector->init_data($data_file);
 						else
-							throw new Exception("Can't init table data. Dump file '{$data_file}' NOT exists");
+							throw new Exception(get_class($this) . ":: Can't init table data. Dump file '{$data_file}' NOT exists");
 					break;
 				}
 		}
 		else
 		{
-			throw new Exception("Connector has no dumper");
+			throw new Exception(get_class($this) . ":: Connector has no dumper");
 		}
 	}
 
