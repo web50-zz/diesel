@@ -239,7 +239,14 @@ class di_util_db extends data_interface
 								}
 							}
 
+							try
+							{
 								$iObj->init_dump2($type,$path_dump);
+							}
+							catch(Exception $e)
+							{
+								dbg::write($e->getMessage(), LOG_PATH . 'cmd_init.log');
+							}
 						}
 					}
 				}
