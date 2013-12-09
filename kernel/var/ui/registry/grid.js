@@ -4,7 +4,7 @@ ui.registry.grid = Ext.extend(Ext.grid.EditorGridPanel, {
 	lblValue: 'Значение',
 	lblCmmnt: 'Комментарий',
 
-	formWidth: 350,
+	formWidth: 800,
 	formHeight: 270,
 
 	loadMask: true,
