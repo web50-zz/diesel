@@ -78,7 +78,7 @@ class di_fm_files extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
-		$this->extjs_grid_json(array('id', 'title', 'name', 'type', 'size'));
+		$this->extjs_grid_json(array('id', 'title', 'name', 'type', 'size','real_name'));
 	}
 	
 	protected function sys_item()
@@ -126,7 +126,7 @@ class di_fm_files extends data_interface
 	protected function sys_unset()
 	{
 		$this->_flush();
-		$files = $this->_get();
+		$files = $this->_get()->get_results();
 		$this->_flush();
 		$data = $this->extjs_unset_json(false);
 		
