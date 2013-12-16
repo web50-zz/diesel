@@ -24,7 +24,7 @@ var Files = function(config){
 		id: 'id',
 		root: 'records',
 		totalProperty: 'total',
-		fields: [{name: 'id', type: 'int'}, 'title', 'name', 'type', {name: 'size', type: 'int'}],
+		fields: [{name: 'id', type: 'int'}, 'title', 'name', 'type', {name: 'size', type: 'int'},'real_name'],
 		remoteSort: true,
 		listeners: {
 			beforeload: function(store, options){
@@ -164,15 +164,16 @@ var Files = function(config){
 			width: 640,
 			height: 480,
 			autoScroll: true,
-			html: '<center><img src="/files/?id='+id+'" border="0"/></center'
+			html: '<center><img src="/files/?id='+id+'" border="0"/></center>'
 		}).show();
 	}
 	var file2fck = function(id, title){
 		window.opener.SetUrl('/files/?id='+id);
 		window.close();
 	}
-	var file2ck = function(id, title){
-		window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/files/?id='+id);
+	var file2ck = function(id, title,real_name){
+	//	window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/files/?id='+id);
+		window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/filestorage/'+real_name);//9* 16122013  а пусть будет реалнейм 
 		window.close();
 	}
 	var onCmenu = function(grid, rowIndex, e){
@@ -181,7 +182,7 @@ var Files = function(config){
 		var id = row.get('id');
 		var cmenu = new Ext.menu.Menu({items: [
 			{iconCls: 'image_link', text: 'Вставить в текст',
-			handler: file2ck.createDelegate(this, [id, row.get('title')]), disabled: !self.fck},
+			handler: file2ck.createDelegate(this, [id, row.get('title'),row.get('real_name')]), disabled: !self.fck},
 			{iconCls: 'image', text: 'Посмотреть',
 			handler: this.showImage.createDelegate(this, [id, row.get('title')]), disabled: !/^image/.test(row.get('type'))},
 			{iconCls: 'link', text: 'Скачать', handler: function(){document.location = '/files/?id='+id+'&download'}},
