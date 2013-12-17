@@ -8,7 +8,7 @@ CREATE TABLE `fm_files` (
   `real_name` varchar(64) NOT NULL DEFAULT '',
   `comment` text NOT NULL,
   `type` varchar(32) NOT NULL DEFAULT '',
-  `size` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `size` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fm_folders_id` (`fm_folders_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8
