@@ -11,7 +11,7 @@ $uri_configuration = array(
 	'/^\/(xxx)\/.*/' => INIT_PATH . 'admin' . INIT_FEXT,
 	// NOTE: Пример префикса админки вида '/yyy/some_path/' вместо 'some_path' произвольное слово
 	//'/^\/(yyy)\/(\w+)\/.*/' => INIT_PATH . 'admin' . INIT_FEXT,
-	'/file\/.*/' => INIT_PATH . 'file' . INIT_FEXT,
+	'/files\/.*/' => INIT_PATH . 'file' . INIT_FEXT,
 	//'/.*/' => INSTANCES_PATH . 'wwwcore/www' . INIT_FEXT,
 );
 /*
