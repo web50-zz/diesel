@@ -166,7 +166,7 @@ if (!function_exists('json_encode'))
 include_once(LIB_PATH . 'Swift/swift_required.php');
 
 // NOTE: Обработка uri и передача управления в указанный файл
-if (!empty($uri_configuration))
+if (!empty($uri_configuration) && !$STOP_URI_INTERPRETER)
 {
 	// Получаем URI
 	//define('URI', request::get('_uri', ''));
