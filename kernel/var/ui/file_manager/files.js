@@ -164,11 +164,11 @@ var Files = function(config){
 			width: 640,
 			height: 480,
 			autoScroll: true,
-			html: '<center><img src="/files/?id='+id+'" border="0"/></center>'
+			html: '<center><img src="/file/?id='+id+'" border="0"/></center>'
 		}).show();
 	}
 	var file2fck = function(id, title){
-		window.opener.SetUrl('/files/?id='+id);
+		window.opener.SetUrl('/file/?id='+id);
 		window.close();
 	}
 	var file2ck = function(id, title,real_name){
@@ -185,7 +185,7 @@ var Files = function(config){
 			handler: file2ck.createDelegate(this, [id, row.get('title'),row.get('real_name')]), disabled: !self.fck},
 			{iconCls: 'image', text: 'Посмотреть',
 			handler: this.showImage.createDelegate(this, [id, row.get('title')]), disabled: !/^image/.test(row.get('type'))},
-			{iconCls: 'link', text: 'Скачать', handler: function(){document.location = '/files/?id='+id+'&download'}},
+			{iconCls: 'link', text: 'Скачать', handler: function(){document.location = '/file/?id='+id+'&download'}},
 			'-',
 			{iconCls: 'image_edit', text: 'Редактировать',
 			handler: this.editFile.createDelegate(this, [id])},
