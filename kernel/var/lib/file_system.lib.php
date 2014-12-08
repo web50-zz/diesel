@@ -58,7 +58,7 @@ class file_system
 				$data['real_name'] = $real_name;
 				$file = $storage_path . $data['real_name'];
 			}
-
+			 error_reporting('E_ALL ^ E_NOTICE');//9* проблемы на ряде хостингов с варнинагми при исползованиии move_uploaded_file  valuehost в частноси
 			if(!move_uploaded_file($fset['tmp_name'], $file))
 				throw new Exception('Error while copy "' . $fset['tmp_name'] . '" to "' . $file . '"');
 			
