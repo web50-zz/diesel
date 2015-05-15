@@ -4,7 +4,7 @@ var Files = function(config){
 	this.pid = 0;
 	this.changes = false;
 	this.cm = new Ext.grid.ColumnModel([
-		{id: 'id', header: "id", width: 32, sortable: true, dataIndex: 'id', resizable: false},
+		{id: 'id', header: "id", width: 70, sortable: true, dataIndex: 'id', resizable: false},
 		{id: 'title', header: "Название", width: 150, sortable: true, dataIndex: 'title'},
 		{id: 'name', header: "Файл", width: 150, sortable: true, dataIndex: 'name'},
 		{id: 'type', header: "Тип", width: 100, sortable: true, dataIndex: 'type'},
