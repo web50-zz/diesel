@@ -81,6 +81,8 @@ var Folders = function(config){
 			labelWidth: 200,
 			defaults: {xtype: 'textfield', width: '97%'},
 			items: [
+
+				{fieldLabel:'ID', name: 'id', xtype: 'displayfield', value: data.id},
 				{xtype: 'hidden', name: '_sid', value: data.id},
 				{xtype: 'hidden', name: 'pid', value: data.pid},
 				{hideLabel: true, name: 'title', allowBlank:false}
@@ -91,7 +93,7 @@ var Folders = function(config){
 	}
 	this.addNode = function(pid){
 		var fp = getForm({pid: pid});
-		var w = new Ext.Window({title: 'Добавить папку', modal: true, layout: 'fit', width: 300, height: 110, items: fp});
+		var w = new Ext.Window({title: 'Добавить папку', modal: true, layout: 'fit', width: 300, height: 210, items: fp});
 		var submit = function(){
 			var f = fp.getForm();
 			if (f.isValid()) Submit(f);
@@ -103,7 +105,7 @@ var Folders = function(config){
 	}
 	this.editNode = function(id){
 		var fp = getForm({id: id})
-		var w = new Ext.Window({title: 'Редактировать папку', modal: true, layout: 'fit', width: 300, height: 110, items: fp});
+		var w = new Ext.Window({title: 'Редактировать папку', modal: true, layout: 'fit', width: 300, height: 210, items: fp});
 		var submit = function(){
 			var f = fp.getForm();
 			if (f.isValid()) Submit(f);

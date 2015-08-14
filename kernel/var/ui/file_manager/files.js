@@ -7,6 +7,7 @@ var Files = function(config){
 		{id: 'id', header: "id", width: 70, sortable: true, dataIndex: 'id', resizable: false},
 		{id: 'title', header: "Название", width: 150, sortable: true, dataIndex: 'title'},
 		{id: 'name', header: "Файл", width: 150, sortable: true, dataIndex: 'name'},
+		{id: 'display_order', header: "Порядок сортировки", width: 100, sortable: true, dataIndex: 'display_order'},
 		{id: 'type', header: "Тип", width: 100, sortable: true, dataIndex: 'type'},
 		{id: 'size', header: "Размер", width: 70, sortable: true, renderer: formatSize, dataIndex: 'size'}
 	]);
@@ -24,7 +25,7 @@ var Files = function(config){
 		id: 'id',
 		root: 'records',
 		totalProperty: 'total',
-		fields: [{name: 'id', type: 'int'}, 'title', 'name', 'type', {name: 'size', type: 'int'},'real_name'],
+		fields: [{name: 'id', type: 'int'}, 'title', 'name', 'display_order','type', {name: 'size', type: 'int'},'real_name'],
 		remoteSort: true,
 		listeners: {
 			beforeload: function(store, options){
@@ -104,14 +105,19 @@ var Files = function(config){
 				{xtype: 'hidden', name: '_sid', value: data.id},
 				{xtype: 'hidden', name: 'pid', value: data.pid},
 				{fieldLabel: 'Название', name: 'title'},
-				{fieldLabel: 'Файл', name: 'file', xtype: 'fileuploadfield', buttonCfg: {text: '', iconCls: 'folder'}}
+				{fieldLabel: 'Файл', name: 'file', xtype: 'fileuploadfield', buttonCfg: {text: '', iconCls: 'folder'}},
+				{fieldLabel: 'Порядок сортировки', name: 'display_order'},
+				{fieldLabel: 'Тип', name: 'type'},
+				{fieldLabel:'Дата публ.', name: 'publication_date', width: 100, format: 'Y-m-d H:i:s', allowBlank: true, xtype: 'datefield'}, 
+				{fieldLabel:'Дата изм.', name: 'edition_date', width: 100, format: 'Y-m-d H:i:s', allowBlank: true, xtype: 'datefield'}, 
+				{fieldLabel: 'Коммент', name: 'comment',xtype: 'textarea'}
 			]
 		});
 		
 	}
 	this.addFile = function(){
 		var fp = getForm({pid: this.pid});
-		var w = new Ext.Window({title: 'Добавить файл', modal: true, layout: 'fit', width: 400, height: 160, items: fp});
+		var w = new Ext.Window({title: 'Добавить файл', modal: true, layout: 'fit', width: 400, height: 360, items: fp});
 		var submit = function(){
 			var f = fp.getForm();
 			if (f.isValid())
@@ -124,7 +130,7 @@ var Files = function(config){
 	}
 	this.editFile = function(id){
 		var fp = getForm({id: id, pid: this.pid});
-		var w = new Ext.Window({title: 'Редактировать файл', modal: true, layout: 'fit', width: 400, height: 160, items: fp});
+		var w = new Ext.Window({title: 'Редактировать файл', modal: true, layout: 'fit', width: 400, height: 360, items: fp});
 		var submit = function(){
 			var f = fp.getForm();
 			if (f.isValid())
