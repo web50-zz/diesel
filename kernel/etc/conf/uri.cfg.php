@@ -13,6 +13,7 @@ $uri_configuration = array(
 	//'/^\/(yyy)\/(\w+)\/.*/' => INIT_PATH . 'admin' . INIT_FEXT,
 	'/file\/.*/' => INIT_PATH . 'file' . INIT_FEXT,
 	//'/.*/' => INSTANCES_PATH . 'wwwcore/www' . INIT_FEXT,
+	'/.*/' => INSTANCES_PATH . 'wwwcore/www' . INIT_FEXT,
 );
 /*
 
