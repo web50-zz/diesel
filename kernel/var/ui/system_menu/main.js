@@ -101,7 +101,7 @@ ui.system_menu.main = function(config){
 		var cmenu = new Ext.menu.Menu({items: [
 			{iconCls: 'add', text: this.bttAdd, handler: Add.createDelegate(this, [node])},
 			{iconCls: 'pencil', text: this.bttEdit, handler: Edit.createDelegate(this, [node])},
-			{iconCls: 'pencil', text: this.bttSaveBranch, handler: saveBranch.createDelegate(this, [1])},
+			{iconCls: 'pencil', text: this.bttSaveBranch, handler: saveBranch.createDelegate(this, [id])},
 			{iconCls: 'pencil', text: this.bttLoadBranch, handler: loadBranch.createDelegate(this, [id])},
 			{iconCls: 'delete', text: this.bttDelete, handler: Delete.createDelegate(this, [node])}
 		]});
