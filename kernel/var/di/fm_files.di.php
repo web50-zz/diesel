@@ -32,11 +32,14 @@ class di_fm_files extends data_interface
 		'fm_folders_id' => array('type' => 'foreign', 'alias' => 'pid'),
 		'created_date' => array('type' => 'datetime'),
 		'changed_date' => array('type' => 'datetime'),
+		'publication_date' => array('type' => 'datetime'),
+		'edition_date' => array('type' => 'datetime'),
 		'title' => array('type' => 'string'),
 		'name' => array('type' => 'string'),
 		'real_name' => array('type' => 'string'),
 		'comment' => array('type' => 'text'),
 		'type' => array('type' => 'string'),
+		'display_order' => array('type' => 'integer'),
 		'size' => array('type' => 'integer'),
 	);
 	
@@ -78,7 +81,7 @@ class di_fm_files extends data_interface
 	protected function sys_list()
 	{
 		$this->_flush();
-		$this->extjs_grid_json(array('id', 'title', 'name', 'type', 'size','real_name'));
+		$this->extjs_grid_json(array('id', 'title', 'name', 'type', 'size','real_name','display_order'));
 	}
 	
 	protected function sys_item()
@@ -90,17 +93,25 @@ class di_fm_files extends data_interface
 	/**
 	*	Добавить \ Сохранить файл
 	*/
-	protected function sys_set()
+	public function sys_set($silent =  false)
 	{
 		$fid = $this->args['_sid'];
+		$from_source = $this->get_args('source',false);
 
 		if ($fid > 0)
 		{
 			$file = $this->get_file($fid);
 			$old_file_name = $file->real_name;
 		}
+			if($from_source != false)
+			{
+				$file = file_system::copy_file($from_source,'', $old_file_name);
+			}
+			else
+			{
+				$file = (!empty($old_file_name)) ? file_system::replace_file('file', $old_file_name) : file_system::upload_file('file');
+			}
 
-		$file = (!empty($old_file_name)) ? file_system::replace_file('file', $old_file_name) : file_system::upload_file('file');
 		
 		if ($file !== false)
 		{
@@ -115,7 +126,10 @@ class di_fm_files extends data_interface
 		{
 			$result = array('success' => false);
 		}
-		
+		if($silent == true)
+		{
+			return $result;
+		}
 		response::send(response::to_json($result), 'html');
 	}
 	
