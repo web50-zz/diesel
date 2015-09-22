@@ -439,7 +439,8 @@ class tmpl
 	*/
 	private function _parse_includes($argv)
 	{
-		$tmpl =& $this->__create_tmpl_obj($this->tmpl_path . $argv[1], 'FILE');
+	//9* 25022014 косяк на некоторых хостах с вызовом вот этого по ссылке	$tmpl =& $this->__create_tmpl_obj($this->tmpl_path . $argv[1], 'FILE');
+		$tmpl = $this->__create_tmpl_obj($this->tmpl_path . $argv[1], 'FILE');
 		return $tmpl->tmpl;
 	}
 	

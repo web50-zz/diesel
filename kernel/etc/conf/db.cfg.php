@@ -2,11 +2,7 @@
 /**
 *	Конфигурационные параметры для ИД
 *
-* @author	Litvinenko S. Anthon <crazyfluger@gmail.com>
-* @version	2.0
-* @access	public
-* @package	SBIN DIESEL	
-* @since	12-09-2008
+* @author	9* <9@u9.ru>
 */
 class db_config
 {

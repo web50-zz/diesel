@@ -2,7 +2,7 @@
 /**
 *	Конфигурационные параметры дампа данных 
 *
-* @author	Anthon S. Litvinenko <a.litvinenko@web50.ru>
+* @author	9* <9@u9.ru>
 * @package	SBIN Diesel
 */
 define ('DUMP_PATH', KERNEL_PATH . 'var/dump/');

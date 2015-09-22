@@ -2,11 +2,7 @@
 /**
 *	Конфигурационные параметры для работы с инстансами 
 *
-* @author	9*
-* @version	2.0
-* @access	public
-* @package      SBIN DIESEL	
-* @since	05-07-2010
+* @author	9* <9@u9.ru>
 */
 $instances = array(
 );
