@@ -15,6 +15,10 @@ class authenticate
 	public static function is_logged()
 	{
 		// Get instance of authentification data interface
+		if(!defined('AUTH_DI'))
+		{
+			return FALSE; //9* 23092015 Когда запускаем из консоли что-то где есть проверка  is_logged надо чтобы не ругалось на остуствие AUTH_DI
+		}
 		$auth = data_interface::get_instance(AUTH_DI);
 
 		if ($auth->is_logged) return TRUE;
