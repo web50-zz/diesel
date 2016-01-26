@@ -27,6 +27,8 @@ class registry
 			break;
 			case 2:
 				$data = json_decode($rec->value, true);
+				return $data;
+				/* на некоторых хостингах вот это все не работает и вызывает ошибки
 				switch (json_last_error())
 				{
 					case JSON_ERROR_NONE:
@@ -52,6 +54,7 @@ class registry
 					break;
 				}
 				return false;
+				*/
 			break;
 			case 3:
 				$cfg = $rec->value;
