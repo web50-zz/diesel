@@ -106,6 +106,7 @@ var Files = function(config){
 				{xtype: 'hidden', name: 'pid', value: data.pid},
 				{fieldLabel: 'Название', name: 'title'},
 				{fieldLabel: 'Файл', name: 'file', xtype: 'fileuploadfield', buttonCfg: {text: '', iconCls: 'folder'}},
+				{fieldLabel: 'id папки', name: 'fm_folders_id'},
 				{fieldLabel: 'Порядок сортировки', name: 'display_order'},
 				{fieldLabel: 'Тип', name: 'type'},
 				{fieldLabel:'Дата публ.', name: 'publication_date', width: 100, format: 'Y-m-d H:i:s', allowBlank: true, xtype: 'datefield'}, 

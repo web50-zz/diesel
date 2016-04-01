@@ -97,13 +97,13 @@ class di_fm_files extends data_interface
 	{
 		$fid = $this->args['_sid'];
 		$from_source = $this->get_args('source',false);
-
+		
 		if ($fid > 0)
 		{
 			$file = $this->get_file($fid);
 			$old_file_name = $file->real_name;
 		}
-			if($from_source != false)
+		if($from_source != false)
 			{
 				$file = file_system::copy_file($from_source,'', $old_file_name);
 			}
@@ -115,7 +115,15 @@ class di_fm_files extends data_interface
 		
 		if ($file !== false)
 		{
-			if (!($fid > 0)) $file['created_date'] = date('Y-m-d : H:i:s');
+			if($this->args['fm_folders_id'] >0)
+			{
+				$this->args['pid'] = $this->args['fm_folders_id'];
+			}
+			unset($this->args['fm_folders_id']);// вносит сумятицу при сохранении такак в конциге указано алиасом pid
+
+			if (!($fid > 0)){
+				$file['created_date'] = date('Y-m-d : H:i:s');
+			}
 			$file['changed_date'] = date('Y-m-d : H:i:s');
 			$this->set_args($file, true);
 			$this->_flush();
