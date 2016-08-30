@@ -9,7 +9,7 @@
                 foreach($files as $key=> $value)
                 {
                         $out = substr($value,-3);
-                        $cont .= file_get_contents($path.$value);
+                        $cont .= file_get_contents($path.$value)."\n ;\n";
                 }
         }
         if($out == 'css')
