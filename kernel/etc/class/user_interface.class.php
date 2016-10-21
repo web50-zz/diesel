@@ -103,7 +103,10 @@ class user_interface extends base_interface
 		if (in_array($name, array('dependencies', 'locale')) || $this->check_access($this->interfaceName, UI_CALL_PREFIX . $name, 'ui'))
 		{
 			$call_name = UI_CALL_PREFIX . $name;
-			
+			if(defined('OVERLOAD_UI_CALL_PREFIX'))
+			{
+				$call_name = OVERLOAD_UI_CALL_PREFIX . $name;
+			}
 			if (method_exists($this, $call_name))
 			{
 				$this->set_args($args);
