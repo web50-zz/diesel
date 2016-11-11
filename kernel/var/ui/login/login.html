@@ -4,24 +4,23 @@
 	<title>{__/LC/GUI/adm_login_form__}</title>
 	<link rel="stylesheet" type="text/css" href="/css/cfcms.css">
 </head>
-<body>
+<body class="login">
 <div id="login">
-	<form method="POST">
+	<h1 class="insetshadow">SBIN DIESEL</h1>
+	<form method="POST" id="secretForm">
 	<table>
 		<tr>
-			<td align="right">{__/LC/GUI/login__}:</td>
-			<td><input type="text" name="user" /></td>
+			<td><input type="text" name="user" placeholder="{__/LC/GUI/login__}"/></td>
 		</tr>
 		<tr>
-			<td align="right">{__/LC/GUI/password__}:</td>
-			<td><input type="password" name="secret" /></td>
+			<td><input type="password" name="secret" placeholder="{__/LC/GUI/password__}"/></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center"><input type="submit" value="{__/LC/GUI/enter__}" /></td>
+			<td align="center"><a class="button" onClick="document.forms[0].submit();">{__/LC/GUI/enter__}</a></td>
 		</tr>
 		{__(if($errors)__}
 		<tr>
-			<td colspan="2" align="center"><font color="red">{__errors__}</font></td>
+			<td align="center"><font color="red">{__errors__}</font></td>
 		</tr>
 		{__if)__}
 	</table>

@@ -1,7 +1,8 @@
 ui.administrate.main = function(config){
 	Ext.apply(this, config);
 	var LogOut = function(){
-		document.location = '/xxx/login/?cll=logout';
+//		document.location = '/xxx/login/?cll=logout';
+		document.location = '/xxx/logout/';
 	}
 	var home = new ui.administrate.home({iconCls: 'home', title: this.tabHome});
 	var ws = new Ext.TabPanel({region: 'center', activeTab: 0, items: [home]});
