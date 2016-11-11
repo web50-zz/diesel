@@ -16,89 +16,97 @@ body.login{/*
          background: -ms-radial-gradient(center, #dc143c, #580818);
 	   background: radial-gradient(center, #dc143c, #580818);
 	   */
-   background: -webkit-radial-gradient(center, #dc143c, #000);
-     background: -moz-radial-gradient(center, #dc143c, #000);
-       background: -o-radial-gradient(center, #dc143c, #000);
-         background: -ms-radial-gradient(center, #dc143c, #000);
-	   background: radial-gradient(center, #dc143c, #000);
+	background: -webkit-radial-gradient(center, #dc143c, #000);
+	background: -moz-radial-gradient(center, #dc143c, #000);
+	background: -o-radial-gradient(center, #dc143c, #000);
+	background: -ms-radial-gradient(center, #dc143c, #000);
+	background: radial-gradient(center, #dc143c, #000);
 
-button:not(.button-arrow)::before, .button::before {
-	background-color: #8a3950;
-	content: "";
-	display: block;
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	transform: translate(0px, 0px);
-	transition: all 0.3s ease 0s;
-	width: 100%;
-	z-index: -1;
-}
-button:not(.button-arrow)::after, .button::after {
-	background-color: #d63151;
-	content: "";
-	display: block;
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	transform: translate(0px, 0px);
-	transition: all 0.3s ease 0s;
-	width: 100%;
-	z-index: -1;
-}
-button:not(.button-arrow), .button, [type="submit"] {
-	background-color: #d63151;
-	border-radius: 0;
-	border-style: solid;
-	border-width: 0;
-	color: #fff;
-	cursor: pointer;
-	display: inline-block;
-	font-family: "Arial Black",sans-serif;
-	font-size: 0.875rem;
-	font-weight: normal;
-	letter-spacing: 0.1rem;
-	line-height: 1.25;
-	margin: 0.4rem 0 1.11111rem;
-	min-width: 170px;
-	outline: medium none;
-	padding: 0.8rem 2rem;
-	position: relative;
-	text-align: center;
-	text-decoration: none;
-	text-transform: uppercase;
-	transform: translate(0px, 0px);
-	transition: all 0.3s ease 0s;
-}
-
-
-button:hover:not(.button-arrow):not(.show-for-hover):not(#cboxClose)::before, .button:hover:not(.show-for-hover):not(#cboxClose)::before {
-    transform: translate(4px, 4px);
-}
-
-button:hover:not(.button-arrow):not(.show-for-hover):not(#cboxClose)::after, .button:hover:not(.show-for-hover):not(#cboxClose)::after {
-    background-color: #c12e4b;
-    }
-
-
-button:hover:not(.button-arrow):not(.show-for-hover):not(#cboxClose), .button:hover:not(.show-for-hover):not(#cboxClose) {
-    color: #fff;
-        transform: translate(-4px, -4px);
+	button:not(.button-arrow)::before, .button::before {
+		background-color: #8a3950;
+		content: "";
+		display: block;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		transform: translate(0px, 0px);
+		transition: all 0.3s ease 0s;
+		width: 100%;
+		z-index: -1;
+	}
+	button:not(.button-arrow)::after, .button::after {
+		background-color: #d63151;
+		content: "";
+		display: block;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		transform: translate(0px, 0px);
+		transition: all 0.3s ease 0s;
+		width: 100%;
+		z-index: -1;
+	}
+	button:not(.button-arrow), .button, [type="submit"] {
+		background-color: #d63151;
+		border-radius: 0;
+		border-style: solid;
+		border-width: 0;
+		color: #fff;
+		cursor: pointer;
+		display: inline-block;
+		font-family: "Arial",sans-serif;
+		font-size: 0.875rem;
+		font-weight: normal;
+		letter-spacing: 0.1rem;
+		line-height: 1.25;
+		margin: 0.4rem 0 1.11111rem;
+		min-width: 170px;
+		outline: medium none;
+		padding: 0.8rem 2rem;
+		position: relative;
+		text-align: center;
+		text-decoration: none;
+		text-transform: uppercase;
+		transform: translate(0px, 0px);
+		transition: all 0.3s ease 0s;
 	}
 
-h1.insetshadow {
-color: #fff;
-letter-spacing: .1em;
-text-shadow: -1px -1px 1px #dc143c, 2px 2px 1px #580818;
-font-weight: normal;
-text-align: center;
-}
+
+	button:hover:not(.button-arrow):not(.show-for-hover):not(#cboxClose)::before, .button:hover:not(.show-for-hover):not(#cboxClose)::before {
+	    transform: translate(4px, 4px);
+	}
+
+	button:hover:not(.button-arrow):not(.show-for-hover):not(#cboxClose)::after, .button:hover:not(.show-for-hover):not(#cboxClose)::after {
+	    background-color: #c12e4b;
+	    }
 
 
+	button:hover:not(.button-arrow):not(.show-for-hover):not(#cboxClose), .button:hover:not(.show-for-hover):not(#cboxClose) {
+	    color: #fff;
+		transform: translate(-4px, -4px);
+		}
 
-
+	h1.insetshadow {
+	color: #fff;
+	letter-spacing: .1em;
+	text-shadow: -1px -1px 1px #dc143c, 2px 2px 1px #580818;
+	font-weight: normal;
+	text-align: center;
+	text-align:left;
+	margin-left:30px;
+	}
+	span{
+		font-size: 459px;
+		line-height: 18px;
+		width: 20px;display:inline;
+		letter-spacing:10px;
+		margin-left: -150px;
+		position: absolute;
+		z-index: -9;
+		top: 55px;
+	}
 }
 #login{
         position:absolute;
@@ -111,7 +119,8 @@ text-align: center;
 		padding: 5px;
 		width: 100%;
 		margin-top: 5px;
-		font-family: "Arial Black",sans-serif;
+		font-weight: normal;
+		font-family: Arial,sans-serif;
 		font-size: 0.875rem;
 		padding: 0.8rem 0.8rem;
 	}
