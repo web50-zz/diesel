@@ -122,6 +122,8 @@ class connector_mysql
 	* @var	boolean	$debug		Записать запрос в debug-файл
 	*/
 	public $debug = FALSE;
+
+	public static $DBH = '';
 	
 	public function __construct($di)
 	{
@@ -136,22 +138,32 @@ class connector_mysql
 	
 	protected function _init()
 	{
+		global $DBH;
 		try
 		{
-			$cfg = $this->di->get_cfg();
-			$param = $cfg['type'];
-			$param.= ':host=' . $cfg['host'];
-			$param.= ';dbname=' . $this->di->get_db();
-			$user = $cfg['user'];
-			$pass = $cfg['pass'];
-			$this->dbh = new PDO($param, $user, $pass, array(
-				// SQL-ошибки отдавать как PDOException
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-				// Persistent connections enabled 9* 19032013
-				PDO::ATTR_PERSISTENT => true
+			if($DBH)
+			{
+				$this->dbh = $DBH;
+			}
+			else
+			{
+				$cfg = $this->di->get_cfg();
+				$param = $cfg['type'];
+				$param.= ':host=' . $cfg['host'];
+				$param.= ';dbname=' . $this->di->get_db();
+				$user = $cfg['user'];
+				$pass = $cfg['pass'];
+				$persistent_connection = $cfg['persistent_connection'];
+				$this->dbh = new PDO($param, $user, $pass, array(
+					// SQL-ошибки отдавать как PDOException
+					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+					// Persistent connections enabled 9* 19032013
+					PDO::ATTR_PERSISTENT => $persistent_connection 
 				));
-			$this->get_version();
-			$this->set_character_set($cfg['charset']);
+				$this->get_version();
+				$this->set_character_set($cfg['charset']);
+				$DBH = $this->dbh;
+			}
 		}
 		catch(PDOException $e)
 		{
