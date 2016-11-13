@@ -21,7 +21,7 @@
 
 LOCK TABLES `system_menu` WRITE;
 /*!40000 ALTER TABLE `system_menu` DISABLE KEYS */;
-INSERT INTO `system_menu` VALUES (1,0,'root','','','','',1,24,1),(7,0,'Приложения','application_double','','','',2,5,2),(8,0,'Файл-менеджер','application_view_tile','file_manager','main','',3,4,3),(9,0,'Администрирование','shield','','','',6,17,2),(10,0,'Системное меню','chart_organisation','system_menu','main','',7,8,3),(11,0,'Пользователи','user','user','main','',9,10,3),(12,0,'Группы','group','group','main','',11,12,3),(13,0,'Безопасность','shield','security','main','',13,14,3),(14,0,'Страницы помощи','help','help','main','',18,19,2),(15,1,'->','','','','',20,21,2),(16,0,'Выход','logout','','','/xxx/loout/',22,23,2),(48,0,'Database Util','book_open','util_db','main','',15,16,3);
+INSERT INTO `system_menu` VALUES (1,0,'root','','','','',1,24,1),(7,0,'Приложения','application_double','','','',2,5,2),(8,0,'Файл-менеджер','application_view_tile','file_manager','main','',3,4,3),(9,0,'Администрирование','shield','','','',6,17,2),(10,0,'Системное меню','chart_organisation','system_menu','main','',7,8,3),(11,0,'Пользователи','user','user','main','',9,10,3),(12,0,'Группы','group','group','main','',11,12,3),(13,0,'Безопасность','shield','security','main','',13,14,3),(14,0,'Страницы помощи','help','help','main','',18,19,2),(15,1,'->','','','','',20,21,2),(16,0,'Выход','logout','','','/xxx/logout/',22,23,2),(48,0,'Database Util','book_open','util_db','main','',15,16,3);
 /*!40000 ALTER TABLE `system_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
