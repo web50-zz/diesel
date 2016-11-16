@@ -12,6 +12,10 @@
                         $cont .= file_get_contents($path.$value)."\n ;\n";
                 }
         }
+	if(isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], "gzip")!==false){
+		$cont = gzencode($cont);
+		header("Content-Encoding: gzip");
+	}
         if($out == 'css')
         {
                 header('Content-type: text/css');

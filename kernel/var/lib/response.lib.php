@@ -91,6 +91,11 @@ class response
                         header( "Cache-Control: no-cache, must-revalidate" ); 
                         header( "Pragma: no-cache" );
                 }
+		if(isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], "gzip")!==false)
+		{
+			$content = gzencode($content);
+			header("Content-Encoding: gzip");
+		}
 
 		die($content);
 	}
