@@ -44,7 +44,8 @@ class dbg
 	*/
 	public static function show($value, $message = NULL, $color = '#99ccff')
 	{
-		$dbgs = array_shift(debug_backtrace());
+		$bt = debug_backtrace();//9* если функцию совать прямо в array_shift который, то будет в лог варининг PHP Strict Standards:  Only variables should be passed by reference
+		$dbgs = array_shift($bt);
 		echo '<div style="background-color: ' . $color . '">';
 		echo '<fieldset>';
 		if ($message) echo '<legend>' . $message . '</legend>';
