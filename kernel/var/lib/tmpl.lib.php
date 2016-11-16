@@ -463,6 +463,10 @@ class tmpl
 		if (!empty($this->callbacks['ui']))
 			call_user_func($this->callbacks['ui'], $ui, $ui_name, $ui_call, $ui_prms);
 
+		/* для сбора ресурсов по UI на веб морде 2016-11-16 9* */
+		$st = user_interface::get_instance(SITE_UI);
+		$st->collect_resources($ui,$ui_name);
+
 		return $ui->call($ui_call, $ui_prms);
 	}
 	
