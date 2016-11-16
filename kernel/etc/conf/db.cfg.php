@@ -10,6 +10,7 @@ class db_config
 		'localhost' => array(
 			'type' => 'mysql',
 			'host' => 'localhost',
+			'persistent_connection'=>false,
 			'charset' => CHARSET,
 			'user' => 'diesel',
 			'pass' => 'diesel',
