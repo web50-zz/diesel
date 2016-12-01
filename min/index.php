@@ -9,7 +9,8 @@
                 foreach($files as $key=> $value)
                 {
                         $out = substr($value,-3);
-                        $cont .= file_get_contents($path.$value)."\n ;\n";
+                        //$cont .= file_get_contents($path.$value)."\n ;\n"; /* вставка ; оказалась лишней порою */
+                        $cont .= file_get_contents($path.$value)."\n \n";
                 }
         }
 	if(isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], "gzip")!==false){
