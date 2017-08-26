@@ -1035,6 +1035,10 @@ class data_interface extends base_interface
 
 		if (method_exists($this->connector, 'init_structure'))
 		{
+			if(!$this->name){
+				//Если не указано  таблицы в датаинтерфейсе то сипнем любые иниты ибо нечего
+				return;
+			}
 			$strc_file = $path . $this->name . '.strc.sql';
 			$data_file = $path . $this->name . '.data.sql';
 
