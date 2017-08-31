@@ -244,7 +244,8 @@ class connector_mysql
 		//$this->query($query);
 		$cfg = $this->di->get_cfg();
 		//$command = "mysqldump --skip-triggers --compact --no-create-info --opt -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} {$table} > {$outfile}";
-		$command = "mysqldump --opt --no-create-info  -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} {$table} > {$outfile}";
+//		$command = "mysqldump --opt --no-create-info  -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} {$dbname} {$table} > {$outfile}";
+		$command = "mysqldump --opt --no-create-info  -h {$cfg['host']} -u {$cfg['user']} -p{$cfg['pass']} --single-transaction --complete-insert {$dbname} {$table} > {$outfile}";
 		system($command , $return);
 	}
 
