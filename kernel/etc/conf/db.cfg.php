@@ -14,6 +14,7 @@ class db_config
 			'charset' => CHARSET,
 			'user' => 'diesel',
 			'pass' => 'diesel',
+			'debug'=> false,
 			'dbs' => array(
 				'db1' => 'diesel',
 				)

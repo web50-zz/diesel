@@ -138,19 +138,19 @@ class connector_mysql
 	
 	protected function _init()
 	{
-		global $DBH;
+		$DBH = glob::get('dbh');
 		try
 		{
+			if(glob::get('sql_debug'))
+			{
+				$this->debug = true;
+			}
 			if($DBH)
 			{
 				$this->dbh = $DBH;
 			}
 			else
 			{
-				if($this->debug)
-				{
-					dbg::write('Initial connection to Database');
-				}
 				$cfg = $this->di->get_cfg();
 				$param = $cfg['type'];
 				$param.= ':host=' . $cfg['host'];
@@ -166,7 +166,18 @@ class connector_mysql
 				));
 				$this->get_version();
 				$this->set_character_set($cfg['charset']);
-				$DBH = $this->dbh;
+				if($cfg['debug'])
+				{
+					$this->debug = true;
+					glob::set('sql_debug',true);
+				}
+				if($this->debug)
+				{
+					dbg::write('Initial connection to Database');
+
+				}
+				glob::set('dbh',$this->dbh);
+				glob::set('sqls_count',0);
 			}
 		}
 		catch(PDOException $e)
@@ -299,6 +310,10 @@ class connector_mysql
 		{
 			if ($this->debug)
 			{
+				$count = glob::get('sqls_count');
+				$count++;
+				glob::set('sqls_count',$count);
+				dbg::write('Executing '.$count.' nd sql');
 				dbg::write($sql);
 				dbg::write('Values for query:');
 				dbg::write($values);
