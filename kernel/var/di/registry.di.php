@@ -23,7 +23,8 @@ class di_registry extends data_interface
 	* @var	string	$name	Tables name
 	*/
 	protected $name = 'registry';
-	
+	protected $registry_data = false;
+
 	/**
 	* @var	array	$fields	Tables configuration
 	*/
@@ -48,13 +49,32 @@ class di_registry extends data_interface
 	*/
 	public function get($name)
 	{
+		if($this->registry_data == false)
+		{
+			$this->get_all_registry();
+		}
+		return $this->registry_data[$name];
+		/* Старая версия
 		$this->push_args(array('_sname' => $name));
 		$this->_flush();
 		$this->_get();
 		$this->pop_args();
 		return $this->get_results(0);
+		*/
 	}
-	
+
+	//9* что бы не лезть за каждым ключом в БД, получаем все сразу и кэшируем в объекте
+	protected function get_all_registry()
+	{
+		$res = $this->_flush()->_get()->get_results();
+		if(count($res)>0)
+		{
+			foreach($res as $key=>$value)
+			{
+				$this->registry_data[$value->name] = $value;
+			}
+		}
+	}
 	/**
 	*	Get records list in JSON
 	* @access protected
