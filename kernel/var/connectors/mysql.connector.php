@@ -147,6 +147,10 @@ class connector_mysql
 			}
 			else
 			{
+				if($this->debug)
+				{
+					dbg::write('Initial connection to Database');
+				}
 				$cfg = $this->di->get_cfg();
 				$param = $cfg['type'];
 				$param.= ':host=' . $cfg['host'];
@@ -296,6 +300,7 @@ class connector_mysql
 			if ($this->debug)
 			{
 				dbg::write($sql);
+				dbg::write('Values for query:');
 				dbg::write($values);
 			}
 
@@ -380,7 +385,7 @@ class connector_mysql
 	*	Выполнить выборку из БД на основе условий указанных пользователем и внешних данных
 	* @param	string	$sql	Запрос на языке SQL
 	*/
-	public function _get($sql = false)
+	public function _get($sql = false,$no_count_rows = false)
 	{
 		$this->_reset();
 		$this->di->set_results(array());
@@ -388,11 +393,13 @@ class connector_mysql
 		if (!$sql)
 		{
 			$this->_prepare_get();
-
-			$sql = "SELECT COUNT(*) As `count` FROM (SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_having}) AS `total`";
-			$this->exec($sql, $this->_where_values, TRUE, TRUE);
-			//$this->_found_rows = $this->di->get_results(0, 'count');
-			$this->di->set_rowCount($this->di->get_results(0, 'count'));
+			if(!$no_count_rows)
+			{
+				$sql = "SELECT COUNT(*) As `count` FROM (SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_having}) AS `total`";
+				$this->exec($sql, $this->_where_values, TRUE, TRUE);
+				//$this->_found_rows = $this->di->get_results(0, 'count');
+				$this->di->set_rowCount($this->di->get_results(0, 'count'));
+			}
 
 			$sql = "SELECT {$this->_what} {$this->_from} {$this->_where} {$this->_group} {$this->_having} {$this->_order} {$this->_limit}";
 		}

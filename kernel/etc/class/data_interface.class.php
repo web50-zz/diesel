@@ -675,16 +675,23 @@ class data_interface extends base_interface
 	}
 	
 	/**
-	*	Do GET Query with set_resluts()
+	*	Do GET Query with set_resluts() with no count of resulted rows
 	* @param	mixed	$query	Manual query (array or string for current connector)
 	* @return	object	Data interface object self
 	*/
 	public function _get($query = false)
 	{
+		$this->connector->_get($query,1);
+		return $this;
+	}
+
+	//9* same as _get() but with count of rows
+	public function _get_wc($query = false)
+	{
 		$this->connector->_get($query);
 		return $this;
 	}
-	
+
 	/**
 	*	Do SET Query
 	* @param	mixed	$query	Manual query (array or string for current connector)
@@ -807,9 +814,11 @@ class data_interface extends base_interface
 
 		list($start, $limit) = $this->get_args(array('start', 'limit'), null, true);
 		if (!empty($limit))
+		{
 			$this->set_limit($start, $limit);
-		
-		$this->_get();
+		}
+				
+		$this->_get_wc();
 		
 		$data = array(
 			'success' => true,
