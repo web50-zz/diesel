@@ -395,7 +395,20 @@ class connector_mysql
 		$this->_fields = array();
 		$this->_fields_values = array();
 	}
-	
+	/* вернуть массивом параметры запроса текущего */
+	public function get_sql_parts()
+	{
+		return array(
+		'_what'=>$this->_what,
+		'_from'=>$this->_from,
+		'_where'=>$this->_where,
+		'_having'=>$this->_having,
+		'_group'=>$this->_group,
+		'_order'=>$this->_order,
+		'_limit'=>$this->_limit,
+		);
+	}
+
 	/**
 	*	Выполнить выборку из БД на основе условий указанных пользователем и внешних данных
 	* @param	string	$sql	Запрос на языке SQL
