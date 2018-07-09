@@ -63,7 +63,7 @@ class response
 				header('Content-Type: text/javascript; charset=' . ENCODING);
 			break;
 			case 'json':
-				header('Content-Type: text/x-json; charset=UTF-8');
+				header('Content-Type: application/json; charset=UTF-8');
 				if (is_array($content))
 					$content = response::to_json($content);
 			break;
@@ -72,7 +72,7 @@ class response
 					'success' => false,
 					'errors' => $content
 					);
-				header('Content-Type: text/x-json; charset=UTF-8');
+				header('Content-Type: application/json; charset=UTF-8');
 				$content = response::to_json($data);
 			break;
 			case 'noheaders':
