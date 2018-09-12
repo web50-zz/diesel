@@ -172,8 +172,8 @@ if (!empty($uri_configuration) && !$STOP_URI_INTERPRETER)
 	//define('URI', request::get('_uri', ''));
 	//	$uri = (empty($_SERVER['REDIRECT_URL'])) ? '/' : $_SERVER['REDIRECT_URL']; //9* 2018-08-25 это не работает в  php как CGI вместо этого надо REQUEST_URI
 	$uri = (empty($_SERVER['REQUEST_URI'])) ? '/' : $_SERVER['REQUEST_URI'];
-	define('URI', $uri);
-
+	$parts = explode('?',$uri); //режем куски потому что это может содержать GET, его мы откинем. 
+	define('URI', $parts[0]);
 	// Перебираем конфигурацию
 	foreach ($uri_configuration as $regexp => $handler)
 	{
