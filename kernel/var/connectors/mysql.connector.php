@@ -1155,7 +1155,8 @@ class connector_mysql
 				}
 				else if (!preg_match('/^\w+$/', $rec['field']))
 				{
-					$x[] = "{$rec['field']}";
+					// $x[] = "{$rec['field']}"; //было до 2018-10-09 не подставлялся порядок сортировки при сортировки например по функции abs(какое то поле)
+					$x[] = "{$rec['field']} {$rec['dir']}";
 				}
 				else if ($rec['di']->field_exists($rec['field']))
 				{
