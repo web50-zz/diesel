@@ -234,7 +234,7 @@ class connector_mysql
 		$query = "SHOW CREATE TABLE `{$table}`";
 		$this->_get($query);
 	//		return $this->di->get_results(0, 'Create Table'); // старый выриант дампа структуры с автоинкрементом. Ниже без него. Ибо он не нужен.
-		return preg_replace('/ AUTO_INCREMENT=[0-9]*\b /','',$this->di->get_results(0, 'Create Table'));
+		return preg_replace('/ AUTO_INCREMENT=[0-9]*\b /',' ',$this->di->get_results(0, 'Create Table'));
 	}
 
 	/**
