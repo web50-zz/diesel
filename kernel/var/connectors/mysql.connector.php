@@ -328,6 +328,22 @@ class connector_mysql
 			if (($lid = $this->dbh->lastInsertId()) > 0)
 				$this->di->set_lastChangedId($lid);
 
+
+			/* 9* 06032019 сделано через fetch так как fetch_all жрет память заметно
+			if($get_results)
+			{
+				while($rows = $sth->fetch(($users_fetch_style) ? $this->fetchMethod : PDO::FETCH_OBJ)) 
+				{
+					    $results[] = $rows;
+				}
+			}
+			else
+			{
+				$results = true;
+			}
+
+			*/
+
 			$results = ($get_results) ? $sth->fetchALL(($users_fetch_style) ? $this->fetchMethod : PDO::FETCH_OBJ) : TRUE;
 			if ($get_results)
 				$this->di->set_results($results);
