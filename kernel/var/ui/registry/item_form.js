@@ -76,7 +76,7 @@ ui.registry.item_form = Ext.extend(Ext.form.FormPanel, {
 					mode: 'local', triggerAction: 'all', selectOnFocus: true, editable: false,
 					store: ui.registry.type
 				},
-				{fieldLabel: this.lblValue, name: 'value', allowBlank: false, blankText: this.blankText},
+				{fieldLabel: this.lblValue, name: 'value', allowBlank: false,  xtype: 'textarea', blankText: this.blankText},
 				{fieldLabel: this.lblCmmnt, name: 'comment', xtype: 'textarea', maxLength: 255, maxLengthText: this.maxLengthText}
 			],
 			buttons: [
