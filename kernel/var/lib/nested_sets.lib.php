@@ -250,7 +250,7 @@ class nested_sets
 			else
 			{
 				$q = 'SELECT * FROM `' . $this->di->get_name() . '`';
-				$sql_where = '';
+				$sql_where = [];
 				if ($level) $sql_where[] = '`level` <= ' . $level;
 				if ($this->di->where) $sql_where[] = '(' . str_replace('[table]', $this->di->get_name() . '.', $this->di->where) . ')';
 				if ($sql_where) $q.= ' WHERE ' . join(' AND ', $sql_where);
