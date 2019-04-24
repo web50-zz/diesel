@@ -66,9 +66,18 @@ function resource_loader($class_name)
 	}
 	else if (file_exists(LIB_PATH . $class_name . LIB_FEXT))
 	{
-		$file_name = LIB_PATH . $class_name . LIB_FEXT;
+			$file_name = LIB_PATH . $class_name . LIB_FEXT;
 	}
-
+	else if (preg_match('/^lib_(\w+)/', $class_name, $matches))// 9* 21.04.2019  чтобы либы из инстансов грузить автоматом
+	{
+		foreach($INST_R['instances_path'] as $value)
+		{
+			if (file_exists($value['lib_path'] . $class_name . LIB_FEXT))
+			{
+				$file_name = $value['lib_path'] . $class_name . LIB_FEXT;
+			}
+		}
+	}
 	// NOTE: 9* 05072010 including  if exists
 	if (file_exists($file_name))
 	{
@@ -125,6 +134,7 @@ foreach ($instances as $name)
 		'ui_path' =>  INSTANCES_PATH . $name . '/var/ui/',
 		'di_path' =>  INSTANCES_PATH . $name . '/var/di/',
 		'dump_path' =>  INSTANCES_PATH . $name . '/var/dump/',
+		'lib_path' => INSTANCES_PATH . $name . '/var/lib/',
 		'instance_name' => $name
 		); 
 
