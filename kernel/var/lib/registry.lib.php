@@ -9,7 +9,7 @@ class registry
 {
 	private static $storage = array();
 	
-	public static function get($name)
+	public static function get($name,$default = 0)
 	{
 		if (!isset(self::$storage[$name]))
 		{
@@ -18,7 +18,14 @@ class registry
 		}
 		$rec = self::$storage[$name];
 		// If empty registry key return null
-		if (empty($rec)) return null;
+		if(empty($rec) && $default != 0)
+		{
+			return $default;
+		}
+		if (empty($rec))
+		{
+			return null;
+		}
 		
 		switch ($rec->type)
 		{
