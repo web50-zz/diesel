@@ -94,7 +94,8 @@ class file_system
 				do
 				{
 					$k++;
-					$data['real_name'] = md5($data['name'] . time() . $k) . '.' . strtolower(array_pop(preg_split("/\./", $data['name'])));
+					$t = preg_split("/\./", $data['name']);
+					$data['real_name'] = md5($data['name'] . time() . $k) . '.' . strtolower(array_pop($t));
 					$file = $storage_path . $data['real_name'];
 				}
 				while(file_exists($file));
