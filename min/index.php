@@ -34,7 +34,7 @@
 						//$cont .= file_get_contents($path.$value)."\n ;\n"; /* вставка ; оказалась лишней порою */
 						$cont .= file_get_contents($path.$value)."\n \n";
 					}
-					if(strlen($cont)>0)
+					if(strlen($cont)>0 && $no_cache == false)
 					{
 						$fn = $cache_path.'/'.$z;
 						$fd = fopen($fn,'w');
