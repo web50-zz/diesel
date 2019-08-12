@@ -1,5 +1,5 @@
 <?php
-	$no_cache = false;
+	$no_cache = true;
 	try{
 		$parts = explode('/',$_SERVER['REQUEST_URI']);
 		if(count($parts) != 4)
