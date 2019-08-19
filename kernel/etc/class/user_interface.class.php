@@ -160,14 +160,22 @@ class user_interface extends base_interface
 	* @param	string	$tmpl_name	array() $data to parse out 
 	* @return	parsed template 	tmpl2
 	*/
-	public function parse_tmpl($template_file_name, $data, $callbacks = null)
+	public function parse_tmpl($template_file_name, $data, $callbacks = null, $user_interface_name = '')
 	{
 		if ($this->UI_LANG)
 		{
 			$data = array_merge($data,$this->UI_LANG);
 		}
-
-		if ($tmpl_path = $this->get_resource_path($template_file_name,'absolute'))
+		if($user_interface_name != '')
+		{
+			$ui = user_interface::get_instance($user_interface_name);
+			$tmpl_path = $ui->get_resource_path($template_file_name,'absolute');
+		}
+		else
+		{
+			$tmpl_path = $this->get_resource_path($template_file_name,'absolute');
+		}
+		if ($tmpl_path)
 		{
 			$tmpl = new tmpl($tmpl_path);
 			$tmpl->callbacks = (array)$callbacks;
