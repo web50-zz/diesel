@@ -18,7 +18,7 @@ class registry
 		}
 		$rec = self::$storage[$name];
 		// If empty registry key return null
-		if(empty($rec) && $default != 0)
+		if(empty($rec) && $default)
 		{
 			return $default;
 		}
