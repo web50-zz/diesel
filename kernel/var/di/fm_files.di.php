@@ -57,6 +57,7 @@ class di_fm_files extends data_interface
 			header ('Pragma: no-cache');                          // HTTP/1.0
 			header ('Accept-Ranges: bytes');
 			header ('Content-Length: ' . $file->size);
+			header('Content-Disposition: attachment; filename="'.$file->name.'"');
 			header ('Connection: close');
 			header ('Content-Type: ' . $file->type . '; charset=' . CHARSET);
 			if (isset($this->args['download'])) header ('Content-Disposition: attachment; filename="' . $file->name . '"');
