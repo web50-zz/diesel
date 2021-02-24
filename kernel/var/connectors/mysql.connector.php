@@ -92,7 +92,8 @@ class connector_mysql
 	* @var	string	$_order		Сортировка выборки
 	*/
 	private $_order;
-	
+	public $force_order = '';
+
 	/**
 	* @access	private
 	* @var	string	$_limit		Ограничение выборки
@@ -1204,7 +1205,11 @@ class connector_mysql
 					}
 				}
 			}
-			if(count($x)>0)
+			if($this->force_order != '')
+			{
+				$this->_order = "ORDER BY " . $this->force_order;
+			}
+			else if(count($x)>0)
 			{
 				$this->_order = "ORDER BY " . join(', ', $x);
 			}
