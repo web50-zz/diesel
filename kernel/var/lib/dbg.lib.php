@@ -62,12 +62,14 @@ class dbg
 	
 	public static function fire($value)
 	{
+	/*
 		$dbgs = array_shift(debug_backtrace());
 		$msg =  date('[ Y-m-d H:i:s ]' . "\n");
 		$msg.= 'file: '.$dbgs['file']. "\n";
 		$msg.= 'line: '.$dbgs['line'] . "\n\n";
 		FB::warn($msg);
 		FB::error($value);
+		*/
 	}
 	/**
 	*	Отобразить значение переменной / объекта
