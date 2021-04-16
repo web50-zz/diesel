@@ -156,19 +156,21 @@ class di_interface extends data_interface
 			$di_path = $value['di_path'];
 
 			// Получить список всех ИП
-			if (($dh = dir($di_path)) !== FALSE)
-			{
-				while (($iFile = $dh->read()) !== FALSE)
+			if(is_dir($di_path)){
+				if (($dh = dir($di_path)) !== FALSE)
 				{
-					if (preg_match('/^(\w+)\.di\.php$/', $iFile, $match))
+					while (($iFile = $dh->read()) !== FALSE)
 					{
-						$dis[$match[1]] = array(
-							'path' => $di_path
-						);
+						if (preg_match('/^(\w+)\.di\.php$/', $iFile, $match))
+						{
+							$dis[$match[1]] = array(
+								'path' => $di_path
+							);
+						}
 					}
-				}
 
-				$dh->close();
+					$dh->close();
+				}
 			}
 		}
 
