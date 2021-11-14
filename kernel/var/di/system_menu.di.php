@@ -228,11 +228,14 @@ class di_system_menu extends data_interface
 		{
 			if ($record->left > $left && $record->right < $right && $record->level == $level)
 			{
-				if($record->text == CURRENT_USER)
+				if(defined('CURRENT_USER')) // не понмю зачем это было сделано все
 				{
-					$di =  data_interface::get_instance('user');
-					$usr = $di->get_user();
-					$record->text = $usr['name'].' ('.UID.')';
+					if($record->text == CURRENT_USER)
+					{
+						$di =  data_interface::get_instance('user');
+						$usr = $di->get_user();
+						$record->text = $usr['name'].' ('.UID.')';
+					}
 				}
 
 				if ($record->left + 1 < $record->right)
