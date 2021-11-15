@@ -172,8 +172,6 @@ if (!function_exists('json_encode'))
 	if (!class_exists('Services_JSON'))
 		throw new Exception(LC::get_err('json_not_supported'));
 
-// NOTE: Include Switft Mail library
-include_once(LIB_PATH . 'Swift/swift_required.php');
 
 // NOTE: Обработка uri и передача управления в указанный файл
 if (!empty($uri_configuration) && !$STOP_URI_INTERPRETER)
