@@ -206,8 +206,8 @@ class di_user extends data_interface
 	*/
 	public function is_available_interfaces($interface, $entry_point, $type)
 	{
-		if (UID == 1) return true;
-		if (AUTH_MODE == 'public' && !defined(UID)) return true;
+		if (defined('UID') && UID == 1) return true;
+		if (AUTH_MODE == 'public' && !defined('UID')) return true;
 
 		$sql = 'SELECT DISTINCT
 			COUNT(i.id) AS `count`

@@ -33,7 +33,10 @@ class authenticate
 		$data = $auth->get_by_hash($sess['uid'], $sess['ulogin'], $sess['uhash']);
 
 		// If there is no authentification`s data then return FALSE
-		if (!$data) return FALSE;
+		if (!$data) {
+			define('UID', '');
+			return FALSE;
+		}
 
 		$auth->is_logged = TRUE;
 

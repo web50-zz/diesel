@@ -818,8 +818,8 @@ class tmpl
 		$_path = trim($_path);
 		
 		if (
-			($_path{0} == '"' AND $_path{strlen($_path) - 1} == '"')
-			OR ($_path{0} == "'" AND $_path{strlen($_path) - 1} == "'")
+			($_path[0] == '"' AND $_path[strlen($_path) - 1] == '"')
+			OR ($_path[0] == "'" AND $_path[strlen($_path) - 1] == "'")
 			)
 		{
 			return $_path;

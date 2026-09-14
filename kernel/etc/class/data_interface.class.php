@@ -740,7 +740,7 @@ class data_interface extends base_interface
 	public function extjs_collect_records($field_name = 'records')
 	{
 		$records = $this->get_args($field_name, false);
-		if ($records{0} == '{') $records = "[{$records}]";
+		if ($records[0] == '{') $records = "[{$records}]";
 		if ($records)
 			return (array)json_decode($records, true);
 		else
