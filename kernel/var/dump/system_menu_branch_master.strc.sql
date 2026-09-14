@@ -9,4 +9,5 @@ CREATE TABLE `system_menu_branch_master` (
   `title` varchar(150) DEFAULT NULL,
   `preset_data` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+

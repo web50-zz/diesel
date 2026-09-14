@@ -6,4 +6,4 @@ CREATE TABLE `registry` (
   `comment` varchar(255) NOT NULL COMMENT 'User comment',
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Registry'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Registry'

@@ -9,9 +9,9 @@ CREATE TABLE `fm_files` (
   `comment` text NOT NULL,
   `type` varchar(32) NOT NULL DEFAULT '',
   `size` int(11) unsigned NOT NULL DEFAULT '0',
-  `publication_date` datetime DEFAULT NULL,
-  `edition_date` datetime DEFAULT NULL,
-  `display_order` int(11) unsigned DEFAULT '0',
+  `display_order` int(11) unsigned NOT NULL DEFAULT '0',
+  `edition_date` datetime NOT NULL,
+  `publication_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fm_folders_id` (`fm_folders_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

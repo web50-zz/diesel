@@ -177,10 +177,20 @@ class user_interface extends base_interface
 		}
 		if ($tmpl_path)
 		{
-			$tmpl = new tmpl($tmpl_path);
-			$tmpl->callbacks = (array)$callbacks;
-			$html = $tmpl->parse($data);
-			return $html;
+			$ext = pathinfo($tmpl_path, PATHINFO_EXTENSION);
+			if($ext == 'html')
+			{
+				$tmpl = new tmpl($tmpl_path);
+				$tmpl->callbacks = (array)$callbacks;
+				$html = $tmpl->parse($data);
+				return $html;
+			}
+			if($ext == 'php')
+			{
+				ob_start();
+				include $tmpl_path;
+				return ob_get_clean();
+			}
 		}
 		else
 		{

@@ -3,7 +3,7 @@ CREATE TABLE `sys_user` (
   `multi_login` tinyint(1) unsigned NOT NULL,
   `login` varchar(32) NOT NULL COMMENT 'Login',
   `passw` varchar(64) NOT NULL COMMENT 'Password',
-  `type` tinyint(1) unsigned NOT NULL COMMENT 'тип авторизации',
+  `type` tinyint(1) unsigned NOT NULL COMMENT '??? ???????????',
   `server` varchar(64) NOT NULL COMMENT 'LDAP server',
   `name` varchar(64) NOT NULL COMMENT 'User name',
   `email` varchar(64) NOT NULL COMMENT 'e-mail',
@@ -15,4 +15,4 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`),
   KEY `account_id` (`login`,`passw`),
   KEY `hash` (`hash`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='System user'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='System user'
