@@ -23,3 +23,5 @@ filestorage/*
 !filestorage/.htaccess
 share/*
 !share/README
+sitemap.xml
+robots.txt
