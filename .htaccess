@@ -11,6 +11,10 @@ Options		-MultiViews
 RewriteEngine	on
 RewriteBase	/
 
+# Авторедирект www -> без www
+RewriteCond	%{HTTP_HOST}	^www\.(.*)$	[NC]
+RewriteRule	^(.*)$		%{REQUEST_SCHEME}://%1/$1	[R=301,L]
+
 
 
 RewriteCond	%{REQUEST_FILENAME}	!-f
