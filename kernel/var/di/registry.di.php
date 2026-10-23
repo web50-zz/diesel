@@ -23,7 +23,7 @@ class di_registry extends data_interface
 	* @var	string	$name	Tables name
 	*/
 	protected $name = 'registry';
-	protected $registry_data = false;
+	protected $registry_data = array();
 
 	/**
 	* @var	array	$fields	Tables configuration

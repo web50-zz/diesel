@@ -68,7 +68,7 @@ class di_interface_group extends data_interface
 		//dbg::write($this->get_args());
 		$success = true;
 		$gid = $this->get_args('gid');
-		$iids = split(',', $this->get_args('iids'));
+		$iids = explode(',', $this->get_args('iids'));
 		if (!empty($iids) && $gid > 0)
 		{
 			foreach ($iids as $iid)
@@ -98,7 +98,7 @@ class di_interface_group extends data_interface
 		//dbg::write($this->get_args());
 		$success = true;
 		$gid = $this->get_args('gid');
-		$iids = split(',', $this->get_args('iids'));
+		$iids = explode(',', $this->get_args('iids'));
 		if (!empty($iids) && $gid > 0)
 		{
 			foreach ($iids as $iid)

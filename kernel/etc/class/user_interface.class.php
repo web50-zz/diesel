@@ -6,6 +6,7 @@
 * @access	public
 * @package	FlugerCMS
 */
+#[\AllowDynamicProperties]
 class user_interface extends base_interface
 {
 	/**
@@ -28,6 +29,9 @@ class user_interface extends base_interface
 
 	protected	$deps = array();
 	public $theme_path = CURRENT_THEME_PATH;
+	public $interfaceName = null;
+	public $instance_name = null;
+	protected $UI_LANG = array();
 
 	/**
 	*	Constructor which MUST be called from derived Class Constructor
@@ -54,12 +58,12 @@ class user_interface extends base_interface
 			$object = new $class();
 			$object->interfaceName = $name;
 
-			if(!file_exists($object->files_path))//9* if have no overloads of files_path before we get it from autoload registry 
+			if(!file_exists($object->files_path ?? ''))//9* if have no overloads of files_path before we get it from autoload registry
 			{
 				$object->files_path = $INST_R['paths'][$class].$name.'/';
 			}
-			$object->instance_name = $INST_R['class_instance'][$class];	
-			if(!file_exists($object->files_path))
+			$object->instance_name = $INST_R['class_instance'][$class];
+			if(!file_exists($object->files_path ?? ''))
 			{
 				dbg::write('failed to find templates path');
 			}

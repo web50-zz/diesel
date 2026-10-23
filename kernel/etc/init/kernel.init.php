@@ -16,6 +16,7 @@ function resource_loader($class_name)
 {
 	global $INST_R;
 	if (!$class_name) return FALSE;
+	$file_name = null;
 	
 	if (file_exists(CLASS_PATH . $class_name . CLASS_FEXT))
 	{
@@ -174,7 +175,7 @@ if (!function_exists('json_encode'))
 
 
 // NOTE: Обработка uri и передача управления в указанный файл
-if (!empty($uri_configuration) && !$STOP_URI_INTERPRETER)
+if (!empty($uri_configuration) && empty($STOP_URI_INTERPRETER))
 {
 	// Получаем URI
 	//define('URI', request::get('_uri', ''));

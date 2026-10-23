@@ -161,7 +161,7 @@ class tmpl
 	private function parse_templates()
 	{
 		if ($this->parse_templates)
-			$this->tmpl = trim(preg_replace_callback('/{__\(template\s*(\w*)\(([^)]+)\)__}(.+?){__template\)__}(?:\n|\r|)+/ms', array(&$this, 'push_template'), $this->tmpl));
+			$this->tmpl = trim(preg_replace_callback('/{__\(template\s*(\w*)\(([^)]+)\)__}(.+?){__template\)__}(?:\n|\r|)+/ms', array(&$this, 'push_template'), $this->tmpl ?? ''));
 	}
 	
 	/**
@@ -205,7 +205,7 @@ class tmpl
 	{
 		if ($this->set_index)
 		{
-			$this->tmpl = preg_replace('/(\{REM.+?\MER})/sm', '', $this->tmpl);
+			$this->tmpl = preg_replace('/(\{REM.+?MER\})/sm', '', $this->tmpl ?? '');
 			foreach($this->loop_operators as $operator)
 			{
 				$this->set_indexes($operator);
@@ -219,7 +219,7 @@ class tmpl
 	*/
 	private function set_indexes($operator)
 	{
-		$template = $this->tmpl;
+		$template = $this->tmpl ?? '';
 		if (strpos($template, '{__(' . $operator))
 		{
 			$indexes = array();

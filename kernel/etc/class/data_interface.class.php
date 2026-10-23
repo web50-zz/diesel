@@ -6,6 +6,7 @@
 * @access	public
 * @package	FlugerCMS
 */
+#[\AllowDynamicProperties]
 class data_interface extends base_interface
 {
 	/**
@@ -128,6 +129,14 @@ class data_interface extends base_interface
 	*/
 	public $default_events = true;
 
+	public $connector = null;
+	public $interfaceName = null;
+	public $instance_name = null;
+	protected $rowCount = 0;
+	public $where_values = array();
+	public $NOT_prepare_where = false;
+	public $order = false;
+
 	/**
 	*	Constructor which MUST be called from derived Class Constructor
 	*/
@@ -228,7 +237,7 @@ class data_interface extends base_interface
 			if(self::set_instance($name))
 			{
 				self::$registry[$name]->_init();
-				self::$registry[$name]->instance_name = $INST_R['class_instance'][$class];
+				self::$registry[$name]->instance_name = $INST_R['class_instance'][$class] ?? null;
 			}
 			else
 			{

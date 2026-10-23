@@ -125,7 +125,12 @@ class connector_mysql
 	public $debug = FALSE;
 
 	public static $DBH = '';
-	
+
+	private $_prepare_mode = '';
+	private $_group = '';
+	private $_args = array();
+	private $queries = array();
+
 	public function __construct($di)
 	{
 		$this->di = $di;
@@ -158,16 +163,16 @@ class connector_mysql
 				$param.= ';dbname=' . $this->di->get_db();
 				$user = $cfg['user'];
 				$pass = $cfg['pass'];
-				$persistent_connection = $cfg['persistent_connection'];
+				$persistent_connection = $cfg['persistent_connection'] ?? false;
 				$this->dbh = new PDO($param, $user, $pass, array(
 					// SQL-ошибки отдавать как PDOException
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 					// Persistent connections enabled 9* 19032013
-					PDO::ATTR_PERSISTENT => $persistent_connection 
+					PDO::ATTR_PERSISTENT => $persistent_connection
 				));
 				$this->get_version();
 				$this->set_character_set($cfg['charset']);
-				if($cfg['debug'])
+				if($cfg['debug'] ?? false)
 				{
 					$this->debug = true;
 					glob::set('sql_debug',true);
@@ -711,7 +716,7 @@ class connector_mysql
 		// NOTE: Если установлено пользовательское условие выборки
 		if (!empty($this->di->where))
 		{
-			$this->_where_values = $this->where_values;
+			$this->_where_values = $this->di->where_values ?? [];
 			$set[] = '(' . trim($this->di->where) . ')';
 		}
 		
@@ -747,7 +752,7 @@ class connector_mysql
 	*/
 	private function _prepare_where_field($di, $field, $params, $byAlias = false, $alias = NULL)
 	{
-		if ($params['protected']) return FALSE;
+		if ($params['protected'] ?? false) return FALSE;
 		$sField = ($byAlias) ? $params['alias'] : $field;
 		if ($byAlias && !empty($alias)) $sField = $alias;
 		
@@ -1235,7 +1240,7 @@ class connector_mysql
 	* @param	string	$field	Имя поля
 	* @param	string	$dir	Направление сортировки ASC или DESC
 	*/
-	public function set_order($field, $dir = 'ASC', $di)
+	public function set_order($field, $dir = 'ASC', $di = null)
 	{
 		$dir = strtoupper($dir);
 		if (!empty($field) && preg_match('/^\w+$/', $field)
@@ -1418,7 +1423,7 @@ class connector_mysql
 		{
 			case 'fkey':
 			case 'serial':
-				if (intval($this->_args[$sField]) == 0) continue;
+				if (intval($this->_args[$sField]) == 0) break;
 			case 'integer':
 				if (isset($this->_args[$sField]))
 				{
